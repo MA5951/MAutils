@@ -1,0 +1,45 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.utils.MABaseSubsytems;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.utils.MASubsystem;
+import frc.robot.utils.MAMotorControlrs.MAMotorControler;
+
+public class SingleMotor extends SubsystemBase implements MASubsystem {
+  private MAMotorControler Motor;
+  private static SingleMotor singleMotor;
+
+  private SingleMotor() {
+    Motor = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID1);
+    setMAMotorComtrolers(Motor);
+  }
+
+  @Override
+  public void periodic() {
+    PrintValues();
+  }
+
+  /**
+   * Motor - 0
+   */
+  @Override
+  public Runnable setMotorPower(double power, int Indax) {
+    return () -> maMotorControlers.get(Indax).set(power);
+  }
+
+  @Override
+  public void PrintValues() {
+    // TODO Auto-generated method stub
+
+  }
+  
+  public static SingleMotor getinstance() {
+    if (singleMotor == null) {
+      singleMotor = new SingleMotor();
+    }
+    return singleMotor;
+  }
+}
