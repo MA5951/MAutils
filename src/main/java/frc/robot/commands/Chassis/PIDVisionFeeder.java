@@ -33,9 +33,9 @@ public class PIDVisionFeeder extends CommandBase {
   @Override
   public void execute() {
 
-    double angel = chassis.anglePIDVisionOutput(0);
+    double angle = chassis.anglePIDVisionOutput(0);
     double distacne = chassis.distancePIDVisionOutput(66);
-    chassis.ArcadeDrive(angel, distacne);
+    chassis.ArcadeDrive(angle, distacne);
   }
 
   // Called once the command ends or is interrupted.

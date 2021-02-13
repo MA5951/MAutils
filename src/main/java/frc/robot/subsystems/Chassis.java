@@ -59,10 +59,10 @@ public class Chassis extends SubsystemBase implements MASubsystem {
 
   // private MAPidController distancePidMApath; // PID controler of the distance
   // in the pathfinder
-  private MAPidController anglePidMApath; // PID controler of the angel in the pathfinder
+  private MAPidController anglePidMApath; // PID controler of the angle in the pathfinder
   private ProfiledPIDController distancePidMApath;
 
-  private MAPidController anglePIDVision; // the angel PID in the vison PID
+  private MAPidController anglePIDVision; // the angle PID in the vison PID
   private MAPidController distancePIDVision;
   private static Chassis chassis;
 private MAShuffleboard Chassis;
@@ -87,10 +87,10 @@ private MAShuffleboard Chassis;
     distancePidMApath = new ProfiledPIDController(KP_MApath_distance, KI_MApath_distance, KD_MApath_distance,
         new TrapezoidProfile.Constraints(RobotConstants.Max_Speed, RobotConstants.Max_acceleration));
 
-    // the angel PID pathfinder
+    // the angle PID pathfinder
     anglePidMApath = new MAPidController(KP_MApath_angle, KI_MApath_angle, KD_MApath_angle, 0, 0, -12, 12);
 
-    // the angel PID vison
+    // the angle PID vison
     anglePIDVision = new MAPidController(KP_Vision_angle, KI_Vision_angle, KD_Vision_angle, 0, 2, -1, 1);
 
     anglePIDVision.enableContinuousInput(-anglePIDVisionSetInputRange, anglePIDVisionSetInputRange);
@@ -176,9 +176,9 @@ private MAShuffleboard Chassis;
     return distancePIDVision.calculate(limelight.getinstance().Tshort, setpoint);
   }
 
-  public void ArcadeDrive(double angel, double distacne) {
-    double w = (100 - Math.abs(angel * 100)) * (distacne) + distacne * 100;
-    double v = (100 - Math.abs(distacne * 100)) * (angel) + angel * 100;
+  public void ArcadeDrive(double angle, double distacne) {
+    double w = (100 - Math.abs(angle * 100)) * (distacne) + distacne * 100;
+    double v = (100 - Math.abs(distacne * 100)) * (angle) + angle * 100;
     tankDrive((-(v + w) / 200), ((v - w) / 200));
   }
 
@@ -236,10 +236,10 @@ private MAShuffleboard Chassis;
   // MApath
   public void pathfinder() {
     try {
-      double angel = chassis.angleMApathPIDOutput() * Path.mainPath[MAPath.stage][5];
+      double angle = chassis.angleMApathPIDOutput() * Path.mainPath[MAPath.stage][5];
       double distance = chassis.distanceMApathPIDOutput() * Path.mainPath[MAPath.stage][4];
 
-      chassis.ArcadeDrive(angel, distance);
+      chassis.ArcadeDrive(angle, distance);
     } catch (Exception e) {
       chassis.tankDrive(0, 0);
     }

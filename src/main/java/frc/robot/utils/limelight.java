@@ -17,6 +17,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class limelight extends SubsystemBase {
+  private static final double higet = 0; //TODO
+  private static final double angle = 0; //TODO
   public double x;
   public double y;
   public boolean v;
@@ -68,6 +70,11 @@ public class limelight extends SubsystemBase {
     threeDimension = table.getEntry("camtran");
   }
 
+  public double distance() {
+    double a = y + angle;
+    return Math.tan(a) / higet;
+  }
+
   public void ledMode(int ledMode) {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(ledMode);
   }
@@ -94,13 +101,13 @@ public class limelight extends SubsystemBase {
     l = tl.getDouble(0.0);
     pipe = getpipe.getDouble(0.0);
     Tlong = tlong.getDouble(0.0);
-    Thor = thor.getDouble(0.0); 
+    Thor = thor.getDouble(0.0);
     Tvert = tvert.getDouble(0.0);
     Tshort = tshort.getDouble(0.0);
     yaw = threeDimension.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0, 0 })[4];
     distanceFromTargetLimelightX = threeDimension.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0 })[0];
     distanceFromTargetLimelightY = threeDimension.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0 })[2];
-    
+
   }
 
   public static limelight getinstance() {
