@@ -6,7 +6,6 @@ package frc.robot.subsystems;
  */
 
 import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -17,13 +16,13 @@ import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.utils.*;
 import frc.robot.utils.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
+import frc.robot.utils.MASubsystem.ENCODER;
+import frc.robot.utils.MASubsystem.IDMotor;
+import frc.robot.utils.MASubsystem.MOTOR_CONTROLL;
 import frc.robot.Path.Path;
 import frc.robot.commands.Chassis.MAPath;
 
-/**
- * An example subsystem. You can replace me with your own Subsystem.
- */
-public class Chassis extends SubsystemBase implements MASubsystem {
+public class Chassis extends SubsystemBase {
 
   private static final double KP_MApath_distance = 1;
   private static final double KI_MApath_distance = 0;
@@ -65,9 +64,10 @@ public class Chassis extends SubsystemBase implements MASubsystem {
   private MAPidController anglePIDVision; // the angle PID in the vison PID
   private MAPidController distancePIDVision;
   private static Chassis chassis;
-private MAShuffleboard Chassis;
+  private MAShuffleboard Chassis;
+
   private Chassis() {
-   Chassis = new MAShuffleboard("Chassis");
+    Chassis = new MAShuffleboard("Chassis");
     leftFrontMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID1, true, 0, false,
         ENCODER.Encoder);
     leftMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID2, false, 0, false,
@@ -314,29 +314,20 @@ private MAShuffleboard Chassis;
   @Override
   public void periodic() {
     PrintValues();
-    tankDrive(1, 1);
   }
 
-  @Override
-  public Runnable setMotorPower(double power, int Indax) {
-    return () -> angleEror(); // TODO
-  }
-
-
-  // updat the value in the smart dash bord
-  @Override
   public void PrintValues() {
     Chassis.getNum("rightPower", BuiltInWidgets.kNumberSlider);
-    Chassis.addBoolean("isPIDVisionOnTargetAngle",isPIDVisionOnTargetAngle());
+    Chassis.addBoolean("isPIDVisionOnTargetAngle", isPIDVisionOnTargetAngle());
     Chassis.addNum("Stage", MAPath.stage);
-    Chassis.addNum("fixedAngle",fixedAngle());
-    Chassis.addNum("distacne",average());
-    Chassis.addNum("lefttVelocityControlRPM",lefttVelocityControlRPM());
-    Chassis.addNum("angleSetPoint",anglePidMApath.getSetpoint());
-    Chassis.addNum("distacenSetPoint",distancePidMApath.getSetpoint().position);
-    Chassis.addNum("LeftMotorOutPut",leftMotor.getOutput());
+    Chassis.addNum("fixedAngle", fixedAngle());
+    Chassis.addNum("distacne", average());
+    Chassis.addNum("lefttVelocityControlRPM", lefttVelocityControlRPM());
+    Chassis.addNum("angleSetPoint", anglePidMApath.getSetpoint());
+    Chassis.addNum("distacenSetPoint", distancePidMApath.getSetpoint().position);
+    Chassis.addNum("LeftMotorOutPut", leftMotor.getOutput());
     Chassis.addNum("RightMotorOutPut", rightMotor.getOutput());
-    Chassis.addNum("rightVelocityControlRPM",rightVelocityControlRPM());
+    Chassis.addNum("rightVelocityControlRPM", rightVelocityControlRPM());
     Chassis.addString("title", "hi");
     Chassis.PID("anglePidMApath", anglePidMApath);
     Chassis.PID("leftvel", anglePIDVision);

@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.MAPidController;
 import frc.robot.utils.MASubsystem;
 import frc.robot.utils.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class Arm extends SubsystemBase implements MASubsystem {
 
@@ -19,6 +20,7 @@ public class Arm extends SubsystemBase implements MASubsystem {
   private static final double KI_ARM_MOVE = 0; // TODO
   private static final double KD_ARM_MOVE = 0; // TODO
   private static final double KF_ARM_MOVE = 0; // TODO
+  private MAShuffleboard ArmShuffleBoard = new MAShuffleboard(""); // TODO
 
   private Arm() {
     ArmMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID2, false, 0, true, true, true, ENCODER.Encoder);
@@ -37,8 +39,7 @@ public class Arm extends SubsystemBase implements MASubsystem {
   }
 
   /**
-   * set voltage -12 to 12
-   * indax 0 - ArmMove 
+   * set voltage -12 to 12 indax 0 - ArmMove
    */
   @Override
   public Runnable setMotorPower(double Power, int Indax) {
@@ -69,26 +70,28 @@ public class Arm extends SubsystemBase implements MASubsystem {
     return ArmMovePID.calculate(getPosition(), setPoint); // can be void and set diracle to the motor
   }
 
-  public boolean isIntakeMovePIDAtTarget(double waitTime) {
+  public boolean isArmMovePIDAtTarget(double waitTime) {
     return ArmMovePID.atSetpoint(waitTime);// can be void and set diracle to the motor
   }
 
-  public double getSetpointIntakeMovePID() {
+  public double getSetpointArmMovePID() {
     return ArmMovePID.getSetpoint();
   }
 
-  public double getPositionErrorIntakeMovePID() {
+  public double getPositionErrorArmMovePID() {
     return ArmMovePID.getPositionError();
   }
 
   @Override
   public void PrintValues() {
- 
+    ArmShuffleBoard.addNum("getPosition", getPosition());
+    ArmShuffleBoard.addNum("getSetPoint", getSetpointArmMovePID());
+    ArmShuffleBoard.addNum("getPositionError", getPositionErrorArmMovePID());
+    ArmShuffleBoard.addBoolean("atSetPoint", isArmMovePIDAtTarget(0.1));
+    ArmShuffleBoard.addBoolean("getLimitSwitchRValuse", getLimitSwitchRValuse());
+    ArmShuffleBoard.addBoolean("getLimitSwitchFValuse", getLimitSwitchFValuse());
   }
 
- 
-
- 
   public static Arm getinstance() {
     if (m_Arm == null) {
       m_Arm = new Arm();

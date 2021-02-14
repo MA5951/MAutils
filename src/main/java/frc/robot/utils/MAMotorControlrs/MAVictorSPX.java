@@ -43,7 +43,7 @@ public class MAVictorSPX implements MAMotorControlInterface {
 
     @Override
     public double getOutPut() {
-        return victorSPX.getMotorOutputPercent();
+        return victorSPX.get();
     }
 
     @Override

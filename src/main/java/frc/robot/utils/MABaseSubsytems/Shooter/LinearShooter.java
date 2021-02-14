@@ -9,6 +9,7 @@ import frc.robot.utils.MAPidController;
 
 import frc.robot.utils.MASubsystem;
 import frc.robot.utils.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class LinearShooter extends SubsystemBase implements MASubsystem {
   private MAMotorControler TransformMotor;
@@ -30,6 +31,7 @@ public class LinearShooter extends SubsystemBase implements MASubsystem {
   private final static int TRANSFORM_MOTOR = 2;
 
   private static LinearShooter LinearShooter;
+  private MAShuffleboard linearShooterShuffleboard = new MAShuffleboard(""); // TODO
 
   private LinearShooter() {
     TransformMotor = new MAMotorControler(MOTOR_CONTROLL.VICTOR, IDMotor.ID3);
@@ -99,7 +101,17 @@ public class LinearShooter extends SubsystemBase implements MASubsystem {
 
   @Override
   public void PrintValues() {
- 
+    linearShooterShuffleboard.addNum("MotorA RPM", getMotorARPM(MOTOR_A));
+    linearShooterShuffleboard.addNum("MotorA PIDSetPoint", pidControllerMotorA.getSetpoint());
+    linearShooterShuffleboard.addNum("MotorA PositionError", pidControllerMotorA.getPositionError());
+    linearShooterShuffleboard.addBoolean("MotorA AtSetPoint", isAtSetPointMotorA(0.1));
+
+    linearShooterShuffleboard.addNum("MotorB RPM", getMotorARPM(MOTOR_B));
+    linearShooterShuffleboard.addNum("MotorB PIDSetPoint", pidControllerMotorB.getSetpoint());
+    linearShooterShuffleboard.addNum("MotorB PositionError", pidControllerMotorB.getPositionError());
+    linearShooterShuffleboard.addBoolean("MotorB AtSetPoint", isAtSetPointMotorB(0.1));
+
+    linearShooterShuffleboard.addNum("getTransformMotorStatorCurrent", getTransformMotorStatorCurrent());
   }
 
   public static LinearShooter getinstance() {

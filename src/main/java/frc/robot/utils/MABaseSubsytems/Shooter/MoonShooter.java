@@ -9,6 +9,7 @@ import frc.robot.utils.MAPidController;
 
 import frc.robot.utils.MASubsystem;
 import frc.robot.utils.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class MoonShooter extends SubsystemBase implements MASubsystem {
   private MAMotorControler TransformMotor;
@@ -20,6 +21,7 @@ public class MoonShooter extends SubsystemBase implements MASubsystem {
   private final static int MOTOR_A = 0;
   private final static int TRANSFORM_MOTOR = 1;
   private static MoonShooter MoonShooter;
+  private MAShuffleboard moonShootersShuffleboard = new MAShuffleboard(""); // TODO
 
   private MoonShooter() {
     MotorA = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID1, true, 0, false, ENCODER.Encoder);
@@ -71,7 +73,11 @@ public class MoonShooter extends SubsystemBase implements MASubsystem {
 
   @Override
   public void PrintValues() {
- 
+    moonShootersShuffleboard.addNum("MotorA RPM", getMotorARPM());
+    moonShootersShuffleboard.addNum("MotorA PIDSetPoint", pidControllerMotorA.getSetpoint());
+    moonShootersShuffleboard.addNum("MotorA PositionError", pidControllerMotorA.getPositionError());
+    moonShootersShuffleboard.addBoolean("MotorA AtSetPoint", isAtSetPointMotorA(0.1));
+    moonShootersShuffleboard.addNum("getTransformMotorStatorCurrent", getTransformMotorStatorCurrent());
   }
 
   public static MoonShooter getinstance() {

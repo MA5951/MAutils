@@ -9,6 +9,7 @@ import frc.robot.utils.MAPidController;
 
 import frc.robot.utils.MASubsystem;
 import frc.robot.utils.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class Elevator extends SubsystemBase implements MASubsystem {
 
@@ -20,11 +21,11 @@ public class Elevator extends SubsystemBase implements MASubsystem {
   private static final double KI_ELEVATOR_MOVE = 0; // TODO
   private static final double KD_ELEVATOR_MOVE = 0; // TODO
   private static final double KF_ELEVATOR_MOVE = 0; // TODO
+  private MAShuffleboard elevatoShuffleboard = new MAShuffleboard(""); // TODO
 
   private Elevator() {
     ElevatorMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID2, false, 0, true, true, true, ENCODER.Encoder);
     setMAMotorComtrolers(ElevatorMove);
-    // addMAMotorComtrolers(ElevatorMove, IDMotor.ID3); if have more then one motor
 
     // cahnge Tolorance
     ElevatorMovePID = new MAPidController(KP_ELEVATOR_MOVE, KI_ELEVATOR_MOVE, KD_ELEVATOR_MOVE, KF_ELEVATOR_MOVE, 10,
@@ -35,12 +36,10 @@ public class Elevator extends SubsystemBase implements MASubsystem {
   @Override
   public void periodic() {
     PrintValues();
-
   }
 
   /**
-   * set voltage -12 to 12
-   * indax 0 - ElevatorMove 
+   * set voltage -12 to 12 indax 0 - ElevatorMove
    */
   @Override
   public Runnable setMotorPower(double Power, int Indax) {
@@ -85,12 +84,13 @@ public class Elevator extends SubsystemBase implements MASubsystem {
 
   @Override
   public void PrintValues() {
-
+    elevatoShuffleboard.addNum("getPosition", getPosition());
+    elevatoShuffleboard.addNum("getSetPoint", getSetpointElevatorPID());
+    elevatoShuffleboard.addNum("getPositionError", getPositionErrorElevatorPID());
+    elevatoShuffleboard.addBoolean("atSetPoint", isElevatorPIDAtTarget(0.1));
+    elevatoShuffleboard.addBoolean("getLimitSwitchRValuse", getLimitSwitchRValuse());
+    elevatoShuffleboard.addBoolean("getLimitSwitchFValuse", getLimitSwitchFValuse());
   }
-
-
-
-
 
   public static Elevator getinstance() {
     if (m_Elevator == null) {

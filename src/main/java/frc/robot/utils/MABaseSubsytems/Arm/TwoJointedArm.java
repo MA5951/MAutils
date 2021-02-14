@@ -9,6 +9,7 @@ import frc.robot.utils.MAPidController;
 
 import frc.robot.utils.MASubsystem;
 import frc.robot.utils.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class TwoJointedArm extends SubsystemBase implements MASubsystem {
   private MAMotorControler ArmMove;
@@ -29,6 +30,8 @@ public class TwoJointedArm extends SubsystemBase implements MASubsystem {
   private static final double KI_SEC_ARM_MOVE = 0; // TODO
   private static final double KD_SEC_ARM_MOVE = 0; // TODO
   private static final double KF_SEC_ARM_MOVE = 0; // TODO
+
+  private MAShuffleboard TwoJointedArm = new MAShuffleboard(""); // TODO
 
   private TwoJointedArm() {
     ArmMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID2, false, 0, true, true, true, ENCODER.Encoder);
@@ -115,7 +118,22 @@ public class TwoJointedArm extends SubsystemBase implements MASubsystem {
 
   @Override
   public void PrintValues() {
-  
+    TwoJointedArm.addNum("ArmMovegetPosition", getPosition(ARM_MOVE));
+    TwoJointedArm.addNum("SecArmMovegetPosition", getPosition(SEC_ARM_MOVE));
+
+    TwoJointedArm.addNum("ArmMovegetSetPoint", getSetpointArmMovePID());
+    TwoJointedArm.addNum("ArmMovegetPositionError", getPositionErrorArmMovePID());
+    TwoJointedArm.addBoolean("ArmMoveatSetPoint", isArmMovePIDAtTarget(0.1));
+
+    TwoJointedArm.addNum("SecArmMovegetSetPoint", getSetpointSecArmMovePID());
+    TwoJointedArm.addNum("SecArmMovegetPositionError", getPositionErrorSecArmMovePID());
+    TwoJointedArm.addBoolean("SecArmMoveatSetPoint", isSecArmMovePIDAtTarget(0.1));
+
+    TwoJointedArm.addBoolean("getArmMoveLimitSwitchFValuse", getLimitSwitchFValuse(ARM_MOVE));
+    TwoJointedArm.addBoolean("getArmMoveLimitSwitchRValuse", getLimitSwitchRValuse(ARM_MOVE));
+
+    TwoJointedArm.addBoolean("getSecArmMoveLimitSwitchFValuse", getLimitSwitchFValuse(SEC_ARM_MOVE));
+    TwoJointedArm.addBoolean("getSecArmMoveLimitSwitchRValuse", getLimitSwitchRValuse(SEC_ARM_MOVE));
   }
 
   public static TwoJointedArm getinstance() {

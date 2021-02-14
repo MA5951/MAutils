@@ -9,6 +9,7 @@ import frc.robot.utils.MAPidController;
 
 import frc.robot.utils.MASubsystem;
 import frc.robot.utils.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class MotorIntake extends SubsystemBase implements MASubsystem {
 
@@ -21,6 +22,7 @@ public class MotorIntake extends SubsystemBase implements MASubsystem {
   private static final double KP_INTAKE_MOVE = 0; // TODO
   private static final double KI_INTAKE_MOVE = 0; // TODO
   private static final double KD_INTAKE_MOVE = 0; // TODO
+  private MAShuffleboard motorIntakesShuffleboard = new MAShuffleboard(""); // TODO
 
   private MotorIntake() {
 
@@ -30,18 +32,16 @@ public class MotorIntake extends SubsystemBase implements MASubsystem {
     // change the Limit
     IntakeMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID2, false, 0, false, true, true, ENCODER.Encoder);
     setMAMotorComtrolers(IntakeMove);
-    //addMAMotorComtrolers(IntakeMove, IDMotor.ID3); if have more then one motor 
-    
+
     // cahnge Tolorance
     IntakeMovePID = new MAPidController(KP_INTAKE_MOVE, KI_INTAKE_MOVE, KD_INTAKE_MOVE, 0, 10, -1, 1);
     resetEncoder();
-
   }
 
   @Override
   public void periodic() {
     PrintValues();
-   
+
   }
 
   /**
@@ -85,14 +85,20 @@ public class MotorIntake extends SubsystemBase implements MASubsystem {
     return IntakeMovePID.getPositionError();
   }
 
-  @Override
-  public void PrintValues() {
-
+  public double getStatorCurrent(int indax) {
+    return maMotorControlers.get(indax).getStatorCurrent();
   }
 
-
-
-  
+  @Override
+  public void PrintValues() {
+    motorIntakesShuffleboard.addNum("getPosition", getPosition());
+    motorIntakesShuffleboard.addNum("getSetPoint", getSetpointIntakeMovePID());
+    motorIntakesShuffleboard.addNum("getPositionError", getPositionErrorIntakeMovePID());
+    motorIntakesShuffleboard.addNum("getStatorCurrentMovetMotor", getStatorCurrent(INTAKE_MOVE));
+    motorIntakesShuffleboard.addNum("getStatorCurrentCollection", getStatorCurrent(INTAKE_COLLECTION));
+    motorIntakesShuffleboard.addBoolean("atSetPoint", isIntakeMovePIDAtTarget(0.1));
+    motorIntakesShuffleboard.addBoolean("LimitSwitchValuse", getLimitSwitchValuse());
+  }
 
   public static MotorIntake getinstance() {
     if (m_Intake == null) {

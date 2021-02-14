@@ -7,10 +7,12 @@ package frc.robot.utils.MABaseSubsytems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.MASubsystem;
 import frc.robot.utils.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class SingleMotor extends SubsystemBase implements MASubsystem {
   private MAMotorControler Motor;
   private static SingleMotor singleMotor;
+  private MAShuffleboard singleMotorShuffleboard = new MAShuffleboard(""); // TODO
 
   private SingleMotor() {
     Motor = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID1);
@@ -32,10 +34,10 @@ public class SingleMotor extends SubsystemBase implements MASubsystem {
 
   @Override
   public void PrintValues() {
-    // TODO Auto-generated method stub
-
+    singleMotorShuffleboard.addNum("MotorOutPut", maMotorControlers.get(0).getStatorCurrent());
+    singleMotorShuffleboard.addNum("MotorOutPut", maMotorControlers.get(0).getOutput());
   }
-  
+
   public static SingleMotor getinstance() {
     if (singleMotor == null) {
       singleMotor = new SingleMotor();

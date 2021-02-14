@@ -94,7 +94,7 @@ public class MATalonSRX implements MAMotorControlInterface {
 
     @Override
     public double getOutPut() {
-        return talonSRX.getMotorOutputPercent();
+        return talonSRX.get();
     }
 
     @Override

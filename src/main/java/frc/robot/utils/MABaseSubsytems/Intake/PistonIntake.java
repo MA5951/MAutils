@@ -10,6 +10,7 @@ import frc.robot.utils.MAPiston;
 import frc.robot.utils.MASubsystem;
 import frc.robot.utils.RobotConstants;
 import frc.robot.utils.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class PistonIntake extends SubsystemBase implements MASubsystem {
 
@@ -18,6 +19,7 @@ public class PistonIntake extends SubsystemBase implements MASubsystem {
   private MAPiston pistonB;
   private static PistonIntake m_Intake;
   private static final int INTAKE_COLLECTION = 0;
+  private MAShuffleboard pistonIntakesMaShuffleboard = new MAShuffleboard(""); // TODO
 
   private PistonIntake() {
     IntakeCollection = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID1);
@@ -31,6 +33,10 @@ public class PistonIntake extends SubsystemBase implements MASubsystem {
   public void setPiston(boolean on) {
     pistonA.set(on);
     pistonB.set(on);
+  }
+
+  public double getStatorCurrent() {
+    return maMotorControlers.get(INTAKE_COLLECTION).getStatorCurrent();
   }
 
   @Override
@@ -49,7 +55,8 @@ public class PistonIntake extends SubsystemBase implements MASubsystem {
 
   @Override
   public void PrintValues() {
-   
+    pistonIntakesMaShuffleboard.addNum("getStatorCurrent", getStatorCurrent());
+    pistonIntakesMaShuffleboard.addBoolean("OpenOrClose", pistonA.get());
   }
 
   public static PistonIntake getinstance() {
