@@ -7,29 +7,9 @@
 
 package frc.robot.utils;
 
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-/**
- * Add your docs here.\
- */
 public class RobotConstants {
-
-    public final static MotorType kBrushless = MotorType.kBrushless;
-    public final static MotorType kBrushed = MotorType.kBrushed;
-    public final static IdleMode kCoast = IdleMode.kCoast;
-    public final static IdleMode kBrake = IdleMode.kBrake;
-
-    public static double Neo_RPM = 5700;
-    public static double Ramp_Rate_Auto = 0.35;
-
-    public final static double Max_Speed = 12.9603246;
-    public final static double Max_acceleration = 7.05206988015;
-
     public final static int tiksPerPulse = 1;
-
-    public static double ticksPerMeter = 22000;
-
+    public final static double DeltaTime = 0.02;
     // Pneumatics
     public final static int p_ID0 = 0;
     public final static int p_ID1 = 1;

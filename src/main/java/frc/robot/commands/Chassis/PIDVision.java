@@ -8,7 +8,7 @@
 package frc.robot.commands.Chassis;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Chassis.Chassis;
 import frc.robot.utils.limelight;
 
 public class PIDVision extends CommandBase {

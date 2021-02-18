@@ -12,12 +12,16 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+
 /** Add your docs here. */
 public class MATalonSRX implements MAMotorControlInterface {
     private WPI_TalonSRX talonSRX;
+    
+    
 
     public MATalonSRX(int ID) {
         talonSRX = new WPI_TalonSRX(ID);
+        
     }
 
     public MATalonSRX(int ID, boolean Inverted) {

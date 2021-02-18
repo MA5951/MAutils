@@ -2,11 +2,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.utils.MABaseSubsytems.Intake;
+package frc.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.MAPidController;
-
 import frc.robot.utils.MASubsystem;
 import frc.robot.utils.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
@@ -17,12 +16,8 @@ public class MotorIntake extends SubsystemBase implements MASubsystem {
   private MAMotorControler IntakeCollection;
   private MAPidController IntakeMovePID;
   private static MotorIntake m_Intake;
-  private static final int INTAKE_MOVE = 1;
-  private static final int INTAKE_COLLECTION = 0;
-  private static final double KP_INTAKE_MOVE = 0; // TODO
-  private static final double KI_INTAKE_MOVE = 0; // TODO
-  private static final double KD_INTAKE_MOVE = 0; // TODO
-  private MAShuffleboard motorIntakesShuffleboard = new MAShuffleboard(""); // TODO
+
+  private MAShuffleboard motorIntakesShuffleboard = new MAShuffleboard(IntakeConstants.SubsystemName);
 
   private MotorIntake() {
 
@@ -34,7 +29,8 @@ public class MotorIntake extends SubsystemBase implements MASubsystem {
     setMAMotorComtrolers(IntakeMove);
 
     // cahnge Tolorance
-    IntakeMovePID = new MAPidController(KP_INTAKE_MOVE, KI_INTAKE_MOVE, KD_INTAKE_MOVE, 0, 10, -1, 1);
+    IntakeMovePID = new MAPidController(IntakeConstants.KP_INTAKE_MOVE, IntakeConstants.KI_INTAKE_MOVE,
+        IntakeConstants.KD_INTAKE_MOVE, 0, 10, -1, 1);
     resetEncoder();
   }
 
@@ -53,20 +49,20 @@ public class MotorIntake extends SubsystemBase implements MASubsystem {
   }
 
   public double getPosition() {
-    return maMotorControlers.get(INTAKE_MOVE).getPosition();
+    return maMotorControlers.get(IntakeConstants.INTAKE_MOVE).getPosition();
   }
 
   public boolean getLimitSwitchValuse() {
-    return maMotorControlers.get(INTAKE_MOVE).getForwardLimitSwitch(); // change the Limit
+    return maMotorControlers.get(IntakeConstants.INTAKE_MOVE).getForwardLimitSwitch(); // change the Limit
 
   }
 
   public void resetEncoder() {
-    maMotorControlers.get(INTAKE_MOVE).resetEncoder();
+    maMotorControlers.get(IntakeConstants.INTAKE_MOVE).resetEncoder();
   }
 
   public void overrideLimitSwitches(boolean overrid) {
-    maMotorControlers.get(INTAKE_MOVE).overrideLimitSwitches(overrid);
+    maMotorControlers.get(IntakeConstants.INTAKE_MOVE).overrideLimitSwitches(overrid);
   }
 
   public double calculateIntakeMovePID(double setPoint) {
@@ -94,8 +90,8 @@ public class MotorIntake extends SubsystemBase implements MASubsystem {
     motorIntakesShuffleboard.addNum("getPosition", getPosition());
     motorIntakesShuffleboard.addNum("getSetPoint", getSetpointIntakeMovePID());
     motorIntakesShuffleboard.addNum("getPositionError", getPositionErrorIntakeMovePID());
-    motorIntakesShuffleboard.addNum("getStatorCurrentMovetMotor", getStatorCurrent(INTAKE_MOVE));
-    motorIntakesShuffleboard.addNum("getStatorCurrentCollection", getStatorCurrent(INTAKE_COLLECTION));
+    motorIntakesShuffleboard.addNum("getStatorCurrentMovetMotor", getStatorCurrent(IntakeConstants.INTAKE_MOVE));
+    motorIntakesShuffleboard.addNum("getStatorCurrentCollection", getStatorCurrent(IntakeConstants.INTAKE_COLLECTION));
     motorIntakesShuffleboard.addBoolean("atSetPoint", isIntakeMovePIDAtTarget(0.1));
     motorIntakesShuffleboard.addBoolean("LimitSwitchValuse", getLimitSwitchValuse());
   }

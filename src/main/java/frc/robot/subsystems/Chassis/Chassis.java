@@ -1,18 +1,13 @@
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.Chassis;
 
 /**
  * @author yuval rader
  */
-
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI.Port;
-import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.utils.*;
 import frc.robot.utils.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
@@ -23,27 +18,6 @@ import frc.robot.Path.Path;
 import frc.robot.commands.Chassis.MAPath;
 
 public class Chassis extends SubsystemBase {
-
-  private static final double KP_MApath_distance = 1;
-  private static final double KI_MApath_distance = 0;
-  private static final double KD_MApath_distance = 0;
-
-  private static final double KP_MApath_angle = 1.5e-1;
-  private static final double KI_MApath_angle = 0;
-  private static final double KD_MApath_angle = 1e-2;
-
-  private static final double KP_Vision_angle = 2.5e-2;
-  private static final double KI_Vision_angle = 8e-4;
-  private static final double KD_Vision_angle = 0.5e-3;
-
-  private static final double KP_Vision_distance = 1.6e-2;
-  private static final double KI_Vision_distance = 0;
-  private static final double KD_Vision_distance = 0;
-
-  private static final double anglePIDVisionSetInputRange = 44.5;
-  private static final double anglePidMApathSetInputRange = 180;
-
-  SimpleMotorFeedforward feed;
   private double angle;
   private double sign;
   private double modle = sign;
@@ -56,18 +30,16 @@ public class Chassis extends SubsystemBase {
 
   private AHRS navx;
 
-  // private MAPidController distancePidMApath; // PID controler of the distance
-  // in the pathfinder
-  private MAPidController anglePidMApath; // PID controler of the angle in the pathfinder
-  private ProfiledPIDController distancePidMApath;
+  private MAPidController anglePidMApath;
+  private MAPidController distancePidMApath;
 
-  private MAPidController anglePIDVision; // the angle PID in the vison PID
+  private MAPidController anglePIDVision;
   private MAPidController distancePIDVision;
   private static Chassis chassis;
   private MAShuffleboard Chassis;
 
   private Chassis() {
-    Chassis = new MAShuffleboard("Chassis");
+    Chassis = new MAShuffleboard(ChassisConstants.SubsystemName);
     leftFrontMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID1, true, 0, false,
         ENCODER.Encoder);
     leftMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID2, false, 0, false,
@@ -84,23 +56,25 @@ public class Chassis extends SubsystemBase {
     navx = new AHRS(Port.kMXP);
 
     // the distance PID Pathfinder
-    distancePidMApath = new ProfiledPIDController(KP_MApath_distance, KI_MApath_distance, KD_MApath_distance,
-        new TrapezoidProfile.Constraints(RobotConstants.Max_Speed, RobotConstants.Max_acceleration));
+    distancePidMApath = new MAPidController(ChassisConstants.KP_MApath_distance, ChassisConstants.KI_MApath_distance,
+        ChassisConstants.KD_MApath_distance, 0, 0, -12, 12);
 
     // the angle PID pathfinder
-    anglePidMApath = new MAPidController(KP_MApath_angle, KI_MApath_angle, KD_MApath_angle, 0, 0, -12, 12);
+    anglePidMApath = new MAPidController(ChassisConstants.KP_MApath_angle, ChassisConstants.KI_MApath_angle,
+        ChassisConstants.KD_MApath_angle, 0, 0, -12, 12);
 
     // the angle PID vison
-    anglePIDVision = new MAPidController(KP_Vision_angle, KI_Vision_angle, KD_Vision_angle, 0, 2, -1, 1);
+    anglePIDVision = new MAPidController(ChassisConstants.KP_Vision_angle, ChassisConstants.KI_Vision_angle,
+        ChassisConstants.KD_Vision_angle, 0, 2, -1, 1);
 
-    anglePIDVision.enableContinuousInput(-anglePIDVisionSetInputRange, anglePIDVisionSetInputRange);
+    anglePIDVision.enableContinuousInput(-ChassisConstants.anglePIDVisionSetInputRange,
+        ChassisConstants.anglePIDVisionSetInputRange);
 
-    anglePidMApath.enableContinuousInput(-anglePidMApathSetInputRange, anglePidMApathSetInputRange);
+    anglePidMApath.enableContinuousInput(-ChassisConstants.anglePidMApathSetInputRange,
+        ChassisConstants.anglePidMApathSetInputRange);
 
-    distancePIDVision = new MAPidController(KP_Vision_distance, KI_Vision_distance, KD_Vision_distance, 0, 2, -1, 1);
-
-    feed = new SimpleMotorFeedforward(0.163, 7.31e-5, 8.18e-6);
-
+    distancePIDVision = new MAPidController(ChassisConstants.KP_Vision_distance, ChassisConstants.KI_Vision_distance,
+        ChassisConstants.KD_Vision_distance, 0, 2, -1, 1);
   }
 
   public double lefttVelocityControlRPM() {
@@ -120,7 +94,7 @@ public class Chassis extends SubsystemBase {
 
   // the average of the encoders
   public double average() {
-    return ((rightMotor.getPosition() + leftMotor.getPosition()) / 2) / RobotConstants.ticksPerMeter;
+    return ((rightMotor.getPosition() + leftMotor.getPosition()) / 2) / ChassisConstants.ticksPerMeter;
   }
 
   public double fixedAngle() {
@@ -150,7 +124,6 @@ public class Chassis extends SubsystemBase {
 
   // resat the value of the encoder and the navx
   public void resetValue() {
-    distancePidMApath.reset(0);
     navx.reset();
     leftMotor.resetEncoder();
     rightMotor.resetEncoder();
@@ -196,30 +169,24 @@ public class Chassis extends SubsystemBase {
     return distancePIDVision.atSetpoint(0.1);
   }
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // MAPath
   public void setpoint(double distancesetpoint, double anglesetpoint, double Speedlimitdistance,
       double Speedlimitangle) {
     anglePidMApath.setSetpoint(anglesetpoint);
-    distancePidMApath.setGoal(distancesetpoint);
+    distancePidMApath.setSetpoint(distancesetpoint);
 
-    distancePidMApath.setP(KP_MApath_distance * Speedlimitdistance);
-    distancePidMApath.setD(KD_MApath_distance * Speedlimitdistance);
+    distancePidMApath.setP(ChassisConstants.KP_MApath_distance * Speedlimitdistance);
+    distancePidMApath.setD(ChassisConstants.KD_MApath_distance * Speedlimitdistance);
 
-    anglePidMApath.setP(KP_MApath_angle * Speedlimitangle);
-    anglePidMApath.setD(KD_MApath_angle * Speedlimitangle);
+    anglePidMApath.setP(ChassisConstants.KP_MApath_angle * Speedlimitangle);
+    anglePidMApath.setD(ChassisConstants.KD_MApath_angle * Speedlimitangle);
   }
 
   public double angleEror() {
     return anglePidMApath.getPositionError();
   }
 
-  public void resatPIDVA() {
-    distancePidMApath.reset(0, 0);
-  }
-
   public double distanceEror() {
-    return distancePidMApath.getGoal().position - average();
+    return distancePidMApath.getPositionError();
   }
 
   public double angleMApathPIDOutput() {
@@ -227,18 +194,13 @@ public class Chassis extends SubsystemBase {
   }
 
   public double distanceMApathPIDOutput() {
-    return MathUtil.clamp(
-        distancePidMApath.calculate(average())
-            + feed.calculate(distancePidMApath.getSetpoint().position, distancePidMApath.getSetpoint().velocity),
-        -12.0, 12.0);
+    return distancePidMApath.calculate(average());
   }
 
-  // MApath
   public void pathfinder() {
     try {
       double angle = chassis.angleMApathPIDOutput() * Path.mainPath[MAPath.stage][5];
       double distance = chassis.distanceMApathPIDOutput() * Path.mainPath[MAPath.stage][4];
-
       chassis.ArcadeDrive(angle, distance);
     } catch (Exception e) {
       chassis.tankDrive(0, 0);
@@ -274,7 +236,7 @@ public class Chassis extends SubsystemBase {
   private double prev_v = 0;
 
   public double DeltaV() {
-    curentV = DeltaX() / 0.02;
+    curentV = DeltaX() / RobotConstants.DeltaTime;
     double delta = curentV - prev_v;
     prev_v = curentV;
     return delta;
@@ -282,7 +244,7 @@ public class Chassis extends SubsystemBase {
   }
 
   public double acceleration() {
-    return DeltaV() / 0.02;
+    return DeltaV() / RobotConstants.DeltaTime;
   }
 
   private double VInit = 0;
@@ -295,15 +257,15 @@ public class Chassis extends SubsystemBase {
       xInit = average();
     }
 
-    if (VInit >= RobotConstants.Max_Speed) {
-      VInit = RobotConstants.Max_Speed;
+    if (VInit >= ChassisConstants.Max_Speed) {
+      VInit = ChassisConstants.Max_Speed;
     } else {
-      VInit = (DeltaX() / 0.02) * Time;
+      VInit = (DeltaX() / RobotConstants.DeltaTime) * Time;
     }
     double Acceleration = 2 * ((Distance - xInit) - VInit) / (Time * Time);
-    if (Math.abs(Acceleration) >= RobotConstants.Max_acceleration) {
-      return RobotConstants.Max_acceleration * (Math.abs(Acceleration) / Acceleration);
-    } else if (DeltaX() / 0.02 >= RobotConstants.Max_Speed) {
+    if (Math.abs(Acceleration) >= ChassisConstants.Max_acceleration) {
+      return ChassisConstants.Max_acceleration * (Math.abs(Acceleration) / Acceleration);
+    } else if (DeltaX() / RobotConstants.DeltaTime >= ChassisConstants.Max_Speed) {
       return 0;
     } else {
       return Acceleration;
@@ -324,7 +286,7 @@ public class Chassis extends SubsystemBase {
     Chassis.addNum("distacne", average());
     Chassis.addNum("lefttVelocityControlRPM", lefttVelocityControlRPM());
     Chassis.addNum("angleSetPoint", anglePidMApath.getSetpoint());
-    Chassis.addNum("distacenSetPoint", distancePidMApath.getSetpoint().position);
+    Chassis.addNum("distacenSetPoint", distancePidMApath.getSetpoint());
     Chassis.addNum("LeftMotorOutPut", leftMotor.getOutput());
     Chassis.addNum("RightMotorOutPut", rightMotor.getOutput());
     Chassis.addNum("rightVelocityControlRPM", rightVelocityControlRPM());

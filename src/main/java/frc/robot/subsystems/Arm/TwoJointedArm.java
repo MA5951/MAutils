@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.utils.MABaseSubsytems.Arm;
+package frc.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.MAPidController;
@@ -18,19 +18,6 @@ public class TwoJointedArm extends SubsystemBase implements MASubsystem {
   private MAPidController SecArmMovePID;
 
   private static TwoJointedArm m_TwoJointedArm;
-  private static final int ARM_MOVE = 0;
-  private static final int SEC_ARM_MOVE = 0;
-
-  private static final double KP_ARM_MOVE = 0; // TODO
-  private static final double KI_ARM_MOVE = 0; // TODO
-  private static final double KD_ARM_MOVE = 0; // TODO
-  private static final double KF_ARM_MOVE = 0; // TODO
-
-  private static final double KP_SEC_ARM_MOVE = 0; // TODO
-  private static final double KI_SEC_ARM_MOVE = 0; // TODO
-  private static final double KD_SEC_ARM_MOVE = 0; // TODO
-  private static final double KF_SEC_ARM_MOVE = 0; // TODO
-
   private MAShuffleboard TwoJointedArm = new MAShuffleboard(""); // TODO
 
   private TwoJointedArm() {
@@ -38,12 +25,12 @@ public class TwoJointedArm extends SubsystemBase implements MASubsystem {
     setMAMotorComtrolers(ArmMove);
     // addMAMotorComtrolers(ElevatorMove, IDMotor.ID3); if have more then one motor
     // cahnge Tolorance
-    ArmMovePID = new MAPidController(KP_ARM_MOVE, KI_ARM_MOVE, KD_ARM_MOVE, KF_ARM_MOVE, 10, -12, 12);
+    ArmMovePID = new MAPidController(ArmConstants.KP_ARM_MOVE, ArmConstants.KI_ARM_MOVE, ArmConstants.KD_ARM_MOVE, ArmConstants.KF_ARM_MOVE, 10, -12, 12);
 
     SecArmMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID3, false, 0, true, true, true, ENCODER.Encoder);
     setMAMotorComtrolers(SecArmMove);
     // cahnge Tolorance
-    SecArmMovePID = new MAPidController(KP_SEC_ARM_MOVE, KI_SEC_ARM_MOVE, KD_SEC_ARM_MOVE, KF_SEC_ARM_MOVE, 10, -12,
+    SecArmMovePID = new MAPidController(ArmConstants.KP_SEC_ARM_MOVE, ArmConstants.KI_SEC_ARM_MOVE, ArmConstants.KD_SEC_ARM_MOVE, ArmConstants.KF_SEC_ARM_MOVE, 10, -12,
         12);
     resetEncoder();
   }
@@ -75,17 +62,17 @@ public class TwoJointedArm extends SubsystemBase implements MASubsystem {
   }
 
   public void resetEncoder() {
-    maMotorControlers.get(ARM_MOVE).resetEncoder();
-    maMotorControlers.get(SEC_ARM_MOVE).resetEncoder();
+    maMotorControlers.get(ArmConstants.ARM_MOVE).resetEncoder();
+    maMotorControlers.get(ArmConstants.SEC_ARM_MOVE).resetEncoder();
   }
 
   public void overrideLimitSwitches(boolean overrid) {
-    maMotorControlers.get(ARM_MOVE).overrideLimitSwitches(overrid);
-    maMotorControlers.get(SEC_ARM_MOVE).overrideLimitSwitches(overrid);
+    maMotorControlers.get(ArmConstants.ARM_MOVE).overrideLimitSwitches(overrid);
+    maMotorControlers.get(ArmConstants.SEC_ARM_MOVE).overrideLimitSwitches(overrid);
   }
 
   public double calculateArmMovePID(double setPoint) {
-    return ArmMovePID.calculate(getPosition(ARM_MOVE), setPoint); // can be void and set diracle to the motor
+    return ArmMovePID.calculate(getPosition(ArmConstants.ARM_MOVE), setPoint); // can be void and set diracle to the motor
   }
 
   public boolean isArmMovePIDAtTarget(double waitTime) {
@@ -101,7 +88,7 @@ public class TwoJointedArm extends SubsystemBase implements MASubsystem {
   }
 
   public double calculateSecArmMovePID(double setPoint) {
-    return SecArmMovePID.calculate(getPosition(SEC_ARM_MOVE), setPoint); // can be void and set diracle to the motor
+    return SecArmMovePID.calculate(getPosition(ArmConstants.SEC_ARM_MOVE), setPoint); // can be void and set diracle to the motor
   }
 
   public boolean isSecArmMovePIDAtTarget(double waitTime) {
@@ -118,8 +105,8 @@ public class TwoJointedArm extends SubsystemBase implements MASubsystem {
 
   @Override
   public void PrintValues() {
-    TwoJointedArm.addNum("ArmMovegetPosition", getPosition(ARM_MOVE));
-    TwoJointedArm.addNum("SecArmMovegetPosition", getPosition(SEC_ARM_MOVE));
+    TwoJointedArm.addNum("ArmMovegetPosition", getPosition(ArmConstants.ARM_MOVE));
+    TwoJointedArm.addNum("SecArmMovegetPosition", getPosition(ArmConstants.SEC_ARM_MOVE));
 
     TwoJointedArm.addNum("ArmMovegetSetPoint", getSetpointArmMovePID());
     TwoJointedArm.addNum("ArmMovegetPositionError", getPositionErrorArmMovePID());
@@ -129,11 +116,11 @@ public class TwoJointedArm extends SubsystemBase implements MASubsystem {
     TwoJointedArm.addNum("SecArmMovegetPositionError", getPositionErrorSecArmMovePID());
     TwoJointedArm.addBoolean("SecArmMoveatSetPoint", isSecArmMovePIDAtTarget(0.1));
 
-    TwoJointedArm.addBoolean("getArmMoveLimitSwitchFValuse", getLimitSwitchFValuse(ARM_MOVE));
-    TwoJointedArm.addBoolean("getArmMoveLimitSwitchRValuse", getLimitSwitchRValuse(ARM_MOVE));
+    TwoJointedArm.addBoolean("getArmMoveLimitSwitchFValuse", getLimitSwitchFValuse(ArmConstants.ARM_MOVE));
+    TwoJointedArm.addBoolean("getArmMoveLimitSwitchRValuse", getLimitSwitchRValuse(ArmConstants.ARM_MOVE));
 
-    TwoJointedArm.addBoolean("getSecArmMoveLimitSwitchFValuse", getLimitSwitchFValuse(SEC_ARM_MOVE));
-    TwoJointedArm.addBoolean("getSecArmMoveLimitSwitchRValuse", getLimitSwitchRValuse(SEC_ARM_MOVE));
+    TwoJointedArm.addBoolean("getSecArmMoveLimitSwitchFValuse", getLimitSwitchFValuse(ArmConstants.SEC_ARM_MOVE));
+    TwoJointedArm.addBoolean("getSecArmMoveLimitSwitchRValuse", getLimitSwitchRValuse(ArmConstants.SEC_ARM_MOVE));
   }
 
   public static TwoJointedArm getinstance() {

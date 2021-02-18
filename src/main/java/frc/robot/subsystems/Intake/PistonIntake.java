@@ -2,11 +2,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.utils.MABaseSubsytems.Intake;
+package frc.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.MAPiston;
-
 import frc.robot.utils.MASubsystem;
 import frc.robot.utils.RobotConstants;
 import frc.robot.utils.MAMotorControlrs.MAMotorControler;
@@ -18,13 +17,11 @@ public class PistonIntake extends SubsystemBase implements MASubsystem {
   private MAPiston pistonA;
   private MAPiston pistonB;
   private static PistonIntake m_Intake;
-  private static final int INTAKE_COLLECTION = 0;
-  private MAShuffleboard pistonIntakesMaShuffleboard = new MAShuffleboard(""); // TODO
+  private MAShuffleboard pistonIntakesMaShuffleboard = new MAShuffleboard(IntakeConstants.SubsystemName); // TODO
 
   private PistonIntake() {
     IntakeCollection = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID1);
     setMAMotorComtrolers(IntakeCollection);
-
     pistonA = new MAPiston(RobotConstants.p_ID0);
     pistonB = new MAPiston(RobotConstants.p_ID1);
 
@@ -36,7 +33,7 @@ public class PistonIntake extends SubsystemBase implements MASubsystem {
   }
 
   public double getStatorCurrent() {
-    return maMotorControlers.get(INTAKE_COLLECTION).getStatorCurrent();
+    return maMotorControlers.get(IntakeConstants.INTAKE_COLLECTION).getStatorCurrent();
   }
 
   @Override
@@ -50,7 +47,7 @@ public class PistonIntake extends SubsystemBase implements MASubsystem {
    */
   @Override
   public Runnable setMotorPower(double Power, int Indax) {
-    return () -> maMotorControlers.get(INTAKE_COLLECTION).set(Power);
+    return () -> maMotorControlers.get(Indax).set(Power);
   }
 
   @Override

@@ -6,6 +6,8 @@ package frc.robot.utils.MAMotorControlrs;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import frc.robot.utils.RobotConstants;
 import frc.robot.utils.MASubsystem.ENCODER;
 import frc.robot.utils.MASubsystem.IDMotor;
@@ -270,10 +272,10 @@ public class MAMotorControler {
                 victorSPX = new MAVictorSPX(IDChooser(ID));
                 break;
             case SPARKMAXBrushless:
-                cansSpakrMax = new MASpakrMax(IDChooser(ID), RobotConstants.kBrushless);
+                cansSpakrMax = new MASpakrMax(IDChooser(ID), MotorType.kBrushless);
                 break;
             case SPARKMAXBrushled:
-                cansSpakrMax = new MASpakrMax(IDChooser(ID), RobotConstants.kBrushed);
+                cansSpakrMax = new MASpakrMax(IDChooser(ID), MotorType.kBrushed);
                 break;
         }
     }
@@ -287,10 +289,10 @@ public class MAMotorControler {
                 victorSPX = new MAVictorSPX(IDChooser(ID), Inverted);
                 break;
             case SPARKMAXBrushless:
-                cansSpakrMax = new MASpakrMax(IDChooser(ID), Inverted, RobotConstants.kBrushless);
+                cansSpakrMax = new MASpakrMax(IDChooser(ID), Inverted, MotorType.kBrushless);
                 break;
             case SPARKMAXBrushled:
-                cansSpakrMax = new MASpakrMax(IDChooser(ID), Inverted, RobotConstants.kBrushed);
+                cansSpakrMax = new MASpakrMax(IDChooser(ID), Inverted, MotorType.kBrushed);
                 break;
         }
     }
@@ -304,11 +306,10 @@ public class MAMotorControler {
                 victorSPX = new MAVictorSPX(IDChooser(ID), Inverted, rampRate, mod);
                 break;
             case SPARKMAXBrushless:
-                cansSpakrMax = new MASpakrMax(IDChooser(ID), Inverted, rampRate, mod, encoder,
-                        RobotConstants.kBrushless);
+                cansSpakrMax = new MASpakrMax(IDChooser(ID), Inverted, rampRate, mod, encoder, MotorType.kBrushless);
                 break;
             case SPARKMAXBrushled:
-                cansSpakrMax = new MASpakrMax(IDChooser(ID), Inverted, rampRate, mod, encoder, RobotConstants.kBrushed);
+                cansSpakrMax = new MASpakrMax(IDChooser(ID), Inverted, rampRate, mod, encoder, MotorType.kBrushed);
                 break;
         }
     }
@@ -322,10 +323,10 @@ public class MAMotorControler {
                 victorSPX = new MAVictorSPX(IDChooser(ID), Inverted, rampRate, mod);
                 break;
             case SPARKMAXBrushless:
-                cansSpakrMax = new MASpakrMax(IDChooser(ID), Inverted, rampRate, mod, RobotConstants.kBrushless);
+                cansSpakrMax = new MASpakrMax(IDChooser(ID), Inverted, rampRate, mod, MotorType.kBrushless);
                 break;
             case SPARKMAXBrushled:
-                cansSpakrMax = new MASpakrMax(IDChooser(ID), Inverted, rampRate, mod, RobotConstants.kBrushed);
+                cansSpakrMax = new MASpakrMax(IDChooser(ID), Inverted, rampRate, mod, MotorType.kBrushed);
                 break;
         }
     }
@@ -343,11 +344,11 @@ public class MAMotorControler {
                 break;
             case SPARKMAXBrushless:
                 cansSpakrMax = new MASpakrMax(IDChooser(ID), Inverted, rampRate, mod, hasForwardLimitSwitch,
-                        hasReverseLimitSwitch, RobotConstants.kBrushless);
+                        hasReverseLimitSwitch, MotorType.kBrushless);
                 break;
             case SPARKMAXBrushled:
                 cansSpakrMax = new MASpakrMax(IDChooser(ID), Inverted, rampRate, mod, hasForwardLimitSwitch,
-                        hasReverseLimitSwitch, RobotConstants.kBrushed);
+                        hasReverseLimitSwitch, MotorType.kBrushed);
                 break;
         }
     }
@@ -365,11 +366,11 @@ public class MAMotorControler {
                 break;
             case SPARKMAXBrushless:
                 cansSpakrMax = new MASpakrMax(IDChooser(ID), Inverted, rampRate, mod, hasForwardLimitSwitch,
-                        hasReverseLimitSwitch, encoder, RobotConstants.kBrushless);
+                        hasReverseLimitSwitch, encoder, MotorType.kBrushless);
                 break;
             case SPARKMAXBrushled:
                 cansSpakrMax = new MASpakrMax(IDChooser(ID), Inverted, rampRate, mod, hasForwardLimitSwitch,
-                        hasReverseLimitSwitch, encoder, RobotConstants.kBrushed);
+                        hasReverseLimitSwitch, encoder, MotorType.kBrushed);
                 break;
         }
     }

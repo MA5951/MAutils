@@ -2,11 +2,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.utils.MABaseSubsytems.Elevator;
+package frc.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.MAPidController;
-
 import frc.robot.utils.MASubsystem;
 import frc.robot.utils.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
@@ -16,20 +15,15 @@ public class Elevator extends SubsystemBase implements MASubsystem {
   private MAMotorControler ElevatorMove;
   private MAPidController ElevatorMovePID;
   private static Elevator m_Elevator;
-  private static final int ELEVATOR_MOVE = 0;
-  private static final double KP_ELEVATOR_MOVE = 0; // TODO
-  private static final double KI_ELEVATOR_MOVE = 0; // TODO
-  private static final double KD_ELEVATOR_MOVE = 0; // TODO
-  private static final double KF_ELEVATOR_MOVE = 0; // TODO
-  private MAShuffleboard elevatoShuffleboard = new MAShuffleboard(""); // TODO
+  private MAShuffleboard elevatoShuffleboard = new MAShuffleboard(ElevatorConstants.SubsystemName); // TODO
 
   private Elevator() {
     ElevatorMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID2, false, 0, true, true, true, ENCODER.Encoder);
     setMAMotorComtrolers(ElevatorMove);
 
     // cahnge Tolorance
-    ElevatorMovePID = new MAPidController(KP_ELEVATOR_MOVE, KI_ELEVATOR_MOVE, KD_ELEVATOR_MOVE, KF_ELEVATOR_MOVE, 10,
-        -12, 12);
+    ElevatorMovePID = new MAPidController(ElevatorConstants.KP_ELEVATOR_MOVE, ElevatorConstants.KI_ELEVATOR_MOVE,
+        ElevatorConstants.KD_ELEVATOR_MOVE, ElevatorConstants.KF_ELEVATOR_MOVE, 10, -12, 12);
     resetEncoder();
   }
 
@@ -47,23 +41,23 @@ public class Elevator extends SubsystemBase implements MASubsystem {
   }
 
   public double getPosition() {
-    return maMotorControlers.get(ELEVATOR_MOVE).getPosition();
+    return maMotorControlers.get(ElevatorConstants.ELEVATOR_MOVE).getPosition();
   }
 
   public boolean getLimitSwitchFValuse() {
-    return maMotorControlers.get(ELEVATOR_MOVE).getForwardLimitSwitch(); // change the Limit
+    return maMotorControlers.get(ElevatorConstants.ELEVATOR_MOVE).getForwardLimitSwitch(); // change the Limit
   }
 
   public boolean getLimitSwitchRValuse() {
-    return maMotorControlers.get(ELEVATOR_MOVE).getReversLimitSwitch(); // change the Limit
+    return maMotorControlers.get(ElevatorConstants.ELEVATOR_MOVE).getReversLimitSwitch(); // change the Limit
   }
 
   public void resetEncoder() {
-    maMotorControlers.get(ELEVATOR_MOVE).resetEncoder();
+    maMotorControlers.get(ElevatorConstants.ELEVATOR_MOVE).resetEncoder();
   }
 
   public void overrideLimitSwitches(boolean overrid) {
-    maMotorControlers.get(ELEVATOR_MOVE).overrideLimitSwitches(overrid);
+    maMotorControlers.get(ElevatorConstants.ELEVATOR_MOVE).overrideLimitSwitches(overrid);
   }
 
   public double calculateElevatorPID(double setPoint) {

@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.Path.Path;
-import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Chassis.Chassis;
 
 public class MAPath extends CommandBase {
   /**
@@ -28,7 +28,6 @@ public class MAPath extends CommandBase {
   public MAPath(double waitTime) {
     this.waitTime = waitTime;
     chassis = Chassis.getinstance();
-    chassis.resatPIDVA();
     addRequirements(chassis);
 
   }
