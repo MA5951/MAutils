@@ -7,8 +7,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import frc.robot.utils.RobotConstants;
 import frc.robot.utils.MASubsystem.ENCODER;
 import frc.robot.utils.MASubsystem.IDMotor;
 import frc.robot.utils.MASubsystem.MOTOR_CONTROLL;

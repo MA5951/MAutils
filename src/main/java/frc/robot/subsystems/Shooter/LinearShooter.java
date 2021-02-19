@@ -5,8 +5,8 @@
 package frc.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utils.MAPidController;
-import frc.robot.utils.MASubsystem;
+import frc.robot.utils.*;
+import frc.robot.utils.Calculation.MACalculations;
 import frc.robot.utils.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
@@ -14,6 +14,8 @@ public class LinearShooter extends SubsystemBase implements MASubsystem {
   private MAMotorControler MotorA;
   private MAMotorControler MotorB;
   private MAPidController pidControllerMotorA;
+  
+  
 
   private static LinearShooter LinearShooter;
   private MAShuffleboard linearShooterShuffleboard = new MAShuffleboard(ShooterConstants.SubsystemName); // TODO
@@ -35,7 +37,7 @@ public class LinearShooter extends SubsystemBase implements MASubsystem {
   }
 
   /**
-   * voltage -12 to 12, MotorA = 0 , MotorB = 1 
+   * voltage -12 to 12, MotorA = 0 , MotorB = 1
    */
   @Override
   public Runnable setMotorPower(double power, int Indax) {
@@ -60,7 +62,20 @@ public class LinearShooter extends SubsystemBase implements MASubsystem {
   }
 
   public double DistanceToRPM(double distance) {
-    return 0; // TODO
+    double LinearSpeed = Math.sqrt((Math.pow(getVxSpeed(), 2) + Math.pow(getVySpeed(), 2)));
+    return MACalculations.FromLinearSpeedToRPM(LinearSpeed, ShooterConstants.ShooterGear);
+  }
+
+  private double getVxSpeed() {
+    double d = limelight.getinstance().distance();
+    double head = Math.tan(ShooterConstants.ShootAngle) * d - (RobotConstants.GravityAcceleration / 2) * Math.pow(d, 2);
+    return Math.sqrt((head / ShooterConstants.DeltaY));
+  }
+
+  private double getVySpeed() {
+    double d = limelight.getinstance().distance();
+    double vx = getVxSpeed();
+    return (((ShooterConstants.DeltaY * vx) / d) - ((RobotConstants.GravityAcceleration / 2) * d) / vx);
   }
 
   @Override

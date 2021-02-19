@@ -5,10 +5,9 @@
 package frc.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utils.MAPidController;
 
-import frc.robot.utils.MASubsystem;
-import frc.robot.utils.limelight;
+import frc.robot.utils.*;
+import frc.robot.utils.Calculation.MACalculations;
 import frc.robot.utils.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
@@ -16,7 +15,7 @@ public class MoonShooter extends SubsystemBase implements MASubsystem {
   private MAMotorControler MotorA;
   private MAPidController pidControllerMotorA;
   private static MoonShooter MoonShooter;
-  private MAShuffleboard moonShootersShuffleboard = new MAShuffleboard(""); // TODO
+  private MAShuffleboard moonShootersShuffleboard = new MAShuffleboard(ShooterConstants.SubsystemName); // TODO
 
   private MoonShooter() {
     MotorA = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID1, true, 0, false, ENCODER.Encoder);
@@ -31,16 +30,6 @@ public class MoonShooter extends SubsystemBase implements MASubsystem {
     PrintValues();
 
   }
-
-  private double getVxSpeed() {
-    double d = limelight.getinstance().distance();
-    double head = Math.tan(ShooterConstants.ShootAngle) * d - 5 * Math.pow(d, 2);
-    return Math.sqrt((head / ShooterConstants.DeltaY));
-  }
-
-  private double getVySpeed() {
-    return 0; 
-      }
 
   /**
    * voltage -12 to 12, MotorA = 0
@@ -68,7 +57,20 @@ public class MoonShooter extends SubsystemBase implements MASubsystem {
   }
 
   public double DistanceToRPM() {
-    return 0; // TODO
+    double LinearSpeed = Math.sqrt((Math.pow(getVxSpeed(), 2) + Math.pow(getVySpeed(), 2)));
+    return MACalculations.FromLinearSpeedToRPM(LinearSpeed, ShooterConstants.ShooterGear);
+  }
+
+  private double getVxSpeed() {
+    double d = limelight.getinstance().distance();
+    double head = Math.tan(ShooterConstants.ShootAngle) * d - (RobotConstants.GravityAcceleration / 2) * Math.pow(d, 2);
+    return Math.sqrt((head / ShooterConstants.DeltaY));
+  }
+
+  private double getVySpeed() {
+    double d = limelight.getinstance().distance();
+    double vx = getVxSpeed();
+    return (((ShooterConstants.DeltaY * vx) / d) - ((RobotConstants.GravityAcceleration / 2) * d) / vx);
   }
 
   @Override

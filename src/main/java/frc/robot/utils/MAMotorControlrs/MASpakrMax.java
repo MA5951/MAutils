@@ -15,7 +15,7 @@ import frc.robot.utils.MASubsystem;
 import frc.robot.utils.RobotConstants;
 
 /** Add your docs here. */
-public class MASpakrMax implements MAMotorControlInterface {
+class MASpakrMax implements MAMotorControlInterface {
 
     private CANSparkMax canSparkMax;
     private CANEncoder canEncoder;
@@ -197,7 +197,5 @@ public class MASpakrMax implements MAMotorControlInterface {
     public void setCurrentLimit(int limit) {
         canSparkMax.setSmartCurrentLimit(limit);
     }
-
- 
 
 }

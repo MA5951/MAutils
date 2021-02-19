@@ -11,7 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 
 /** Add your docs here. */
-public class MAVictorSPX implements MAMotorControlInterface {
+ class MAVictorSPX implements MAMotorControlInterface {
 
     private WPI_VictorSPX victorSPX;
 

@@ -8,8 +8,13 @@
 package frc.robot.utils;
 
 public class RobotConstants {
+    public enum MOTORS {
+        CIM, PRO775, NEO, MINI_CIM, BAG, RS
+    }
+
     public final static int tiksPerPulse = 1;
     public final static double DeltaTime = 0.02;
+    public final static double GravityAcceleration = 9.82;
     // Pneumatics
     public final static int p_ID0 = 0;
     public final static int p_ID1 = 1;

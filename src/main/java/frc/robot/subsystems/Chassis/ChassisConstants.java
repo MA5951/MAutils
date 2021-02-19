@@ -26,11 +26,11 @@ public class ChassisConstants {
     public static final double anglePIDVisionSetInputRange = 44.5;
     public static final double anglePidMApathSetInputRange = 180;
 
-    public static final double Neo_RPM = 5700;
+    public static final double Neo_RPM = 5700; //TODO
     public static final double Ramp_Rate_Auto = 0.35;
 
-    public static final double Max_Speed = 12.9603246;
-    public static final double Max_acceleration = 7.05206988015;
+    public static final double Max_Speed = 12.9603246; //TODO
+    public static final double Max_acceleration = 7.05206988015; //TODO
 
     public static final double ticksPerMeter = 22000;
 }

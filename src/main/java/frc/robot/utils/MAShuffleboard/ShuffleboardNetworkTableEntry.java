@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import frc.robot.utils.MAPidController;
 
 /** Add your docs here. */
-public class ShuffleboardNetworkTableEntry {
+class ShuffleboardNetworkTableEntry {
     private NetworkTableEntry NumValue;
     private NetworkTableEntry StringValue;
     private NetworkTableEntry BooleanValue;

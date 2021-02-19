@@ -14,4 +14,5 @@ public class ShooterConstants {
     public static final String SubsystemName = "Shooter";
     public static final double ShootAngle = 0; //TODO
     public static final double DeltaY = 0; //TODO
+    public static final double ShooterGear = 0; //TODO
 }

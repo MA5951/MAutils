@@ -17,8 +17,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class limelight extends SubsystemBase {
-  private static final double higet = 0; //TODO
-  private static final double angle = 0; //TODO
+  public static final double DeltaY = 0; // TODO
+  private static final double LimelightAngle = 0; // TODO
   public double x;
   public double y;
   public boolean v;
@@ -71,8 +71,8 @@ public class limelight extends SubsystemBase {
   }
 
   public double distance() {
-    double a = y + angle;
-    return Math.tan(a) / higet;
+    double a = y + LimelightAngle;
+    return Math.tan(a) / DeltaY;
   }
 
   public void ledMode(int ledMode) {

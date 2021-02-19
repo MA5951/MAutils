@@ -14,7 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 
 /** Add your docs here. */
-public class MATalonSRX implements MAMotorControlInterface {
+ class MATalonSRX implements MAMotorControlInterface {
     private WPI_TalonSRX talonSRX;
     
     
