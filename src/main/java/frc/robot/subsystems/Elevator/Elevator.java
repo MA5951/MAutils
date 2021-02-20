@@ -15,11 +15,11 @@ public class Elevator extends SubsystemBase implements MASubsystem {
   private MAMotorControler ElevatorMove;
   private MAPidController ElevatorMovePID;
   private static Elevator m_Elevator;
-  private MAShuffleboard elevatoShuffleboard = new MAShuffleboard(ElevatorConstants.SubsystemName); // TODO
+  private MAShuffleboard ElevatoShuffleboard = new MAShuffleboard(ElevatorConstants.KSUBSYSTEM_NAME);
 
   private Elevator() {
     ElevatorMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID2, false, 0, true, true, true, ENCODER.Encoder);
-    setMAMotorComtrolers(ElevatorMove);
+    setMAMotorComtrolersList(ElevatorMove);
 
     // cahnge Tolorance
     ElevatorMovePID = new MAPidController(ElevatorConstants.KP_ELEVATOR_MOVE, ElevatorConstants.KI_ELEVATOR_MOVE,
@@ -37,19 +37,19 @@ public class Elevator extends SubsystemBase implements MASubsystem {
    */
   @Override
   public Runnable setMotorPower(double Power, int Indax) {
-    return () -> maMotorControlers.get(Indax).setvoltage(Power);
+    return () -> maMotorControlers.get(Indax).setVoltage(Power);
   }
 
-  public double getPosition() {
+  public double getEncoderPosition() {
     return maMotorControlers.get(ElevatorConstants.ELEVATOR_MOVE).getPosition();
   }
 
   public boolean getLimitSwitchFValuse() {
-    return maMotorControlers.get(ElevatorConstants.ELEVATOR_MOVE).getForwardLimitSwitch(); // change the Limit
+    return maMotorControlers.get(ElevatorConstants.ELEVATOR_MOVE).getForwardLimitSwitch();
   }
 
   public boolean getLimitSwitchRValuse() {
-    return maMotorControlers.get(ElevatorConstants.ELEVATOR_MOVE).getReversLimitSwitch(); // change the Limit
+    return maMotorControlers.get(ElevatorConstants.ELEVATOR_MOVE).getReversLimitSwitch();
   }
 
   public void resetEncoder() {
@@ -61,11 +61,11 @@ public class Elevator extends SubsystemBase implements MASubsystem {
   }
 
   public double calculateElevatorPID(double setPoint) {
-    return ElevatorMovePID.calculate(getPosition(), setPoint); // can be void and set diracle to the motor
+    return ElevatorMovePID.calculate(getEncoderPosition(), setPoint);
   }
 
   public boolean isElevatorPIDAtTarget(double waitTime) {
-    return ElevatorMovePID.atSetpoint(waitTime);// can be void and set diracle to the motor
+    return ElevatorMovePID.atSetpoint(waitTime);
   }
 
   public double getSetpointElevatorPID() {
@@ -78,12 +78,12 @@ public class Elevator extends SubsystemBase implements MASubsystem {
 
   @Override
   public void PrintValues() {
-    elevatoShuffleboard.addNum("getPosition", getPosition());
-    elevatoShuffleboard.addNum("getSetPoint", getSetpointElevatorPID());
-    elevatoShuffleboard.addNum("getPositionError", getPositionErrorElevatorPID());
-    elevatoShuffleboard.addBoolean("atSetPoint", isElevatorPIDAtTarget(0.1));
-    elevatoShuffleboard.addBoolean("getLimitSwitchRValuse", getLimitSwitchRValuse());
-    elevatoShuffleboard.addBoolean("getLimitSwitchFValuse", getLimitSwitchFValuse());
+    ElevatoShuffleboard.addNum("getPosition", getEncoderPosition());
+    ElevatoShuffleboard.addNum("getSetPoint", getSetpointElevatorPID());
+    ElevatoShuffleboard.addNum("getPositionError", getPositionErrorElevatorPID());
+    ElevatoShuffleboard.addBoolean("atSetPoint", isElevatorPIDAtTarget(0.1));
+    ElevatoShuffleboard.addBoolean("getLimitSwitchRValuse", getLimitSwitchRValuse());
+    ElevatoShuffleboard.addBoolean("getLimitSwitchFValuse", getLimitSwitchFValuse());
   }
 
   public static Elevator getinstance() {

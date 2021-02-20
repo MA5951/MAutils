@@ -12,52 +12,9 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-
 /** Add your docs here. */
- class MATalonSRX implements MAMotorControlInterface {
+class MATalonSRX implements MAMotorControlInterface {
     private WPI_TalonSRX talonSRX;
-    
-    
-
-    public MATalonSRX(int ID) {
-        talonSRX = new WPI_TalonSRX(ID);
-        
-    }
-
-    public MATalonSRX(int ID, boolean Inverted) {
-        talonSRX = new WPI_TalonSRX(ID);
-        setInverted(Inverted);
-    }
-
-    public MATalonSRX(int ID, boolean Inverted, double rampRate, boolean mod) {
-        talonSRX = new WPI_TalonSRX(ID);
-        setInverted(Inverted);
-        configRampRate(rampRate);
-        changeMood(mod);
-    }
-
-    public MATalonSRX(int ID, boolean Inverted, double rampRate, boolean mod, FeedbackDevice feedbackDevice) {
-        talonSRX = new WPI_TalonSRX(ID);
-        setInverted(Inverted);
-        configRampRate(rampRate);
-        changeMood(mod);
-        talonSRX.configSelectedFeedbackSensor(feedbackDevice);
-    }
-
-    public MATalonSRX(int ID, boolean Inverted, double rampRate, boolean mod, boolean hasForwardLimitSwitch,
-            boolean hasReverseLimitSwitch) {
-        talonSRX = new WPI_TalonSRX(ID);
-        setInverted(Inverted);
-        configRampRate(rampRate);
-        changeMood(mod);
-
-        if (hasForwardLimitSwitch)
-            configForwardLimitSwitchSource();
-
-        if (hasReverseLimitSwitch)
-            configReverseLimitSwitchSource();
-
-    }
 
     public MATalonSRX(int ID, boolean Inverted, double rampRate, boolean mod, boolean hasForwardLimitSwitch,
             boolean hasReverseLimitSwitch, FeedbackDevice feedbackDevice) {
@@ -87,7 +44,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
     @Override
     public void setvoltage(double voltage) {
         talonSRX.setVoltage(voltage);
-        
+
     }
 
     @Override

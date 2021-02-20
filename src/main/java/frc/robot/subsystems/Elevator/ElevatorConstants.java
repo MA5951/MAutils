@@ -9,12 +9,12 @@ import frc.robot.utils.RobotConstants;
 
 /** Add your docs here. */
 public class ElevatorConstants {
-    public static final double ElevatorGear = 0; // TODO
+    public static final double KGEAR = 0; // TODO
     public static final double KP_ELEVATOR_MOVE = 0; // TODO
     public static final double KI_ELEVATOR_MOVE = 0; // TODO
     public static final double KD_ELEVATOR_MOVE = 0; // TODO
     public static final double KF_ELEVATOR_MOVE = MACalculations
-            .FromLinearSpeedToRPM((RobotConstants.GravityAcceleration / 2) * RobotConstants.DeltaTime, ElevatorGear);
+            .FromLinearSpeedToRPM((RobotConstants.KGRAVITY_ACCELERATION / 2) * RobotConstants.KDELTA_TIME, KGEAR);
     public static final int ELEVATOR_MOVE = 0;
-    public static final String SubsystemName = "Elevator";
+    public static final String KSUBSYSTEM_NAME = "Elevator";
 }

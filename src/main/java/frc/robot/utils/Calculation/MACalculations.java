@@ -29,7 +29,7 @@ public class MACalculations {
     }
 
     private static double DeltaV(double RPM, double Gear) {
-        curentV = FromRPMToLinearSpeed(RPM, Gear) / RobotConstants.DeltaTime;
+        curentV = FromRPMToLinearSpeed(RPM, Gear) / RobotConstants.KDELTA_TIME;
         double delta = curentV - prev_v;
         prev_v = curentV;
         return delta;
@@ -37,6 +37,6 @@ public class MACalculations {
     }
 
     public static double Acceleration(double RPM, double Gear) {
-        return DeltaV(RPM, Gear) / RobotConstants.DeltaTime;
+        return DeltaV(RPM, Gear) / RobotConstants.KDELTA_TIME;
     }
 }

@@ -12,18 +12,18 @@ public class RobotConstants {
         CIM, PRO775, NEO, MINI_CIM, BAG, RS
     }
 
-    public final static int tiksPerPulse = 1;
-    public final static double DeltaTime = 0.02;
-    public final static double GravityAcceleration = 9.82;
+    public final static int KTICKS_PER_PULSE = 1;
+    public final static double KDELTA_TIME = 0.02;
+    public final static double KGRAVITY_ACCELERATION = 9.82;
     // Pneumatics
-    public final static int p_ID0 = 0;
-    public final static int p_ID1 = 1;
-    public final static int p_ID2 = 2;
-    public final static int p_ID3 = 3;
-    public final static int p_ID4 = 4;
-    public final static int p_ID5 = 5;
-    public final static int p_ID6 = 6;
-    public final static int p_ID7 = 7;
+    public final static int P_ID0 = 0;
+    public final static int P_ID1 = 1;
+    public final static int P_ID2 = 2;
+    public final static int P_ID3 = 3;
+    public final static int P_ID4 = 4;
+    public final static int P_ID5 = 5;
+    public final static int P_ID6 = 6;
+    public final static int P_ID7 = 7;
 
     // DIO
     public final static int DIO_ID0 = 0;
@@ -50,12 +50,12 @@ public class RobotConstants {
     public static final int STICK_RIGHT = 10;
 
     // axis
-    public static final int STICK_RIGHT_Yaxis = 5; // TODO
-    public static final int STICK_RIGHT_Xaxis = 4; // TODO
-    public static final int STICK_LEFT_Yaxis = 1; // TODO
-    public static final int STICK_LEFT_Xaxis = 2; // TODO
-    public static final int LTriger = 2; // TODO
-    public static final int RTriger = 3; // TODO
+    public static final int STICK_RIGHT_Y_AXIS = 5; // TODO
+    public static final int STICK_RIGHT_X_AXIS = 4; // TODO
+    public static final int STICK_LEFT_Y_AXIS = 1; // TODO
+    public static final int STICK_LEFT_X_AXIS = 2; // TODO
+    public static final int L_TRIGER = 2; // TODO
+    public static final int R_TRIGER = 3; // TODO
 
     // POV
     public static final int POV_CENTER = -1;

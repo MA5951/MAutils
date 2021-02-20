@@ -6,14 +6,14 @@ package frc.robot.subsystems.Arm;
 
 /** Add your docs here. */
 public class ArmConstants {
-    public static final int ARM_MOVE = 0;
-    public static final int SEC_ARM_MOVE = 0; // if use TwoJointedArm
-
+    public static final int KARM_MOVE = 0;
+    public static final String KSUBSYSTEM_NAME = "Arm";
+    public static final int KSEC_ARM_MOVE = 0; // if use TwoJointedArm
+    public static final double KGEAR = 0; // TODO
     public static final double KP_ARM_MOVE = 0; // TODO
     public static final double KI_ARM_MOVE = 0; // TODO
     public static final double KD_ARM_MOVE = 0; // TODO
     public static final double KF_ARM_MOVE = 0; // TODO
-
     public static final double KP_SEC_ARM_MOVE = 0; // if use TwoJointedArm
     public static final double KI_SEC_ARM_MOVE = 0; // if use TwoJointedArm
     public static final double KD_SEC_ARM_MOVE = 0; // if use TwoJointedArm

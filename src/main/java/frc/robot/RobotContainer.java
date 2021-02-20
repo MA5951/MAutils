@@ -20,14 +20,6 @@ import frc.robot.commands.Chassis.PIDVisionFeeder;
 import frc.robot.subsystems.Autonomous.Autonomous;
 import frc.robot.utils.RobotConstants;
 
-/**
- * This class is where the bulk of the robot should be declared. Since
- * Command-based is a "declarative" paradigm, very little robot logic should
- * actually be handled in the {@link Robot} periodic methods (other than the
- * scheduler calls). Instead, the structure of the robot (including subsystems,
- * commands, and button mappings) should be declared here.
- */
-
 public class RobotContainer {
 
   public static XboxController OperatingJoystick = new XboxController(2);
@@ -62,17 +54,9 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    // Configure the button bindings
-
     configureButtonBindings();
   }
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by instantiating a {@link GenericHID} or one of its subclasses
-   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
-   * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
   private void configureButtonBindings() {
     triggerR.whileActiveOnce(new MAPath(0.1));
 
@@ -84,7 +68,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-
     if (Autonomous.m_chooser.getSelected() == "EnemyRoullete") {
       return new MAPath(0.1);
     } else if (Autonomous.m_chooser.getSelected() == "RoulletePath") {
@@ -106,7 +89,7 @@ class TriggerL extends Trigger {
 
   @Override
   public boolean get() {
-    return RobotContainer.OperatingJoystick.getRawAxis(RobotConstants.LTriger) > 0.5;
+    return RobotContainer.OperatingJoystick.getRawAxis(RobotConstants.L_TRIGER) > 0.5;
   }
 
 }
@@ -115,6 +98,6 @@ class TriggerR extends Trigger {
 
   @Override
   public boolean get() {
-    return RobotContainer.OperatingJoystick.getRawAxis(RobotConstants.RTriger) > 0.5;
+    return RobotContainer.OperatingJoystick.getRawAxis(RobotConstants.R_TRIGER) > 0.5;
   }
 }

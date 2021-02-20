@@ -71,19 +71,6 @@ public class MAPidController {
 
     }
 
-    public MAPidController(double KP, double KI, double KD, double tolorance, String name) {
-        this.KP = KP;
-        this.KI = KI;
-        this.KD = KD;
-        this.tolorance = tolorance;
-        low = -1;
-        high = 1;
-        KF = 0;
-        pidController = new PIDController(this.KP, this.KI, this.KD);
-        pidController.setTolerance(this.tolorance);
-
-    }
-
     /**
      * set the OutPutRange of the PIDController
      * 

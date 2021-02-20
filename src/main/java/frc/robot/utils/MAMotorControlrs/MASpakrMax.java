@@ -22,54 +22,6 @@ class MASpakrMax implements MAMotorControlInterface {
     private CANDigitalInput ForwardLimitSwitch;
     private CANDigitalInput ReversLimitSwitch;
 
-    public MASpakrMax(int ID, MotorType type) {
-        canSparkMax = new CANSparkMax(ID, type);
-        setCurrentLimit(60);
-    }
-
-    public MASpakrMax(int ID, boolean Inverted, MotorType type) {
-        canSparkMax = new CANSparkMax(ID, type);
-        setInverted(Inverted);
-        setCurrentLimit(60);
-    }
-
-    public MASpakrMax(int ID, boolean Inverted, double rampRate, boolean mod, MotorType type) {
-        canSparkMax = new CANSparkMax(ID, type);
-        setInverted(Inverted);
-        configRampRate(rampRate);
-        changeMood(mod);
-        setCurrentLimit(60);
-    }
-
-    public MASpakrMax(int ID, boolean Inverted, double rampRate, boolean mod, MASubsystem.ENCODER encoder,
-            MotorType type) {
-        canSparkMax = new CANSparkMax(ID, type);
-        setInverted(Inverted);
-        configRampRate(rampRate);
-        changeMood(mod);
-        setCurrentLimit(60);
-        if (encoder == MASubsystem.ENCODER.Encoder) {
-            setCanEncoder();
-        } else {
-            setCanAlternateEncoder();
-        }
-    }
-
-    public MASpakrMax(int ID, boolean Inverted, double rampRate, boolean mod, boolean hasForwardLimitSwitch,
-            boolean hasReverseLimitSwitch, MotorType type) {
-        canSparkMax = new CANSparkMax(ID, type);
-        setInverted(Inverted);
-        configRampRate(rampRate);
-        changeMood(mod);
-        setCurrentLimit(60);
-        if (hasForwardLimitSwitch)
-            ForwardLimitSwitch = canSparkMax.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
-
-        if (hasReverseLimitSwitch)
-            ReversLimitSwitch = canSparkMax.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
-
-    }
-
     public MASpakrMax(int ID, boolean Inverted, double rampRate, boolean mod, boolean hasForwardLimitSwitch,
             boolean hasReverseLimitSwitch, MASubsystem.ENCODER encoder, MotorType type) {
         canSparkMax = new CANSparkMax(ID, type);
@@ -85,21 +37,21 @@ class MASpakrMax implements MAMotorControlInterface {
 
         if (encoder == MASubsystem.ENCODER.Encoder) {
             setCanEncoder();
-        } else {
+        } else if (encoder == MASubsystem.ENCODER.Alternate_Encoder) {
             setCanAlternateEncoder();
         }
     }
 
     private void setCanEncoder() {
         canEncoder = canSparkMax.getEncoder();
-        canEncoder.setPositionConversionFactor(RobotConstants.tiksPerPulse);
-        canEncoder.setVelocityConversionFactor(RobotConstants.tiksPerPulse);
+        canEncoder.setPositionConversionFactor(RobotConstants.KTICKS_PER_PULSE);
+        canEncoder.setVelocityConversionFactor(RobotConstants.KTICKS_PER_PULSE);
     }
 
     private void setCanAlternateEncoder() {
-        canEncoder = canSparkMax.getAlternateEncoder(AlternateEncoderType.kQuadrature, RobotConstants.tiksPerPulse);
-        canEncoder.setPositionConversionFactor(RobotConstants.tiksPerPulse);
-        canEncoder.setVelocityConversionFactor(RobotConstants.tiksPerPulse);
+        canEncoder = canSparkMax.getAlternateEncoder(AlternateEncoderType.kQuadrature, RobotConstants.KTICKS_PER_PULSE);
+        canEncoder.setPositionConversionFactor(RobotConstants.KTICKS_PER_PULSE);
+        canEncoder.setVelocityConversionFactor(RobotConstants.KTICKS_PER_PULSE);
     }
 
     @Override

@@ -9,20 +9,10 @@ import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-
 /** Add your docs here. */
- class MAVictorSPX implements MAMotorControlInterface {
+class MAVictorSPX implements MAMotorControlInterface {
 
     private WPI_VictorSPX victorSPX;
-
-    public MAVictorSPX(int ID) {
-        victorSPX = new WPI_VictorSPX(ID);
-    }
-
-    public MAVictorSPX(int ID, boolean Inverted) {
-        victorSPX = new WPI_VictorSPX(ID);
-        setInverted(Inverted);
-    }
 
     public MAVictorSPX(int ID, boolean Inverted, double rampRate, boolean mod) {
         victorSPX = new WPI_VictorSPX(ID);

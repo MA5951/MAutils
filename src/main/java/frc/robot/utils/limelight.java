@@ -17,44 +17,46 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class limelight extends SubsystemBase {
-  public static final double DeltaY = 0; // TODO
-  private static final double LimelightAngle = 0; // TODO
-  public double x;
-  public double y;
-  public boolean v;
-  public double a;
-  public double s;
-  public double l;
-  public double Tshort;
-  public double Tlong;
-  public double Thor;
-  public double Tvert;
-  public double Pipe;
-  public double yaw;
-  public double distanceFromTargetLimelightX;
-  public double distanceFromTargetLimelightY;
-  public double pipe;
+  public static final double KDELTA_Y = 0; // TODO
+  private static final double KLIMELIGHT_ANGLE = 0; // TODO
+  public static double x;
+  public static double y;
+  public static boolean v;
+  public static double a;
+  public static double s;
+  public static double l;
+  public static double Tshort;
+  public static double Tlong;
+  public static double Thor;
+  public static double Tvert;
+  public static double Pipe;
+  public static double yaw;
+  public static double distanceFromTargetLimelightX;
+  public static double distanceFromTargetLimelightY;
+  public static double pipe;
 
-  public NetworkTable table;
-  private NetworkTableEntry tx;
-  private NetworkTableEntry ty;
-  private NetworkTableEntry threeDimension;
-  private NetworkTableEntry ta;
-  private NetworkTableEntry tv;
-  private NetworkTableEntry ts;
-  private NetworkTableEntry tl;
-  private NetworkTableEntry tlong;
-  private NetworkTableEntry tshort;
-  private NetworkTableEntry thor;
-  private NetworkTableEntry tvert;
-  private NetworkTableEntry getpipe;
-
-  private static limelight limelight;
+  private static NetworkTable table;
+  private static NetworkTableEntry tx;
+  private static NetworkTableEntry ty;
+  private static NetworkTableEntry threeDimension;
+  private static NetworkTableEntry ta;
+  private static NetworkTableEntry tv;
+  private static NetworkTableEntry ts;
+  private static NetworkTableEntry tl;
+  private static NetworkTableEntry tlong;
+  private static NetworkTableEntry tshort;
+  private static NetworkTableEntry thor;
+  private static NetworkTableEntry tvert;
+  private static NetworkTableEntry getpipe;
 
   /**
    * Creates a new Limlight.
    */
   private limelight() {
+
+  }
+
+  public static void setLimelightValue() {
     table = NetworkTableInstance.getDefault().getTable("limelight");
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
@@ -70,24 +72,24 @@ public class limelight extends SubsystemBase {
     threeDimension = table.getEntry("camtran");
   }
 
-  public double distance() {
-    double a = y + LimelightAngle;
-    return Math.tan(a) / DeltaY;
+  public static double distance() {
+    double a = y + KLIMELIGHT_ANGLE;
+    return Math.tan(a) / KDELTA_Y;
   }
 
-  public void ledMode(int ledMode) {
+  public static void ledMode(int ledMode) {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(ledMode);
   }
 
-  public void camMode(int camMode) {
+  public static void camMode(int camMode) {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(camMode);
   }
 
-  public void pipeline(int pipeline) {
+  public static void pipeline(int pipeline) {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(pipeline);
   }
 
-  public void stream(int stream) {
+  public static void stream(int stream) {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(stream);
   }
 
@@ -110,10 +112,4 @@ public class limelight extends SubsystemBase {
 
   }
 
-  public static limelight getinstance() {
-    if (limelight == null) {
-      limelight = new limelight();
-    }
-    return limelight;
-  }
 }

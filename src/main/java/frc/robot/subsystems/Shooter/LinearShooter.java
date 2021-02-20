@@ -13,21 +13,18 @@ import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 public class LinearShooter extends SubsystemBase implements MASubsystem {
   private MAMotorControler MotorA;
   private MAMotorControler MotorB;
-  private MAPidController pidControllerMotorA;
-  
-  
-
+  private MAPidController PIDSpeedController;
   private static LinearShooter LinearShooter;
-  private MAShuffleboard linearShooterShuffleboard = new MAShuffleboard(ShooterConstants.SubsystemName); // TODO
+  private MAShuffleboard LinearShooterShuffleboard = new MAShuffleboard(ShooterConstants.SubsystemName);
 
   private LinearShooter() {
     MotorA = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID1, true, 0, false, ENCODER.Encoder);
-    setMAMotorComtrolers(MotorA);
-    pidControllerMotorA = new MAPidController(ShooterConstants.MOTOR_A_KP, ShooterConstants.MOTOR_A_KI,
-        ShooterConstants.MOTOR_A_KD, 0, 10, -12, 12); // cahnge the
+    setMAMotorComtrolersList(MotorA);
+    PIDSpeedController = new MAPidController(ShooterConstants.MOTOR_A_KP, ShooterConstants.MOTOR_A_KI,
+        ShooterConstants.MOTOR_A_KD, 0, 10, -12, 12);
 
-    MotorB = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID2, true, 0, false, ENCODER.Encoder);
-    setMAMotorComtrolers(MotorB);
+    MotorB = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID2, false, 0, false, ENCODER.Encoder);
+    setMAMotorComtrolersList(MotorB);
 
   }
 
@@ -41,24 +38,32 @@ public class LinearShooter extends SubsystemBase implements MASubsystem {
    */
   @Override
   public Runnable setMotorPower(double power, int Indax) {
-    return () -> maMotorControlers.get(Indax).setvoltage(power);
+    return () -> maMotorControlers.get(Indax).setVoltage(power);
   }
 
-  public double getMotorARPM(int Indax) {
-    return maMotorControlers.get(Indax).getVelocity(); // now not retunr RPM
+  public double getMotorRPM(int Indax) {
+    return maMotorControlers.get(Indax).getVelocity();
   }
 
-  public double calculatePIDOutPutMotorA(double setPoint) {
-    return pidControllerMotorA.calculate(getMotorARPM(ShooterConstants.MOTOR_A), setPoint);
+  public double calculatePIDOutPut(double setPoint) {
+    return PIDSpeedController.calculate(getMotorRPM(ShooterConstants.MOTOR_A), setPoint);
   }
 
-  public boolean isAtSetPointMotorA(double waitTime) {
-    return pidControllerMotorA.atSetpoint(waitTime);
+  public boolean isPIDAtSetPoint(double waitTime) {
+    return PIDSpeedController.atSetpoint(waitTime);
+  }
+
+  public double getPIDPositionError() {
+    return PIDSpeedController.getPositionError();
+  }
+
+  public double getPIDSetPoint() {
+    return PIDSpeedController.getSetpoint();
   }
 
   public void setSetPointMotorA(double setPoint) {
-    pidControllerMotorA.setF(0); // TODO
-    pidControllerMotorA.setSetpoint(setPoint);
+    PIDSpeedController.setF(0); // TODO
+    PIDSpeedController.setSetpoint(setPoint);
   }
 
   public double DistanceToRPM(double distance) {
@@ -67,24 +72,25 @@ public class LinearShooter extends SubsystemBase implements MASubsystem {
   }
 
   private double getVxSpeed() {
-    double d = limelight.getinstance().distance();
-    double head = Math.tan(ShooterConstants.ShootAngle) * d - (RobotConstants.GravityAcceleration / 2) * Math.pow(d, 2);
+    double d = limelight.distance();
+    double head = Math.tan(ShooterConstants.ShootAngle) * d
+        - (RobotConstants.KGRAVITY_ACCELERATION / 2) * Math.pow(d, 2);
     return Math.sqrt((head / ShooterConstants.DeltaY));
   }
 
   private double getVySpeed() {
-    double d = limelight.getinstance().distance();
+    double d = limelight.distance();
     double vx = getVxSpeed();
-    return (((ShooterConstants.DeltaY * vx) / d) - ((RobotConstants.GravityAcceleration / 2) * d) / vx);
+    return (((ShooterConstants.DeltaY * vx) / d) - ((RobotConstants.KGRAVITY_ACCELERATION / 2) * d) / vx);
   }
 
   @Override
   public void PrintValues() {
-    linearShooterShuffleboard.addNum("MotorA RPM", getMotorARPM(ShooterConstants.MOTOR_A));
-    linearShooterShuffleboard.addNum("MotorA PIDSetPoint", pidControllerMotorA.getSetpoint());
-    linearShooterShuffleboard.addNum("MotorA PositionError", pidControllerMotorA.getPositionError());
-    linearShooterShuffleboard.addBoolean("MotorA AtSetPoint", isAtSetPointMotorA(0.1));
-    linearShooterShuffleboard.addNum("MotorB RPM", getMotorARPM(ShooterConstants.MOTOR_B));
+    LinearShooterShuffleboard.addNum("MotorA RPM", getMotorRPM(ShooterConstants.MOTOR_A));
+    LinearShooterShuffleboard.addNum("PIDSetPoint", getPIDSetPoint());
+    LinearShooterShuffleboard.addNum("PositionError", getPIDPositionError());
+    LinearShooterShuffleboard.addBoolean("AtSetPoint", isPIDAtSetPoint(0.1));
+    LinearShooterShuffleboard.addNum("MotorB RPM", getMotorRPM(ShooterConstants.MOTOR_B));
   }
 
   public static LinearShooter getinstance() {

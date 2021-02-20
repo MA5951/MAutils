@@ -6,6 +6,6 @@ package frc.robot.subsystems.SingleMotor;
 
 /** Add your docs here. */
 public class SingleMotorConstants {
-    public static final String SubsystemName = "SingleMotor";
+    public static final String KSUBSYSTEM_NAME = "SingleMotor";
     public static final int MOTOR = 0;
 }

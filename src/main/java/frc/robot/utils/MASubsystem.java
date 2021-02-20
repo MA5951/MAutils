@@ -29,14 +29,13 @@ public interface MASubsystem {
 
   public ArrayList<MAMotorControler> maMotorControlers = new ArrayList<MAMotorControler>();
 
-  default void setMAMotorComtrolers(MAMotorControler Motor) {
+  default void setMAMotorComtrolersList(MAMotorControler Motor) {
     maMotorControlers.add(Motor);
   }
 
-  default void addMAMotorComtrolers(MAMotorControler Master, IDMotor id) {
+  default void addFollowMotorToMaster(MAMotorControler Master, IDMotor id) {
     MAMotorControler Motor = new MAMotorControler(Master.getMotorControllType(), id);
     Motor.follow(Master);
-    maMotorControlers.add(Motor);
   }
 
   public Runnable setMotorPower(double power, int Indax);

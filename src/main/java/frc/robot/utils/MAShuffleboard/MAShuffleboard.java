@@ -17,175 +17,84 @@ public class MAShuffleboard {
   private ShuffleboardNetworkTableEntry PID;
 
   private Map<String, ShuffleboardNetworkTableEntry> NetworkTableMap = new HashMap<String, ShuffleboardNetworkTableEntry>();
-  private Map<String, Boolean> booleanMap = new HashMap<String, Boolean>();
   private static String currnetTab;
 
   public MAShuffleboard(String tab) {
     currnetTab = tab;
   }
 
-  public void addNum(String title, double value) {
+  public ShuffleboardNetworkTableEntry MAShugglebordPattern(ShuffleboardNetworkTableEntry valEntry, String title,
+      Object DV) {
     if (NetworkTableMap.get(title) == null) {
-      booleanMap.put(title, true);
+      valEntry = new ShuffleboardNetworkTableEntry(title, DV, currnetTab);
+      NetworkTableMap.put(title, valEntry);
     }
+    return NetworkTableMap.get(title);
+  }
 
-    if (booleanMap.get(title)) {
-      NumValue = new ShuffleboardNetworkTableEntry(title, 0, currnetTab);
-      NetworkTableMap.put(title, NumValue);
-      booleanMap.put(title, false);
-    } else {
-      NetworkTableMap.get(title).setValue(value);
+  public ShuffleboardNetworkTableEntry MAShugglebordPattern(ShuffleboardNetworkTableEntry valEntry, String title,
+      Object DV, WidgetType widgetType) {
+    if (NetworkTableMap.get(title) == null) {
+      valEntry = new ShuffleboardNetworkTableEntry(title, DV, currnetTab, widgetType);
+      NetworkTableMap.put(title, valEntry);
     }
+    return NetworkTableMap.get(title);
+  }
 
+  public void addNum(String title, double value) {
+    MAShugglebordPattern(NumValue, title, 0).setValue(value);
   }
 
   public void addString(String title, String value) {
-    if (NetworkTableMap.get(title) == null) {
-      booleanMap.put(title, true);
-    }
-    if (booleanMap.get(title)) {
-      StringValue = new ShuffleboardNetworkTableEntry(title, "", currnetTab);
-      NetworkTableMap.put(title, StringValue);
-      booleanMap.put(title, false);
-    } else {
-      NetworkTableMap.get(title).setValue(value);
-    }
+    MAShugglebordPattern(StringValue, title, "").setValue(value);
   }
 
   public void addBoolean(String title, Boolean value) {
-    if (NetworkTableMap.get(title) == null) {
-      booleanMap.put(title, true);
-    }
-    if (booleanMap.get(title)) {
-      BooleanValue = new ShuffleboardNetworkTableEntry(title, false, currnetTab);
-      NetworkTableMap.put(title, BooleanValue);
-      booleanMap.put(title, false);
-    } else {
-      NetworkTableMap.get(title).setValue(value);
-    }
+    MAShugglebordPattern(BooleanValue, title, false).setValue(value);
   }
 
   public void addNum(String title, double value, WidgetType widgetType) {
-    if (NetworkTableMap.get(title) == null) {
-      booleanMap.put(title, true);
-    }
-
-    if (booleanMap.get(title)) {
-      NumValue = new ShuffleboardNetworkTableEntry(title, 0, currnetTab, widgetType);
-      NetworkTableMap.put(title, NumValue);
-      booleanMap.put(title, false);
-    } else {
-      NetworkTableMap.get(title).setValue(value);
-    }
+    MAShugglebordPattern(NumValue, title, 0, widgetType).setValue(value);
 
   }
 
   public void addString(String title, String value, WidgetType widgetType) {
-    if (NetworkTableMap.get(title) == null) {
-      booleanMap.put(title, true);
-    }
-    if (booleanMap.get(title)) {
-      StringValue = new ShuffleboardNetworkTableEntry(title, "", currnetTab, widgetType);
-      NetworkTableMap.put(title, StringValue);
-      booleanMap.put(title, false);
-    } else {
-      NetworkTableMap.get(title).setValue(value);
-    }
+    MAShugglebordPattern(StringValue, title, "", widgetType).setValue(value);
   }
 
   public void addBoolean(String title, Boolean value, WidgetType widgetType) {
-    if (NetworkTableMap.get(title) == null) {
-      booleanMap.put(title, true);
-    }
-    if (booleanMap.get(title)) {
-      BooleanValue = new ShuffleboardNetworkTableEntry(title, false, currnetTab, widgetType);
-      NetworkTableMap.put(title, BooleanValue);
-      booleanMap.put(title, false);
-    } else {
-      NetworkTableMap.get(title).setValue(value);
-    }
+    MAShugglebordPattern(BooleanValue, title, false, widgetType).setValue(value);
   }
 
   public boolean getBolean(String title) {
-    if (NetworkTableMap.get(title) == null) {
-      booleanMap.put(title, true);
-    }
-    if (booleanMap.get(title)) {
-      BooleanValue = new ShuffleboardNetworkTableEntry(title, false, currnetTab);
-      NetworkTableMap.put(title, BooleanValue);
-      booleanMap.put(title, false);
-    }
-    return BooleanValue.getBooleanValue(false);
+
+    return MAShugglebordPattern(BooleanValue, title, false).getBooleanValue(false);
   }
 
   public String getString(String title) {
-    if (NetworkTableMap.get(title) == null) {
-      booleanMap.put(title, true);
-    }
-    if (booleanMap.get(title)) {
-      StringValue = new ShuffleboardNetworkTableEntry(title, false, currnetTab);
-      NetworkTableMap.put(title, StringValue);
-      booleanMap.put(title, false);
-    }
-    return StringValue.getStringValue("");
+    return MAShugglebordPattern(StringValue, title, "").getStringValue("");
   }
 
   public double getNum(String title) {
-    if (NetworkTableMap.get(title) == null) {
-      booleanMap.put(title, true);
-    }
-    if (booleanMap.get(title)) {
-      NumValue = new ShuffleboardNetworkTableEntry(title, false, currnetTab);
-      NetworkTableMap.put(title, NumValue);
-      booleanMap.put(title, false);
-    }
-    return NumValue.getNumValue(0.0);
+    return MAShugglebordPattern(NumValue, title, 0).getNumValue(0);
   }
 
   public boolean getBolean(String title, WidgetType widgetType) {
-    if (NetworkTableMap.get(title) == null) {
-      booleanMap.put(title, true);
-    }
-    if (booleanMap.get(title)) {
-      BooleanValue = new ShuffleboardNetworkTableEntry(title, false, currnetTab, widgetType);
-      NetworkTableMap.put(title, BooleanValue);
-      booleanMap.put(title, false);
-    }
-    return BooleanValue.getBooleanValue(false);
+    return MAShugglebordPattern(BooleanValue, title, false, widgetType).getBooleanValue(false);
   }
 
   public String getString(String title, WidgetType widgetType) {
-    if (NetworkTableMap.get(title) == null) {
-      booleanMap.put(title, true);
-    }
-    if (booleanMap.get(title)) {
-      StringValue = new ShuffleboardNetworkTableEntry(title, "", currnetTab, widgetType);
-      NetworkTableMap.put(title, StringValue);
-      booleanMap.put(title, false);
-    }
-    return StringValue.getStringValue("");
+    return MAShugglebordPattern(StringValue, title, "", widgetType).getStringValue("");
   }
 
   public double getNum(String title, WidgetType widgetType) {
-    if (NetworkTableMap.get(title) == null) {
-      booleanMap.put(title, true);
-    }
-    if (booleanMap.get(title)) {
-      NumValue = new ShuffleboardNetworkTableEntry(title, 0.0, currnetTab, widgetType);
-      NetworkTableMap.put(title, NumValue);
-      booleanMap.put(title, false);
-    }
-    return NumValue.getNumValue(0.0);
+    return MAShugglebordPattern(NumValue, title, 0, widgetType).getNumValue(0);
   }
 
   public void PID(String title, MAPidController pid) {
     if (NetworkTableMap.get(title) == null) {
-      booleanMap.put(title, true);
-    }
-    if (booleanMap.get(title)) {
       PID = new ShuffleboardNetworkTableEntry(title, currnetTab);
       NetworkTableMap.put(title, PID);
-      booleanMap.put(title, false);
     }
     PID.SetPIDValuse(pid);
   }

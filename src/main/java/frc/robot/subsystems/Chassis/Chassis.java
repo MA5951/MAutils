@@ -20,7 +20,7 @@ import frc.robot.commands.Chassis.MAPath;
 public class Chassis extends SubsystemBase {
   private double angle;
   private double sign;
-  private double modle = sign;
+  private double modle;
 
   private MAMotorControler leftFrontMotor;
   private MAMotorControler leftMotor;
@@ -39,7 +39,7 @@ public class Chassis extends SubsystemBase {
   private MAShuffleboard Chassis;
 
   private Chassis() {
-    Chassis = new MAShuffleboard(ChassisConstants.SubsystemName);
+    Chassis = new MAShuffleboard(ChassisConstants.KSUBSYSTEM_NAME);
     leftFrontMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID1, true, 0, false,
         ENCODER.Encoder);
     leftMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID2, false, 0, false,
@@ -56,25 +56,25 @@ public class Chassis extends SubsystemBase {
     navx = new AHRS(Port.kMXP);
 
     // the distance PID Pathfinder
-    distancePidMApath = new MAPidController(ChassisConstants.KP_MApath_distance, ChassisConstants.KI_MApath_distance,
-        ChassisConstants.KD_MApath_distance, 0, 0, -12, 12);
+    distancePidMApath = new MAPidController(ChassisConstants.KP_MAPATH_DISTANCE, ChassisConstants.KI_MAPATH_DISTANCE,
+        ChassisConstants.KD_MAPATH_DISTANCE, 0, 0, -12, 12);
 
     // the angle PID pathfinder
-    anglePidMApath = new MAPidController(ChassisConstants.KP_MApath_angle, ChassisConstants.KI_MApath_angle,
-        ChassisConstants.KD_MApath_angle, 0, 0, -12, 12);
+    anglePidMApath = new MAPidController(ChassisConstants.KP_MAPATH_ANGLE, ChassisConstants.KI_MAPATH_ANGLE,
+        ChassisConstants.KD_MAPATH_ANGLE, 0, 0, -12, 12);
 
     // the angle PID vison
-    anglePIDVision = new MAPidController(ChassisConstants.KP_Vision_angle, ChassisConstants.KI_Vision_angle,
-        ChassisConstants.KD_Vision_angle, 0, 2, -1, 1);
+    anglePIDVision = new MAPidController(ChassisConstants.KP_VISION_ANGLE, ChassisConstants.KI_VISION_ANGLE,
+        ChassisConstants.KD_VISION_ANGLE, 0, 2, -1, 1);
 
-    anglePIDVision.enableContinuousInput(-ChassisConstants.anglePIDVisionSetInputRange,
-        ChassisConstants.anglePIDVisionSetInputRange);
+    anglePIDVision.enableContinuousInput(-ChassisConstants.KANGLE_PID_VISION_SET_INPUTRANGE,
+        ChassisConstants.KANGLE_PID_VISION_SET_INPUTRANGE);
 
-    anglePidMApath.enableContinuousInput(-ChassisConstants.anglePidMApathSetInputRange,
-        ChassisConstants.anglePidMApathSetInputRange);
+    anglePidMApath.enableContinuousInput(-ChassisConstants.KANGLE_PID_MAPATH_SET_INPUTRANGE,
+        ChassisConstants.KANGLE_PID_MAPATH_SET_INPUTRANGE);
 
-    distancePIDVision = new MAPidController(ChassisConstants.KP_Vision_distance, ChassisConstants.KI_Vision_distance,
-        ChassisConstants.KD_Vision_distance, 0, 2, -1, 1);
+    distancePIDVision = new MAPidController(ChassisConstants.KP_VISION_DISTANCE, ChassisConstants.KI_VISION_DISTANCE,
+        ChassisConstants.KD_VISION_DISTANCE, 0, 2, -1, 1);
   }
 
   public double lefttVelocityControlRPM() {
@@ -94,7 +94,7 @@ public class Chassis extends SubsystemBase {
 
   // the average of the encoders
   public double average() {
-    return ((rightMotor.getPosition() + leftMotor.getPosition()) / 2) / ChassisConstants.ticksPerMeter;
+    return ((rightMotor.getPosition() + leftMotor.getPosition()) / 2) / ChassisConstants.KTICKS_PER_METER;
   }
 
   public double fixedAngle() {
@@ -106,7 +106,6 @@ public class Chassis extends SubsystemBase {
     } else {
       return 0;
     }
-
   }
 
   public void setidilmodeBrake(boolean onOf) {
@@ -118,8 +117,8 @@ public class Chassis extends SubsystemBase {
 
   // set the left and the right motors powers
   public void tankDrive(double leftSpeed, double rightspped) {
-    rightFrontMotor.setvoltage(rightspped);
-    leftFrontMotor.setvoltage(leftSpeed);
+    rightFrontMotor.setVoltage(rightspped);
+    leftFrontMotor.setVoltage(leftSpeed);
   }
 
   // resat the value of the encoder and the navx
@@ -131,8 +130,7 @@ public class Chassis extends SubsystemBase {
 
   // pid vison distance
   public double visonDistance() {
-    return (-1.3276 * Math.pow(10, 6)
-        / (-2.43018 * Math.pow(limelight.getinstance().y, 2) + -101.265 * limelight.getinstance().y + -1854.19)); // TODO
+    return (-1.3276 * Math.pow(10, 6) / (-2.43018 * Math.pow(limelight.y, 2) + -101.265 * limelight.y + -1854.19)); // TODO
 
   }
 
@@ -142,11 +140,11 @@ public class Chassis extends SubsystemBase {
   }
 
   public double anglePIDVisionOutput(double setpoint) {
-    return anglePIDVision.calculate(limelight.getinstance().x * -1, setpoint);
+    return anglePIDVision.calculate(limelight.x * -1, setpoint);
   }
 
   public double distancePIDVisionOutput(double setpoint) {
-    return distancePIDVision.calculate(limelight.getinstance().Tshort, setpoint);
+    return distancePIDVision.calculate(limelight.Tshort, setpoint);
   }
 
   public void ArcadeDrive(double angle, double distacne) {
@@ -174,11 +172,11 @@ public class Chassis extends SubsystemBase {
     anglePidMApath.setSetpoint(anglesetpoint);
     distancePidMApath.setSetpoint(distancesetpoint);
 
-    distancePidMApath.setP(ChassisConstants.KP_MApath_distance * Speedlimitdistance);
-    distancePidMApath.setD(ChassisConstants.KD_MApath_distance * Speedlimitdistance);
+    distancePidMApath.setP(ChassisConstants.KP_MAPATH_DISTANCE * Speedlimitdistance);
+    distancePidMApath.setD(ChassisConstants.KD_MAPATH_DISTANCE * Speedlimitdistance);
 
-    anglePidMApath.setP(ChassisConstants.KP_MApath_angle * Speedlimitangle);
-    anglePidMApath.setD(ChassisConstants.KD_MApath_angle * Speedlimitangle);
+    anglePidMApath.setP(ChassisConstants.KP_MAPATH_ANGLE * Speedlimitangle);
+    anglePidMApath.setD(ChassisConstants.KD_MAPATH_ANGLE * Speedlimitangle);
   }
 
   public double angleEror() {
@@ -208,11 +206,11 @@ public class Chassis extends SubsystemBase {
   }
 
   public void leftcontrol(double power) {
-    leftFrontMotor.setvoltage(power);
+    leftFrontMotor.setVoltage(power);
   }
 
   public void rightcontrol(double power) {
-    rightFrontMotor.setvoltage(power);
+    rightFrontMotor.setVoltage(power);
   }
 
   public static Chassis getinstance() {
@@ -236,7 +234,7 @@ public class Chassis extends SubsystemBase {
   private double prev_v = 0;
 
   public double DeltaV() {
-    curentV = DeltaX() / RobotConstants.DeltaTime;
+    curentV = DeltaX() / RobotConstants.KDELTA_TIME;
     double delta = curentV - prev_v;
     prev_v = curentV;
     return delta;
@@ -244,7 +242,7 @@ public class Chassis extends SubsystemBase {
   }
 
   public double acceleration() {
-    return DeltaV() / RobotConstants.DeltaTime;
+    return DeltaV() / RobotConstants.KDELTA_TIME;
   }
 
   private double VInit = 0;
@@ -257,15 +255,15 @@ public class Chassis extends SubsystemBase {
       xInit = average();
     }
 
-    if (VInit >= ChassisConstants.Max_Speed) {
-      VInit = ChassisConstants.Max_Speed;
+    if (VInit >= ChassisConstants.KMAX_SPEED) {
+      VInit = ChassisConstants.KMAX_SPEED;
     } else {
-      VInit = (DeltaX() / RobotConstants.DeltaTime) * Time;
+      VInit = (DeltaX() / RobotConstants.KDELTA_TIME) * Time;
     }
     double Acceleration = 2 * ((Distance - xInit) - VInit) / (Time * Time);
-    if (Math.abs(Acceleration) >= ChassisConstants.Max_acceleration) {
-      return ChassisConstants.Max_acceleration * (Math.abs(Acceleration) / Acceleration);
-    } else if (DeltaX() / RobotConstants.DeltaTime >= ChassisConstants.Max_Speed) {
+    if (Math.abs(Acceleration) >= ChassisConstants.KMAX_ACCELERATION) {
+      return ChassisConstants.KMAX_ACCELERATION * (Math.abs(Acceleration) / Acceleration);
+    } else if (DeltaX() / RobotConstants.KDELTA_TIME >= ChassisConstants.KMAX_SPEED) {
       return 0;
     } else {
       return Acceleration;
@@ -279,7 +277,6 @@ public class Chassis extends SubsystemBase {
   }
 
   public void PrintValues() {
-    Chassis.getNum("rightPower", BuiltInWidgets.kNumberSlider);
     Chassis.addBoolean("isPIDVisionOnTargetAngle", isPIDVisionOnTargetAngle());
     Chassis.addNum("Stage", MAPath.stage);
     Chassis.addNum("fixedAngle", fixedAngle());
@@ -290,8 +287,8 @@ public class Chassis extends SubsystemBase {
     Chassis.addNum("LeftMotorOutPut", leftMotor.getOutput());
     Chassis.addNum("RightMotorOutPut", rightMotor.getOutput());
     Chassis.addNum("rightVelocityControlRPM", rightVelocityControlRPM());
-    Chassis.addString("title", "hi");
+    Chassis.addString("hi", "k");
     Chassis.PID("anglePidMApath", anglePidMApath);
-    Chassis.PID("leftvel", anglePIDVision);
+
   }
 }

@@ -29,28 +29,26 @@ class ShuffleboardNetworkTableEntry {
         setPoint = PID.add("SetPoint", 0).getEntry();
     }
 
-    public ShuffleboardNetworkTableEntry(String title, Number DV, String currnetTab) {
-        NumValue = Shuffleboard.getTab(currnetTab).add(title, DV).getEntry();
+    public ShuffleboardNetworkTableEntry(String title, Object DV, String currnetTab) {
+        if (DV instanceof Boolean) {
+            BooleanValue = Shuffleboard.getTab(currnetTab).add(title, DV).getEntry();
+        } else if (DV instanceof Number) {
+            NumValue = Shuffleboard.getTab(currnetTab).add(title, DV).getEntry();
+        } else if (DV instanceof String) {
+            StringValue = Shuffleboard.getTab(currnetTab).add(title, DV).getEntry();
+        }
+
     }
 
-    public ShuffleboardNetworkTableEntry(String title, String DV, String currnetTab) {
-        StringValue = Shuffleboard.getTab(currnetTab).add(title, DV).getEntry();
-    }
+    public ShuffleboardNetworkTableEntry(String title, Object DV, String currnetTab, WidgetType widgetType) {
+        if (DV instanceof Boolean) {
+            BooleanValue = Shuffleboard.getTab(currnetTab).add(title, DV).withWidget(widgetType).getEntry();
+        } else if (DV instanceof Number) {
+            NumValue = Shuffleboard.getTab(currnetTab).add(title, DV).withWidget(widgetType).getEntry();
+        } else if (DV instanceof String) {
+            StringValue = Shuffleboard.getTab(currnetTab).add(title, DV).withWidget(widgetType).getEntry();
+        }
 
-    public ShuffleboardNetworkTableEntry(String title, Boolean DV, String currnetTab) {
-        BooleanValue = Shuffleboard.getTab(currnetTab).add(title, DV).getEntry();
-    }
-
-    public ShuffleboardNetworkTableEntry(String title, Number DV, String currnetTab, WidgetType widgetType) {
-        NumValue = Shuffleboard.getTab(currnetTab).add(title, DV).withWidget(widgetType).getEntry();
-    }
-
-    public ShuffleboardNetworkTableEntry(String title, String DV, String currnetTab, WidgetType widgetType) {
-        StringValue = Shuffleboard.getTab(currnetTab).add(title, DV).withWidget(widgetType).getEntry();
-    }
-
-    public ShuffleboardNetworkTableEntry(String title, Boolean DV, String currnetTab, WidgetType widgetType) {
-        BooleanValue = Shuffleboard.getTab(currnetTab).add(title, DV).withWidget(widgetType).getEntry();
     }
 
     public void setValue(Number value) {

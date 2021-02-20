@@ -24,8 +24,8 @@ public class PIDVision extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    limelight.getinstance().camMode(0);
-    limelight.getinstance().pipeline(0);
+    limelight.camMode(0);
+    limelight.pipeline(0);
     chassis.rampRate(0);
 
   }
@@ -39,7 +39,7 @@ public class PIDVision extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    limelight.getinstance().camMode(1);
+    limelight.camMode(1);
     chassis.tankDrive(0, 0);
     chassis.reset();
     chassis.setidilmodeBrake(true);

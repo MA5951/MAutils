@@ -5,8 +5,7 @@
 package frc.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utils.MAPidController;
-import frc.robot.utils.MASubsystem;
+import frc.robot.utils.*;
 import frc.robot.utils.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
@@ -17,16 +16,16 @@ public class MotorIntake extends SubsystemBase implements MASubsystem {
   private MAPidController IntakeMovePID;
   private static MotorIntake m_Intake;
 
-  private MAShuffleboard motorIntakesShuffleboard = new MAShuffleboard(IntakeConstants.SubsystemName);
+  private MAShuffleboard motorIntakesShuffleboard = new MAShuffleboard(IntakeConstants.KSUBSYSTEM_NAME);
 
   private MotorIntake() {
 
     IntakeCollection = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID1);
-    setMAMotorComtrolers(IntakeCollection);
+    setMAMotorComtrolersList(IntakeCollection);
 
     // change the Limit
     IntakeMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID2, false, 0, false, true, true, ENCODER.Encoder);
-    setMAMotorComtrolers(IntakeMove);
+    setMAMotorComtrolersList(IntakeMove);
 
     // cahnge Tolorance
     IntakeMovePID = new MAPidController(IntakeConstants.KP_INTAKE_MOVE, IntakeConstants.KI_INTAKE_MOVE,
@@ -48,7 +47,7 @@ public class MotorIntake extends SubsystemBase implements MASubsystem {
     return () -> maMotorControlers.get(Indax).set(Power);
   }
 
-  public double getPosition() {
+  public double getEncoderPosition() {
     return maMotorControlers.get(IntakeConstants.INTAKE_MOVE).getPosition();
   }
 
@@ -66,11 +65,11 @@ public class MotorIntake extends SubsystemBase implements MASubsystem {
   }
 
   public double calculateIntakeMovePID(double setPoint) {
-    return IntakeMovePID.calculate(getPosition(), setPoint); // can be void and set diracle to the motor
+    return IntakeMovePID.calculate(getEncoderPosition(), setPoint);
   }
 
   public boolean isIntakeMovePIDAtTarget(double waitTime) {
-    return IntakeMovePID.atSetpoint(waitTime);// can be void and set diracle to the motor
+    return IntakeMovePID.atSetpoint(waitTime);
   }
 
   public double getSetpointIntakeMovePID() {
@@ -87,7 +86,7 @@ public class MotorIntake extends SubsystemBase implements MASubsystem {
 
   @Override
   public void PrintValues() {
-    motorIntakesShuffleboard.addNum("getPosition", getPosition());
+    motorIntakesShuffleboard.addNum("getPosition", getEncoderPosition());
     motorIntakesShuffleboard.addNum("getSetPoint", getSetpointIntakeMovePID());
     motorIntakesShuffleboard.addNum("getPositionError", getPositionErrorIntakeMovePID());
     motorIntakesShuffleboard.addNum("getStatorCurrentMovetMotor", getStatorCurrent(IntakeConstants.INTAKE_MOVE));

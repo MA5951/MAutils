@@ -1,6 +1,6 @@
 package frc.robot.utils.MAMotorControlrs;
 
- interface MAMotorControlInterface {
+interface MAMotorControlInterface {
 
     public void setvoltage(double Volteg);
 
@@ -16,8 +16,7 @@ package frc.robot.utils.MAMotorControlrs;
 
     public int getID();
 
-
-    default void setCurrentLimit(int limit){
+    default void setCurrentLimit(int limit) {
 
     }
 
@@ -38,11 +37,11 @@ package frc.robot.utils.MAMotorControlrs;
     }
 
     default boolean getForwardLimitSwitch() {
-        return true;
+        return false;
     }
 
     default boolean getReversLimitSwitch() {
-        return true;
+        return false;
     }
 
     default double getStatorCurrent() {

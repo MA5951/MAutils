@@ -15,15 +15,15 @@ public class Arm extends SubsystemBase implements MASubsystem {
   private MAMotorControler ArmMove;
   private MAPidController ArmMovePID;
   private static Arm m_Arm;
-  private MAShuffleboard ArmShuffleBoard = new MAShuffleboard(""); // TODO
+  private MAShuffleboard ArmShuffleBoard = new MAShuffleboard(ArmConstants.KSUBSYSTEM_NAME);
 
   private Arm() {
     ArmMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID2, false, 0, true, true, true, ENCODER.Encoder);
-    setMAMotorComtrolers(ArmMove);
-   
+    setMAMotorComtrolersList(ArmMove);
 
     // cahnge Tolorance
-    ArmMovePID = new MAPidController(ArmConstants.KP_ARM_MOVE, ArmConstants.KI_ARM_MOVE,ArmConstants.KD_ARM_MOVE, ArmConstants.KF_ARM_MOVE, 10, -12, 12);
+    ArmMovePID = new MAPidController(ArmConstants.KP_ARM_MOVE, ArmConstants.KI_ARM_MOVE, ArmConstants.KD_ARM_MOVE,
+        ArmConstants.KF_ARM_MOVE, 10, -12, 12);
     resetEncoder();
   }
 
@@ -38,31 +38,31 @@ public class Arm extends SubsystemBase implements MASubsystem {
    */
   @Override
   public Runnable setMotorPower(double Power, int Indax) {
-    return () -> maMotorControlers.get(Indax).setvoltage(Power);
+    return () -> maMotorControlers.get(Indax).setVoltage(Power);
   }
 
-  public double getPosition() {
-    return maMotorControlers.get(ArmConstants.ARM_MOVE).getPosition();
+  public double getEncoderPosition() {
+    return maMotorControlers.get(ArmConstants.KARM_MOVE).getPosition();
   }
 
   public boolean getLimitSwitchFValuse() {
-    return maMotorControlers.get(ArmConstants.ARM_MOVE).getForwardLimitSwitch(); // change the Limit
+    return maMotorControlers.get(ArmConstants.KARM_MOVE).getForwardLimitSwitch();
   }
 
   public boolean getLimitSwitchRValuse() {
-    return maMotorControlers.get(ArmConstants.ARM_MOVE).getReversLimitSwitch(); // change the Limit
+    return maMotorControlers.get(ArmConstants.KARM_MOVE).getReversLimitSwitch();
   }
 
   public void resetEncoder() {
-    maMotorControlers.get(ArmConstants.ARM_MOVE).resetEncoder();
+    maMotorControlers.get(ArmConstants.KARM_MOVE).resetEncoder();
   }
 
   public void overrideLimitSwitches(boolean overrid) {
-    maMotorControlers.get(ArmConstants.ARM_MOVE).overrideLimitSwitches(overrid);
+    maMotorControlers.get(ArmConstants.KARM_MOVE).overrideLimitSwitches(overrid);
   }
 
-  public double calculateIntakeMovePID(double setPoint) {
-    return ArmMovePID.calculate(getPosition(), setPoint); // can be void and set diracle to the motor
+  public double calculateArmMovePID(double setPoint) {
+    return ArmMovePID.calculate(getEncoderPosition(), setPoint); // can be void and set diracle to the motor
   }
 
   public boolean isArmMovePIDAtTarget(double waitTime) {
@@ -79,7 +79,7 @@ public class Arm extends SubsystemBase implements MASubsystem {
 
   @Override
   public void PrintValues() {
-    ArmShuffleBoard.addNum("getPosition", getPosition());
+    ArmShuffleBoard.addNum("getPosition", getEncoderPosition());
     ArmShuffleBoard.addNum("getSetPoint", getSetpointArmMovePID());
     ArmShuffleBoard.addNum("getPositionError", getPositionErrorArmMovePID());
     ArmShuffleBoard.addBoolean("atSetPoint", isArmMovePIDAtTarget(0.1));

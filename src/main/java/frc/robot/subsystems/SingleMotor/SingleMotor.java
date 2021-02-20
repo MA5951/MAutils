@@ -12,11 +12,11 @@ import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 public class SingleMotor extends SubsystemBase implements MASubsystem {
   private MAMotorControler Motor;
   private static SingleMotor singleMotor;
-  private MAShuffleboard singleMotorShuffleboard = new MAShuffleboard(""); // TODO
+  private MAShuffleboard singleMotorShuffleboard = new MAShuffleboard(SingleMotorConstants.KSUBSYSTEM_NAME);
 
   private SingleMotor() {
     Motor = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID1);
-    setMAMotorComtrolers(Motor);
+    setMAMotorComtrolersList(Motor);
   }
 
   @Override

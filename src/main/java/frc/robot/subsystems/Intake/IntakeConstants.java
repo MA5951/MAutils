@@ -11,5 +11,7 @@ public class IntakeConstants {
     public static final double KD_INTAKE_MOVE = 0; // TODO
     public static final int INTAKE_MOVE = 1;
     public static final int INTAKE_COLLECTION = 0;
-    public static final String SubsystemName = "Intake";
+    public static final String KSUBSYSTEM_NAME = "Intake";
+    public static final double KGEAR_INTAKE_COLLECTION = 0; // TODO
+    public static final double KGEAR_INTAKE_MOVE = 0; // TODO
 }
