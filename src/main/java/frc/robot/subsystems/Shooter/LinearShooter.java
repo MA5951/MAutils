@@ -5,7 +5,7 @@
 package frc.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utils.controlers.MAPidController;
+import frc.robot.utils.Controlers.MAPidController;
 import frc.robot.utils.Calculation.MACalculations;
 import frc.robot.utils.MASubsystem;
 import frc.robot.utils.RobotConstants;

@@ -5,7 +5,7 @@
 package frc.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utils.controlers.MAPidController;
+import frc.robot.utils.Controlers.MAPidController;
 import frc.robot.utils.MASubsystem;
 import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;

@@ -7,15 +7,16 @@ package frc.robot.subsystems.Chassis;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utils.controlers.MAPidController;
+import frc.robot.utils.Controlers.MAPidController;
 import frc.robot.utils.RobotConstants;
 import frc.robot.utils.limelight;
 import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.Calculation.MACalculations;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 import frc.robot.utils.MASubsystem.ENCODER;
 import frc.robot.utils.MASubsystem.IDMotor;
 import frc.robot.utils.MASubsystem.MOTOR_CONTROLL;
-import frc.robot.Path.Path;
+import frc.robot.utils.Autonomous.Path;
 import frc.robot.commands.Chassis.MAPath;
 
 public class Chassis extends SubsystemBase {
@@ -38,7 +39,6 @@ public class Chassis extends SubsystemBase {
   private MAPidController distancePIDVision;
   private static Chassis chassis;
   private MAShuffleboard Chassis;
-  
 
   private Chassis() {
     Chassis = new MAShuffleboard(ChassisConstants.KSUBSYSTEM_NAME);
@@ -59,11 +59,11 @@ public class Chassis extends SubsystemBase {
 
     // the distance PID Pathfinder
     distancePidMApath = new MAPidController(ChassisConstants.KP_MAPATH_DISTANCE, ChassisConstants.KI_MAPATH_DISTANCE,
-        ChassisConstants.KD_MAPATH_DISTANCE, 0, 0, -12, 12);
+        ChassisConstants.KD_MAPATH_DISTANCE, 0, 0, -1, 1);
 
     // the angle PID pathfinder
     anglePidMApath = new MAPidController(ChassisConstants.KP_MAPATH_ANGLE, ChassisConstants.KI_MAPATH_ANGLE,
-        ChassisConstants.KD_MAPATH_ANGLE, 0, 0, -12, 12);
+        ChassisConstants.KD_MAPATH_ANGLE, 0, 0, -1, 1);
 
     // the angle PID vison
     anglePIDVision = new MAPidController(ChassisConstants.KP_VISION_ANGLE, ChassisConstants.KI_VISION_ANGLE,
@@ -79,14 +79,6 @@ public class Chassis extends SubsystemBase {
         ChassisConstants.KD_VISION_DISTANCE, 0, 2, -1, 1);
   }
 
-  public double lefttVelocityControlRPM() {
-    return leftFrontMotor.getVelocity();
-  }
-
-  public double rightVelocityControlRPM() {
-    return rightFrontMotor.getVelocity();
-  }
-
   public void rampRate(double rampRate) {
     rightFrontMotor.configRampRate(rampRate);
     rightMotor.configRampRate(0);
@@ -97,6 +89,10 @@ public class Chassis extends SubsystemBase {
   // the average of the encoders
   public double average() {
     return ((rightMotor.getPosition() + leftMotor.getPosition()) / 2) / ChassisConstants.KTICKS_PER_METER;
+  }
+
+  public double averageRPM() {
+    return ((rightMotor.getVelocity() + leftMotor.getVelocity()) / 2);
   }
 
   public double fixedAngle() {
@@ -119,8 +115,8 @@ public class Chassis extends SubsystemBase {
 
   // set the left and the right motors powers
   public void tankDrive(double leftSpeed, double rightspped) {
-    rightFrontMotor.setVoltage(rightspped);
-    leftFrontMotor.setVoltage(leftSpeed);
+    rightFrontMotor.set(rightspped);
+    leftFrontMotor.set(leftSpeed);
   }
 
   // resat the value of the encoder and the navx
@@ -208,11 +204,11 @@ public class Chassis extends SubsystemBase {
   }
 
   public void leftcontrol(double power) {
-    leftFrontMotor.setVoltage(power);
+    leftFrontMotor.set(power);
   }
 
   public void rightcontrol(double power) {
-    rightFrontMotor.setVoltage(power);
+    rightFrontMotor.set(power);
   }
 
   public static Chassis getinstance() {
@@ -222,21 +218,11 @@ public class Chassis extends SubsystemBase {
     return chassis;
   }
 
-  private double curentX = 0;
-  private double prev_x = 0;
-
-  public double DeltaX() {
-    curentX = average();
-    double delta = curentX - prev_x;
-    prev_x = curentX;
-    return delta;
-  }
-
   private double curentV = 0;
   private double prev_v = 0;
 
   public double DeltaV() {
-    curentV = DeltaX() / RobotConstants.KDELTA_TIME;
+    curentV = MACalculations.FromRPMToLinearSpeed(averageRPM(), ChassisConstants.KGEAR) / RobotConstants.KDELTA_TIME;
     double delta = curentV - prev_v;
     prev_v = curentV;
     return delta;
@@ -260,12 +246,13 @@ public class Chassis extends SubsystemBase {
     if (VInit >= ChassisConstants.KMAX_SPEED) {
       VInit = ChassisConstants.KMAX_SPEED;
     } else {
-      VInit = (DeltaX() / RobotConstants.KDELTA_TIME) * Time;
+      VInit = MACalculations.FromRPMToLinearSpeed(averageRPM(), ChassisConstants.KGEAR) * Time;
     }
     double Acceleration = 2 * ((Distance - xInit) - VInit) / (Time * Time);
     if (Math.abs(Acceleration) >= ChassisConstants.KMAX_ACCELERATION) {
       return ChassisConstants.KMAX_ACCELERATION * (Math.abs(Acceleration) / Acceleration);
-    } else if (DeltaX() / RobotConstants.KDELTA_TIME >= ChassisConstants.KMAX_SPEED) {
+    } else if (MACalculations.FromRPMToLinearSpeed(averageRPM(),
+        ChassisConstants.KGEAR) >= ChassisConstants.KMAX_SPEED) {
       return 0;
     } else {
       return Acceleration;
@@ -283,13 +270,7 @@ public class Chassis extends SubsystemBase {
     Chassis.addNum("Stage", MAPath.stage);
     Chassis.addNum("fixedAngle", fixedAngle());
     Chassis.addNum("distacne", average());
-    Chassis.addNum("lefttVelocityControlRPM", lefttVelocityControlRPM());
     Chassis.addNum("angleSetPoint", anglePidMApath.getSetpoint());
     Chassis.addNum("distacenSetPoint", distancePidMApath.getSetpoint());
-    Chassis.addNum("LeftMotorOutPut", leftMotor.getOutput());
-    Chassis.addNum("RightMotorOutPut", rightMotor.getOutput());
-    Chassis.addNum("rightVelocityControlRPM", rightVelocityControlRPM());
-    Chassis.addString("hi", "k");
-    Chassis.addPID("anglePidMApath", anglePidMApath);
   }
 }

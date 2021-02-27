@@ -15,6 +15,7 @@ public class RobotConstants {
     public final static int KTICKS_PER_PULSE = 1;
     public final static double KDELTA_TIME = 0.02;
     public final static double KGRAVITY_ACCELERATION = 9.82;
+
     // Pneumatics
     public final static int P_ID0 = 0;
     public final static int P_ID1 = 1;

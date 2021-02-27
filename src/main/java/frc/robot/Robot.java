@@ -14,7 +14,8 @@ import frc.robot.commands.Chassis.MAPath;
 import frc.robot.commands.Chassis.TankDrive;
 import frc.robot.subsystems.Automation.Automation;
 import frc.robot.subsystems.Chassis.Chassis;
-import frc.robot.utils.Autonomous;
+import frc.robot.utils.Autonomous.Autonomous;
+import frc.robot.utils.MADriverStation;
 import frc.robot.utils.limelight;
 
 public class Robot extends TimedRobot {
@@ -29,6 +30,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
+    MADriverStation.getinstance();
     Autonomous.setAutonomousCommand();
     Chassis.getinstance();
     Automation.getinstance();
@@ -47,6 +49,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
     limelight.periodic();
+    MADriverStation.getinstance().periodic();
   }
 
   /**

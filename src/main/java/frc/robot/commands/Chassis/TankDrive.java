@@ -32,9 +32,9 @@ public class TankDrive extends CommandBase {
     if (RobotContainer.rightJoystick.getY() > 0.1 || RobotContainer.rightJoystick.getY() < -0.1) {
       if (RobotContainer.rightJoystick.getRawButton(1) || RobotContainer.leftJoystick.getRawButton(1)) {
 
-        chassis.rightcontrol(RobotContainer.rightJoystick.getY() * 0.3 * 12);
+        chassis.rightcontrol(RobotContainer.rightJoystick.getY() * 0.3);
       } else {
-        chassis.rightcontrol(RobotContainer.rightJoystick.getY() * 12);
+        chassis.rightcontrol(RobotContainer.rightJoystick.getY());
       }
     } else {
 
@@ -45,9 +45,9 @@ public class TankDrive extends CommandBase {
 
       if (RobotContainer.rightJoystick.getRawButton(1) || RobotContainer.leftJoystick.getRawButton(1)) {
 
-        chassis.leftcontrol(RobotContainer.leftJoystick.getY() * 0.3 * 12);
+        chassis.leftcontrol(RobotContainer.leftJoystick.getY() * 0.3);
       } else {
-        chassis.leftcontrol(RobotContainer.leftJoystick.getY() * 12);
+        chassis.leftcontrol(RobotContainer.leftJoystick.getY());
       }
     } else {
 

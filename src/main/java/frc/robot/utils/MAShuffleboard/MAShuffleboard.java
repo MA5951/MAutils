@@ -1,7 +1,7 @@
 
 package frc.robot.utils.MAShuffleboard;
 
-import frc.robot.utils.controlers.MAPidController;
+import frc.robot.utils.Controlers.MAPidController;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +20,7 @@ public class MAShuffleboard {
   private NetworkTableEntry StringValue;
   private NetworkTableEntry BooleanValue;
   private Map<String, NetworkTableEntry> NetworkTableNameMap = new HashMap<String, NetworkTableEntry>();
-  private static String currnetTab;
+  private String currnetTab;
 
   public MAShuffleboard(String tab) {
     currnetTab = tab;
