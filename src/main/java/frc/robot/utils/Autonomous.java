@@ -5,21 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems.Autonomous;
+package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.Chassis.MAPath;
 
-/**
- * This subsystem is used only for the automation commands
- */
-public class Autonomous extends SubsystemBase {
-  /**
-   * s Creates a new Autonomous.
-   */
+public class Autonomous {
 
-  private static Autonomous auto;
   public static final SendableChooser<String> m_chooser = new SendableChooser<>();
   public static String selected;
 
@@ -37,15 +31,20 @@ public class Autonomous extends SubsystemBase {
     selected = m_chooser.getSelected();
   }
 
-  public static Autonomous getInstance() {
-    if (auto == null) {
-      auto = new Autonomous();
+  public static Command getAutonomousCommand() {
+    if (m_chooser.getSelected() == "EnemyRoullete") {
+      return new MAPath(0.1);// TODO
+    } else if (m_chooser.getSelected() == "RoulletePath") {
+      return new MAPath(0.1);// TODO
+    } else if (m_chooser.getSelected() == "RoulletePath1") {
+      return new MAPath(0.1);// TODO
+    } else if (m_chooser.getSelected() == "shootanddrive") {
+      return new MAPath(0.1);// TODO
+    } else if (m_chooser.getSelected() == "standart1") {
+      return new MAPath(0.1); // TODO
+    } else {
+      return null;
     }
-    return auto;
   }
 
-  @Override
-  public void periodic() {
-
-  }
 }

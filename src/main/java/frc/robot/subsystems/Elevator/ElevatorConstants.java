@@ -17,4 +17,6 @@ public class ElevatorConstants {
             .FromLinearSpeedToRPM((RobotConstants.KGRAVITY_ACCELERATION / 2) * RobotConstants.KDELTA_TIME, KGEAR);
     public static final int ELEVATOR_MOVE = 0;
     public static final String KSUBSYSTEM_NAME = "Elevator";
+    public static final double KMAX_SPEED = 12.9603246; // TODO
+    public static final double KMAX_ACCELERATION = 7.05206988015; // TODO
 }

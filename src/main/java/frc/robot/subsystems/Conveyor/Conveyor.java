@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.MASubsystem;
 import frc.robot.utils.RobotConstants;
-import frc.robot.utils.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class Conveyor extends SubsystemBase implements MASubsystem {

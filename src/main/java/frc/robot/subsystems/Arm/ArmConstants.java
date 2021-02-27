@@ -14,6 +14,8 @@ public class ArmConstants {
     public static final double KI_ARM_MOVE = 0; // TODO
     public static final double KD_ARM_MOVE = 0; // TODO
     public static final double KF_ARM_MOVE = 0; // TODO
+    public static final double KMAX_SPEED = 12.9603246; //TODO
+    public static final double KMAX_ACCELERATION = 7.05206988015; //TODO
     public static final double KP_SEC_ARM_MOVE = 0; // if use TwoJointedArm
     public static final double KI_SEC_ARM_MOVE = 0; // if use TwoJointedArm
     public static final double KD_SEC_ARM_MOVE = 0; // if use TwoJointedArm

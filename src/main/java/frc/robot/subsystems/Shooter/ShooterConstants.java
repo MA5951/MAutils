@@ -15,4 +15,6 @@ public class ShooterConstants {
     public static final double ShootAngle = 0; //TODO
     public static final double DeltaY = 0; //TODO
     public static final double ShooterGear = 0; //TODO
+    public static final double KMAX_SPEED = 12.9603246; //TODO
+    public static final double KMAX_ACCELERATION = 7.05206988015; //TODO
 }

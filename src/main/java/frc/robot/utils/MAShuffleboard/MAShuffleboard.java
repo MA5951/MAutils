@@ -1,9 +1,14 @@
 
 package frc.robot.utils.MAShuffleboard;
 
-import frc.robot.utils.MAPidController;
+import frc.robot.utils.controlers.MAPidController;
 import java.util.HashMap;
 import java.util.Map;
+
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 
 /**
@@ -11,34 +16,32 @@ import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
  */
 
 public class MAShuffleboard {
-  private ShuffleboardNetworkTableEntry NumValue;
-  private ShuffleboardNetworkTableEntry StringValue;
-  private ShuffleboardNetworkTableEntry BooleanValue;
-  private ShuffleboardNetworkTableEntry PID;
-
-  private Map<String, ShuffleboardNetworkTableEntry> NetworkTableMap = new HashMap<String, ShuffleboardNetworkTableEntry>();
+  private NetworkTableEntry NumValue;
+  private NetworkTableEntry StringValue;
+  private NetworkTableEntry BooleanValue;
+  private Map<String, NetworkTableEntry> NetworkTableNameMap = new HashMap<String, NetworkTableEntry>();
   private static String currnetTab;
 
   public MAShuffleboard(String tab) {
     currnetTab = tab;
+
   }
 
-  public ShuffleboardNetworkTableEntry MAShugglebordPattern(ShuffleboardNetworkTableEntry valEntry, String title,
-      Object DV) {
-    if (NetworkTableMap.get(title) == null) {
-      valEntry = new ShuffleboardNetworkTableEntry(title, DV, currnetTab);
-      NetworkTableMap.put(title, valEntry);
+  public NetworkTableEntry MAShugglebordPattern(NetworkTableEntry valEntry, String title, Object DV) {
+    if (NetworkTableNameMap.get(title) == null) {
+      valEntry = Shuffleboard.getTab(currnetTab).add(title, DV).getEntry();
+      NetworkTableNameMap.put(title, valEntry);
     }
-    return NetworkTableMap.get(title);
+    return NetworkTableNameMap.get(title);
   }
 
-  public ShuffleboardNetworkTableEntry MAShugglebordPattern(ShuffleboardNetworkTableEntry valEntry, String title,
-      Object DV, WidgetType widgetType) {
-    if (NetworkTableMap.get(title) == null) {
-      valEntry = new ShuffleboardNetworkTableEntry(title, DV, currnetTab, widgetType);
-      NetworkTableMap.put(title, valEntry);
+  public NetworkTableEntry MAShugglebordPattern(NetworkTableEntry valEntry, String title, Object DV,
+      WidgetType widgetType) {
+    if (NetworkTableNameMap.get(title) == null) {
+      valEntry = Shuffleboard.getTab(currnetTab).add(title, DV).withWidget(widgetType).getEntry();
+      NetworkTableNameMap.put(title, valEntry);
     }
-    return NetworkTableMap.get(title);
+    return NetworkTableNameMap.get(title);
   }
 
   public void addNum(String title, double value) {
@@ -55,7 +58,6 @@ public class MAShuffleboard {
 
   public void addNum(String title, double value, WidgetType widgetType) {
     MAShugglebordPattern(NumValue, title, 0, widgetType).setValue(value);
-
   }
 
   public void addString(String title, String value, WidgetType widgetType) {
@@ -68,35 +70,45 @@ public class MAShuffleboard {
 
   public boolean getBolean(String title) {
 
-    return MAShugglebordPattern(BooleanValue, title, false).getBooleanValue(false);
+    return MAShugglebordPattern(BooleanValue, title, false).getBoolean(false);
   }
 
   public String getString(String title) {
-    return MAShugglebordPattern(StringValue, title, "").getStringValue("");
+    return MAShugglebordPattern(StringValue, title, "").getString("");
   }
 
   public double getNum(String title) {
-    return MAShugglebordPattern(NumValue, title, 0).getNumValue(0);
+    return (double) MAShugglebordPattern(NumValue, title, 0).getNumber(0);
   }
 
   public boolean getBolean(String title, WidgetType widgetType) {
-    return MAShugglebordPattern(BooleanValue, title, false, widgetType).getBooleanValue(false);
+    return MAShugglebordPattern(BooleanValue, title, false, widgetType).getBoolean(false);
   }
 
   public String getString(String title, WidgetType widgetType) {
-    return MAShugglebordPattern(StringValue, title, "", widgetType).getStringValue("");
+    return MAShugglebordPattern(StringValue, title, "", widgetType).getString("");
   }
 
   public double getNum(String title, WidgetType widgetType) {
-    return MAShugglebordPattern(NumValue, title, 0, widgetType).getNumValue(0);
+    return (double) MAShugglebordPattern(NumValue, title, 0, widgetType).getNumber(0);
   }
 
-  public void PID(String title, MAPidController pid) {
-    if (NetworkTableMap.get(title) == null) {
-      PID = new ShuffleboardNetworkTableEntry(title, currnetTab);
-      NetworkTableMap.put(title, PID);
+  public void addPID(String title, MAPidController pid) {
+    if (NetworkTableNameMap.get("setPoint") == null) {
+      ShuffleboardLayout PID = Shuffleboard.getTab(currnetTab).getLayout(title, BuiltInLayouts.kList);
+      NumValue = PID.add("KP", 0).getEntry();
+      NetworkTableNameMap.put("KP", NumValue);
+      NumValue = PID.add("KI", 0).getEntry();
+      NetworkTableNameMap.put("KI", NumValue);
+      NumValue = PID.add("KD", 0).getEntry();
+      NetworkTableNameMap.put("KD", NumValue);
+      NumValue = PID.add("setPoint", 0).getEntry();
+      NetworkTableNameMap.put("setPoint", NumValue);
     }
-    PID.SetPIDValuse(pid);
+    pid.setPID((double) NetworkTableNameMap.get("KP").getNumber(0), (double) NetworkTableNameMap.get("KI").getNumber(0),
+        (double) NetworkTableNameMap.get("KD").getNumber(0));
+
+    pid.setSetpoint((double) NetworkTableNameMap.get("setPoint").getNumber(0));
   }
 
 }

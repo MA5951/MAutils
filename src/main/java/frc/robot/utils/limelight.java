@@ -14,9 +14,8 @@ package frc.robot.utils;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class limelight extends SubsystemBase {
+public class limelight {
   public static final double KDELTA_Y = 0; // TODO
   private static final double KLIMELIGHT_ANGLE = 0; // TODO
   public static double x;
@@ -35,42 +34,19 @@ public class limelight extends SubsystemBase {
   public static double distanceFromTargetLimelightY;
   public static double pipe;
 
-  private static NetworkTable table;
-  private static NetworkTableEntry tx;
-  private static NetworkTableEntry ty;
-  private static NetworkTableEntry threeDimension;
-  private static NetworkTableEntry ta;
-  private static NetworkTableEntry tv;
-  private static NetworkTableEntry ts;
-  private static NetworkTableEntry tl;
-  private static NetworkTableEntry tlong;
-  private static NetworkTableEntry tshort;
-  private static NetworkTableEntry thor;
-  private static NetworkTableEntry tvert;
-  private static NetworkTableEntry getpipe;
-
-  /**
-   * Creates a new Limlight.
-   */
-  private limelight() {
-
-  }
-
-  public static void setLimelightValue() {
-    table = NetworkTableInstance.getDefault().getTable("limelight");
-    tx = table.getEntry("tx");
-    ty = table.getEntry("ty");
-    ta = table.getEntry("ta");
-    tv = table.getEntry("tv");
-    tl = table.getEntry("tl");
-    ts = table.getEntry("ts");
-    tshort = table.getEntry("tshort");
-    tlong = table.getEntry("tlong");
-    thor = table.getEntry("thor");
-    tvert = table.getEntry("tvert");
-    getpipe = table.getEntry("getpipe");
-    threeDimension = table.getEntry("camtran");
-  }
+  private static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");;
+  private static NetworkTableEntry tx = table.getEntry("tx");
+  private static NetworkTableEntry ty = table.getEntry("ty");
+  private static NetworkTableEntry threeDimension = table.getEntry("camtran");
+  private static NetworkTableEntry ta = table.getEntry("ta");
+  private static NetworkTableEntry tv = table.getEntry("tv");
+  private static NetworkTableEntry ts = table.getEntry("ts");
+  private static NetworkTableEntry tl = table.getEntry("tl");
+  private static NetworkTableEntry tlong = table.getEntry("tlong");
+  private static NetworkTableEntry tshort = table.getEntry("tshort");
+  private static NetworkTableEntry thor = table.getEntry("thor");
+  private static NetworkTableEntry tvert = table.getEntry("tvert");
+  private static NetworkTableEntry getpipe = table.getEntry("getpipe");
 
   public static double distance() {
     double a = y + KLIMELIGHT_ANGLE;
@@ -93,8 +69,7 @@ public class limelight extends SubsystemBase {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(stream);
   }
 
-  @Override
-  public void periodic() {
+  public static void periodic() {
     x = tx.getDouble(0.0);
     y = ty.getDouble(0.0);
     a = ta.getDouble(0.0);

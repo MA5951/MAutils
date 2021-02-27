@@ -9,7 +9,7 @@ package frc.robot.utils;
 
 import java.util.ArrayList;
 
-import frc.robot.utils.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 
 /**
  * Add your docs here.

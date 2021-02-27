@@ -1,4 +1,4 @@
-package frc.robot.utils.MAMotorControlrs;
+package frc.robot.utils.Actuators.MAMotorControlrs;
 
 interface MAMotorControlInterface {
 

@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.Chassis.MAPath;
 import frc.robot.commands.Chassis.TankDrive;
 import frc.robot.subsystems.Automation.Automation;
-import frc.robot.subsystems.Autonomous.Autonomous;
 import frc.robot.subsystems.Chassis.Chassis;
+import frc.robot.utils.Autonomous;
 import frc.robot.utils.limelight;
 
 public class Robot extends TimedRobot {
@@ -29,10 +29,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    limelight.setLimelightValue();
+    Autonomous.setAutonomousCommand();
     Chassis.getinstance();
     Automation.getinstance();
-    Autonomous.getInstance();
   }
 
   /**
@@ -47,6 +46,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    limelight.periodic();
   }
 
   /**
@@ -67,10 +67,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    Autonomous.setAutonomousCommand();
     MAPath.pathnum = 0;
     Chassis.getinstance().resetValue();
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = Autonomous.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -89,7 +88,6 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     Chassis.getinstance().rampRate(0);
     Chassis.getinstance().setidilmodeBrake(false);
-
     CommandScheduler.getInstance().setDefaultCommand(Chassis.getinstance(), tankDrive);
 
     if (m_autonomousCommand != null) {

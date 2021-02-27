@@ -6,7 +6,8 @@ package frc.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.*;
-import frc.robot.utils.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.Actuators.*;
+import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class PistonIntake extends SubsystemBase implements MASubsystem {

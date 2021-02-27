@@ -14,4 +14,6 @@ public class IntakeConstants {
     public static final String KSUBSYSTEM_NAME = "Intake";
     public static final double KGEAR_INTAKE_COLLECTION = 0; // TODO
     public static final double KGEAR_INTAKE_MOVE = 0; // TODO
+    public static final double KMAX_SPEED = 12.9603246; //TODO
+    public static final double KMAX_ACCELERATION = 7.05206988015; //TODO
 }

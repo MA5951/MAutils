@@ -4,15 +4,12 @@
 
 package frc.robot.utils.Calculation;
 
-
+import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.utils.RobotConstants;
 
 public class MACalculations {
-    private static double curentV = 0;
-    private static double prev_v = 0;
 
     public static double FromRPMToLinearSpeed(double RPM, double Gear) {
-       
         return (RPM * 10) * Gear;
     }
 
@@ -28,15 +25,9 @@ public class MACalculations {
         return ((Rate * 10) / TPR) / 60;
     }
 
-    private static double DeltaV(double RPM, double Gear) {
-        curentV = FromRPMToLinearSpeed(RPM, Gear) / RobotConstants.KDELTA_TIME;
-        double delta = curentV - prev_v;
-        prev_v = curentV;
-        return delta;
-
+    public static double RPMToVolteg(double RPM, double sprocketRadius, double gear, double mas) {
+        return MathUtil.clamp(
+                (FromRPMToLinearSpeed(RPM, gear) * mas) / RobotConstants.KDELTA_TIME * sprocketRadius * gear, 12, -12);
     }
 
-    public static double Acceleration(double RPM, double Gear) {
-        return DeltaV(RPM, Gear) / RobotConstants.KDELTA_TIME;
-    }
 }

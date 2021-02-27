@@ -6,7 +6,7 @@ package frc.robot.subsystems.SingleMotor;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.MASubsystem;
-import frc.robot.utils.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class SingleMotor extends SubsystemBase implements MASubsystem {
