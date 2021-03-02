@@ -4,16 +4,15 @@
 
 package frc.robot.subsystems.Shooter;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.Controlers.MAPidController;
 import frc.robot.utils.Calculation.MACalculations;
-import frc.robot.utils.MASubsystem;
+import frc.robot.utils.MASubsystem.MASubsystem;
 import frc.robot.utils.RobotConstants;
 import frc.robot.utils.limelight;
 import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
-public class LinearShooter extends SubsystemBase implements MASubsystem {
+public class LinearShooter extends MASubsystem {
   private MAMotorControler MotorA;
   private MAMotorControler MotorB;
   private MAPidController PIDSpeedController;
@@ -40,32 +39,38 @@ public class LinearShooter extends SubsystemBase implements MASubsystem {
    * voltage -12 to 12, MotorA = 0 , MotorB = 1
    */
   @Override
-  public Runnable setMotorPower(double power, int Indax) {
-    return () -> maMotorControlers.get(Indax).setVoltage(power);
+  public void setMotorPower(double power, int Indax) {
+    maMotorControlers.get(Indax).setVoltage(power);
   }
 
-  public double getMotorRPM(int Indax) {
-    return maMotorControlers.get(Indax).getVelocity();
+  @Override
+  public double getEncdoerRPM(int indax) {
+    return maMotorControlers.get(indax).getVelocity();
   }
 
-  public double calculatePIDOutPut(double setPoint) {
-    return PIDSpeedController.calculate(getMotorRPM(ShooterConstants.MOTOR_A), setPoint);
+  @Override
+  public double calculatePIDOutput(double setPoint) {
+    return PIDSpeedController.calculate(getEncdoerRPM(ShooterConstants.MOTOR_A), setPoint);
+
   }
 
-  public boolean isPIDAtSetPoint(double waitTime) {
+  @Override
+  public boolean isPIDAtTarget(double waitTime) {
     return PIDSpeedController.atSetpoint(waitTime);
   }
 
-  public double getPIDPositionError() {
+  @Override
+  public double getPositionError() {
     return PIDSpeedController.getPositionError();
   }
 
-  public double getPIDSetPoint() {
+  @Override
+  public double getSetpointPID() {
     return PIDSpeedController.getSetpoint();
   }
 
-  public void setSetPointMotorA(double setPoint) {
-    PIDSpeedController.setF(0); // TODO
+  @Override
+  public void setSetPoint(double setPoint) {
     PIDSpeedController.setSetpoint(setPoint);
   }
 
@@ -89,11 +94,11 @@ public class LinearShooter extends SubsystemBase implements MASubsystem {
 
   @Override
   public void PrintValues() {
-    LinearShooterShuffleboard.addNum("MotorA RPM", getMotorRPM(ShooterConstants.MOTOR_A));
-    LinearShooterShuffleboard.addNum("PIDSetPoint", getPIDSetPoint());
-    LinearShooterShuffleboard.addNum("PositionError", getPIDPositionError());
-    LinearShooterShuffleboard.addBoolean("AtSetPoint", isPIDAtSetPoint(0.1));
-    LinearShooterShuffleboard.addNum("MotorB RPM", getMotorRPM(ShooterConstants.MOTOR_B));
+    LinearShooterShuffleboard.addNum("MotorA RPM", getEncdoerRPM(ShooterConstants.MOTOR_A));
+    LinearShooterShuffleboard.addNum("PIDSetPoint", getSetpointPID());
+    LinearShooterShuffleboard.addNum("PositionError", getPositionError());
+    LinearShooterShuffleboard.addBoolean("AtSetPoint", isPIDAtTarget(0.1));
+    LinearShooterShuffleboard.addNum("MotorB RPM", getEncdoerRPM(ShooterConstants.MOTOR_B));
   }
 
   public static LinearShooter getinstance() {

@@ -4,13 +4,13 @@
 
 package frc.robot.subsystems.Intake;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.*;
 import frc.robot.utils.Actuators.*;
 import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
+import frc.robot.utils.MASubsystem.MASubsystem;
 
-public class PistonIntake extends SubsystemBase implements MASubsystem {
+public class PistonIntake extends MASubsystem {
 
   private MAMotorControler IntakeCollection;
   private MAPiston PistonA;
@@ -26,11 +26,14 @@ public class PistonIntake extends SubsystemBase implements MASubsystem {
 
   }
 
+  @Override
   public void setPiston(boolean on) {
     PistonA.set(on);
     PistonB.set(on);
+
   }
 
+  @Override
   public double getStatorCurrent() {
     return maMotorControlers.get(IntakeConstants.INTAKE_COLLECTION).getStatorCurrent();
   }
@@ -45,8 +48,8 @@ public class PistonIntake extends SubsystemBase implements MASubsystem {
    * indax 0 - IntakeCollection
    */
   @Override
-  public Runnable setMotorPower(double Power, int Indax) {
-    return () -> maMotorControlers.get(Indax).set(Power);
+  public void setMotorPower(double power, int Indax) {
+    maMotorControlers.get(Indax).set(power);
   }
 
   @Override

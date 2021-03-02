@@ -11,7 +11,9 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import frc.robot.utils.MASubsystem;
+
+import frc.robot.utils.MASubsystem.MASubsystem;
+import frc.robot.utils.MASubsystem.MASubsystemInterface;
 import frc.robot.utils.RobotConstants;
 
 /** Add your docs here. */

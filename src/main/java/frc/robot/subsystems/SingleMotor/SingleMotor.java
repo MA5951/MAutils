@@ -4,12 +4,11 @@
 
 package frc.robot.subsystems.SingleMotor;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utils.MASubsystem;
+import frc.robot.utils.MASubsystem.MASubsystem;
 import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
-public class SingleMotor extends SubsystemBase implements MASubsystem {
+public class SingleMotor extends MASubsystem {
   private MAMotorControler Motor;
   private static SingleMotor singleMotor;
   private MAShuffleboard singleMotorShuffleboard = new MAShuffleboard(SingleMotorConstants.KSUBSYSTEM_NAME);
@@ -28,8 +27,18 @@ public class SingleMotor extends SubsystemBase implements MASubsystem {
    * Motor - 0
    */
   @Override
-  public Runnable setMotorPower(double power, int Indax) {
-    return () -> maMotorControlers.get(Indax).set(power);
+  public void setMotorPower(double power, int Indax) {
+    maMotorControlers.get(Indax).set(power);
+  }
+
+  @Override
+  public double getStatorCurrent() {
+    return maMotorControlers.get(0).getStatorCurrent();
+  }
+
+  @Override
+  public double getOutput() {
+    return maMotorControlers.get(0).getOutput();
   }
 
   @Override

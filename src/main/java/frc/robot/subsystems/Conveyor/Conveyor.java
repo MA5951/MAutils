@@ -5,13 +5,12 @@
 package frc.robot.subsystems.Conveyor;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utils.MASubsystem;
+import frc.robot.utils.MASubsystem.MASubsystem;
 import frc.robot.utils.RobotConstants;
 import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
-public class Conveyor extends SubsystemBase implements MASubsystem {
+public class Conveyor extends MASubsystem {
   private MAMotorControler TransportationMotor;
   private MAMotorControler ConveyorMotor;
   private DigitalInput TransportationDigitalInput;
@@ -37,19 +36,22 @@ public class Conveyor extends SubsystemBase implements MASubsystem {
    * indax 0 - TransportationMotor indax 1 - ConveyorMotor
    */
   @Override
-  public Runnable setMotorPower(double power, int Indax) {
-    return () -> maMotorControlers.get(Indax).set(power);
+  public void setMotorPower(double power, int indax) {
+    maMotorControlers.get(indax).set(power);
   }
 
-  public double getStatorCurrent(int Motor) {
-    return maMotorControlers.get(Motor).getStatorCurrent();
+  @Override
+  public double getStatorCurrent(int indax) {
+    return maMotorControlers.get(indax).getStatorCurrent();
   }
 
-  public boolean getConveyorDigitalInputValue() {
+  @Override
+  public boolean getLimitSwitchFValuse() {
     return ConveyorDigitalInput.get();
   }
 
-  public boolean getTransportationDigitalInputValue() {
+  @Override
+  public boolean getLimitSwitchRValuse() {
     return TransportationDigitalInput.get();
   }
 
@@ -62,7 +64,7 @@ public class Conveyor extends SubsystemBase implements MASubsystem {
     ConveyorMAShuffleboard.addNum("StatorCurrentTransportationMotor",
         getStatorCurrent(ConveyorConstants.KTRANSPORTATION_MOTOR));
     ConveyorMAShuffleboard.addNum("StatorCurrentConveyorMotor", getStatorCurrent(ConveyorConstants.KCONVEYOR_MOTOR));
-    ConveyorMAShuffleboard.addBoolean("ConveyorDigitalInputValue", getConveyorDigitalInputValue());
-    ConveyorMAShuffleboard.addBoolean("TransportationDigitalInputValue", getTransportationDigitalInputValue());
+    ConveyorMAShuffleboard.addBoolean("ConveyorDigitalInputValue", getLimitSwitchFValuse());
+    ConveyorMAShuffleboard.addBoolean("TransportationDigitalInputValue", getLimitSwitchRValuse());
   }
 }

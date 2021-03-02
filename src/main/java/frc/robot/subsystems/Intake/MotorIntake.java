@@ -4,13 +4,12 @@
 
 package frc.robot.subsystems.Intake;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.Controlers.MAPidController;
-import frc.robot.utils.MASubsystem;
+import frc.robot.utils.MASubsystem.MASubsystem;
 import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
-public class MotorIntake extends SubsystemBase implements MASubsystem {
+public class MotorIntake extends MASubsystem {
 
   private MAMotorControler IntakeMove;
   private MAMotorControler IntakeCollection;
@@ -31,7 +30,7 @@ public class MotorIntake extends SubsystemBase implements MASubsystem {
     // cahnge Tolorance
     IntakeMovePID = new MAPidController(IntakeConstants.KP_INTAKE_MOVE, IntakeConstants.KI_INTAKE_MOVE,
         IntakeConstants.KD_INTAKE_MOVE, 0, 10, -1, 1);
-    resetEncoder();
+    resetSensor();
   }
 
   @Override
@@ -44,20 +43,22 @@ public class MotorIntake extends SubsystemBase implements MASubsystem {
    * indax 0 - IntakeCollection indax 1 - IntakeMove
    */
   @Override
-  public Runnable setMotorPower(double Power, int Indax) {
-    return () -> maMotorControlers.get(Indax).set(Power);
+  public void setMotorPower(double power, int Indax) {
+    maMotorControlers.get(Indax).set(power);
   }
 
+  @Override
   public double getEncoderPosition() {
     return maMotorControlers.get(IntakeConstants.INTAKE_MOVE).getPosition();
   }
 
-  public boolean getLimitSwitchValuse() {
-    return maMotorControlers.get(IntakeConstants.INTAKE_MOVE).getForwardLimitSwitch(); // change the Limit
-
+  @Override
+  public boolean getLimitSwitchFValuse() {
+    return maMotorControlers.get(IntakeConstants.INTAKE_MOVE).getForwardLimitSwitch();
   }
 
-  public void resetEncoder() {
+  @Override
+  public void resetSensor() {
     maMotorControlers.get(IntakeConstants.INTAKE_MOVE).resetEncoder();
   }
 
@@ -65,22 +66,27 @@ public class MotorIntake extends SubsystemBase implements MASubsystem {
     maMotorControlers.get(IntakeConstants.INTAKE_MOVE).overrideLimitSwitches(overrid);
   }
 
-  public double calculateIntakeMovePID(double setPoint) {
+  @Override
+  public double calculatePIDOutput(double setPoint) {
     return IntakeMovePID.calculate(getEncoderPosition(), setPoint);
   }
 
-  public boolean isIntakeMovePIDAtTarget(double waitTime) {
+  @Override
+  public boolean isPIDAtTarget(double waitTime) {
     return IntakeMovePID.atSetpoint(waitTime);
   }
 
-  public double getSetpointIntakeMovePID() {
+  @Override
+  public double getSetpointPID() {
     return IntakeMovePID.getSetpoint();
   }
 
-  public double getPositionErrorIntakeMovePID() {
+  @Override
+  public double getPositionError() {
     return IntakeMovePID.getPositionError();
   }
 
+  @Override
   public double getStatorCurrent(int indax) {
     return maMotorControlers.get(indax).getStatorCurrent();
   }
@@ -88,12 +94,12 @@ public class MotorIntake extends SubsystemBase implements MASubsystem {
   @Override
   public void PrintValues() {
     motorIntakesShuffleboard.addNum("getPosition", getEncoderPosition());
-    motorIntakesShuffleboard.addNum("getSetPoint", getSetpointIntakeMovePID());
-    motorIntakesShuffleboard.addNum("getPositionError", getPositionErrorIntakeMovePID());
+    motorIntakesShuffleboard.addNum("getSetPoint", getSetpointPID());
+    motorIntakesShuffleboard.addNum("getPositionError", getPositionError());
     motorIntakesShuffleboard.addNum("getStatorCurrentMovetMotor", getStatorCurrent(IntakeConstants.INTAKE_MOVE));
     motorIntakesShuffleboard.addNum("getStatorCurrentCollection", getStatorCurrent(IntakeConstants.INTAKE_COLLECTION));
-    motorIntakesShuffleboard.addBoolean("atSetPoint", isIntakeMovePIDAtTarget(0.1));
-    motorIntakesShuffleboard.addBoolean("LimitSwitchValuse", getLimitSwitchValuse());
+    motorIntakesShuffleboard.addBoolean("atSetPoint", isPIDAtTarget(0.1));
+    motorIntakesShuffleboard.addBoolean("LimitSwitchValuse", getLimitSwitchFValuse());
   }
 
   public static MotorIntake getinstance() {

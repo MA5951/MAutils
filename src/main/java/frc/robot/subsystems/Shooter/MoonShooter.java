@@ -4,16 +4,15 @@
 
 package frc.robot.subsystems.Shooter;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.Controlers.MAPidController;
 import frc.robot.utils.Calculation.MACalculations;
-import frc.robot.utils.MASubsystem;
+import frc.robot.utils.MASubsystem.MASubsystem;
 import frc.robot.utils.RobotConstants;
 import frc.robot.utils.limelight;
 import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
-public class MoonShooter extends SubsystemBase implements MASubsystem {
+public class MoonShooter extends MASubsystem {
   private MAMotorControler MotorA;
   private MAPidController PIDSpeedController;
   private static MoonShooter MoonShooter;
@@ -36,30 +35,37 @@ public class MoonShooter extends SubsystemBase implements MASubsystem {
    * voltage -12 to 12, MotorA = 0
    */
   @Override
-  public Runnable setMotorPower(double power, int Indax) {
-    return () -> maMotorControlers.get(Indax).setVoltage(power);
+  public void setMotorPower(double power, int Indax) {
+    maMotorControlers.get(Indax).setVoltage(power);
   }
 
-  public double getMotorRPM() {
+  @Override
+  public double getEncdoerRPM() {
+
     return maMotorControlers.get(ShooterConstants.MOTOR_A).getVelocity();
   }
 
-  public double calculatePIDOutPut(double setPoint) {
-    return PIDSpeedController.calculate(getMotorRPM(), setPoint);
+  @Override
+  public double calculatePIDOutput(double setPoint) {
+    return PIDSpeedController.calculate(getEncdoerRPM(), setPoint);
   }
 
-  public boolean isAtSetPoint(double waitTime) {
+  @Override
+  public boolean isPIDAtTarget(double waitTime) {
     return PIDSpeedController.atSetpoint(waitTime);
   }
 
+  @Override
   public double getPositionError() {
     return PIDSpeedController.getPositionError();
   }
 
-  public double getSetpoint() {
+  @Override
+  public double getSetpointPID() {
     return PIDSpeedController.getSetpoint();
   }
 
+  @Override
   public void setSetPoint(double setPoint) {
     PIDSpeedController.setF(0); // TODO
     PIDSpeedController.setSetpoint(setPoint);
@@ -85,10 +91,10 @@ public class MoonShooter extends SubsystemBase implements MASubsystem {
 
   @Override
   public void PrintValues() {
-    MoonShootersShuffleboard.addNum("RPM", getMotorRPM());
-    MoonShootersShuffleboard.addNum("PIDSetPoint", getSetpoint());
+    MoonShootersShuffleboard.addNum("RPM", getEncdoerRPM());
+    MoonShootersShuffleboard.addNum("PIDSetPoint", getSetpointPID());
     MoonShootersShuffleboard.addNum("PositionError", getPositionError());
-    MoonShootersShuffleboard.addBoolean("AtSetPoint", isAtSetPoint(0.1));
+    MoonShootersShuffleboard.addBoolean("AtSetPoint", isPIDAtTarget(0.1));
   }
 
   public static MoonShooter getinstance() {

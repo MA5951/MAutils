@@ -8,9 +8,7 @@
 package frc.robot.utils;
 
 public class RobotConstants {
-    public enum MOTORS {
-        CIM, PRO775, NEO, MINI_CIM, BAG, RS
-    }
+  
 
     public final static int KTICKS_PER_PULSE = 1;
     public final static double KDELTA_TIME = 0.02;

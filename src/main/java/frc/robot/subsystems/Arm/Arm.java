@@ -4,13 +4,12 @@
 
 package frc.robot.subsystems.Arm;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.Controlers.MAPidController;
-import frc.robot.utils.MASubsystem;
+import frc.robot.utils.MASubsystem.MASubsystem;
 import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
-public class Arm extends SubsystemBase implements MASubsystem {
+public class Arm extends MASubsystem {
 
   private MAMotorControler ArmMove;
   private MAPidController ArmMovePID;
@@ -24,7 +23,7 @@ public class Arm extends SubsystemBase implements MASubsystem {
     // cahnge Tolorance
     ArmMovePID = new MAPidController(ArmConstants.KP_ARM_MOVE, ArmConstants.KI_ARM_MOVE, ArmConstants.KD_ARM_MOVE,
         ArmConstants.KF_ARM_MOVE, 10, -12, 12);
-    resetEncoder();
+    resetSensor();
   }
 
   @Override
@@ -37,23 +36,27 @@ public class Arm extends SubsystemBase implements MASubsystem {
    * set voltage -12 to 12 indax 0 - ArmMove
    */
   @Override
-  public Runnable setMotorPower(double Power, int Indax) {
-    return () -> maMotorControlers.get(Indax).setVoltage(Power);
+  public void setMotorPower(double Power, int Indax) {
+    maMotorControlers.get(Indax).setVoltage(Power);
   }
 
+  @Override
   public double getEncoderPosition() {
     return maMotorControlers.get(ArmConstants.KARM_MOVE).getPosition();
   }
 
+  @Override
   public boolean getLimitSwitchFValuse() {
     return maMotorControlers.get(ArmConstants.KARM_MOVE).getForwardLimitSwitch();
   }
 
+  @Override
   public boolean getLimitSwitchRValuse() {
     return maMotorControlers.get(ArmConstants.KARM_MOVE).getReversLimitSwitch();
   }
 
-  public void resetEncoder() {
+  @Override
+  public void resetSensor() {
     maMotorControlers.get(ArmConstants.KARM_MOVE).resetEncoder();
   }
 
@@ -61,28 +64,32 @@ public class Arm extends SubsystemBase implements MASubsystem {
     maMotorControlers.get(ArmConstants.KARM_MOVE).overrideLimitSwitches(overrid);
   }
 
-  public double calculateArmMovePID(double setPoint) {
+  @Override
+  public double calculatePIDOutput(double setPoint) {
     return ArmMovePID.calculate(getEncoderPosition(), setPoint); // can be void and set diracle to the motor
   }
 
-  public boolean isArmMovePIDAtTarget(double waitTime) {
+  @Override
+  public boolean isPIDAtTarget(double waitTime) {
     return ArmMovePID.atSetpoint(waitTime);// can be void and set diracle to the motor
   }
 
-  public double getSetpointArmMovePID() {
+  @Override
+  public double getSetpointPID() {
     return ArmMovePID.getSetpoint();
   }
 
-  public double getPositionErrorArmMovePID() {
+  @Override
+  public double getPositionError() {
     return ArmMovePID.getPositionError();
   }
 
   @Override
   public void PrintValues() {
     ArmShuffleBoard.addNum("getPosition", getEncoderPosition());
-    ArmShuffleBoard.addNum("getSetPoint", getSetpointArmMovePID());
-    ArmShuffleBoard.addNum("getPositionError", getPositionErrorArmMovePID());
-    ArmShuffleBoard.addBoolean("atSetPoint", isArmMovePIDAtTarget(0.1));
+    ArmShuffleBoard.addNum("getSetPoint", getSetpointPID());
+    ArmShuffleBoard.addNum("getPositionError", getPositionError());
+    ArmShuffleBoard.addBoolean("atSetPoint", isPIDAtTarget(0.1));
     ArmShuffleBoard.addBoolean("getLimitSwitchRValuse", getLimitSwitchRValuse());
     ArmShuffleBoard.addBoolean("getLimitSwitchFValuse", getLimitSwitchFValuse());
   }

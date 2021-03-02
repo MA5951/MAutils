@@ -6,20 +6,17 @@ package frc.robot.subsystems.Chassis;
  */
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI.Port;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.Controlers.MAPidController;
 import frc.robot.utils.RobotConstants;
 import frc.robot.utils.limelight;
 import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.Calculation.MACalculations;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
-import frc.robot.utils.MASubsystem.ENCODER;
-import frc.robot.utils.MASubsystem.IDMotor;
-import frc.robot.utils.MASubsystem.MOTOR_CONTROLL;
+import frc.robot.utils.MASubsystem.MASubsystem;
 import frc.robot.utils.Autonomous.Path;
 import frc.robot.commands.Chassis.MAPath;
 
-public class Chassis extends SubsystemBase {
+public class Chassis extends MASubsystem {
   private double angle;
   private double sign;
   private double modle;
