@@ -13,7 +13,7 @@ public class MABasicMotorCommand extends CommandBase {
   private double power;
   private double voltage;
   private int indax;
-  private boolean mod = true;
+  private boolean mod =false;
 
   public MABasicMotorCommand(MASubsystem currentSubsystem, double power, int indax) {
     this.power = power;
@@ -38,7 +38,7 @@ public class MABasicMotorCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(mod){
+    if(!mod){
       this.currentSubsystem.setMotorPower(power, indax);
     }else{
       this.currentSubsystem.setMotorVoltage(voltage, indax);

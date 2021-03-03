@@ -16,8 +16,9 @@ public class Conveyor extends MASubsystem {
   private DigitalInput TransportationDigitalInput;
   private DigitalInput ConveyorDigitalInput;
   private MAShuffleboard ConveyorMAShuffleboard = new MAShuffleboard(ConveyorConstants.KSUBSYSTEM_NAME);
+  private static Conveyor mConveyor;
 
-  public Conveyor() {
+  private Conveyor() {
     TransportationMotor = new MAMotorControler(MOTOR_CONTROLL.VICTOR, IDMotor.ID13);
     setMAMotorComtrolersList(TransportationMotor);
     TransportationDigitalInput = new DigitalInput(RobotConstants.DIO_ID0);
@@ -58,6 +59,14 @@ public class Conveyor extends MASubsystem {
   public int Count() {
     return 0; // TODO
   }
+
+  public static Conveyor getinstance(){
+    if(mConveyor == null){
+      mConveyor = new Conveyor();
+    }
+      return mConveyor;
+    }
+  
 
   @Override
   public void PrintValues() {

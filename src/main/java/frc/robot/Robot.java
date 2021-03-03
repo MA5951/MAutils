@@ -20,7 +20,6 @@ import frc.robot.utils.limelight;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private RobotContainer m_robotContainer;
   private TankDrive tankDrive = new TankDrive();
 
   /**
@@ -29,7 +28,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_robotContainer = new RobotContainer();
     MADriverStation.getinstance();
     Autonomous.setAutonomousCommand();
     Chassis.getinstance();
@@ -66,7 +64,7 @@ public class Robot extends TimedRobot {
 
   /**
    * This autonomous runs the autonomous command selected by your
-   * {@link RobotContainer} class.
+   * {@link ButtonContainer} class.
    */
   @Override
   public void autonomousInit() {

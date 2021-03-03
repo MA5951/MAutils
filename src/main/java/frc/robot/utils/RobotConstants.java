@@ -8,11 +8,14 @@
 package frc.robot.utils;
 
 public class RobotConstants {
-  
 
     public final static int KTICKS_PER_PULSE = 1;
     public final static double KDELTA_TIME = 0.02;
     public final static double KGRAVITY_ACCELERATION = 9.82;
+
+    public final static int KLEFT_JOYSTICK_PORT = 0;
+    public final static int KRIGHT_JOYSTICK_PORT = 1;
+    public final static int KOPERATING_JOYSTICK_PORT = 2;
 
     // Pneumatics
     public final static int P_ID0 = 0;
