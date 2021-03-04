@@ -220,7 +220,8 @@ public class Chassis extends MASubsystem {
   private double prev_v = 0;
 
   public double DeltaV() {
-    curentV = MACalculations.FromRPMToLinearSpeed(averageRPM(), ChassisConstants.KGEAR) / RobotConstants.KDELTA_TIME;
+    curentV = MACalculations.FromRPMToLinearSpeed(averageRPM(), ChassisConstants.KCHASSIS_GEAR)
+        / RobotConstants.KDELTA_TIME;
     double delta = curentV - prev_v;
     prev_v = curentV;
     return delta;
@@ -244,13 +245,13 @@ public class Chassis extends MASubsystem {
     if (VInit >= ChassisConstants.KMAX_SPEED) {
       VInit = ChassisConstants.KMAX_SPEED;
     } else {
-      VInit = MACalculations.FromRPMToLinearSpeed(averageRPM(), ChassisConstants.KGEAR) * Time;
+      VInit = MACalculations.FromRPMToLinearSpeed(averageRPM(), ChassisConstants.KCHASSIS_GEAR) * Time;
     }
     double Acceleration = 2 * ((Distance - xInit) - VInit) / (Time * Time);
     if (Math.abs(Acceleration) >= ChassisConstants.KMAX_ACCELERATION) {
       return ChassisConstants.KMAX_ACCELERATION * (Math.abs(Acceleration) / Acceleration);
     } else if (MACalculations.FromRPMToLinearSpeed(averageRPM(),
-        ChassisConstants.KGEAR) >= ChassisConstants.KMAX_SPEED) {
+        ChassisConstants.KCHASSIS_GEAR) >= ChassisConstants.KMAX_SPEED) {
       return 0;
     } else {
       return Acceleration;

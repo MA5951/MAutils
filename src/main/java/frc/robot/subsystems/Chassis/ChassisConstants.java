@@ -26,12 +26,15 @@ public class ChassisConstants {
     public static final double KANGLE_PID_VISION_SET_INPUTRANGE = 44.5;
     public static final double KANGLE_PID_MAPATH_SET_INPUTRANGE = 180;
 
-    public static final double Neo_RPM = 5700; //TODO
     public static final double KRAMP_RATE_AUTO = 0.35;
 
-    public static final double KMAX_SPEED = 12.9603246; //TODO
-    public static final double KMAX_ACCELERATION = 7.05206988015; //TODO
+    public static final double KMAX_SPEED = 12.9603246; // TODO
+    public static final double KMAX_ACCELERATION = 7.05206988015; // TODO
 
     public static final double KTICKS_PER_METER = 22000;
-    public static final double KGEAR = 0; // TODO
+    public final static double KSPROCKET_RADIUS = 0;
+    public final static double KMOTOR_GEAR = 0;
+
+    public static final double KCHASSIS_GEAR = KSPROCKET_RADIUS * KMOTOR_GEAR; // TODO
+    public final static double KMOTOR_FORCE = KCHASSIS_GEAR;
 }

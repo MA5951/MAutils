@@ -8,7 +8,22 @@
 package frc.robot.utils;
 
 public class RobotConstants {
-    public final static double KC = 0; // TODO
+
+    public final static double KMAX_RPM_CIM = 0;
+    public final static double KMAX_RPM_RS = 0;
+    public final static double KMAX_RPM_BAG = 0;
+    public final static double KMAX_RPM_MINI_CIM = 0;
+    public final static double KMAX_RPM_NEO = 5700;
+    public final static double KMAX_RPM_775PRO = 0;
+
+    public final static double KSTALL_TORQUE_CIM = 0;
+    public final static double KSTALL_TORQUE_RS = 0;
+    public final static double KSTALL_TORQUE_BAG = 0;
+    public final static double KSTALL_TORQUE_MINI_CIM = 0;
+    public final static double KSTALL_TORQUE_NEO = 0;
+    public final static double KSTALL_TORQUE_775PRO = 0;
+
+    public final static double KELECTRON_CHARGE = -1.6e-19;
     public final static int KTICKS_PER_PULSE = 1;
     public final static double KDELTA_TIME = 0.02;
     public final static double KGRAVITY_ACCELERATION = 9.82;

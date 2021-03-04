@@ -27,7 +27,7 @@ public class MACalculations {
 
     public static double RPMToVolteg(double RPM, double sprocketRadius, double gear, double mas) {
         return MathUtil.clamp(
-                ((FromRPMToLinearSpeed(RPM, gear) * mas) / RobotConstants.KDELTA_TIME * sprocketRadius * gear/RobotConstants.KC), 12, -12);
+                ((FromRPMToLinearSpeed(RPM, gear) * mas) / RobotConstants.KDELTA_TIME * sprocketRadius * gear/RobotConstants.KELECTRON_CHARGE), 12, -12);
     }
 
 }

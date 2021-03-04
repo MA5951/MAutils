@@ -8,4 +8,9 @@ package frc.robot.subsystems.SingleMotor;
 public class SingleMotorConstants {
     public static final String KSUBSYSTEM_NAME = "SingleMotor";
     public static final int MOTOR = 0;
+
+    public final static double KSPROCKET_RADIUS = 0;
+    public final static double KMOTOR_GEAR = 0;
+    public static final double KSUB_GEAR = KSPROCKET_RADIUS * KMOTOR_GEAR; // TODO
+    public final static double KMOTOR_FORCE = KSUB_GEAR; //TODO
 }

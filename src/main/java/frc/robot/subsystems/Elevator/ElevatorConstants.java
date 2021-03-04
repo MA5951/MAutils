@@ -4,19 +4,21 @@
 
 package frc.robot.subsystems.Elevator;
 
-import frc.robot.utils.Calculation.MACalculations;
-import frc.robot.utils.RobotConstants;
-
 /** Add your docs here. */
 public class ElevatorConstants {
-    public static final double KGEAR = 0; // TODO
+
     public static final double KP_ELEVATOR_MOVE = 0; // TODO
     public static final double KI_ELEVATOR_MOVE = 0; // TODO
     public static final double KD_ELEVATOR_MOVE = 0; // TODO
-    public static final double KF_ELEVATOR_MOVE = MACalculations
-            .FromLinearSpeedToRPM((RobotConstants.KGRAVITY_ACCELERATION / 2) * RobotConstants.KDELTA_TIME, KGEAR);
+    public static final double KF_ELEVATOR_MOVE = 0;
+
     public static final int ELEVATOR_MOVE = 0;
     public static final String KSUBSYSTEM_NAME = "Elevator";
     public static final double KMAX_SPEED = 12.9603246; // TODO
     public static final double KMAX_ACCELERATION = 7.05206988015; // TODO
+
+    public final static double KSPROCKET_RADIUS = 0;
+    public final static double KMOTOR_GEAR = 0;
+    public static final double KELEVATOR_GEAR = KMOTOR_GEAR * KSPROCKET_RADIUS; // TODO
+    public final static double KMOTOR_FORCE = KELEVATOR_GEAR;
 }

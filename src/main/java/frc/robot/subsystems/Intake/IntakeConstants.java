@@ -9,11 +9,20 @@ public class IntakeConstants {
     public static final double KP_INTAKE_MOVE = 0; // TODO
     public static final double KI_INTAKE_MOVE = 0; // TODO
     public static final double KD_INTAKE_MOVE = 0; // TODO
+
     public static final int INTAKE_MOVE = 1;
     public static final int INTAKE_COLLECTION = 0;
     public static final String KSUBSYSTEM_NAME = "Intake";
-    public static final double KGEAR_INTAKE_COLLECTION = 0; // TODO
-    public static final double KGEAR_INTAKE_MOVE = 0; // TODO
-    public static final double KMAX_SPEED = 12.9603246; //TODO
-    public static final double KMAX_ACCELERATION = 7.05206988015; //TODO
+
+    public static final double KMAX_SPEED = 12.9603246; // TODO
+    public static final double KMAX_ACCELERATION = 7.05206988015; // TODO
+
+    public final static double KSPROCKET_RADIUS_MOVE = 0;// TODO
+    public final static double KMOTOR_GEAR_MOVE = 0;// TODO
+    public static final double KGEAR_INTAKE_MOVE = KSPROCKET_RADIUS_MOVE * KMOTOR_GEAR_MOVE;
+
+    public final static double KSPROCKET_RADIUS_COLLECTION = 0;// TODO
+    public final static double KMOTOR_GEAR_COLLECTION = 0;// TODO
+    public static final double KGEAR_INTAKE_COLLECTION = KSPROCKET_RADIUS_COLLECTION * KMOTOR_GEAR_COLLECTION;
+
 }

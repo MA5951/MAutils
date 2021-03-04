@@ -74,7 +74,7 @@ public class MoonShooter extends MASubsystem {
 
   public double distanceToRPM() {
     double LinearSpeed = Math.sqrt((Math.pow(getVxSpeed(), 2) + Math.pow(getVySpeed(), 2)));
-    return MACalculations.FromLinearSpeedToRPM(LinearSpeed, ShooterConstants.ShooterGear);
+    return MACalculations.FromLinearSpeedToRPM(LinearSpeed, ShooterConstants.KSHOOTER_GEAR);
   }
 
   private double getVxSpeed() {
