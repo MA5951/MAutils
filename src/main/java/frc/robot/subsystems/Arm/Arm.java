@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems.Arm;
 
-import frc.robot.utils.Controlers.MAPidController;
+import frc.robot.utils.controlers.MAPidController;
 import frc.robot.utils.MASubsystem.MASubsystem;
 import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;

@@ -1,7 +1,7 @@
 
 package frc.robot.utils.MAShuffleboard;
 
-import frc.robot.utils.Controlers.MAPidController;
+import frc.robot.utils.controlers.MAPidController;
 import java.util.HashMap;
 import java.util.Map;
 

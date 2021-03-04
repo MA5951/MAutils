@@ -8,7 +8,7 @@
 package frc.robot.utils;
 
 public class RobotConstants {
-
+    public final static double KC = 0; // TODO
     public final static int KTICKS_PER_PULSE = 1;
     public final static double KDELTA_TIME = 0.02;
     public final static double KGRAVITY_ACCELERATION = 9.82;

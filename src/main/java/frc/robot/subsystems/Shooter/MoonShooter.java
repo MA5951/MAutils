@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems.Shooter;
 
-import frc.robot.utils.Controlers.MAPidController;
+import frc.robot.utils.controlers.MAPidController;
 import frc.robot.utils.Calculation.MACalculations;
 import frc.robot.utils.MASubsystem.MASubsystem;
 import frc.robot.utils.RobotConstants;
