@@ -8,7 +8,7 @@
 package frc.robot.commands.Chassis;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.utils.ButtonContainer;
+import frc.robot.utils.JoystickContainer;
 import frc.robot.subsystems.Chassis.Chassis;
 
 public class TankDrive extends CommandBase {
@@ -29,25 +29,25 @@ public class TankDrive extends CommandBase {
   @Override
   public void execute() {
 
-    if (ButtonContainer.rightJoystick.getY() > 0.1 || ButtonContainer.rightJoystick.getY() < -0.1) {
-      if (ButtonContainer.rightJoystick.getRawButton(1) || ButtonContainer.leftJoystick.getRawButton(1)) {
+    if (JoystickContainer.rightJoystick.getY() > 0.1 || JoystickContainer.rightJoystick.getY() < -0.1) {
+      if (JoystickContainer.rightJoystick.getRawButton(1) || JoystickContainer.leftJoystick.getRawButton(1)) {
 
-        chassis.rightcontrol(ButtonContainer.rightJoystick.getY() * 0.3);
+        chassis.rightcontrol(JoystickContainer.rightJoystick.getY() * 0.3);
       } else {
-        chassis.rightcontrol(ButtonContainer.rightJoystick.getY());
+        chassis.rightcontrol(JoystickContainer.rightJoystick.getY());
       }
     } else {
 
       chassis.rightcontrol(0);
     }
 
-    if (ButtonContainer.leftJoystick.getY() > 0.1 || ButtonContainer.leftJoystick.getY() < -0.1) {
+    if (JoystickContainer.leftJoystick.getY() > 0.1 || JoystickContainer.leftJoystick.getY() < -0.1) {
 
-      if (ButtonContainer.rightJoystick.getRawButton(1) || ButtonContainer.leftJoystick.getRawButton(1)) {
+      if (JoystickContainer.rightJoystick.getRawButton(1) || JoystickContainer.leftJoystick.getRawButton(1)) {
 
-        chassis.leftcontrol(ButtonContainer.leftJoystick.getY() * 0.3);
+        chassis.leftcontrol(JoystickContainer.leftJoystick.getY() * 0.3);
       } else {
-        chassis.leftcontrol(ButtonContainer.leftJoystick.getY());
+        chassis.leftcontrol(JoystickContainer.leftJoystick.getY());
       }
     } else {
 

@@ -19,11 +19,12 @@ public class MoonShooter extends MASubsystem {
   private MAShuffleboard MoonShootersShuffleboard = new MAShuffleboard(ShooterConstants.SubsystemName);
 
   private MoonShooter() {
-    MotorA = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID1, true, 0, false, ENCODER.Encoder);
+    MotorA = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID12, true, 0, false, ENCODER.Encoder);
     setMAMotorComtrolersList(MotorA);
 
     PIDSpeedController = new MAPidController(ShooterConstants.MOTOR_A_KP, ShooterConstants.MOTOR_A_KI,
         ShooterConstants.MOTOR_A_KD, 0, 10, -12, 12);
+
   }
 
   @Override
@@ -91,10 +92,10 @@ public class MoonShooter extends MASubsystem {
 
   @Override
   public void PrintValues() {
-    MoonShootersShuffleboard.addNum("RPM", getEncdoerRPM());
-    MoonShootersShuffleboard.addNum("PIDSetPoint", getSetpointPID());
-    MoonShootersShuffleboard.addNum("PositionError", getPositionError());
-    MoonShootersShuffleboard.addBoolean("AtSetPoint", isPIDAtTarget(0.1));
+    MoonShootersShuffleboard.addNum("MoonShooterRPM", getEncdoerRPM());
+    MoonShootersShuffleboard.addNum("MoonShooterPIDSetPoint", getSetpointPID());
+    MoonShootersShuffleboard.addNum("MoonShooterPositionError", getPositionError());
+    MoonShootersShuffleboard.addBoolean("MoonShooterAtSetPoint", isPIDAtTarget(0.1));
   }
 
   public static MoonShooter getinstance() {

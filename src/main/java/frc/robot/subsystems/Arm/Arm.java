@@ -17,13 +17,13 @@ public class Arm extends MASubsystem {
   private MAShuffleboard ArmShuffleBoard = new MAShuffleboard(ArmConstants.KSUBSYSTEM_NAME);
 
   private Arm() {
-    ArmMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID2, false, 0, true, true, true, ENCODER.Encoder);
+    ArmMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID5, false, 0, true, true, true, ENCODER.Encoder);
     setMAMotorComtrolersList(ArmMove);
-
     // cahnge Tolorance
     ArmMovePID = new MAPidController(ArmConstants.KP_ARM_MOVE, ArmConstants.KI_ARM_MOVE, ArmConstants.KD_ARM_MOVE,
         ArmConstants.KF_ARM_MOVE, 10, -12, 12);
     resetSensor();
+   
   }
 
   @Override
@@ -86,12 +86,12 @@ public class Arm extends MASubsystem {
 
   @Override
   public void PrintValues() {
-    ArmShuffleBoard.addNum("getPosition", getEncoderPosition());
-    ArmShuffleBoard.addNum("getSetPoint", getSetpointPID());
-    ArmShuffleBoard.addNum("getPositionError", getPositionError());
-    ArmShuffleBoard.addBoolean("atSetPoint", isPIDAtTarget(0.1));
-    ArmShuffleBoard.addBoolean("getLimitSwitchRValuse", getLimitSwitchRValuse());
-    ArmShuffleBoard.addBoolean("getLimitSwitchFValuse", getLimitSwitchFValuse());
+    ArmShuffleBoard.addNum("ARMgetPosition", getEncoderPosition());
+    ArmShuffleBoard.addNum("ARMgetSetPoint", getSetpointPID());
+    ArmShuffleBoard.addNum("ARMgetPositionError", getPositionError());
+    ArmShuffleBoard.addBoolean("ARMatSetPoint", isPIDAtTarget(0.1));
+    ArmShuffleBoard.addBoolean("ARMgetLimitSwitchRValuse", getLimitSwitchRValuse());
+    ArmShuffleBoard.addBoolean("ARMgetLimitSwitchFValuse", getLimitSwitchFValuse());
   }
 
   public static Arm getinstance() {

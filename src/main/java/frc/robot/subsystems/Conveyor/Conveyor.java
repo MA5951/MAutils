@@ -26,6 +26,7 @@ public class Conveyor extends MASubsystem {
     ConveyorMotor = new MAMotorControler(MOTOR_CONTROLL.VICTOR, IDMotor.ID14);
     setMAMotorComtrolersList(ConveyorMotor);
     ConveyorDigitalInput = new DigitalInput(RobotConstants.DIO_ID1);
+  
   }
 
   @Override

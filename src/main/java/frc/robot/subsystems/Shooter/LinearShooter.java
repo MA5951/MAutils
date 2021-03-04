@@ -20,12 +20,12 @@ public class LinearShooter extends MASubsystem {
   private MAShuffleboard LinearShooterShuffleboard = new MAShuffleboard(ShooterConstants.SubsystemName);
 
   private LinearShooter() {
-    MotorA = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID1, true, 0, false, ENCODER.Encoder);
+    MotorA = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID10, true, 0, false, ENCODER.Encoder);
     setMAMotorComtrolersList(MotorA);
     PIDSpeedController = new MAPidController(ShooterConstants.MOTOR_A_KP, ShooterConstants.MOTOR_A_KI,
         ShooterConstants.MOTOR_A_KD, 0, 10, -12, 12);
 
-    MotorB = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID2, false, 0, false, ENCODER.Encoder);
+    MotorB = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID11, false, 0, false, ENCODER.Encoder);
     setMAMotorComtrolersList(MotorB);
 
   }
@@ -95,9 +95,9 @@ public class LinearShooter extends MASubsystem {
   @Override
   public void PrintValues() {
     LinearShooterShuffleboard.addNum("MotorA RPM", getEncdoerRPM(ShooterConstants.MOTOR_A));
-    LinearShooterShuffleboard.addNum("PIDSetPoint", getSetpointPID());
-    LinearShooterShuffleboard.addNum("PositionError", getPositionError());
-    LinearShooterShuffleboard.addBoolean("AtSetPoint", isPIDAtTarget(0.1));
+    LinearShooterShuffleboard.addNum("LinearShooterPIDSetPoint", getSetpointPID());
+    LinearShooterShuffleboard.addNum("LinearShooterPositionError", getPositionError());
+    LinearShooterShuffleboard.addBoolean("LinearShooterAtSetPoint", isPIDAtTarget(0.1));
     LinearShooterShuffleboard.addNum("MotorB RPM", getEncdoerRPM(ShooterConstants.MOTOR_B));
   }
 

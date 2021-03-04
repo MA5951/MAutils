@@ -1,0 +1,21 @@
+new InstantCommand(intake.solenoidFunction(true), intake));
+
+new StartEndCommand(intake::ShuffleboardTest, intake.motorFunction(0), intake);
+
+MARunCommand(transportation::control, transportation.motorFunction(0), transportation);
+
+new FunctionalCommand(startm_robotDrive::resetEncoders, () -> m_robotDrive.arcadeDrive(kAutoDriveSpeed, 0),interrupted -> m_robotDrive.arcadeDrive(0, 0),() -> m_robotDrive.getAverageEncoderDistance() >= kAutoDriveDistanceInches, m_robotDrive);
+
+new WaitCommand(5);
+
+new WaitUntilCommand(m_limitSwitch::get);
+
+button.whenPressed(command.andThen(() -> System.out.println("hello")));
+
+button.whenPressed(command.withInterrupt(m_limitSwitch::get));
+
+button.whenPressed(command.withTimeout(5));
+
+button.whenPressed(fooCommand.alongWith(barCommand, bazCommand));
+
+https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html 

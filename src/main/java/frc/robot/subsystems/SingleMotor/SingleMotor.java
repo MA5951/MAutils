@@ -14,8 +14,9 @@ public class SingleMotor extends MASubsystem {
   private MAShuffleboard singleMotorShuffleboard = new MAShuffleboard(SingleMotorConstants.KSUBSYSTEM_NAME);
 
   private SingleMotor() {
-    Motor = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID1);
+    Motor = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID15);
     setMAMotorComtrolersList(Motor);
+   
   }
 
   @Override
@@ -43,8 +44,8 @@ public class SingleMotor extends MASubsystem {
 
   @Override
   public void PrintValues() {
-    singleMotorShuffleboard.addNum("MotorOutPut", maMotorControlers.get(0).getStatorCurrent());
-    singleMotorShuffleboard.addNum("MotorOutPut", maMotorControlers.get(0).getOutput());
+    singleMotorShuffleboard.addNum("SingleMotorgetStatorCurrent", maMotorControlers.get(0).getStatorCurrent());
+    singleMotorShuffleboard.addNum("SingalMotorgetOutput", maMotorControlers.get(0).getOutput());
   }
 
   public static SingleMotor getinstance() {

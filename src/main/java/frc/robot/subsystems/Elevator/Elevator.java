@@ -17,13 +17,14 @@ public class Elevator extends MASubsystem {
   private MAShuffleboard ElevatoShuffleboard = new MAShuffleboard(ElevatorConstants.KSUBSYSTEM_NAME);
 
   private Elevator() {
-    ElevatorMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID2, false, 0, true, true, true, ENCODER.Encoder);
+    ElevatorMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID6, false, 0, true, true, true, ENCODER.Encoder);
     setMAMotorComtrolersList(ElevatorMove);
 
     // cahnge Tolorance
     ElevatorMovePID = new MAPidController(ElevatorConstants.KP_ELEVATOR_MOVE, ElevatorConstants.KI_ELEVATOR_MOVE,
         ElevatorConstants.KD_ELEVATOR_MOVE, ElevatorConstants.KF_ELEVATOR_MOVE, 10, -12, 12);
     resetSensor();
+
   }
 
   @Override
@@ -86,12 +87,12 @@ public class Elevator extends MASubsystem {
 
   @Override
   public void PrintValues() {
-    ElevatoShuffleboard.addNum("getPosition", getEncoderPosition());
-    ElevatoShuffleboard.addNum("getSetPoint", getSetpointPID());
-    ElevatoShuffleboard.addNum("getPositionError", getPositionError());
-    ElevatoShuffleboard.addBoolean("atSetPoint", isPIDAtTarget(0.1));
-    ElevatoShuffleboard.addBoolean("getLimitSwitchRValuse", getLimitSwitchRValuse());
-    ElevatoShuffleboard.addBoolean("getLimitSwitchFValuse", getLimitSwitchFValuse());
+    ElevatoShuffleboard.addNum("ElevatorGetPosition", getEncoderPosition());
+    ElevatoShuffleboard.addNum("ElevatorGetSetPoint", getSetpointPID());
+    ElevatoShuffleboard.addNum("ElevatorGetPositionError", getPositionError());
+    ElevatoShuffleboard.addBoolean("ElevatorAtSetPoint", isPIDAtTarget(0.1));
+    ElevatoShuffleboard.addBoolean("ElevatorGetLimitSwitchRValuse", getLimitSwitchRValuse());
+    ElevatoShuffleboard.addBoolean("ElevatorGetLimitSwitchFValuse", getLimitSwitchFValuse());
   }
 
   public static Elevator getinstance() {

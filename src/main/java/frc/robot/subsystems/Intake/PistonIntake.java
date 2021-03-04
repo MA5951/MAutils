@@ -19,10 +19,11 @@ public class PistonIntake extends MASubsystem {
   private MAShuffleboard PistonIntakesMaShuffleboard = new MAShuffleboard(IntakeConstants.KSUBSYSTEM_NAME); // TODO
 
   private PistonIntake() {
-    IntakeCollection = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID1);
+    IntakeCollection = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID9);
     setMAMotorComtrolersList(IntakeCollection);
     PistonA = new MAPiston(RobotConstants.P_ID0);
     PistonB = new MAPiston(RobotConstants.P_ID1);
+ 
 
   }
 
@@ -54,8 +55,8 @@ public class PistonIntake extends MASubsystem {
 
   @Override
   public void PrintValues() {
-    PistonIntakesMaShuffleboard.addNum("getStatorCurrent", getStatorCurrent());
-    PistonIntakesMaShuffleboard.addBoolean("OpenOrClose", PistonA.get());
+    PistonIntakesMaShuffleboard.addNum("PistonIntakeGetStatorCurrent", getStatorCurrent());
+    PistonIntakesMaShuffleboard.addBoolean("PistonIntakeOpenOrClose", PistonA.get());
   }
 
   public static PistonIntake getinstance() {

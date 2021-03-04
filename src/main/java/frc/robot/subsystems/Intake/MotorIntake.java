@@ -20,17 +20,18 @@ public class MotorIntake extends MASubsystem {
 
   private MotorIntake() {
 
-    IntakeCollection = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID1);
+    IntakeCollection = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID8);
     setMAMotorComtrolersList(IntakeCollection);
 
     // change the Limit
-    IntakeMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID2, false, 0, false, true, true, ENCODER.Encoder);
+    IntakeMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID7, false, 0, false, true, true, ENCODER.Encoder);
     setMAMotorComtrolersList(IntakeMove);
 
     // cahnge Tolorance
     IntakeMovePID = new MAPidController(IntakeConstants.KP_INTAKE_MOVE, IntakeConstants.KI_INTAKE_MOVE,
         IntakeConstants.KD_INTAKE_MOVE, 0, 10, -1, 1);
     resetSensor();
+
   }
 
   @Override
@@ -93,13 +94,13 @@ public class MotorIntake extends MASubsystem {
 
   @Override
   public void PrintValues() {
-    motorIntakesShuffleboard.addNum("getPosition", getEncoderPosition());
-    motorIntakesShuffleboard.addNum("getSetPoint", getSetpointPID());
-    motorIntakesShuffleboard.addNum("getPositionError", getPositionError());
-    motorIntakesShuffleboard.addNum("getStatorCurrentMovetMotor", getStatorCurrent(IntakeConstants.INTAKE_MOVE));
-    motorIntakesShuffleboard.addNum("getStatorCurrentCollection", getStatorCurrent(IntakeConstants.INTAKE_COLLECTION));
-    motorIntakesShuffleboard.addBoolean("atSetPoint", isPIDAtTarget(0.1));
-    motorIntakesShuffleboard.addBoolean("LimitSwitchValuse", getLimitSwitchFValuse());
+    motorIntakesShuffleboard.addNum("MotorIntakeGetPosition", getEncoderPosition());
+    motorIntakesShuffleboard.addNum("MotorIntakeGetSetPoint", getSetpointPID());
+    motorIntakesShuffleboard.addNum("MotorIntakeGetPositionError", getPositionError());
+    motorIntakesShuffleboard.addNum("MotorIntakeGetStatorCurrentMovetMotor", getStatorCurrent(IntakeConstants.INTAKE_MOVE));
+    motorIntakesShuffleboard.addNum("MotorIntakeGetStatorCurrentCollection", getStatorCurrent(IntakeConstants.INTAKE_COLLECTION));
+    motorIntakesShuffleboard.addBoolean("MotorIntakeAtSetPoint", isPIDAtTarget(0.1));
+    motorIntakesShuffleboard.addBoolean("MotorIntakeLimitSwitchValuse", getLimitSwitchFValuse());
   }
 
   public static MotorIntake getinstance() {

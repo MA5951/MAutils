@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-public class ButtonContainer {
+public class JoystickContainer {
 
   public static XboxController OperatingJoystick = new XboxController(RobotConstants.KOPERATING_JOYSTICK_PORT);
   public static Joystick leftJoystick = new Joystick(RobotConstants.KLEFT_JOYSTICK_PORT);
@@ -49,7 +49,7 @@ class TriggerL extends Trigger {
 
   @Override
   public boolean get() {
-    return ButtonContainer.OperatingJoystick.getRawAxis(RobotConstants.L_TRIGER) > 0.5;
+    return JoystickContainer.OperatingJoystick.getRawAxis(RobotConstants.L_TRIGER) > 0.5;
   }
 
 }
@@ -58,6 +58,6 @@ class TriggerR extends Trigger {
 
   @Override
   public boolean get() {
-    return ButtonContainer.OperatingJoystick.getRawAxis(RobotConstants.R_TRIGER) > 0.5;
+    return JoystickContainer.OperatingJoystick.getRawAxis(RobotConstants.R_TRIGER) > 0.5;
   }
 }
