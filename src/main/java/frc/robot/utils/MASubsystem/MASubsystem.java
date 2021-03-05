@@ -184,4 +184,10 @@ public class MASubsystem extends SubsystemBase implements MASubsystemInterface {
     // TODO Auto-generated method stub
     return 0;
   }
+
+  @Override
+  public boolean getPistonValue() {
+    // TODO Auto-generated method stub
+    return false;
+  }
 }

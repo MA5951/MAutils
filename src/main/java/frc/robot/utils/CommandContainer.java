@@ -4,31 +4,53 @@
 
 package frc.robot.utils;
 
-import frc.robot.subsystems.Arm.Arm;
 import frc.robot.subsystems.Chassis.Chassis;
 import frc.robot.subsystems.Conveyor.Conveyor;
 import frc.robot.subsystems.Elevator.Elevator;
-import frc.robot.subsystems.Intake.MotorIntake;
+import frc.robot.subsystems.Elevator.ElevatorConstants;
+import frc.robot.subsystems.Intake.IntakeConstants;
 import frc.robot.subsystems.Intake.PistonIntake;
-import frc.robot.subsystems.Shooter.LinearShooter;
+import frc.robot.subsystems.Roulette.Roulette;
 import frc.robot.subsystems.Shooter.MoonShooter;
-import frc.robot.subsystems.SingleMotor.SingleMotor;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.Automation.Automation;
+import frc.robot.subsystems.Balance.Balance;
+import frc.robot.utils.MAComannds.MABasicMotorCommand;
+import frc.robot.utils.MAComannds.MAPistonCommand;
+import frc.robot.utils.MAComannds.MAPositionPIDCommand;
 import frc.robot.utils.MASubsystem.MASubsystem;
 
 /** Add your docs here. */
 public class CommandContainer {
-    private MASubsystem chassis = Chassis.getinstance();
-    private MASubsystem elevator = Elevator.getinstance();
-    private MASubsystem arm = Arm.getinstance();
-    private MASubsystem moonShooter = MoonShooter.getinstance();
-    private MASubsystem linearShooter = LinearShooter.getinstance();
-    private MASubsystem conveyor = Conveyor.getinstance();
-    private MASubsystem singleMotor = SingleMotor.getinstance();
-    private MASubsystem motorIntake = MotorIntake.getinstance();
-    private MASubsystem pistonIntake = PistonIntake.getinstance();
+        private MASubsystem chassis = Chassis.getinstance();
+        private MASubsystem elevator = Elevator.getinstance();
+        private MASubsystem moonShooter = MoonShooter.getinstance();
+        private MASubsystem conveyor = Conveyor.getinstance();
+        private MASubsystem balance = Balance.getinstance();
+        private MASubsystem roulette = Roulette.getinstance();
+        private MASubsystem pistonIntake = PistonIntake.getinstance();
+        private SubsystemBase automation = Automation.getinstance();
 
-    public CommandContainer() {
+        public CommandContainer() {
+                JoystickContainer.LB.whenPressed(new MAPistonCommand(pistonIntake, true));
+                JoystickContainer.RB.whenPressed(new MAPistonCommand(pistonIntake, false));
 
-    }
+                JoystickContainer.AButton.whileHeld(new MABasicMotorCommand(pistonIntake,
+                                -IntakeConstants.KBEST_RPM_COLLECTION, IntakeConstants.INTAKE_COLLECTION));
+                JoystickContainer.BButton.whileHeld(new MABasicMotorCommand(pistonIntake,
+                                IntakeConstants.KBEST_RPM_COLLECTION, IntakeConstants.INTAKE_COLLECTION));
+
+                JoystickContainer.YButton
+                                .whileHeld(new StartEndCommand(() -> Automation.getinstance().conveyorControl(-0.3),
+                                                () -> Automation.getinstance().conveyorControl(0), conveyor));
+                JoystickContainer.POVDown.whileHeld(new MAPositionPIDCommand(elevator, ElevatorConstants.KDOWN_SETPOINT,
+                                ElevatorConstants.KELEVATOR_MOVE));
+                JoystickContainer.POVUp.whileHeld(new MAPositionPIDCommand(elevator, ElevatorConstants.KUP_SETPOINT,
+                                ElevatorConstants.KELEVATOR_MOVE));
+
+                JoystickContainer.POVRight.whenPressed(new MAPistonCommand(elevator, true));
+                JoystickContainer.POVLeft.whenPressed(new MAPistonCommand(elevator, false));
+        }
 
 }

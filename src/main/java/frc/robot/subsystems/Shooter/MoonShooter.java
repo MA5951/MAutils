@@ -19,8 +19,9 @@ public class MoonShooter extends MASubsystem {
   private MAShuffleboard shooterShuffleboard = new MAShuffleboard(ShooterConstants.KSUBSYSTEM_NAME);
 
   private MoonShooter() {
-    motorA = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID12, true, 0, false, ENCODER.Encoder);
+    motorA = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID5, true, 0, false, ENCODER.Encoder);
     setMAMotorComtrolersList(motorA);
+    addFollowMotorToMaster(motorA, IDMotor.ID6);
 
     pidSpeedController = new MAPidController(ShooterConstants.MOTOR_A_KP, ShooterConstants.MOTOR_A_KI,
         ShooterConstants.MOTOR_A_KD, 0, 10, -12, 12);

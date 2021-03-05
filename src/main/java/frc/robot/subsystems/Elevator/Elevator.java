@@ -6,6 +6,8 @@ package frc.robot.subsystems.Elevator;
 
 import frc.robot.utils.controlers.MAPidController;
 import frc.robot.utils.MASubsystem.MASubsystem;
+import frc.robot.utils.RobotConstants;
+import frc.robot.utils.Actuators.MAPiston;
 import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
@@ -13,11 +15,14 @@ public class Elevator extends MASubsystem {
 
   private MAMotorControler elevatorMove;
   private MAPidController elevatorMovePID;
+  private MAPiston piston;
   private static Elevator m_Elevator;
   private MAShuffleboard elevatoShuffleboard = new MAShuffleboard(ElevatorConstants.KSUBSYSTEM_NAME);
 
   private Elevator() {
-    elevatorMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID6, false, 0, true, true, true, ENCODER.Encoder);
+    piston = new MAPiston(RobotConstants.P_ID1, RobotConstants.P_ID0);
+    elevatorMove = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID8, false, 0, true,
+        ENCODER.Alternate_Encoder);
     setMAMotorComtrolersList(elevatorMove);
 
     // cahnge Tolorance
@@ -42,26 +47,12 @@ public class Elevator extends MASubsystem {
 
   @Override
   public double getEncoderPosition() {
-    return maMotorControlers.get(ElevatorConstants.ELEVATOR_MOVE).getPosition();
-  }
-
-  @Override
-  public boolean getLimitSwitchFValuse() {
-    return maMotorControlers.get(ElevatorConstants.ELEVATOR_MOVE).getForwardLimitSwitch();
-  }
-
-  @Override
-  public boolean getLimitSwitchRValuse() {
-    return maMotorControlers.get(ElevatorConstants.ELEVATOR_MOVE).getReversLimitSwitch();
+    return maMotorControlers.get(ElevatorConstants.KELEVATOR_MOVE).getPosition();
   }
 
   @Override
   public void resetSensor() {
-    maMotorControlers.get(ElevatorConstants.ELEVATOR_MOVE).resetEncoder();
-  }
-
-  public void overrideLimitSwitches(boolean overrid) {
-    maMotorControlers.get(ElevatorConstants.ELEVATOR_MOVE).overrideLimitSwitches(overrid);
+    maMotorControlers.get(ElevatorConstants.KELEVATOR_MOVE).resetEncoder();
   }
 
   @Override
@@ -71,7 +62,6 @@ public class Elevator extends MASubsystem {
 
   @Override
   public boolean isPIDAtTarget(double waitTime) {
-
     return elevatorMovePID.atSetpoint(waitTime);
   }
 
@@ -83,6 +73,16 @@ public class Elevator extends MASubsystem {
   @Override
   public double getPositionError() {
     return elevatorMovePID.getPositionError();
+  }
+
+  @Override
+  public void togglePiston() {
+    piston.toggle();
+  }
+
+  @Override
+  public boolean getPistonValue() {
+    return piston.get();
   }
 
   @Override

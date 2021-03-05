@@ -16,13 +16,13 @@ public class PistonIntake extends MASubsystem {
   private MAPiston pistonA;
   private MAPiston pistonB;
   private static PistonIntake m_Intake;
-  private MAShuffleboard intakesMaShuffleboard = new MAShuffleboard(IntakeConstants.KSUBSYSTEM_NAME); // TODO
+  private MAShuffleboard intakesMaShuffleboard = new MAShuffleboard(IntakeConstants.KSUBSYSTEM_NAME); 
 
   private PistonIntake() {
-    intakeCollection = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID9);
+    intakeCollection = new MAMotorControler(MOTOR_CONTROLL.VICTOR, IDMotor.ID12);
     setMAMotorComtrolersList(intakeCollection);
-    pistonA = new MAPiston(RobotConstants.P_ID0);
-    pistonB = new MAPiston(RobotConstants.P_ID1);
+    pistonA = new MAPiston(RobotConstants.P_ID2);
+    pistonB = new MAPiston(RobotConstants.P_ID3);
  
 
   }

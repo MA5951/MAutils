@@ -14,24 +14,25 @@ public class Conveyor extends MASubsystem {
   private MAMotorControler transportationMotor;
   private MAMotorControler conveyorMotor;
   private DigitalInput transportationDigitalInput;
-  private DigitalInput conveyorDigitalInput;
   private MAShuffleboard conveyorMAShuffleboard = new MAShuffleboard(ConveyorConstants.KSUBSYSTEM_NAME);
   private static Conveyor mConveyor;
+  private Boolean counterLimit = true;
+  private int countBall = 0;
 
   private Conveyor() {
-    transportationMotor = new MAMotorControler(MOTOR_CONTROLL.VICTOR, IDMotor.ID13);
+    transportationMotor = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID11);
     setMAMotorComtrolersList(transportationMotor);
     transportationDigitalInput = new DigitalInput(RobotConstants.DIO_ID0);
 
-    conveyorMotor = new MAMotorControler(MOTOR_CONTROLL.VICTOR, IDMotor.ID14);
+    conveyorMotor = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID7);
     setMAMotorComtrolersList(conveyorMotor);
-    conveyorDigitalInput = new DigitalInput(RobotConstants.DIO_ID1);
-  
+
   }
 
   @Override
   public void periodic() {
     printValues();
+    count();
   }
 
   /**
@@ -48,33 +49,38 @@ public class Conveyor extends MASubsystem {
   }
 
   @Override
-  public boolean getLimitSwitchFValuse() {
-    return conveyorDigitalInput.get();
-  }
-
-  @Override
   public boolean getLimitSwitchRValuse() {
     return transportationDigitalInput.get();
   }
 
-  public int count() {
-    return 0; // TODO
+  @Override
+  public void resetSensor() {
+    countBall = 0;
   }
 
-  public static Conveyor getinstance(){
-    if(mConveyor == null){
+  public int count() {
+    if (getLimitSwitchRValuse() && counterLimit) {
+      countBall++;
+      counterLimit = !getLimitSwitchRValuse();
+    } else if (!getLimitSwitchRValuse()) {
+      counterLimit = !getLimitSwitchRValuse();
+    }
+    return countBall;
+  }
+
+  public static Conveyor getinstance() {
+    if (mConveyor == null) {
       mConveyor = new Conveyor();
     }
-      return mConveyor;
-    }
-  
+    return mConveyor;
+  }
 
   @Override
   public void printValues() {
     conveyorMAShuffleboard.addNum("StatorCurrentTransportationMotor",
         getStatorCurrent(ConveyorConstants.KTRANSPORTATION_MOTOR));
+    conveyorMAShuffleboard.addNum("CountBall", count());
     conveyorMAShuffleboard.addNum("StatorCurrentConveyorMotor", getStatorCurrent(ConveyorConstants.KCONVEYOR_MOTOR));
-    conveyorMAShuffleboard.addBoolean("ConveyorDigitalInputValue", getLimitSwitchFValuse());
     conveyorMAShuffleboard.addBoolean("TransportationDigitalInputValue", getLimitSwitchRValuse());
   }
 }

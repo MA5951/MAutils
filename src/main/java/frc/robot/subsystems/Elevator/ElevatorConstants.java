@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.Elevator;
 
+import frc.robot.utils.Calculation.MACalculations;
+
 /** Add your docs here. */
 public class ElevatorConstants {
 
@@ -12,7 +14,10 @@ public class ElevatorConstants {
     public static final double KD_ELEVATOR_MOVE = 0; // TODO
     public static final double KF_ELEVATOR_MOVE = 0;
 
-    public static final int ELEVATOR_MOVE = 0;
+    public static final double KUP_SETPOINT = 0;
+    public static final double KDOWN_SETPOINT = 0;
+
+    public static final int KELEVATOR_MOVE = 0;
     public static final String KSUBSYSTEM_NAME = "Elevator";
    
 
@@ -23,5 +28,5 @@ public class ElevatorConstants {
     public static final double KSUB_MAS = 0; //TODO
     public static final double KMAX_SPEED = 12.9603246; // TODO
     public static final double KMAX_ACCELERATION = KMOTOR_FORCE / KSUB_MAS; 
-    public static final double KBEST_RPM = 0; //  KSHOOTER_GEAR * Motor max free RPM
+    public static final double KBEST_RPM = MACalculations.RPMToVolteg(0, KSPROCKET_RADIUS, KMOTOR_GEAR, KSUB_MAS); //  KSHOOTER_GEAR * Motor max free RPM
 }

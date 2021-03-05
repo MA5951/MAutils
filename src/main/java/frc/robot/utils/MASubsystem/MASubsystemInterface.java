@@ -29,6 +29,8 @@ public interface MASubsystemInterface {
 
   public boolean getLimitSwitchRValuse();
 
+  public boolean getPistonValue();
+
   public boolean getLimitSwitchFValuse(int indax);
 
   public boolean getLimitSwitchRValuse(int indax);

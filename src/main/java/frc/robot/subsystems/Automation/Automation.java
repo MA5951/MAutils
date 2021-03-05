@@ -7,8 +7,9 @@
 
 package frc.robot.subsystems.Automation;
 
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.Conveyor.Conveyor;
+import frc.robot.subsystems.Conveyor.ConveyorConstants;
 
 /**
  * This subsystem is used only for the automation commands
@@ -16,11 +17,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Automation extends SubsystemBase {
 
   private static Automation auto;
-  private Automation() {
 
+  private Automation() {
   }
 
-
+  public void conveyorControl(double power) {
+    Conveyor.getinstance().setMotorPower(power, ConveyorConstants.KCONVEYOR_MOTOR);
+    Conveyor.getinstance().setMotorPower(power, ConveyorConstants.KTRANSPORTATION_MOTOR);
+  }
 
   public static Automation getinstance() {
     if (auto == null) {

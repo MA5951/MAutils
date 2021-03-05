@@ -10,9 +10,13 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.Balance.BalanceContorl;
 import frc.robot.commands.Chassis.MAPath;
 import frc.robot.commands.Chassis.TankDrive;
+import frc.robot.commands.Elevator.elevatorControl;
+import frc.robot.subsystems.Balance.Balance;
 import frc.robot.subsystems.Chassis.Chassis;
+import frc.robot.subsystems.Elevator.Elevator;
 import frc.robot.utils.Autonomous.Autonomous;
 import frc.robot.utils.CommandContainer;
 import frc.robot.utils.MADriverStation;
@@ -20,12 +24,7 @@ import frc.robot.utils.limelight;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private TankDrive tankDrive = new TankDrive();
 
-  /**
-   * This function is run when the robot is first started up and should be used
-   * for any initialization code.
-   */
   @Override
   public void robotInit() {
     CommandContainer commandContainer = new CommandContainer();
@@ -86,7 +85,9 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     Chassis.getinstance().rampRate(0);
     Chassis.getinstance().setidilmodeBrake(false);
-    CommandScheduler.getInstance().setDefaultCommand(Chassis.getinstance(), tankDrive);
+    CommandScheduler.getInstance().setDefaultCommand(Chassis.getinstance(), new TankDrive());
+    CommandScheduler.getInstance().setDefaultCommand(Balance.getinstance(), new BalanceContorl());
+    CommandScheduler.getInstance().setDefaultCommand(Elevator.getinstance(), new elevatorControl());
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
