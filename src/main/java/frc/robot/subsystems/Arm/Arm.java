@@ -11,16 +11,16 @@ import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class Arm extends MASubsystem {
 
-  private MAMotorControler ArmMove;
-  private MAPidController ArmMovePID;
+  private MAMotorControler armMove;
+  private MAPidController armMovePID;
   private static Arm m_Arm;
-  private MAShuffleboard ArmShuffleBoard = new MAShuffleboard(ArmConstants.KSUBSYSTEM_NAME);
+  private MAShuffleboard armShuffleBoard = new MAShuffleboard(ArmConstants.KSUBSYSTEM_NAME);
 
   private Arm() {
-    ArmMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID5, false, 0, true, true, true, ENCODER.Encoder);
-    setMAMotorComtrolersList(ArmMove);
+    armMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID5, false, 0, true, true, true, ENCODER.Encoder);
+    setMAMotorComtrolersList(armMove);
     // cahnge Tolorance
-    ArmMovePID = new MAPidController(ArmConstants.KP_ARM_MOVE, ArmConstants.KI_ARM_MOVE, ArmConstants.KD_ARM_MOVE,
+    armMovePID = new MAPidController(ArmConstants.KP_ARM_MOVE, ArmConstants.KI_ARM_MOVE, ArmConstants.KD_ARM_MOVE,
         ArmConstants.KF_ARM_MOVE, 10, -12, 12);
     resetSensor();
    
@@ -28,7 +28,7 @@ public class Arm extends MASubsystem {
 
   @Override
   public void periodic() {
-    PrintValues();
+    printValues();
 
   }
 
@@ -66,32 +66,32 @@ public class Arm extends MASubsystem {
 
   @Override
   public double calculatePIDOutput(double setPoint) {
-    return ArmMovePID.calculate(getEncoderPosition(), setPoint); // can be void and set diracle to the motor
+    return armMovePID.calculate(getEncoderPosition(), setPoint); // can be void and set diracle to the motor
   }
 
   @Override
   public boolean isPIDAtTarget(double waitTime) {
-    return ArmMovePID.atSetpoint(waitTime);// can be void and set diracle to the motor
+    return armMovePID.atSetpoint(waitTime);// can be void and set diracle to the motor
   }
 
   @Override
   public double getSetpointPID() {
-    return ArmMovePID.getSetpoint();
+    return armMovePID.getSetpoint();
   }
 
   @Override
   public double getPositionError() {
-    return ArmMovePID.getPositionError();
+    return armMovePID.getPositionError();
   }
 
   @Override
-  public void PrintValues() {
-    ArmShuffleBoard.addNum("ARMgetPosition", getEncoderPosition());
-    ArmShuffleBoard.addNum("ARMgetSetPoint", getSetpointPID());
-    ArmShuffleBoard.addNum("ARMgetPositionError", getPositionError());
-    ArmShuffleBoard.addBoolean("ARMatSetPoint", isPIDAtTarget(0.1));
-    ArmShuffleBoard.addBoolean("ARMgetLimitSwitchRValuse", getLimitSwitchRValuse());
-    ArmShuffleBoard.addBoolean("ARMgetLimitSwitchFValuse", getLimitSwitchFValuse());
+  public void printValues() {
+    armShuffleBoard.addNum("ARMgetPosition", getEncoderPosition());
+    armShuffleBoard.addNum("ARMgetSetPoint", getSetpointPID());
+    armShuffleBoard.addNum("ARMgetPositionError", getPositionError());
+    armShuffleBoard.addBoolean("ARMatSetPoint", isPIDAtTarget(0.1));
+    armShuffleBoard.addBoolean("ARMgetLimitSwitchRValuse", getLimitSwitchRValuse());
+    armShuffleBoard.addBoolean("ARMgetLimitSwitchFValuse", getLimitSwitchFValuse());
   }
 
   public static Arm getinstance() {

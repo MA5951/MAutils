@@ -1,6 +1,6 @@
-new InstantCommand(intake.solenoidFunction(true), intake));
+new InstantCommand(intake.solenoidFunction(true), intake)); 
 
-new StartEndCommand(intake::ShuffleboardTest, intake.motorFunction(0), intake);
+new StartEndCommand(intake::ShuffleboardTest, intake.motorFunction(0), intake); 
 
 MARunCommand(transportation::control, transportation.motorFunction(0), transportation);
 

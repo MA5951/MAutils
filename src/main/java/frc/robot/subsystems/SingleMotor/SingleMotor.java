@@ -9,19 +9,19 @@ import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class SingleMotor extends MASubsystem {
-  private MAMotorControler Motor;
+  private MAMotorControler motor;
   private static SingleMotor singleMotor;
   private MAShuffleboard singleMotorShuffleboard = new MAShuffleboard(SingleMotorConstants.KSUBSYSTEM_NAME);
 
   private SingleMotor() {
-    Motor = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID15);
-    setMAMotorComtrolersList(Motor);
+    motor = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID15);
+    setMAMotorComtrolersList(motor);
    
   }
 
   @Override
   public void periodic() {
-    PrintValues();
+    printValues();
   }
 
   /**
@@ -43,7 +43,7 @@ public class SingleMotor extends MASubsystem {
   }
 
   @Override
-  public void PrintValues() {
+  public void printValues() {
     singleMotorShuffleboard.addNum("SingleMotorgetStatorCurrent", maMotorControlers.get(0).getStatorCurrent());
     singleMotorShuffleboard.addNum("SingalMotorgetOutput", maMotorControlers.get(0).getOutput());
   }

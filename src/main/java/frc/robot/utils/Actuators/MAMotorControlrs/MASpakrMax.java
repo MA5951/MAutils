@@ -11,9 +11,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import frc.robot.utils.MASubsystem.MASubsystem;
-import frc.robot.utils.MASubsystem.MASubsystemInterface;
 import frc.robot.utils.RobotConstants;
 
 /** Add your docs here. */
@@ -21,21 +19,21 @@ class MASpakrMax implements MAMotorControlInterface {
 
     private CANSparkMax canSparkMax;
     private CANEncoder canEncoder;
-    private CANDigitalInput ForwardLimitSwitch;
-    private CANDigitalInput ReversLimitSwitch;
+    private CANDigitalInput forwardLimitSwitch;
+    private CANDigitalInput reversLimitSwitch;
 
-    public MASpakrMax(int ID, boolean Inverted, double rampRate, boolean mod, boolean hasForwardLimitSwitch,
+    public MASpakrMax(int id, boolean inverted, double rampRate, boolean mod, boolean hasForwardLimitSwitch,
             boolean hasReverseLimitSwitch, MASubsystem.ENCODER encoder, MotorType type) {
-        canSparkMax = new CANSparkMax(ID, type);
-        setInverted(Inverted);
+        canSparkMax = new CANSparkMax(id, type);
+        setInverted(inverted);
         configRampRate(rampRate);
         changeMood(mod);
         setCurrentLimit(60);
         if (hasForwardLimitSwitch)
-            ForwardLimitSwitch = canSparkMax.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+            forwardLimitSwitch = canSparkMax.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
 
         if (hasReverseLimitSwitch)
-            ReversLimitSwitch = canSparkMax.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+            reversLimitSwitch = canSparkMax.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
 
         if (encoder == MASubsystem.ENCODER.Encoder) {
             setCanEncoder();
@@ -98,12 +96,12 @@ class MASpakrMax implements MAMotorControlInterface {
 
     @Override
     public boolean getForwardLimitSwitch() {
-        return ForwardLimitSwitch.get();
+        return forwardLimitSwitch.get();
     }
 
     @Override
     public boolean getReversLimitSwitch() {
-        return ReversLimitSwitch.get();
+        return reversLimitSwitch.get();
     }
 
     @Override
@@ -122,7 +120,7 @@ class MASpakrMax implements MAMotorControlInterface {
     }
 
     @Override
-    public void PhaseSensor(boolean PhaseSensor) {
+    public void phaseSensor(boolean PhaseSensor) {
         canEncoder.setInverted(PhaseSensor);
     }
 
@@ -140,11 +138,11 @@ class MASpakrMax implements MAMotorControlInterface {
     }
 
     public void enableLimitSwitchR(boolean enable) {
-        ReversLimitSwitch.enableLimitSwitch(enable);
+        reversLimitSwitch.enableLimitSwitch(enable);
     }
 
     public void enableLimitSwitchF(boolean enable) {
-        ForwardLimitSwitch.enableLimitSwitch(enable);
+        forwardLimitSwitch.enableLimitSwitch(enable);
     }
 
     @Override

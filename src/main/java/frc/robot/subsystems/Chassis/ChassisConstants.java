@@ -27,14 +27,15 @@ public class ChassisConstants {
     public static final double KANGLE_PID_MAPATH_SET_INPUTRANGE = 180;
 
     public static final double KRAMP_RATE_AUTO = 0.35;
-
-    public static final double KMAX_SPEED = 12.9603246; // TODO
-    public static final double KMAX_ACCELERATION = 7.05206988015; // TODO
-
+    public static final double KTHRESHOLD = 0.1;
+    public static final double KSCALE = 0.3;
+    
+    public static final double KSUB_MAS = 0;
     public static final double KTICKS_PER_METER = 22000;
     public final static double KSPROCKET_RADIUS = 0;
     public final static double KMOTOR_GEAR = 0;
-
     public static final double KCHASSIS_GEAR = KSPROCKET_RADIUS * KMOTOR_GEAR; // TODO
-    public final static double KMOTOR_FORCE = KCHASSIS_GEAR;
+    public final static double KMOTOR_FORCE = KCHASSIS_GEAR; // * Motor stall torque * num of motor = Motor force
+    public static final double KMAX_SPEED = 12.9603246; // TODO
+    public static final double KMAX_ACCELERATION = KSUB_MAS / KMOTOR_FORCE; // TODO
 }

@@ -53,7 +53,7 @@ public interface MASubsystemInterface {
 
   public double getPositionError();
 
-  public void PrintValues();
+  public void printValues();
 
   public double getOutput();
 }

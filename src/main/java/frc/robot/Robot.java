@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    Chassis.getinstance().setidilmodeBrake(false);
+    Chassis.getinstance().setidilmodeBrake(true);
   }
 
   @Override

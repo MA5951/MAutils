@@ -10,6 +10,7 @@ package frc.robot.commands.Chassis;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.utils.JoystickContainer;
 import frc.robot.subsystems.Chassis.Chassis;
+import frc.robot.subsystems.Chassis.ChassisConstants;
 
 public class TankDrive extends CommandBase {
   private Chassis chassis;
@@ -29,10 +30,11 @@ public class TankDrive extends CommandBase {
   @Override
   public void execute() {
 
-    if (JoystickContainer.rightJoystick.getY() > 0.1 || JoystickContainer.rightJoystick.getY() < -0.1) {
+    if (JoystickContainer.rightJoystick.getY() > ChassisConstants.KTHRESHOLD
+        || JoystickContainer.rightJoystick.getY() < -ChassisConstants.KTHRESHOLD) {
       if (JoystickContainer.rightJoystick.getRawButton(1) || JoystickContainer.leftJoystick.getRawButton(1)) {
 
-        chassis.rightcontrol(JoystickContainer.rightJoystick.getY() * 0.3);
+        chassis.rightcontrol(JoystickContainer.rightJoystick.getY() * ChassisConstants.KSCALE);
       } else {
         chassis.rightcontrol(JoystickContainer.rightJoystick.getY());
       }
@@ -41,11 +43,12 @@ public class TankDrive extends CommandBase {
       chassis.rightcontrol(0);
     }
 
-    if (JoystickContainer.leftJoystick.getY() > 0.1 || JoystickContainer.leftJoystick.getY() < -0.1) {
+    if (JoystickContainer.leftJoystick.getY() > ChassisConstants.KTHRESHOLD
+        || JoystickContainer.leftJoystick.getY() < -ChassisConstants.KTHRESHOLD) {
 
       if (JoystickContainer.rightJoystick.getRawButton(1) || JoystickContainer.leftJoystick.getRawButton(1)) {
 
-        chassis.leftcontrol(JoystickContainer.leftJoystick.getY() * 0.3);
+        chassis.leftcontrol(JoystickContainer.leftJoystick.getY() * ChassisConstants.KSCALE);
       } else {
         chassis.leftcontrol(JoystickContainer.leftJoystick.getY());
       }

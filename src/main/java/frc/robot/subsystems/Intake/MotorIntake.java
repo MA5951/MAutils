@@ -11,24 +11,24 @@ import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class MotorIntake extends MASubsystem {
 
-  private MAMotorControler IntakeMove;
-  private MAMotorControler IntakeCollection;
-  private MAPidController IntakeMovePID;
+  private MAMotorControler intakeMove;
+  private MAMotorControler intakeCollection;
+  private MAPidController intakeMovePID;
   private static MotorIntake m_Intake;
 
-  private MAShuffleboard motorIntakesShuffleboard = new MAShuffleboard(IntakeConstants.KSUBSYSTEM_NAME);
+  private MAShuffleboard intakesShuffleboard = new MAShuffleboard(IntakeConstants.KSUBSYSTEM_NAME);
 
   private MotorIntake() {
 
-    IntakeCollection = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID8);
-    setMAMotorComtrolersList(IntakeCollection);
+    intakeCollection = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID8);
+    setMAMotorComtrolersList(intakeCollection);
 
     // change the Limit
-    IntakeMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID7, false, 0, false, true, true, ENCODER.Encoder);
-    setMAMotorComtrolersList(IntakeMove);
+    intakeMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID7, false, 0, false, true, true, ENCODER.Encoder);
+    setMAMotorComtrolersList(intakeMove);
 
     // cahnge Tolorance
-    IntakeMovePID = new MAPidController(IntakeConstants.KP_INTAKE_MOVE, IntakeConstants.KI_INTAKE_MOVE,
+    intakeMovePID = new MAPidController(IntakeConstants.KP_INTAKE_MOVE, IntakeConstants.KI_INTAKE_MOVE,
         IntakeConstants.KD_INTAKE_MOVE, 0, 10, -1, 1);
     resetSensor();
 
@@ -36,7 +36,7 @@ public class MotorIntake extends MASubsystem {
 
   @Override
   public void periodic() {
-    PrintValues();
+    printValues();
 
   }
 
@@ -69,22 +69,22 @@ public class MotorIntake extends MASubsystem {
 
   @Override
   public double calculatePIDOutput(double setPoint) {
-    return IntakeMovePID.calculate(getEncoderPosition(), setPoint);
+    return intakeMovePID.calculate(getEncoderPosition(), setPoint);
   }
 
   @Override
   public boolean isPIDAtTarget(double waitTime) {
-    return IntakeMovePID.atSetpoint(waitTime);
+    return intakeMovePID.atSetpoint(waitTime);
   }
 
   @Override
   public double getSetpointPID() {
-    return IntakeMovePID.getSetpoint();
+    return intakeMovePID.getSetpoint();
   }
 
   @Override
   public double getPositionError() {
-    return IntakeMovePID.getPositionError();
+    return intakeMovePID.getPositionError();
   }
 
   @Override
@@ -93,14 +93,14 @@ public class MotorIntake extends MASubsystem {
   }
 
   @Override
-  public void PrintValues() {
-    motorIntakesShuffleboard.addNum("MotorIntakeGetPosition", getEncoderPosition());
-    motorIntakesShuffleboard.addNum("MotorIntakeGetSetPoint", getSetpointPID());
-    motorIntakesShuffleboard.addNum("MotorIntakeGetPositionError", getPositionError());
-    motorIntakesShuffleboard.addNum("MotorIntakeGetStatorCurrentMovetMotor", getStatorCurrent(IntakeConstants.INTAKE_MOVE));
-    motorIntakesShuffleboard.addNum("MotorIntakeGetStatorCurrentCollection", getStatorCurrent(IntakeConstants.INTAKE_COLLECTION));
-    motorIntakesShuffleboard.addBoolean("MotorIntakeAtSetPoint", isPIDAtTarget(0.1));
-    motorIntakesShuffleboard.addBoolean("MotorIntakeLimitSwitchValuse", getLimitSwitchFValuse());
+  public void printValues() {
+    intakesShuffleboard.addNum("MotorIntakeGetPosition", getEncoderPosition());
+    intakesShuffleboard.addNum("MotorIntakeGetSetPoint", getSetpointPID());
+    intakesShuffleboard.addNum("MotorIntakeGetPositionError", getPositionError());
+    intakesShuffleboard.addNum("MotorIntakeGetStatorCurrentMovetMotor", getStatorCurrent(IntakeConstants.INTAKE_MOVE));
+    intakesShuffleboard.addNum("MotorIntakeGetStatorCurrentCollection", getStatorCurrent(IntakeConstants.INTAKE_COLLECTION));
+    intakesShuffleboard.addBoolean("MotorIntakeAtSetPoint", isPIDAtTarget(0.1));
+    intakesShuffleboard.addBoolean("MotorIntakeLimitSwitchValuse", getLimitSwitchFValuse());
   }
 
   public static MotorIntake getinstance() {

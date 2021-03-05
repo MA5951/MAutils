@@ -24,7 +24,7 @@ interface MAMotorControlInterface {
 
     }
 
-    default void PhaseSensor(boolean PhaseSensor) {
+    default void phaseSensor(boolean PhaseSensor) {
 
     }
 

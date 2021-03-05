@@ -9,19 +9,23 @@ package frc.robot.utils;
 
 public class RobotConstants {
 
-    public final static double KMAX_RPM_CIM = 0;
-    public final static double KMAX_RPM_RS = 0;
-    public final static double KMAX_RPM_BAG = 0;
-    public final static double KMAX_RPM_MINI_CIM = 0;
-    public final static double KMAX_RPM_NEO = 5700;
-    public final static double KMAX_RPM_775PRO = 0;
+    public final static int KMAX_RPM_CIM = 5330;
+    public final static int KMAX_RPM_RS = 18730;
+    public final static int KMAX_RPM_BAG = 13180;
+    public final static int KMAX_RPM_MINI_CIM = 5840;
+    public final static int KMAX_RPM_NEO = 5676;
+    public final static int KMAX_RPM_775PRO = 18730;
 
-    public final static double KSTALL_TORQUE_CIM = 0;
-    public final static double KSTALL_TORQUE_RS = 0;
-    public final static double KSTALL_TORQUE_BAG = 0;
-    public final static double KSTALL_TORQUE_MINI_CIM = 0;
-    public final static double KSTALL_TORQUE_NEO = 0;
-    public final static double KSTALL_TORQUE_775PRO = 0;
+    public final static double KSTALL_TORQUE_CIM = 2.41;
+    public final static double KSTALL_TORQUE_RS = 0.38;
+    public final static double KSTALL_TORQUE_BAG = 0.4;
+    public final static double KSTALL_TORQUE_MINI_CIM = 1.4;
+    public final static double KSTALL_TORQUE_NEO = 2.6;
+    public final static double KSTALL_TORQUE_775PRO = 0.71;
+
+    public final static int KNEO_ENCODER_TPR = 42;
+    public final static int KCTRE_MAG_ENCODER_TPR = 4096;
+    public final static int KCIMCODER_TPR = 80;
 
     public final static double KELECTRON_CHARGE = -1.6e-19;
     public final static int KTICKS_PER_PULSE = 1;

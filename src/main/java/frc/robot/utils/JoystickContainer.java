@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class JoystickContainer {
 
-  public static XboxController OperatingJoystick = new XboxController(RobotConstants.KOPERATING_JOYSTICK_PORT);
+  public static XboxController operatingJoystick = new XboxController(RobotConstants.KOPERATING_JOYSTICK_PORT);
   public static Joystick leftJoystick = new Joystick(RobotConstants.KLEFT_JOYSTICK_PORT);
   public static Joystick rightJoystick = new Joystick(RobotConstants.KRIGHT_JOYSTICK_PORT);
 
@@ -25,23 +25,23 @@ public class JoystickContainer {
   public static JoystickButton leftJoystick3 = new JoystickButton(leftJoystick, 3);
   public static JoystickButton rightJoystick3 = new JoystickButton(rightJoystick, 3);
 
-  public static JoystickButton AButton = new JoystickButton(OperatingJoystick, RobotConstants.A);
-  public static JoystickButton BButton = new JoystickButton(OperatingJoystick, RobotConstants.B);
-  public static JoystickButton YButton = new JoystickButton(OperatingJoystick, RobotConstants.Y);
-  public static JoystickButton XButton = new JoystickButton(OperatingJoystick, RobotConstants.X);
+  public static JoystickButton AButton = new JoystickButton(operatingJoystick, RobotConstants.A);
+  public static JoystickButton BButton = new JoystickButton(operatingJoystick, RobotConstants.B);
+  public static JoystickButton YButton = new JoystickButton(operatingJoystick, RobotConstants.Y);
+  public static JoystickButton XButton = new JoystickButton(operatingJoystick, RobotConstants.X);
   public static TriggerL triggerL = new TriggerL();
   public static TriggerR triggerR = new TriggerR();
-  public static JoystickButton LB = new JoystickButton(OperatingJoystick, RobotConstants.LB);
-  public static JoystickButton RB = new JoystickButton(OperatingJoystick, RobotConstants.RB);
-  public static JoystickButton backkButton = new JoystickButton(OperatingJoystick, RobotConstants.BACK);
-  public static JoystickButton startButton = new JoystickButton(OperatingJoystick, RobotConstants.START);
-  public static JoystickButton stickLeft = new JoystickButton(OperatingJoystick, RobotConstants.STICK_LEFT);
-  public static JoystickButton stickRight = new JoystickButton(OperatingJoystick, RobotConstants.STICK_RIGHT);
+  public static JoystickButton LB = new JoystickButton(operatingJoystick, RobotConstants.LB);
+  public static JoystickButton RB = new JoystickButton(operatingJoystick, RobotConstants.RB);
+  public static JoystickButton backkButton = new JoystickButton(operatingJoystick, RobotConstants.BACK);
+  public static JoystickButton startButton = new JoystickButton(operatingJoystick, RobotConstants.START);
+  public static JoystickButton stickLeft = new JoystickButton(operatingJoystick, RobotConstants.STICK_LEFT);
+  public static JoystickButton stickRight = new JoystickButton(operatingJoystick, RobotConstants.STICK_RIGHT);
 
-  public static POVButton POVUp = new POVButton(OperatingJoystick, RobotConstants.POV_UP);
-  public static POVButton POVDown = new POVButton(OperatingJoystick, RobotConstants.POV_DOWN);
-  public static POVButton POVLeft = new POVButton(OperatingJoystick, RobotConstants.POV_LEFT);
-  public static POVButton POVRight = new POVButton(OperatingJoystick, RobotConstants.POV_RIGHT);
+  public static POVButton POVUp = new POVButton(operatingJoystick, RobotConstants.POV_UP);
+  public static POVButton POVDown = new POVButton(operatingJoystick, RobotConstants.POV_DOWN);
+  public static POVButton POVLeft = new POVButton(operatingJoystick, RobotConstants.POV_LEFT);
+  public static POVButton POVRight = new POVButton(operatingJoystick, RobotConstants.POV_RIGHT);
 
 }
 
@@ -49,7 +49,7 @@ class TriggerL extends Trigger {
 
   @Override
   public boolean get() {
-    return JoystickContainer.OperatingJoystick.getRawAxis(RobotConstants.L_TRIGER) > 0.5;
+    return JoystickContainer.operatingJoystick.getRawAxis(RobotConstants.L_TRIGER) > 0.5;
   }
 
 }
@@ -58,6 +58,6 @@ class TriggerR extends Trigger {
 
   @Override
   public boolean get() {
-    return JoystickContainer.OperatingJoystick.getRawAxis(RobotConstants.R_TRIGER) > 0.5;
+    return JoystickContainer.operatingJoystick.getRawAxis(RobotConstants.R_TRIGER) > 0.5;
   }
 }

@@ -12,25 +12,25 @@ import frc.robot.utils.MASubsystem.MASubsystem;
 
 public class PistonIntake extends MASubsystem {
 
-  private MAMotorControler IntakeCollection;
-  private MAPiston PistonA;
-  private MAPiston PistonB;
+  private MAMotorControler intakeCollection;
+  private MAPiston pistonA;
+  private MAPiston pistonB;
   private static PistonIntake m_Intake;
-  private MAShuffleboard PistonIntakesMaShuffleboard = new MAShuffleboard(IntakeConstants.KSUBSYSTEM_NAME); // TODO
+  private MAShuffleboard intakesMaShuffleboard = new MAShuffleboard(IntakeConstants.KSUBSYSTEM_NAME); // TODO
 
   private PistonIntake() {
-    IntakeCollection = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID9);
-    setMAMotorComtrolersList(IntakeCollection);
-    PistonA = new MAPiston(RobotConstants.P_ID0);
-    PistonB = new MAPiston(RobotConstants.P_ID1);
+    intakeCollection = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID9);
+    setMAMotorComtrolersList(intakeCollection);
+    pistonA = new MAPiston(RobotConstants.P_ID0);
+    pistonB = new MAPiston(RobotConstants.P_ID1);
  
 
   }
 
   @Override
   public void setPiston(boolean on) {
-    PistonA.set(on);
-    PistonB.set(on);
+    pistonA.set(on);
+    pistonB.set(on);
 
   }
 
@@ -41,7 +41,7 @@ public class PistonIntake extends MASubsystem {
 
   @Override
   public void periodic() {
-    PrintValues();
+    printValues();
 
   }
 
@@ -54,9 +54,9 @@ public class PistonIntake extends MASubsystem {
   }
 
   @Override
-  public void PrintValues() {
-    PistonIntakesMaShuffleboard.addNum("PistonIntakeGetStatorCurrent", getStatorCurrent());
-    PistonIntakesMaShuffleboard.addBoolean("PistonIntakeOpenOrClose", PistonA.get());
+  public void printValues() {
+    intakesMaShuffleboard.addNum("PistonIntakeGetStatorCurrent", getStatorCurrent());
+    intakesMaShuffleboard.addBoolean("PistonIntakeOpenOrClose", pistonA.get());
   }
 
   public static PistonIntake getinstance() {

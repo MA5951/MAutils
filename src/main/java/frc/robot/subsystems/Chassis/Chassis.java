@@ -35,10 +35,10 @@ public class Chassis extends MASubsystem {
   private MAPidController anglePIDVision;
   private MAPidController distancePIDVision;
   private static Chassis chassis;
-  private MAShuffleboard Chassis;
+  private MAShuffleboard chassisShuffleboard;
 
   private Chassis() {
-    Chassis = new MAShuffleboard(ChassisConstants.KSUBSYSTEM_NAME);
+    chassisShuffleboard = new MAShuffleboard(ChassisConstants.KSUBSYSTEM_NAME);
     leftFrontMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID1, true, 0, false,
         ENCODER.Encoder);
     leftMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID2, false, 0, false,
@@ -48,7 +48,7 @@ public class Chassis extends MASubsystem {
     rightMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushled, IDMotor.ID4, false, 0, false,
         ENCODER.Alternate_Encoder);
 
-    rightMotor.PhaseSensor(true);
+    rightMotor.phaseSensor(true);
     leftMotor.follow(leftFrontMotor);
     rightMotor.follow(rightFrontMotor);
 
@@ -143,14 +143,14 @@ public class Chassis extends MASubsystem {
     return distancePIDVision.calculate(limelight.Tshort, setpoint);
   }
 
-  public void ArcadeDrive(double angle, double distacne) {
+  public void arcadeDrive(double angle, double distacne) {
     double w = (100 - Math.abs(angle * 100)) * (distacne) + distacne * 100;
     double v = (100 - Math.abs(distacne * 100)) * (angle) + angle * 100;
     tankDrive((-(v + w) / 200), ((v - w) / 200));
   }
 
   // the PIDvison
-  public void PIDvisionAngle(double angleSetpoint) {
+  public void pidVisionAngle(double angleSetpoint) {
     double power = anglePIDVisionOutput(angleSetpoint);
     tankDrive(-power, power);
   }
@@ -195,7 +195,7 @@ public class Chassis extends MASubsystem {
     try {
       double angle = chassis.angleMApathPIDOutput() * Path.mainPath[MAPath.stage][5];
       double distance = chassis.distanceMApathPIDOutput() * Path.mainPath[MAPath.stage][4];
-      chassis.ArcadeDrive(angle, distance);
+      chassis.arcadeDrive(angle, distance);
     } catch (Exception e) {
       chassis.tankDrive(0, 0);
     }
@@ -219,8 +219,8 @@ public class Chassis extends MASubsystem {
   private double curentV = 0;
   private double prev_v = 0;
 
-  public double DeltaV() {
-    curentV = MACalculations.FromRPMToLinearSpeed(averageRPM(), ChassisConstants.KCHASSIS_GEAR)
+  public double deltaV() {
+    curentV = MACalculations.fromRPMToLinearSpeed(averageRPM(), ChassisConstants.KCHASSIS_GEAR)
         / RobotConstants.KDELTA_TIME;
     double delta = curentV - prev_v;
     prev_v = curentV;
@@ -229,7 +229,7 @@ public class Chassis extends MASubsystem {
   }
 
   public double acceleration() {
-    return DeltaV() / RobotConstants.KDELTA_TIME;
+    return deltaV() / RobotConstants.KDELTA_TIME;
   }
 
   private double VInit = 0;
@@ -245,12 +245,12 @@ public class Chassis extends MASubsystem {
     if (VInit >= ChassisConstants.KMAX_SPEED) {
       VInit = ChassisConstants.KMAX_SPEED;
     } else {
-      VInit = MACalculations.FromRPMToLinearSpeed(averageRPM(), ChassisConstants.KCHASSIS_GEAR) * Time;
+      VInit = MACalculations.fromRPMToLinearSpeed(averageRPM(), ChassisConstants.KCHASSIS_GEAR) * Time;
     }
     double Acceleration = 2 * ((Distance - xInit) - VInit) / (Time * Time);
     if (Math.abs(Acceleration) >= ChassisConstants.KMAX_ACCELERATION) {
       return ChassisConstants.KMAX_ACCELERATION * (Math.abs(Acceleration) / Acceleration);
-    } else if (MACalculations.FromRPMToLinearSpeed(averageRPM(),
+    } else if (MACalculations.fromRPMToLinearSpeed(averageRPM(),
         ChassisConstants.KCHASSIS_GEAR) >= ChassisConstants.KMAX_SPEED) {
       return 0;
     } else {
@@ -261,15 +261,15 @@ public class Chassis extends MASubsystem {
 
   @Override
   public void periodic() {
-    PrintValues();
+    printValues();
   }
 
-  public void PrintValues() {
-    Chassis.addBoolean("isPIDVisionOnTargetAngle", isPIDVisionOnTargetAngle());
-    Chassis.addNum("Stage", MAPath.stage);
-    Chassis.addNum("fixedAngle", fixedAngle());
-    Chassis.addNum("distacne", average());
-    Chassis.addNum("angleSetPoint", anglePidMApath.getSetpoint());
-    Chassis.addNum("distacenSetPoint", distancePidMApath.getSetpoint());
+  public void printValues() {
+    chassisShuffleboard.addBoolean("isPIDVisionOnTargetAngle", isPIDVisionOnTargetAngle());
+    chassisShuffleboard.addNum("Stage", MAPath.stage);
+    chassisShuffleboard.addNum("fixedAngle", fixedAngle());
+    chassisShuffleboard.addNum("distacne", average());
+    chassisShuffleboard.addNum("angleSetPoint", anglePidMApath.getSetpoint());
+    chassisShuffleboard.addNum("distacenSetPoint", distancePidMApath.getSetpoint());
   }
 }

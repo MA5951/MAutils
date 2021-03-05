@@ -14,9 +14,9 @@ class MAVictorSPX implements MAMotorControlInterface {
 
     private WPI_VictorSPX victorSPX;
 
-    public MAVictorSPX(int ID, boolean Inverted, double rampRate, boolean mod) {
-        victorSPX = new WPI_VictorSPX(ID);
-        setInverted(Inverted);
+    public MAVictorSPX(int id, boolean inverted, double rampRate, boolean mod) {
+        victorSPX = new WPI_VictorSPX(id);
+        setInverted(inverted);
         configRampRate(rampRate);
         changeMood(mod);
     }

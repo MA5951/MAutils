@@ -35,7 +35,7 @@ public class PIDVisionFeeder extends CommandBase {
 
     double angle = chassis.anglePIDVisionOutput(0);
     double distacne = chassis.distancePIDVisionOutput(66);
-    chassis.ArcadeDrive(angle, distacne);
+    chassis.arcadeDrive(angle, distacne);
   }
 
   // Called once the command ends or is interrupted.

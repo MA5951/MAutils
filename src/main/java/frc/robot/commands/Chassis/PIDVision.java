@@ -33,7 +33,7 @@ public class PIDVision extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    chassis.PIDvisionAngle(angle);
+    chassis.pidVisionAngle(angle);
   }
 
   // Called once the command ends or is interrupted.

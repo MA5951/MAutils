@@ -11,27 +11,27 @@ import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class Conveyor extends MASubsystem {
-  private MAMotorControler TransportationMotor;
-  private MAMotorControler ConveyorMotor;
-  private DigitalInput TransportationDigitalInput;
-  private DigitalInput ConveyorDigitalInput;
-  private MAShuffleboard ConveyorMAShuffleboard = new MAShuffleboard(ConveyorConstants.KSUBSYSTEM_NAME);
+  private MAMotorControler transportationMotor;
+  private MAMotorControler conveyorMotor;
+  private DigitalInput transportationDigitalInput;
+  private DigitalInput conveyorDigitalInput;
+  private MAShuffleboard conveyorMAShuffleboard = new MAShuffleboard(ConveyorConstants.KSUBSYSTEM_NAME);
   private static Conveyor mConveyor;
 
   private Conveyor() {
-    TransportationMotor = new MAMotorControler(MOTOR_CONTROLL.VICTOR, IDMotor.ID13);
-    setMAMotorComtrolersList(TransportationMotor);
-    TransportationDigitalInput = new DigitalInput(RobotConstants.DIO_ID0);
+    transportationMotor = new MAMotorControler(MOTOR_CONTROLL.VICTOR, IDMotor.ID13);
+    setMAMotorComtrolersList(transportationMotor);
+    transportationDigitalInput = new DigitalInput(RobotConstants.DIO_ID0);
 
-    ConveyorMotor = new MAMotorControler(MOTOR_CONTROLL.VICTOR, IDMotor.ID14);
-    setMAMotorComtrolersList(ConveyorMotor);
-    ConveyorDigitalInput = new DigitalInput(RobotConstants.DIO_ID1);
+    conveyorMotor = new MAMotorControler(MOTOR_CONTROLL.VICTOR, IDMotor.ID14);
+    setMAMotorComtrolersList(conveyorMotor);
+    conveyorDigitalInput = new DigitalInput(RobotConstants.DIO_ID1);
   
   }
 
   @Override
   public void periodic() {
-    PrintValues();
+    printValues();
   }
 
   /**
@@ -49,15 +49,15 @@ public class Conveyor extends MASubsystem {
 
   @Override
   public boolean getLimitSwitchFValuse() {
-    return ConveyorDigitalInput.get();
+    return conveyorDigitalInput.get();
   }
 
   @Override
   public boolean getLimitSwitchRValuse() {
-    return TransportationDigitalInput.get();
+    return transportationDigitalInput.get();
   }
 
-  public int Count() {
+  public int count() {
     return 0; // TODO
   }
 
@@ -70,11 +70,11 @@ public class Conveyor extends MASubsystem {
   
 
   @Override
-  public void PrintValues() {
-    ConveyorMAShuffleboard.addNum("StatorCurrentTransportationMotor",
+  public void printValues() {
+    conveyorMAShuffleboard.addNum("StatorCurrentTransportationMotor",
         getStatorCurrent(ConveyorConstants.KTRANSPORTATION_MOTOR));
-    ConveyorMAShuffleboard.addNum("StatorCurrentConveyorMotor", getStatorCurrent(ConveyorConstants.KCONVEYOR_MOTOR));
-    ConveyorMAShuffleboard.addBoolean("ConveyorDigitalInputValue", getLimitSwitchFValuse());
-    ConveyorMAShuffleboard.addBoolean("TransportationDigitalInputValue", getLimitSwitchRValuse());
+    conveyorMAShuffleboard.addNum("StatorCurrentConveyorMotor", getStatorCurrent(ConveyorConstants.KCONVEYOR_MOTOR));
+    conveyorMAShuffleboard.addBoolean("ConveyorDigitalInputValue", getLimitSwitchFValuse());
+    conveyorMAShuffleboard.addBoolean("TransportationDigitalInputValue", getLimitSwitchRValuse());
   }
 }

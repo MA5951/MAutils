@@ -12,14 +12,13 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-/** Add your docs here. */
 class MATalonSRX implements MAMotorControlInterface {
     private WPI_TalonSRX talonSRX;
 
-    public MATalonSRX(int ID, boolean Inverted, double rampRate, boolean mod, boolean hasForwardLimitSwitch,
+    public MATalonSRX(int id, boolean inverted, double rampRate, boolean mod, boolean hasForwardLimitSwitch,
             boolean hasReverseLimitSwitch, FeedbackDevice feedbackDevice) {
-        talonSRX = new WPI_TalonSRX(ID);
-        setInverted(Inverted);
+        talonSRX = new WPI_TalonSRX(id);
+        setInverted(inverted);
         configRampRate(rampRate);
         changeMood(mod);
 
@@ -108,7 +107,7 @@ class MATalonSRX implements MAMotorControlInterface {
     }
 
     @Override
-    public void PhaseSensor(boolean PhaseSensor) {
+    public void phaseSensor(boolean PhaseSensor) {
         talonSRX.setSensorPhase(PhaseSensor);
     }
 

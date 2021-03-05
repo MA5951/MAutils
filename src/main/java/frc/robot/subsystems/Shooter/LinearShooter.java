@@ -13,26 +13,26 @@ import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class LinearShooter extends MASubsystem {
-  private MAMotorControler MotorA;
-  private MAMotorControler MotorB;
-  private MAPidController PIDSpeedController;
-  private static LinearShooter LinearShooter;
-  private MAShuffleboard LinearShooterShuffleboard = new MAShuffleboard(ShooterConstants.SubsystemName);
+  private MAMotorControler motorA;
+  private MAMotorControler motorB;
+  private MAPidController pidSpeedController;
+  private static LinearShooter m_Shooter;
+  private MAShuffleboard shooterShuffleboard = new MAShuffleboard(ShooterConstants.KSUBSYSTEM_NAME);
 
   private LinearShooter() {
-    MotorA = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID10, true, 0, false, ENCODER.Encoder);
-    setMAMotorComtrolersList(MotorA);
-    PIDSpeedController = new MAPidController(ShooterConstants.MOTOR_A_KP, ShooterConstants.MOTOR_A_KI,
+    motorA = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID10, true, 0, false, ENCODER.Encoder);
+    setMAMotorComtrolersList(motorA);
+    pidSpeedController = new MAPidController(ShooterConstants.MOTOR_A_KP, ShooterConstants.MOTOR_A_KI,
         ShooterConstants.MOTOR_A_KD, 0, 10, -12, 12);
 
-    MotorB = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID11, false, 0, false, ENCODER.Encoder);
-    setMAMotorComtrolersList(MotorB);
+    motorB = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID11, false, 0, false, ENCODER.Encoder);
+    setMAMotorComtrolersList(motorB);
 
   }
 
   @Override
   public void periodic() {
-    PrintValues();
+    printValues();
   }
 
   /**
@@ -50,61 +50,61 @@ public class LinearShooter extends MASubsystem {
 
   @Override
   public double calculatePIDOutput(double setPoint) {
-    return PIDSpeedController.calculate(getEncdoerRPM(ShooterConstants.MOTOR_A), setPoint);
+    return pidSpeedController.calculate(getEncdoerRPM(ShooterConstants.MOTOR_A), setPoint);
 
   }
 
   @Override
   public boolean isPIDAtTarget(double waitTime) {
-    return PIDSpeedController.atSetpoint(waitTime);
+    return pidSpeedController.atSetpoint(waitTime);
   }
 
   @Override
   public double getPositionError() {
-    return PIDSpeedController.getPositionError();
+    return pidSpeedController.getPositionError();
   }
 
   @Override
   public double getSetpointPID() {
-    return PIDSpeedController.getSetpoint();
+    return pidSpeedController.getSetpoint();
   }
 
   @Override
   public void setSetPoint(double setPoint) {
-    PIDSpeedController.setSetpoint(setPoint);
+    pidSpeedController.setSetpoint(setPoint);
   }
 
-  public double DistanceToRPM(double distance) {
+  public double distanceToRPM(double distance) {
     double LinearSpeed = Math.sqrt((Math.pow(getVxSpeed(), 2) + Math.pow(getVySpeed(), 2)));
-    return MACalculations.FromLinearSpeedToRPM(LinearSpeed, ShooterConstants.KSHOOTER_GEAR);
+    return MACalculations.fromLinearSpeedToRPM(LinearSpeed, ShooterConstants.KSHOOTER_GEAR);
   }
 
   private double getVxSpeed() {
     double d = limelight.distance();
-    double head = Math.tan(ShooterConstants.ShootAngle) * d
+    double head = Math.tan(ShooterConstants.KSHOOT_ANGLE) * d
         - (RobotConstants.KGRAVITY_ACCELERATION / 2) * Math.pow(d, 2);
-    return Math.sqrt((head / ShooterConstants.DeltaY));
+    return Math.sqrt((head / ShooterConstants.KDELTA_Y));
   }
 
   private double getVySpeed() {
     double d = limelight.distance();
     double vx = getVxSpeed();
-    return (((ShooterConstants.DeltaY * vx) / d) - ((RobotConstants.KGRAVITY_ACCELERATION / 2) * d) / vx);
+    return (((ShooterConstants.KDELTA_Y * vx) / d) - ((RobotConstants.KGRAVITY_ACCELERATION / 2) * d) / vx);
   }
 
   @Override
-  public void PrintValues() {
-    LinearShooterShuffleboard.addNum("MotorA RPM", getEncdoerRPM(ShooterConstants.MOTOR_A));
-    LinearShooterShuffleboard.addNum("LinearShooterPIDSetPoint", getSetpointPID());
-    LinearShooterShuffleboard.addNum("LinearShooterPositionError", getPositionError());
-    LinearShooterShuffleboard.addBoolean("LinearShooterAtSetPoint", isPIDAtTarget(0.1));
-    LinearShooterShuffleboard.addNum("MotorB RPM", getEncdoerRPM(ShooterConstants.MOTOR_B));
+  public void printValues() {
+    shooterShuffleboard.addNum("MotorA RPM", getEncdoerRPM(ShooterConstants.MOTOR_A));
+    shooterShuffleboard.addNum("LinearShooterPIDSetPoint", getSetpointPID());
+    shooterShuffleboard.addNum("LinearShooterPositionError", getPositionError());
+    shooterShuffleboard.addBoolean("LinearShooterAtSetPoint", isPIDAtTarget(0.1));
+    shooterShuffleboard.addNum("MotorB RPM", getEncdoerRPM(ShooterConstants.MOTOR_B));
   }
 
   public static LinearShooter getinstance() {
-    if (LinearShooter == null) {
-      LinearShooter = new LinearShooter();
+    if (m_Shooter == null) {
+      m_Shooter = new LinearShooter();
     }
-    return LinearShooter;
+    return m_Shooter;
   }
 }

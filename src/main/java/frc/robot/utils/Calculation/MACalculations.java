@@ -9,25 +9,25 @@ import frc.robot.utils.RobotConstants;
 
 public class MACalculations {
 
-    public static double FromRPMToLinearSpeed(double RPM, double Gear) {
-        return (RPM * 10) * Gear;
+    public static double fromRPMToLinearSpeed(double RPM, double gear) {
+        return (RPM * 10) * gear;
     }
 
-    public static double FromLinearSpeedToRPM(double LinearSpeed, double Gear) {
-        return (LinearSpeed * Gear) / 10;
+    public static double fromLinearSpeedToRPM(double linearSpeed, double gear) {
+        return (linearSpeed * gear) / 10;
     }
 
-    public static double ToRPMFromEncoder(double Rate, int TPR) {
+    public static double toRPMFromEncoder(double Rate, int TPR) {
         return (Rate / TPR) / 60;
     }
 
-    public static double ToRPMFromEncoderConnectToTalon(double Rate, int TPR) {
+    public static double toRPMFromEncoderConnectToTalon(double Rate, int TPR) {
         return ((Rate * 10) / TPR) / 60;
     }
 
     public static double RPMToVolteg(double RPM, double sprocketRadius, double gear, double mas) {
         return MathUtil.clamp(
-                ((FromRPMToLinearSpeed(RPM, gear) * mas) / RobotConstants.KDELTA_TIME * sprocketRadius * gear/RobotConstants.KELECTRON_CHARGE), 12, -12);
+                ((fromRPMToLinearSpeed(RPM, gear) * mas) / RobotConstants.KDELTA_TIME * sprocketRadius * gear/RobotConstants.KELECTRON_CHARGE), 12, -12);
     }
 
 }

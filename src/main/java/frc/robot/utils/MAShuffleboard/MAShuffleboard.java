@@ -16,10 +16,10 @@ import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
  */
 
 public class MAShuffleboard {
-  private NetworkTableEntry NumValue;
-  private NetworkTableEntry StringValue;
-  private NetworkTableEntry BooleanValue;
-  private Map<String, NetworkTableEntry> NetworkTableNameMap = new HashMap<String, NetworkTableEntry>();
+  private NetworkTableEntry numValue;
+  private NetworkTableEntry stringValue;
+  private NetworkTableEntry booleanValue;
+  private Map<String, NetworkTableEntry> networkTableNameMap = new HashMap<String, NetworkTableEntry>();
   private String currnetTab;
 
   public MAShuffleboard(String tab) {
@@ -27,88 +27,88 @@ public class MAShuffleboard {
 
   }
 
-  public NetworkTableEntry MAShugglebordPattern(NetworkTableEntry valEntry, String title, Object DV) {
-    if (NetworkTableNameMap.get(title) == null) {
+  public NetworkTableEntry maShugglebordPattern(NetworkTableEntry valEntry, String title, Object DV) {
+    if (networkTableNameMap.get(title) == null) {
       valEntry = Shuffleboard.getTab(currnetTab).add(title, DV).getEntry();
-      NetworkTableNameMap.put(title, valEntry);
+      networkTableNameMap.put(title, valEntry);
     }
-    return NetworkTableNameMap.get(title);
+    return networkTableNameMap.get(title);
   }
 
-  public NetworkTableEntry MAShugglebordPattern(NetworkTableEntry valEntry, String title, Object DV,
+  public NetworkTableEntry maShugglebordPattern(NetworkTableEntry valEntry, String title, Object DV,
       WidgetType widgetType) {
-    if (NetworkTableNameMap.get(title) == null) {
+    if (networkTableNameMap.get(title) == null) {
       valEntry = Shuffleboard.getTab(currnetTab).add(title, DV).withWidget(widgetType).getEntry();
-      NetworkTableNameMap.put(title, valEntry);
+      networkTableNameMap.put(title, valEntry);
     }
-    return NetworkTableNameMap.get(title);
+    return networkTableNameMap.get(title);
   }
 
   public void addNum(String title, double value) {
-    MAShugglebordPattern(NumValue, title, 0).setValue(value);
+    maShugglebordPattern(numValue, title, 0).setValue(value);
   }
 
   public void addString(String title, String value) {
-    MAShugglebordPattern(StringValue, title, "").setValue(value);
+    maShugglebordPattern(stringValue, title, "").setValue(value);
   }
 
   public void addBoolean(String title, Boolean value) {
-    MAShugglebordPattern(BooleanValue, title, false).setValue(value);
+    maShugglebordPattern(booleanValue, title, false).setValue(value);
   }
 
   public void addNum(String title, double value, WidgetType widgetType) {
-    MAShugglebordPattern(NumValue, title, 0, widgetType).setValue(value);
+    maShugglebordPattern(numValue, title, 0, widgetType).setValue(value);
   }
 
   public void addString(String title, String value, WidgetType widgetType) {
-    MAShugglebordPattern(StringValue, title, "", widgetType).setValue(value);
+    maShugglebordPattern(stringValue, title, "", widgetType).setValue(value);
   }
 
   public void addBoolean(String title, Boolean value, WidgetType widgetType) {
-    MAShugglebordPattern(BooleanValue, title, false, widgetType).setValue(value);
+    maShugglebordPattern(booleanValue, title, false, widgetType).setValue(value);
   }
 
   public boolean getBolean(String title) {
 
-    return MAShugglebordPattern(BooleanValue, title, false).getBoolean(false);
+    return maShugglebordPattern(booleanValue, title, false).getBoolean(false);
   }
 
   public String getString(String title) {
-    return MAShugglebordPattern(StringValue, title, "").getString("");
+    return maShugglebordPattern(stringValue, title, "").getString("");
   }
 
   public double getNum(String title) {
-    return (double) MAShugglebordPattern(NumValue, title, 0).getNumber(0);
+    return (double) maShugglebordPattern(numValue, title, 0).getNumber(0);
   }
 
   public boolean getBolean(String title, WidgetType widgetType) {
-    return MAShugglebordPattern(BooleanValue, title, false, widgetType).getBoolean(false);
+    return maShugglebordPattern(booleanValue, title, false, widgetType).getBoolean(false);
   }
 
   public String getString(String title, WidgetType widgetType) {
-    return MAShugglebordPattern(StringValue, title, "", widgetType).getString("");
+    return maShugglebordPattern(stringValue, title, "", widgetType).getString("");
   }
 
   public double getNum(String title, WidgetType widgetType) {
-    return (double) MAShugglebordPattern(NumValue, title, 0, widgetType).getNumber(0);
+    return (double) maShugglebordPattern(numValue, title, 0, widgetType).getNumber(0);
   }
 
   public void addPID(String title, MAPidController pid) {
-    if (NetworkTableNameMap.get("setPoint") == null) {
+    if (networkTableNameMap.get("setPoint") == null) {
       ShuffleboardLayout PID = Shuffleboard.getTab(currnetTab).getLayout(title, BuiltInLayouts.kList);
-      NumValue = PID.add("KP", 0).getEntry();
-      NetworkTableNameMap.put("KP", NumValue);
-      NumValue = PID.add("KI", 0).getEntry();
-      NetworkTableNameMap.put("KI", NumValue);
-      NumValue = PID.add("KD", 0).getEntry();
-      NetworkTableNameMap.put("KD", NumValue);
-      NumValue = PID.add("setPoint", 0).getEntry();
-      NetworkTableNameMap.put("setPoint", NumValue);
+      numValue = PID.add("KP", 0).getEntry();
+      networkTableNameMap.put("KP", numValue);
+      numValue = PID.add("KI", 0).getEntry();
+      networkTableNameMap.put("KI", numValue);
+      numValue = PID.add("KD", 0).getEntry();
+      networkTableNameMap.put("KD", numValue);
+      numValue = PID.add("setPoint", 0).getEntry();
+      networkTableNameMap.put("setPoint", numValue);
     }
-    pid.setPID((double) NetworkTableNameMap.get("KP").getNumber(0), (double) NetworkTableNameMap.get("KI").getNumber(0),
-        (double) NetworkTableNameMap.get("KD").getNumber(0));
+    pid.setPID((double) networkTableNameMap.get("KP").getNumber(0), (double) networkTableNameMap.get("KI").getNumber(0),
+        (double) networkTableNameMap.get("KD").getNumber(0));
 
-    pid.setSetpoint((double) NetworkTableNameMap.get("setPoint").getNumber(0));
+    pid.setSetpoint((double) networkTableNameMap.get("setPoint").getNumber(0));
   }
 
 }

@@ -6,21 +6,21 @@ import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 /** Add your docs here. */
 public class MADriverStation {
-    private String Alliance = "";
+    private String alliance = "";
     private int location = 0;
     private MAShuffleboard driverStationShuffleboard = new MAShuffleboard("SmartDashboard");
-    private static MADriverStation maDriverStation;
+    private static MADriverStation m_DriverStation;
 
     private MADriverStation() {
-        Alliance = DriverStation.getInstance().getAlliance().toString();
+        alliance = DriverStation.getInstance().getAlliance().toString();
         location = DriverStation.getInstance().getLocation();
     }
 
-    public static void PrintError(String error, boolean printTrace) {
+    public static void printError(String error, boolean printTrace) {
         DriverStation.reportError(error, printTrace);
     }
 
-    public static void PrintWarning(String error, boolean printTrace) {
+    public static void printWarning(String error, boolean printTrace) {
         DriverStation.reportWarning(error, printTrace);
     }
 
@@ -48,20 +48,20 @@ public class MADriverStation {
         return DriverStation.getInstance().isJoystickConnected(Port);
     }
 
-    private void PrintValues() {
-        driverStationShuffleboard.addString("Alliance", Alliance);
+    private void printValues() {
+        driverStationShuffleboard.addString("Alliance", alliance);
         driverStationShuffleboard.addNum("location", location);
     }
 
     public void periodic() {
-        PrintValues();
+        printValues();
     }
 
     public static MADriverStation getinstance() {
-        if (maDriverStation == null) {
-            maDriverStation = new MADriverStation();
+        if (m_DriverStation == null) {
+            m_DriverStation = new MADriverStation();
         }
-        return maDriverStation;
+        return m_DriverStation;
     }
 
 }

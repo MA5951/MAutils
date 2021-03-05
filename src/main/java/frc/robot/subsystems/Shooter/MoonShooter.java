@@ -13,23 +13,23 @@ import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class MoonShooter extends MASubsystem {
-  private MAMotorControler MotorA;
-  private MAPidController PIDSpeedController;
-  private static MoonShooter MoonShooter;
-  private MAShuffleboard MoonShootersShuffleboard = new MAShuffleboard(ShooterConstants.SubsystemName);
+  private MAMotorControler motorA;
+  private MAPidController pidSpeedController;
+  private static MoonShooter m_Shooter;
+  private MAShuffleboard shooterShuffleboard = new MAShuffleboard(ShooterConstants.KSUBSYSTEM_NAME);
 
   private MoonShooter() {
-    MotorA = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID12, true, 0, false, ENCODER.Encoder);
-    setMAMotorComtrolersList(MotorA);
+    motorA = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID12, true, 0, false, ENCODER.Encoder);
+    setMAMotorComtrolersList(motorA);
 
-    PIDSpeedController = new MAPidController(ShooterConstants.MOTOR_A_KP, ShooterConstants.MOTOR_A_KI,
+    pidSpeedController = new MAPidController(ShooterConstants.MOTOR_A_KP, ShooterConstants.MOTOR_A_KI,
         ShooterConstants.MOTOR_A_KD, 0, 10, -12, 12);
 
   }
 
   @Override
   public void periodic() {
-    PrintValues();
+    printValues();
   }
 
   /**
@@ -48,60 +48,60 @@ public class MoonShooter extends MASubsystem {
 
   @Override
   public double calculatePIDOutput(double setPoint) {
-    return PIDSpeedController.calculate(getEncdoerRPM(), setPoint);
+    return pidSpeedController.calculate(getEncdoerRPM(), setPoint);
   }
 
   @Override
   public boolean isPIDAtTarget(double waitTime) {
-    return PIDSpeedController.atSetpoint(waitTime);
+    return pidSpeedController.atSetpoint(waitTime);
   }
 
   @Override
   public double getPositionError() {
-    return PIDSpeedController.getPositionError();
+    return pidSpeedController.getPositionError();
   }
 
   @Override
   public double getSetpointPID() {
-    return PIDSpeedController.getSetpoint();
+    return pidSpeedController.getSetpoint();
   }
 
   @Override
   public void setSetPoint(double setPoint) {
-    PIDSpeedController.setF(0); // TODO
-    PIDSpeedController.setSetpoint(setPoint);
+    pidSpeedController.setF(0); // TODO
+    pidSpeedController.setSetpoint(setPoint);
   }
 
   public double distanceToRPM() {
     double LinearSpeed = Math.sqrt((Math.pow(getVxSpeed(), 2) + Math.pow(getVySpeed(), 2)));
-    return MACalculations.FromLinearSpeedToRPM(LinearSpeed, ShooterConstants.KSHOOTER_GEAR);
+    return MACalculations.fromLinearSpeedToRPM(LinearSpeed, ShooterConstants.KSHOOTER_GEAR);
   }
 
   private double getVxSpeed() {
     double d = limelight.distance();
-    double head = Math.tan(ShooterConstants.ShootAngle) * d
+    double head = Math.tan(ShooterConstants.KSHOOT_ANGLE) * d
         - (RobotConstants.KGRAVITY_ACCELERATION / 2) * Math.pow(d, 2);
-    return Math.sqrt((head / ShooterConstants.DeltaY));
+    return Math.sqrt((head / ShooterConstants.KDELTA_Y));
   }
 
   private double getVySpeed() {
     double d = limelight.distance();
     double vx = getVxSpeed();
-    return (((ShooterConstants.DeltaY * vx) / d) - ((RobotConstants.KGRAVITY_ACCELERATION / 2) * d) / vx);
+    return (((ShooterConstants.KDELTA_Y * vx) / d) - ((RobotConstants.KGRAVITY_ACCELERATION / 2) * d) / vx);
   }
 
   @Override
-  public void PrintValues() {
-    MoonShootersShuffleboard.addNum("MoonShooterRPM", getEncdoerRPM());
-    MoonShootersShuffleboard.addNum("MoonShooterPIDSetPoint", getSetpointPID());
-    MoonShootersShuffleboard.addNum("MoonShooterPositionError", getPositionError());
-    MoonShootersShuffleboard.addBoolean("MoonShooterAtSetPoint", isPIDAtTarget(0.1));
+  public void printValues() {
+    shooterShuffleboard.addNum("MoonShooterRPM", getEncdoerRPM());
+    shooterShuffleboard.addNum("MoonShooterPIDSetPoint", getSetpointPID());
+    shooterShuffleboard.addNum("MoonShooterPositionError", getPositionError());
+    shooterShuffleboard.addBoolean("MoonShooterAtSetPoint", isPIDAtTarget(0.1));
   }
 
   public static MoonShooter getinstance() {
-    if (MoonShooter == null) {
-      MoonShooter = new MoonShooter();
+    if (m_Shooter == null) {
+      m_Shooter = new MoonShooter();
     }
-    return MoonShooter;
+    return m_Shooter;
   }
 }

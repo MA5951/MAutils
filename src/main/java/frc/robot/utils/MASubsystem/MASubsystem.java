@@ -26,17 +26,13 @@ public class MASubsystem extends SubsystemBase implements MASubsystemInterface {
     ID1, ID2, ID3, ID4, ID5, ID6, ID7, ID8, ID9, ID10, ID11, ID12, ID13, ID14, ID15, ID16
   }
 
-  public enum MOTORS {
-    CIM, PRO775, NEO, MINI_CIM, BAG, RS
+  public void setMAMotorComtrolersList(MAMotorControler motor) {
+    maMotorControlers.add(motor);
   }
 
-  public void setMAMotorComtrolersList(MAMotorControler Motor) {
-    maMotorControlers.add(Motor);
-  }
-
-  public void addFollowMotorToMaster(MAMotorControler Master, IDMotor id) {
-    MAMotorControler Motor = new MAMotorControler(Master.getMotorControllType(), id);
-    Motor.follow(Master);
+  public void addFollowMotorToMaster(MAMotorControler master, IDMotor id) {
+    MAMotorControler Motor = new MAMotorControler(master.getMotorControllType(), id);
+    Motor.follow(master);
   }
 
   @Override
@@ -50,7 +46,7 @@ public class MASubsystem extends SubsystemBase implements MASubsystemInterface {
   }
 
   @Override
-  public void PrintValues() {
+  public void printValues() {
     // TODO Auto-generated method stub
 
   }

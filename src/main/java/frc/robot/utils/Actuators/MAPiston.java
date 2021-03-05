@@ -12,34 +12,34 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 public class MAPiston {
     private Solenoid solenoid;
     private DoubleSolenoid doubleSolenoid;
-    private boolean IsDoubleSolenoid;
+    private boolean isDoubleSolenoid;
 
     public MAPiston(int channel) {
-        IsDoubleSolenoid = false;
+        isDoubleSolenoid = false;
         solenoid = new Solenoid(channel);
     }
 
     public MAPiston(int forwardChannel, int reverseChannel) {
-        IsDoubleSolenoid = true;
+        isDoubleSolenoid = true;
         doubleSolenoid = new DoubleSolenoid(forwardChannel, reverseChannel);
     }
 
     public void set(boolean on) {
-        if (IsDoubleSolenoid) {
-            doubleSolenoid.set(FromBooleanToValue(on));
+        if (isDoubleSolenoid) {
+            doubleSolenoid.set(fromBooleanToValue(on));
         } else {
             solenoid.set(on);
         }
     }
 
-    private Value FromBooleanToValue(boolean value) {
+    private Value fromBooleanToValue(boolean value) {
         if (value)
             return Value.kForward;
         else
             return Value.kReverse;
     }
 
-    private boolean FromValueToBoolean(Value value) {
+    private boolean fromValueToBoolean(Value value) {
         if (value == Value.kForward)
             return true;
         else
@@ -47,14 +47,14 @@ public class MAPiston {
     }
 
     public boolean get() {
-        if (IsDoubleSolenoid)
-            return FromValueToBoolean(doubleSolenoid.get());
+        if (isDoubleSolenoid)
+            return fromValueToBoolean(doubleSolenoid.get());
         else
             return solenoid.get();
     }
 
-    public void Toggle() {
-        if (IsDoubleSolenoid)
+    public void toggle() {
+        if (isDoubleSolenoid)
             doubleSolenoid.toggle();
         else
             solenoid.toggle();

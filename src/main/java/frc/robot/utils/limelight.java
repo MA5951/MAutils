@@ -17,7 +17,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class limelight {
   public static final double KDELTA_Y = 0; // TODO
-  private static final double KLIMELIGHT_ANGLE = 0; // TODO
+  private static final double KLIMELIGHT_STATIC_ANGLE = 0; // TODO
   public static double x;
   public static double y;
   public static boolean v;
@@ -49,8 +49,8 @@ public class limelight {
   private static NetworkTableEntry getpipe = table.getEntry("getpipe");
 
   public static double distance() {
-    double a = y + KLIMELIGHT_ANGLE;
-    return Math.tan(a) / KDELTA_Y;
+    double limelightAngle = y + KLIMELIGHT_STATIC_ANGLE;
+    return Math.tan(limelightAngle) / KDELTA_Y;
   }
 
   public static void ledMode(int ledMode) {

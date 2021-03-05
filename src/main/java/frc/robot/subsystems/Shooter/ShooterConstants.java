@@ -12,16 +12,17 @@ public class ShooterConstants {
 
     public final static int MOTOR_A = 0;
     public final static int MOTOR_B = 1; // if use LinerShooter
-    public static final String SubsystemName = "Shooter";
-    public static final double ShootAngle = 0; // TODO
-    public static final double DeltaY = 0; // TODO
+    public static final String KSUBSYSTEM_NAME = "Shooter";
+    public static final double KSHOOT_ANGLE = 0; // TODO
+    public static final double KDELTA_Y = 0; // TODO
 
-    public final static double KSPROCKET_RADIUS = 0;
-    public final static double KMOTOR_GEAR = 0;
+    public final static double KSPROCKET_RADIUS = 0; //TODO
+    public final static double KMOTOR_GEAR = 0; //TOOD
     public static final double KSHOOTER_GEAR = KSPROCKET_RADIUS * KMOTOR_GEAR; // TODO
-    public final static double KMOTOR_FORCE = KSHOOTER_GEAR;
-
+    public final static double KMOTOR_FORCE = KSHOOTER_GEAR; //* Motor stall torque * num of motor = Motor force 
+    public static final double KSUB_MAS = 0; //TOOD
     public static final double KMAX_SPEED = 12.9603246; // TODO
-    public static final double KMAX_ACCELERATION = 7.05206988015; // TODO
+    public static final double KMAX_ACCELERATION = KMOTOR_FORCE /KSUB_MAS; // TODO
+    public static final double KBEST_RPM = 0; //  KSHOOTER_GEAR * Motor max free RPM
 
 }

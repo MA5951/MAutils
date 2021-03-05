@@ -11,17 +11,17 @@ import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class Elevator extends MASubsystem {
 
-  private MAMotorControler ElevatorMove;
-  private MAPidController ElevatorMovePID;
+  private MAMotorControler elevatorMove;
+  private MAPidController elevatorMovePID;
   private static Elevator m_Elevator;
-  private MAShuffleboard ElevatoShuffleboard = new MAShuffleboard(ElevatorConstants.KSUBSYSTEM_NAME);
+  private MAShuffleboard elevatoShuffleboard = new MAShuffleboard(ElevatorConstants.KSUBSYSTEM_NAME);
 
   private Elevator() {
-    ElevatorMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID6, false, 0, true, true, true, ENCODER.Encoder);
-    setMAMotorComtrolersList(ElevatorMove);
+    elevatorMove = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID6, false, 0, true, true, true, ENCODER.Encoder);
+    setMAMotorComtrolersList(elevatorMove);
 
     // cahnge Tolorance
-    ElevatorMovePID = new MAPidController(ElevatorConstants.KP_ELEVATOR_MOVE, ElevatorConstants.KI_ELEVATOR_MOVE,
+    elevatorMovePID = new MAPidController(ElevatorConstants.KP_ELEVATOR_MOVE, ElevatorConstants.KI_ELEVATOR_MOVE,
         ElevatorConstants.KD_ELEVATOR_MOVE, ElevatorConstants.KF_ELEVATOR_MOVE, 10, -12, 12);
     resetSensor();
 
@@ -29,7 +29,7 @@ public class Elevator extends MASubsystem {
 
   @Override
   public void periodic() {
-    PrintValues();
+    printValues();
   }
 
   /**
@@ -66,33 +66,33 @@ public class Elevator extends MASubsystem {
 
   @Override
   public double calculatePIDOutput(double setPoint) {
-    return ElevatorMovePID.calculate(getEncoderPosition(), setPoint);
+    return elevatorMovePID.calculate(getEncoderPosition(), setPoint);
   }
 
   @Override
   public boolean isPIDAtTarget(double waitTime) {
 
-    return ElevatorMovePID.atSetpoint(waitTime);
+    return elevatorMovePID.atSetpoint(waitTime);
   }
 
   @Override
   public double getSetpointPID() {
-    return ElevatorMovePID.getSetpoint();
+    return elevatorMovePID.getSetpoint();
   }
 
   @Override
   public double getPositionError() {
-    return ElevatorMovePID.getPositionError();
+    return elevatorMovePID.getPositionError();
   }
 
   @Override
-  public void PrintValues() {
-    ElevatoShuffleboard.addNum("ElevatorGetPosition", getEncoderPosition());
-    ElevatoShuffleboard.addNum("ElevatorGetSetPoint", getSetpointPID());
-    ElevatoShuffleboard.addNum("ElevatorGetPositionError", getPositionError());
-    ElevatoShuffleboard.addBoolean("ElevatorAtSetPoint", isPIDAtTarget(0.1));
-    ElevatoShuffleboard.addBoolean("ElevatorGetLimitSwitchRValuse", getLimitSwitchRValuse());
-    ElevatoShuffleboard.addBoolean("ElevatorGetLimitSwitchFValuse", getLimitSwitchFValuse());
+  public void printValues() {
+    elevatoShuffleboard.addNum("ElevatorGetPosition", getEncoderPosition());
+    elevatoShuffleboard.addNum("ElevatorGetSetPoint", getSetpointPID());
+    elevatoShuffleboard.addNum("ElevatorGetPositionError", getPositionError());
+    elevatoShuffleboard.addBoolean("ElevatorAtSetPoint", isPIDAtTarget(0.1));
+    elevatoShuffleboard.addBoolean("ElevatorGetLimitSwitchRValuse", getLimitSwitchRValuse());
+    elevatoShuffleboard.addBoolean("ElevatorGetLimitSwitchFValuse", getLimitSwitchFValuse());
   }
 
   public static Elevator getinstance() {
