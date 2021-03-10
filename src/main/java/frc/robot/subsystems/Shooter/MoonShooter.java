@@ -4,9 +4,17 @@
 
 package frc.robot.subsystems.Shooter;
 
-import frc.robot.utils.controlers.MAPidController;
 import frc.robot.utils.Calculation.MACalculations;
 import frc.robot.utils.MASubsystem.MASubsystem;
+import edu.wpi.first.wpilibj.controller.LinearQuadraticRegulator;
+import edu.wpi.first.wpilibj.estimator.KalmanFilter;
+import edu.wpi.first.wpilibj.system.LinearSystem;
+import edu.wpi.first.wpilibj.system.LinearSystemLoop;
+import edu.wpi.first.wpilibj.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.system.plant.LinearSystemId;
+import edu.wpi.first.wpiutil.math.Nat;
+import edu.wpi.first.wpiutil.math.VecBuilder;
+import edu.wpi.first.wpiutil.math.numbers.N1;
 import frc.robot.utils.RobotConstants;
 import frc.robot.utils.limelight;
 import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
@@ -14,18 +22,31 @@ import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class MoonShooter extends MASubsystem {
   private MAMotorControler motorA;
-  private MAPidController pidSpeedController;
   private static MoonShooter m_Shooter;
+  private LinearSystem<N1, N1, N1> flyWheelLinearSystem;
+  private KalmanFilter<N1, N1, N1> flyWheelKalmanFilter;
+  private LinearQuadraticRegulator<N1, N1, N1> flyWheelLinearQuadraticRegulator;
+  private LinearSystemLoop<N1, N1, N1> flyWhLinearSystemLoop;
   private MAShuffleboard shooterShuffleboard = new MAShuffleboard(ShooterConstants.KSUBSYSTEM_NAME);
 
   private MoonShooter() {
     motorA = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID5, true, 0, false, ENCODER.Encoder);
     setMAMotorComtrolersList(motorA);
     addFollowMotorToMaster(motorA, IDMotor.ID6);
+    flyWheelLinearSystem = LinearSystemId.createFlywheelSystem(DCMotor.getNEO(2),
+        ShooterConstants.kFlywheelMomentOfInertia, ShooterConstants.KSHOOTER_GEAR);
 
-    pidSpeedController = new MAPidController(ShooterConstants.MOTOR_A_KP, ShooterConstants.MOTOR_A_KI,
-        ShooterConstants.MOTOR_A_KD, 0, 10, -12, 12);
+    flyWheelKalmanFilter = new KalmanFilter<>(Nat.N1(), Nat.N1(), flyWheelLinearSystem, VecBuilder.fill(3),
+        VecBuilder.fill(0.01), RobotConstants.KDELTA_TIME); // TODO becBuilder
 
+    flyWheelLinearQuadraticRegulator = new LinearQuadraticRegulator<>(flyWheelLinearSystem, VecBuilder.fill(7.0),
+        VecBuilder.fill(12), RobotConstants.KDELTA_TIME);// TODO becBuilder
+
+    flyWhLinearSystemLoop = new LinearSystemLoop<>(flyWheelLinearSystem, flyWheelLinearQuadraticRegulator,
+        flyWheelKalmanFilter, 12, RobotConstants.KDELTA_TIME);
+
+      
+        
   }
 
   @Override
@@ -47,32 +68,6 @@ public class MoonShooter extends MASubsystem {
     return maMotorControlers.get(ShooterConstants.MOTOR_A).getVelocity();
   }
 
-  @Override
-  public double calculatePIDOutput(double setPoint) {
-    return pidSpeedController.calculate(getEncdoerRPM(), setPoint);
-  }
-
-  @Override
-  public boolean isPIDAtTarget(double waitTime) {
-    return pidSpeedController.atSetpoint(waitTime);
-  }
-
-  @Override
-  public double getPositionError() {
-    return pidSpeedController.getPositionError();
-  }
-
-  @Override
-  public double getSetpointPID() {
-    return pidSpeedController.getSetpoint();
-  }
-
-  @Override
-  public void setSetPoint(double setPoint) {
-    pidSpeedController.setF(0); // TODO
-    pidSpeedController.setSetpoint(setPoint);
-  }
-
   public double distanceToRPM() {
     double LinearSpeed = Math.sqrt((Math.pow(getVxSpeed(), 2) + Math.pow(getVySpeed(), 2)));
     return MACalculations.fromLinearSpeedToRPM(LinearSpeed, ShooterConstants.KSHOOTER_GEAR);
@@ -89,6 +84,33 @@ public class MoonShooter extends MASubsystem {
     double d = limelight.distance();
     double vx = getVxSpeed();
     return (((ShooterConstants.KDELTA_Y * vx) / d) - ((RobotConstants.KGRAVITY_ACCELERATION / 2) * d) / vx);
+  }
+
+  @Override
+  public void setSetPoint(double setPoint) {
+    flyWhLinearSystemLoop.setNextR(VecBuilder.fill(setPoint)); // in radain per secend
+  }
+
+  @Override
+  public double calculatePIDOutput() {
+    flyWhLinearSystemLoop.correct(VecBuilder.fill(getEncdoerRPM()));
+    flyWhLinearSystemLoop.predict(RobotConstants.KDELTA_TIME);
+    return flyWhLinearSystemLoop.getU(0);
+  }
+
+  @Override
+  public double getPositionError() {
+    return flyWhLinearSystemLoop.getError(0); // TODO the right indax
+  }
+
+  @Override
+  public double getSetpointPID() {
+    return flyWhLinearSystemLoop.getNextR(0); // TODO the right row
+  }
+
+  @Override
+  public boolean isPIDAtTarget(double waitTime) {
+   return Math.abs(getPositionError()) < 70;
   }
 
   @Override

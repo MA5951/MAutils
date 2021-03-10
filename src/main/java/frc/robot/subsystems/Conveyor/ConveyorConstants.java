@@ -16,5 +16,6 @@ public class ConveyorConstants {
     public static final double KSUB_MAS = 0;
     public static final double KMAX_SPEED = 12.9603246; //TODO
     public static final double KMAX_ACCELERATION = KMOTOR_FORCE /KSUB_MAS; 
-    public static final double KBEST_RPM = 0; //  KSHOOTER_GEAR * Motor max free RPM
+    public static final double KBEST_TRANSPORTATION_RPM = 0; //  KSHOOTER_GEAR * Motor max free RPM
+    public static final double KBEST_CONVEYOR_RPM = 0; //  KSHOOTER_GEAR * Motor max free RPM
 }

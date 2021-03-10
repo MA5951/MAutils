@@ -34,7 +34,6 @@ public class MAPath extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    chassis.setpoint(1, 1, 1, 1);
     chassis.rampRate(0);
     chassis.setidilmodeBrake(false);
     stage = 0;
@@ -73,12 +72,14 @@ public class MAPath extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     if (interrupted) {
-      chassis.tankDrive(0, 0);
+      chassis.leftcontrol(0);
+      chassis.rightcontrol(0);
       chassis.setidilmodeBrake(true);
     } else {
 
       pathnum++;
-      chassis.tankDrive(0, 0);
+      chassis.leftcontrol(0);
+      chassis.rightcontrol(0);
       chassis.setidilmodeBrake(true);
     }
   }

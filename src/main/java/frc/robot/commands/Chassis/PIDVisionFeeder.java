@@ -42,7 +42,8 @@ public class PIDVisionFeeder extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     limelight.camMode(1);
-    chassis.tankDrive(0, 0);
+    chassis.leftcontrol(0);
+    chassis.rightcontrol(0);
     chassis.reset();
     chassis.setidilmodeBrake(true);
   }

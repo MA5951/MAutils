@@ -14,6 +14,7 @@ import frc.robot.subsystems.Roulette.Roulette;
 import frc.robot.subsystems.Shooter.MoonShooter;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.Automation.Shooting;
 import frc.robot.subsystems.Automation.Automation;
 import frc.robot.subsystems.Balance.Balance;
 import frc.robot.utils.MAComannds.MABasicMotorCommand;
@@ -37,12 +38,13 @@ public class CommandContainer {
                 JoystickContainer.RB.whenPressed(new MAPistonCommand(pistonIntake, false));
 
                 JoystickContainer.AButton.whileHeld(new MABasicMotorCommand(pistonIntake,
-                                -IntakeConstants.KBEST_RPM_COLLECTION, IntakeConstants.INTAKE_COLLECTION));
+                                IntakeConstants.KBEST_RPM_COLLECTION, IntakeConstants.INTAKE_COLLECTION)
+                                                .alongWith(new MAPistonCommand(pistonIntake, true)));
                 JoystickContainer.BButton.whileHeld(new MABasicMotorCommand(pistonIntake,
-                                IntakeConstants.KBEST_RPM_COLLECTION, IntakeConstants.INTAKE_COLLECTION));
+                                -IntakeConstants.KBEST_RPM_COLLECTION, IntakeConstants.INTAKE_COLLECTION));
 
                 JoystickContainer.YButton
-                                .whileHeld(new StartEndCommand(() -> Automation.getinstance().conveyorControl(-0.3),
+                                .whileHeld(new StartEndCommand(() -> Automation.getinstance().conveyorControl(-1),
                                                 () -> Automation.getinstance().conveyorControl(0), conveyor));
                 JoystickContainer.POVDown.whileHeld(new MAPositionPIDCommand(elevator, ElevatorConstants.KDOWN_SETPOINT,
                                 ElevatorConstants.KELEVATOR_MOVE));
@@ -51,6 +53,9 @@ public class CommandContainer {
 
                 JoystickContainer.POVRight.whenPressed(new MAPistonCommand(elevator, true));
                 JoystickContainer.POVLeft.whenPressed(new MAPistonCommand(elevator, false));
+
+                JoystickContainer.triggerR.whileActiveContinuous(new Shooting());
+
         }
 
 }

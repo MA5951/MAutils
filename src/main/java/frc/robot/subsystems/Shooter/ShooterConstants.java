@@ -17,11 +17,12 @@ public class ShooterConstants {
 
     public final static double KSPROCKET_RADIUS = 0; // TODO
     public final static double KMOTOR_GEAR = 0; // TOOD
-    public static final double KSHOOTER_GEAR = KSPROCKET_RADIUS * KMOTOR_GEAR; // TODO
+    public static final double KSHOOTER_GEAR = KSPROCKET_RADIUS * KMOTOR_GEAR;  // Reduction between motors and encoder, as output over input
     public final static double KMOTOR_FORCE = KSHOOTER_GEAR; // * Motor stall torque * num of motor = Motor force
     public static final double KSUB_MAS = 0; // TOOD
     public static final double KMAX_SPEED = 12.9603246; // TODO
     public static final double KMAX_ACCELERATION = KMOTOR_FORCE / KSUB_MAS; // TODO
     public static final double KBEST_RPM = 0; // KSHOOTER_GEAR * Motor max free RPM
+    public static final double kFlywheelMomentOfInertia = 0.00032; //TODO
 
 }

@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.Chassis;
 
+import frc.robot.utils.RobotConstants;
+
 /** Add your docs here. */
 public class ChassisConstants {
     public static final String KSUBSYSTEM_NAME = "Chassis";
@@ -29,13 +31,13 @@ public class ChassisConstants {
     public static final double KRAMP_RATE_AUTO = 0.35;
     public static final double KTHRESHOLD = 0.1;
     public static final double KSCALE = 0.3;
-    
-    public static final double KSUB_MAS = 0;
-    public static final double KTICKS_PER_METER = 22000;
+
+    public static final double KSUB_MAS = 54;
+    public static final int KTICKS_PER_METER = 945;
     public final static double KSPROCKET_RADIUS = 0;
-    public final static double KMOTOR_GEAR = 0;
+    public final static double KMOTOR_GEAR = 1 / 11.25;
     public static final double KCHASSIS_GEAR = KSPROCKET_RADIUS * KMOTOR_GEAR; // TODO
-    public final static double KMOTOR_FORCE = KCHASSIS_GEAR; // * Motor stall torque * num of motor = Motor force
+    public final static double KMOTOR_FORCE = KCHASSIS_GEAR * RobotConstants.KSTALL_TORQUE_NEO * 2;
     public static final double KMAX_SPEED = 12.9603246; // TODO
-    public static final double KMAX_ACCELERATION = KSUB_MAS / KMOTOR_FORCE; // TODO
+    public static final double KMAX_ACCELERATION = 7;// KMOTOR_FORCE / KSUB_MAS; // TODO
 }
