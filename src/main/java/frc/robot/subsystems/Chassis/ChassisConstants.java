@@ -34,7 +34,7 @@ public class ChassisConstants {
 
     public static final double KSUB_MAS = 54;
     public static final int KTICKS_PER_METER = 945;
-    public final static double KSPROCKET_RADIUS = 0;
+    public final static double KSPROCKET_RADIUS = 1;//TOOD
     public final static double KMOTOR_GEAR = 1 / 11.25;
     public static final double KCHASSIS_GEAR = KSPROCKET_RADIUS * KMOTOR_GEAR; // TODO
     public final static double KMOTOR_FORCE = KCHASSIS_GEAR * RobotConstants.KSTALL_TORQUE_NEO * 2;

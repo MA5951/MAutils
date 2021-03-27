@@ -113,8 +113,11 @@ public class MAMotorControler {
         }
     }
 
+    /*
+     * dont work with victor and inerEncoder neo
+     */
     public void phaseSensor(boolean phaseSensor) {
-        printWarningForMC("victor dont support", true, MOTOR_CONTROLL.VICTOR);
+        printWarningForMC("victor and spark max encoder dont support ", true, MOTOR_CONTROLL.VICTOR);
         if (encoder == ENCODER.Encoder || encoder == ENCODER.Alternate_Encoder)
             getMotorControll().phaseSensor(phaseSensor);
     }

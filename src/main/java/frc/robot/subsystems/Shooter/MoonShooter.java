@@ -22,6 +22,7 @@ import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class MoonShooter extends MASubsystem {
   private MAMotorControler motorA;
+  private MAMotorControler motorB;
   private static MoonShooter m_Shooter;
   private LinearSystem<N1, N1, N1> flyWheelLinearSystem;
   private KalmanFilter<N1, N1, N1> flyWheelKalmanFilter;
@@ -32,21 +33,22 @@ public class MoonShooter extends MASubsystem {
   private MoonShooter() {
     motorA = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID5, true, 0, false, ENCODER.Encoder);
     setMAMotorComtrolersList(motorA);
-    addFollowMotorToMaster(motorA, IDMotor.ID6);
+    motorB = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID6, false, 0, false, ENCODER.Encoder);
+    setMAMotorComtrolersList(motorB);
+    motorB.follow(motorA);
+
     flyWheelLinearSystem = LinearSystemId.createFlywheelSystem(DCMotor.getNEO(2),
         ShooterConstants.kFlywheelMomentOfInertia, ShooterConstants.KSHOOTER_GEAR);
 
     flyWheelKalmanFilter = new KalmanFilter<>(Nat.N1(), Nat.N1(), flyWheelLinearSystem, VecBuilder.fill(3),
-        VecBuilder.fill(0.01), RobotConstants.KDELTA_TIME); // TODO becBuilder
+        VecBuilder.fill(0.01), RobotConstants.KDELTA_TIME);
 
     flyWheelLinearQuadraticRegulator = new LinearQuadraticRegulator<>(flyWheelLinearSystem, VecBuilder.fill(7.0),
-        VecBuilder.fill(12), RobotConstants.KDELTA_TIME);// TODO becBuilder
+        VecBuilder.fill(12), RobotConstants.KDELTA_TIME);
 
     flyWhLinearSystemLoop = new LinearSystemLoop<>(flyWheelLinearSystem, flyWheelLinearQuadraticRegulator,
-        flyWheelKalmanFilter, 12, RobotConstants.KDELTA_TIME);
+        flyWheelKalmanFilter, 10, RobotConstants.KDELTA_TIME);
 
-      
-        
   }
 
   @Override
@@ -65,7 +67,12 @@ public class MoonShooter extends MASubsystem {
   @Override
   public double getEncdoerRPM() {
 
-    return maMotorControlers.get(ShooterConstants.MOTOR_A).getVelocity();
+    return (maMotorControlers.get(ShooterConstants.MOTOR_A).getVelocity()
+        + maMotorControlers.get(ShooterConstants.MOTOR_B).getVelocity()) / 2;
+  }
+
+  private double getAngularVelocity() {
+    return getEncdoerRPM() / 10;
   }
 
   public double distanceToRPM() {
@@ -75,27 +82,30 @@ public class MoonShooter extends MASubsystem {
 
   private double getVxSpeed() {
     double d = limelight.distance();
-    double head = Math.tan(ShooterConstants.KSHOOT_ANGLE) * d
+    double head = Math.toDegrees(Math.tan(ShooterConstants.KSHOOT_ANGLE)) * d
         - (RobotConstants.KGRAVITY_ACCELERATION / 2) * Math.pow(d, 2);
     return Math.sqrt((head / ShooterConstants.KDELTA_Y));
   }
 
   private double getVySpeed() {
-    double d = limelight.distance();
+    double d = 3;// limelight.distance();
     double vx = getVxSpeed();
     return (((ShooterConstants.KDELTA_Y * vx) / d) - ((RobotConstants.KGRAVITY_ACCELERATION / 2) * d) / vx);
   }
 
   @Override
   public void setSetPoint(double setPoint) {
-    flyWhLinearSystemLoop.setNextR(VecBuilder.fill(setPoint)); // in radain per secend
+    flyWhLinearSystemLoop.setNextR(VecBuilder.fill(setPoint / 10)); // in radain per
+    // secend
   }
 
   @Override
   public double calculatePIDOutput() {
-    flyWhLinearSystemLoop.correct(VecBuilder.fill(getEncdoerRPM()));
+
+    flyWhLinearSystemLoop.correct(VecBuilder.fill(getAngularVelocity()));
     flyWhLinearSystemLoop.predict(RobotConstants.KDELTA_TIME);
     return flyWhLinearSystemLoop.getU(0);
+
   }
 
   @Override
@@ -110,15 +120,18 @@ public class MoonShooter extends MASubsystem {
 
   @Override
   public boolean isPIDAtTarget(double waitTime) {
-   return Math.abs(getPositionError()) < 70;
+    return Math.abs(getPositionError()) < 70;
   }
 
   @Override
   public void printValues() {
-    shooterShuffleboard.addNum("MoonShooterRPM", getEncdoerRPM());
+
+    shooterShuffleboard.addNum("MoonShooterAngularVelocity", getAngularVelocity());
     shooterShuffleboard.addNum("MoonShooterPIDSetPoint", getSetpointPID());
     shooterShuffleboard.addNum("MoonShooterPositionError", getPositionError());
+    shooterShuffleboard.addNum("outPut", calculatePIDOutput());
     shooterShuffleboard.addBoolean("MoonShooterAtSetPoint", isPIDAtTarget(0.1));
+
   }
 
   public static MoonShooter getinstance() {

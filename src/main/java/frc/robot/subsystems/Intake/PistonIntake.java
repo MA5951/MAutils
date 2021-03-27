@@ -42,7 +42,6 @@ public class PistonIntake extends MASubsystem {
   @Override
   public void periodic() {
     printValues();
-
   }
 
   /**

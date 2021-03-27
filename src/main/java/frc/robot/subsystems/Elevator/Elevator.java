@@ -6,6 +6,7 @@ package frc.robot.subsystems.Elevator;
 
 import frc.robot.utils.Controlers.MAPidController;
 import frc.robot.utils.MASubsystem.MASubsystem;
+import edu.wpi.first.wpilibj.system.plant.DCMotor;
 import frc.robot.utils.RobotConstants;
 import frc.robot.utils.Actuators.MAPiston;
 import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
@@ -20,7 +21,7 @@ public class Elevator extends MASubsystem {
   private MAShuffleboard elevatoShuffleboard = new MAShuffleboard(ElevatorConstants.KSUBSYSTEM_NAME);
 
   private Elevator() {
-    piston = new MAPiston(RobotConstants.P_ID1, RobotConstants.P_ID0);
+    piston = new MAPiston(RobotConstants.P_ID6);
     elevatorMove = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID8, false, 0, true,
         ENCODER.Alternate_Encoder);
     setMAMotorComtrolersList(elevatorMove);
@@ -82,6 +83,7 @@ public class Elevator extends MASubsystem {
 
   @Override
   public boolean getPistonValue() {
+    
     return piston.get();
   }
 

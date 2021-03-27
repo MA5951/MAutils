@@ -25,6 +25,7 @@ class MASpakrMax implements MAMotorControlInterface {
     public MASpakrMax(int id, boolean inverted, double rampRate, boolean mod, boolean hasForwardLimitSwitch,
             boolean hasReverseLimitSwitch, MASubsystem.ENCODER encoder, MotorType type) {
         canSparkMax = new CANSparkMax(id, type);
+        canSparkMax.restoreFactoryDefaults();
         setInverted(inverted);
         configRampRate(rampRate);
         changeMood(mod);

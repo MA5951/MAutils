@@ -4,25 +4,35 @@
 
 package frc.robot.subsystems.Shooter;
 
+import edu.wpi.first.wpilibj.system.plant.DCMotor;
+import frc.robot.utils.Calculation.MACalculations;
+
 /** Add your docs here. */
 public class ShooterConstants {
+    private final static DCMotor MOTOR = DCMotor.getNEO(2);
+    private final static double MAX_FREE_RPM = MOTOR.freeSpeedRadPerSec * 10;
+
     public final static double MOTOR_A_KP = 0;
     public final static double MOTOR_A_KI = 0;
     public final static double MOTOR_A_KD = 0;
 
     public final static int MOTOR_A = 0;
+    public final static int MOTOR_B = 1;
+
     public static final String KSUBSYSTEM_NAME = "Shooter";
     public static final double KSHOOT_ANGLE = 0; // TODO
     public static final double KDELTA_Y = 0; // TODO
 
-    public final static double KSPROCKET_RADIUS = 0; // TODO
-    public final static double KMOTOR_GEAR = 0; // TOOD
-    public static final double KSHOOTER_GEAR = KSPROCKET_RADIUS * KMOTOR_GEAR;  // Reduction between motors and encoder, as output over input
-    public final static double KMOTOR_FORCE = KSHOOTER_GEAR; // * Motor stall torque * num of motor = Motor force
-    public static final double KSUB_MAS = 0; // TOOD
-    public static final double KMAX_SPEED = 12.9603246; // TODO
-    public static final double KMAX_ACCELERATION = KMOTOR_FORCE / KSUB_MAS; // TODO
-    public static final double KBEST_RPM = 0; // KSHOOTER_GEAR * Motor max free RPM
-    public static final double kFlywheelMomentOfInertia = 0.00032; //TODO
+    public final static double KSPROCKET_RADIUS = 2.3776;
+    public final static double KMOTOR_GEAR = 1 / 1.778;
+    public static final double KSHOOTER_GEAR = KSPROCKET_RADIUS * KMOTOR_GEAR;
+    public final static double KMOTOR_FORCE = KSHOOTER_GEAR * MOTOR.stallTorqueNewtonMeters;
+    public static final double KSUB_MAS = 0.8; // KG
+    public static final double KMAX_RPM = MAX_FREE_RPM * KMOTOR_GEAR;
+    public static final double KMAX_ACCELERATION = KMOTOR_FORCE / KSUB_MAS;
+    public static final double KBEST_VOLTEG = MACalculations.RPMToVolteg(KMAX_RPM, KSPROCKET_RADIUS, KMOTOR_GEAR,
+            KSUB_MAS);
+    private static final double FlywhellRadius = 0.0508;
+    public static final double kFlywheelMomentOfInertia = KSUB_MAS * Math.pow(FlywhellRadius, 2); // mas*R^2
 
 }

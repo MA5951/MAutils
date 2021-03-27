@@ -29,7 +29,7 @@ public class RobotConstants {
 
     public final static double KELECTRON_CHARGE = -1.6e-19;
     public final static int KTICKS_PER_PULSE = 1;
-    public final static double KDELTA_TIME = 0.02;
+    public final static double KDELTA_TIME = 0.020;
     public final static double KGRAVITY_ACCELERATION = 9.82;
 
     public final static int KLEFT_JOYSTICK_PORT = 0;

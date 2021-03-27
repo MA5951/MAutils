@@ -22,8 +22,8 @@ public class Automation extends SubsystemBase {
   }
 
   public void conveyorControl(int mod) {
-    Conveyor.getinstance().setMotorPower(ConveyorConstants.KBEST_CONVEYOR_RPM * mod, ConveyorConstants.KCONVEYOR_MOTOR);
-    Conveyor.getinstance().setMotorPower(ConveyorConstants.KBEST_TRANSPORTATION_RPM * mod,
+    Conveyor.getinstance().setMotorPower(ConveyorConstants.KBEST_CONVEYOR_VOLTEG * mod, ConveyorConstants.KCONVEYOR_MOTOR);
+    Conveyor.getinstance().setMotorPower(ConveyorConstants.KBEST_TRANSPORTATION_VOLTEG * mod,
         ConveyorConstants.KTRANSPORTATION_MOTOR);
   }
 

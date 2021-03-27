@@ -23,7 +23,7 @@ public class Roulette extends MASubsystem {
 
   private Roulette() {
     rouletteMotor = new MAMotorControler(MOTOR_CONTROLL.VICTOR, IDMotor.ID10);
-    piston = new MAPiston(RobotConstants.P_ID6);
+    piston = new MAPiston(RobotConstants.P_ID5);
     colorSensorV3 = new ColorSensorV3(Port.kOnboard);
     setMAMotorComtrolersList(rouletteMotor);
 

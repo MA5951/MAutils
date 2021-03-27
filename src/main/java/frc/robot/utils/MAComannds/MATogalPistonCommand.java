@@ -20,6 +20,7 @@ public class MATogalPistonCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
     this.currentSubsystem.togglePiston();
   }
 

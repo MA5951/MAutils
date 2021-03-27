@@ -31,7 +31,7 @@ public class Shooting extends CommandBase {
     limelight.camMode(0);
     time = 0;
     double setPoint = MoonShooter.getinstance().distanceToRPM();
-    MoonShooter.getinstance().setSetPoint(setPoint);
+    MoonShooter.getinstance().setSetPoint(2000);
     visioCommand.initialize();
   }
 
@@ -39,7 +39,7 @@ public class Shooting extends CommandBase {
   @Override
   public void execute() {
     visioCommand.execute();
-    MoonShooter.getinstance().setMotorVoltage(MoonShooter.getinstance().calculatePIDOutput(), ShooterConstants.MOTOR_A);
+    MoonShooter.getinstance().setMotorPower(MoonShooter.getinstance().calculatePIDOutput(), ShooterConstants.MOTOR_A);
     if (visioCommand.isFinished() && MoonShooter.getinstance().isPIDAtTarget(0.1)) {
 
       if (Conveyor.getinstance().getStatorCurrent(ConveyorConstants.KCONVEYOR_MOTOR) < -13
@@ -63,7 +63,7 @@ public class Shooting extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     visioCommand.end(true);
-    MoonShooter.getinstance().setMotorVoltage(0, ShooterConstants.MOTOR_A);
+    MoonShooter.getinstance().setMotorPower(0, ShooterConstants.MOTOR_A);
     Automation.getinstance().conveyorControl(0);
   }
 

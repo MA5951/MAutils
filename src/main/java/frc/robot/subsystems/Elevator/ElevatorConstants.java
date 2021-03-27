@@ -4,29 +4,33 @@
 
 package frc.robot.subsystems.Elevator;
 
+import edu.wpi.first.wpilibj.system.plant.DCMotor;
 import frc.robot.utils.Calculation.MACalculations;
 
 /** Add your docs here. */
 public class ElevatorConstants {
+    private final static DCMotor MOTOR = DCMotor.getNEO(1);
+    private final static double MAX_FREE_RPM = MOTOR.freeSpeedRadPerSec * 10;
 
     public static final double KP_ELEVATOR_MOVE = 0; // TODO
     public static final double KI_ELEVATOR_MOVE = 0; // TODO
     public static final double KD_ELEVATOR_MOVE = 0; // TODO
-    public static final double KF_ELEVATOR_MOVE = 0;
+    public static final double KF_ELEVATOR_MOVE = 0.1;
 
-    public static final double KUP_SETPOINT = 0;
-    public static final double KDOWN_SETPOINT = 0;
+    public static final double KUP_SETPOINT = 100;
+    public static final double KDOWN_SETPOINT = -100;
 
     public static final int KELEVATOR_MOVE = 0;
     public static final String KSUBSYSTEM_NAME = "Elevator";
-   
 
-    public final static double KSPROCKET_RADIUS = 0; //TODO
-    public final static double KMOTOR_GEAR = 0; //TODO
-    public static final double KELEVATOR_GEAR = KMOTOR_GEAR * KSPROCKET_RADIUS; 
-    public final static double KMOTOR_FORCE = KELEVATOR_GEAR; //* Motor stall torque * num of motor = Motor force
-    public static final double KSUB_MAS = 0; //TODO
-    public static final double KMAX_SPEED = 12.9603246; // TODO
-    public static final double KMAX_ACCELERATION = KMOTOR_FORCE / KSUB_MAS; 
-    public static final double KBEST_RPM = MACalculations.RPMToVolteg(0, KSPROCKET_RADIUS, KMOTOR_GEAR, KSUB_MAS); //  KSHOOTER_GEAR * Motor max free RPM
+    public final static double KSPROCKET_RADIUS = 0; // TODO
+    public final static double KMOTOR_GEAR = 1 / 11; 
+
+    public static final double KELEVATOR_GEAR = KMOTOR_GEAR * KSPROCKET_RADIUS;
+    public final static double KMOTOR_FORCE = KELEVATOR_GEAR * MOTOR.stallTorqueNewtonMeters;
+    public static final double KSUB_MAS = 0; // TODO
+    public static final double KMAX_RPM = MAX_FREE_RPM * KMOTOR_GEAR;
+    public static final double KMAX_ACCELERATION = KMOTOR_FORCE / KSUB_MAS;
+    public static final double KBEST_RPM = MACalculations.RPMToVolteg(KMAX_RPM, KSPROCKET_RADIUS, KMOTOR_GEAR,
+            KSUB_MAS);
 }

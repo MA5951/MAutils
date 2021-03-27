@@ -47,11 +47,10 @@ public class Chassis extends MASubsystem {
     leftFrontMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID1, true, 0, false,
         ENCODER.Encoder);
     leftMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID2);
-    rightFrontMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushled, IDMotor.ID3, false, 0, false,
+    rightFrontMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID3, false, 0, false,
         ENCODER.Encoder);
-    rightMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushled, IDMotor.ID4);
+    rightMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID4);
 
-    rightFrontMotor.phaseSensor(true);
     leftMotor.follow(leftFrontMotor);
     rightMotor.follow(rightFrontMotor);
 
@@ -78,7 +77,7 @@ public class Chassis extends MASubsystem {
     distancePIDVision = new MAPidController(ChassisConstants.KP_VISION_DISTANCE, ChassisConstants.KI_VISION_DISTANCE,
         ChassisConstants.KD_VISION_DISTANCE, 0, 2, -12, 12);
 
-        
+    resetValue();
 
   }
 
@@ -108,12 +107,12 @@ public class Chassis extends MASubsystem {
 
   // resat the value of the encoder and the navx
   public void resetValue() {
-    navx.reset();
+    navx.zeroYaw();
     rightFrontMotor.resetEncoder();
     leftFrontMotor.resetEncoder();
   }
 
-  // pid vosin
+  // pid
   public void reset() {
     anglePIDVision.reset();
   }
@@ -243,7 +242,8 @@ public class Chassis extends MASubsystem {
     chassisShuffleboard.addNum("Stage", MAPath.stage);
     chassisShuffleboard.addNum("fixedAngle", getAngle());
     chassisShuffleboard.addNum("distacne", averageDistance());
-    chassisShuffleboard.addNum("RPM", averageRPM());
+    chassisShuffleboard.addNum("RPM", deltaV());
+    chassisShuffleboard.addNum("acceleration", acceleration());
     chassisShuffleboard.addNum("angleSetPoint", anglePidMApath.getSetpoint());
     chassisShuffleboard.addNum("accelerationSetPoint", accelerationPidMApath.getSetpoint());
   }

@@ -86,7 +86,7 @@ public class Robot extends TimedRobot {
     Chassis.getinstance().rampRate(0);
     Chassis.getinstance().setidilmodeBrake(false);
     CommandScheduler.getInstance().setDefaultCommand(Chassis.getinstance(), new TankDrive());
-    CommandScheduler.getInstance().setDefaultCommand(Balance.getinstance(), new BalanceContorl());
+    //CommandScheduler.getInstance().setDefaultCommand(Balance.getinstance(), new BalanceContorl());
     CommandScheduler.getInstance().setDefaultCommand(Elevator.getinstance(), new elevatorControl());
 
     if (m_autonomousCommand != null) {
