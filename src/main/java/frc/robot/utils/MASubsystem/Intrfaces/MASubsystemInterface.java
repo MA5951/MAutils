@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.utils.MASubsystem;
+package frc.robot.utils.MASubsystem.Intrfaces;
 
 public interface MASubsystemInterface {
 
@@ -49,7 +49,7 @@ public interface MASubsystemInterface {
 
   public double getStatorCurrent(int indax);
 
-  public boolean isPIDAtTarget(double waitTime);
+  public boolean isPIDAtTarget();
 
   public double getSetpointPID();
 

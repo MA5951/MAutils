@@ -25,7 +25,7 @@ public class PIDVisionFeeder extends CommandBase {
   public void initialize() {
     limelight.camMode(0);
     limelight.pipeline(1);
-    chassis.rampRate(0);
+  
     chassis.setidilmodeBrake(true);
   }
 

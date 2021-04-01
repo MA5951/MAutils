@@ -62,8 +62,8 @@ public class Elevator extends MASubsystem {
   }
 
   @Override
-  public boolean isPIDAtTarget(double waitTime) {
-    return elevatorMovePID.atSetpoint(waitTime);
+  public boolean isPIDAtTarget() {
+    return elevatorMovePID.atSetpoint();
   }
 
   @Override
@@ -83,7 +83,7 @@ public class Elevator extends MASubsystem {
 
   @Override
   public boolean getPistonValue() {
-    
+
     return piston.get();
   }
 
@@ -92,7 +92,7 @@ public class Elevator extends MASubsystem {
     elevatoShuffleboard.addNum("ElevatorGetPosition", getEncoderPosition());
     elevatoShuffleboard.addNum("ElevatorGetSetPoint", getSetpointPID());
     elevatoShuffleboard.addNum("ElevatorGetPositionError", getPositionError());
-    elevatoShuffleboard.addBoolean("ElevatorAtSetPoint", isPIDAtTarget(0.1));
+    elevatoShuffleboard.addBoolean("ElevatorAtSetPoint", isPIDAtTarget());
     elevatoShuffleboard.addBoolean("ElevatorGetLimitSwitchRValuse", getLimitSwitchRValuse());
     elevatoShuffleboard.addBoolean("ElevatorGetLimitSwitchFValuse", getLimitSwitchFValuse());
   }

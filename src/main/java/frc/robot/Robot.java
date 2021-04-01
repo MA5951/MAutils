@@ -83,8 +83,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    Chassis.getinstance().rampRate(0);
     Chassis.getinstance().setidilmodeBrake(false);
+    Chassis.getinstance().resetValue();
     CommandScheduler.getInstance().setDefaultCommand(Chassis.getinstance(), new TankDrive());
     //CommandScheduler.getInstance().setDefaultCommand(Balance.getinstance(), new BalanceContorl());
     CommandScheduler.getInstance().setDefaultCommand(Elevator.getinstance(), new elevatorControl());

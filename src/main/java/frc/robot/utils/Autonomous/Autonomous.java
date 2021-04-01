@@ -33,15 +33,15 @@ public class Autonomous {
 
   public static Command getAutonomousCommand() {
     if (m_chooser.getSelected() == "EnemyRoullete") {
-      return new MAPath(0.1);// TODO
+      return new MAPath();// TODO
     } else if (m_chooser.getSelected() == "RoulletePath") {
-      return new MAPath(0.1);// TODO
+      return new MAPath();// TODO
     } else if (m_chooser.getSelected() == "RoulletePath1") {
-      return new MAPath(0.1);// TODO
+      return new MAPath();// TODO
     } else if (m_chooser.getSelected() == "shootanddrive") {
-      return new MAPath(0.1);// TODO
+      return new MAPath();// TODO
     } else if (m_chooser.getSelected() == "standart1") {
-      return new MAPath(0.1); // TODO
+      return new MAPath(); // TODO
     } else {
       return null;
     }

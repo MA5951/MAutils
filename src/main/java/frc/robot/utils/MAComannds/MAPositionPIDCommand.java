@@ -41,6 +41,6 @@ public class MAPositionPIDCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return this.currentSubsystem.isPIDAtTarget(0.1);
+    return this.currentSubsystem.isPIDAtTarget();
   }
 }

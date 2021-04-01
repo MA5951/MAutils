@@ -40,7 +40,7 @@ public class Shooting extends CommandBase {
   public void execute() {
     visioCommand.execute();
     MoonShooter.getinstance().setMotorPower(MoonShooter.getinstance().calculatePIDOutput(), ShooterConstants.MOTOR_A);
-    if (visioCommand.isFinished() && MoonShooter.getinstance().isPIDAtTarget(0.1)) {
+    if (visioCommand.isFinished() && MoonShooter.getinstance().isPIDAtTarget()) {
 
       if (Conveyor.getinstance().getStatorCurrent(ConveyorConstants.KCONVEYOR_MOTOR) < -13
           && Conveyor.getinstance().getStatorCurrent(ConveyorConstants.KTRANSPORTATION_MOTOR) < -37 && (time < 10)) {

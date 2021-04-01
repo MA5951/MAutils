@@ -6,10 +6,11 @@ package frc.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.system.plant.DCMotor;
 import frc.robot.utils.Calculation.MACalculations;
+import frc.robot.utils.MASubsystem.SubConstants;
 
 /** Add your docs here. */
-public class ShooterConstants {
-    private final static DCMotor MOTOR = DCMotor.getNEO(2);
+public class ShooterConstants extends SubConstants {
+    public final static DCMotor MOTOR = DCMotor.getNEO(2);
     private final static double MAX_FREE_RPM = MOTOR.freeSpeedRadPerSec * 10;
 
     public final static double MOTOR_A_KP = 0;

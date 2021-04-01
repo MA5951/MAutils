@@ -9,7 +9,7 @@ import frc.robot.utils.Calculation.MACalculations;
 
 /** Add your docs here. */
 public class ElevatorConstants {
-    private final static DCMotor MOTOR = DCMotor.getNEO(1);
+    public final static DCMotor MOTOR = DCMotor.getNEO(1);
     private final static double MAX_FREE_RPM = MOTOR.freeSpeedRadPerSec * 10;
 
     public static final double KP_ELEVATOR_MOVE = 0; // TODO
@@ -20,15 +20,17 @@ public class ElevatorConstants {
     public static final double KUP_SETPOINT = 100;
     public static final double KDOWN_SETPOINT = -100;
 
+    public static final double KdrumRadius = 1;
+
     public static final int KELEVATOR_MOVE = 0;
     public static final String KSUBSYSTEM_NAME = "Elevator";
 
-    public final static double KSPROCKET_RADIUS = 0; // TODO
+    public final static double KSPROCKET_RADIUS = 1; // TODO
     public final static double KMOTOR_GEAR = 1 / 11; 
 
     public static final double KELEVATOR_GEAR = KMOTOR_GEAR * KSPROCKET_RADIUS;
     public final static double KMOTOR_FORCE = KELEVATOR_GEAR * MOTOR.stallTorqueNewtonMeters;
-    public static final double KSUB_MAS = 0; // TODO
+    public static final double KSUB_MAS = 1; // TODO
     public static final double KMAX_RPM = MAX_FREE_RPM * KMOTOR_GEAR;
     public static final double KMAX_ACCELERATION = KMOTOR_FORCE / KSUB_MAS;
     public static final double KBEST_RPM = MACalculations.RPMToVolteg(KMAX_RPM, KSPROCKET_RADIUS, KMOTOR_GEAR,

@@ -5,16 +5,16 @@ package frc.robot.subsystems.Chassis;
  * @author yuval rader
  */
 import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.SPI.Port;
 import frc.robot.utils.RobotConstants;
 import frc.robot.utils.limelight;
 import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
-import frc.robot.utils.Calculation.MACalculations;
 import frc.robot.utils.Controlers.MAPidController;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 import frc.robot.utils.MASubsystem.MASubsystem;
-import frc.robot.utils.Autonomous.Path;
 import frc.robot.utils.Autonomous.Point;
+import frc.robot.utils.Calculation.MACalculations;
 import frc.robot.commands.Chassis.MAPath;
 
 public class Chassis extends MASubsystem {
@@ -27,42 +27,43 @@ public class Chassis extends MASubsystem {
   private AHRS navx;
 
   private MAPidController anglePidMApath;
-  private MAPidController accelerationPidMApath;
+  private MAPidController rightVelocityControl;
+  private MAPidController leftVelocityControl;
 
   private MAPidController anglePIDVision;
   private MAPidController distancePIDVision;
 
   private MAShuffleboard chassisShuffleboard;
 
-  private double curentV = 0;
-  private double prevV = 0;
-
-  private double VInit = 0;
-  private double xInit = 0;
-
   private static Chassis chassis;
+
+  private double velocity = 0;
 
   private Chassis() {
     chassisShuffleboard = new MAShuffleboard(ChassisConstants.KSUBSYSTEM_NAME);
     leftFrontMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID1, true, 0, false,
-        ENCODER.Encoder);
-    leftMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID2);
+        ENCODER.Alternate_Encoder);
+    leftMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID2, false, 0, false, ENCODER.Encoder);
+
     rightFrontMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID3, false, 0, false,
-        ENCODER.Encoder);
-    rightMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID4);
+        ENCODER.Alternate_Encoder);
+    rightMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID4, false, 0, false, ENCODER.Encoder);
 
     leftMotor.follow(leftFrontMotor);
     rightMotor.follow(rightFrontMotor);
-
+    leftFrontMotor.phaseSensor(true);
     navx = new AHRS(Port.kMXP);
 
     // the distance PID Pathfinder
-    accelerationPidMApath = new MAPidController(ChassisConstants.KP_MAPATH_DISTANCE,
-        ChassisConstants.KI_MAPATH_DISTANCE, ChassisConstants.KD_MAPATH_DISTANCE, 0, 0, -12, 12);
+    rightVelocityControl = new MAPidController(ChassisConstants.KP_MAPATH_RIGHT_VELOCITY,
+        ChassisConstants.KI_MAPATH_RIGHT_VELOCITY, ChassisConstants.KD_MAPATH_RiGHT_VELOCITY, 0, 20, -12, 12);
+
+    leftVelocityControl = new MAPidController(ChassisConstants.KP_MAPATH_LEFT_VELOCITY,
+        ChassisConstants.KI_MAPATH_LEFT_VELOCITY, ChassisConstants.KD_MAPATH_LEFT_VELOCITY, 0, 20, -12, 12);
 
     // the angle PID pathfinder
     anglePidMApath = new MAPidController(ChassisConstants.KP_MAPATH_ANGLE, ChassisConstants.KI_MAPATH_ANGLE,
-        ChassisConstants.KD_MAPATH_ANGLE, 0, 0, -12, 12);
+        ChassisConstants.KD_MAPATH_ANGLE, 0, 2, -12, 12);
 
     // the angle PID vison
     anglePIDVision = new MAPidController(ChassisConstants.KP_VISION_ANGLE, ChassisConstants.KI_VISION_ANGLE,
@@ -81,17 +82,20 @@ public class Chassis extends MASubsystem {
 
   }
 
-  public void rampRate(double rampRate) {
-    rightFrontMotor.configRampRate(rampRate);
-    leftFrontMotor.configRampRate(rampRate);
+  public double leftDistance() {
+    return leftFrontMotor.getPosition() / ChassisConstants.KTICKS_PER_METER;
   }
 
-  public double averageDistance() {
-    return ((leftFrontMotor.getPosition() + rightFrontMotor.getPosition()) / 2) / ChassisConstants.KTICKS_PER_METER;
+  public double rigthDistance() {
+    return rightFrontMotor.getPosition() / ChassisConstants.KTICKS_PER_METER;
   }
 
-  public double averageRPM() {
-    return (leftFrontMotor.getVelocity() + rightFrontMotor.getVelocity()) / 2;
+  public double rightRPM() {
+    return (rightMotor.getVelocity() + rightFrontMotor.getVelocity()) / 2;
+  }
+
+  public double leftRPM() {
+    return (leftFrontMotor.getVelocity() + leftMotor.getVelocity()) / 2;
   }
 
   public double getAngle() {
@@ -105,11 +109,16 @@ public class Chassis extends MASubsystem {
     rightMotor.changeMood(onOf);
   }
 
+  public void reserEncoder() {
+    velocity = 0;
+    rightFrontMotor.resetEncoder();
+    leftFrontMotor.resetEncoder();
+  }
+
   // resat the value of the encoder and the navx
   public void resetValue() {
     navx.zeroYaw();
-    rightFrontMotor.resetEncoder();
-    leftFrontMotor.resetEncoder();
+    reserEncoder();
   }
 
   // pid
@@ -143,51 +152,134 @@ public class Chassis extends MASubsystem {
   }
 
   public boolean isPIDVisionOnTargetAngle() {
-    return anglePIDVision.atSetpoint(0.1);
+    return anglePIDVision.atSetpoint();
   }
 
   public boolean isPIDVisionOnTargetDistance() {
-    return distancePIDVision.atSetpoint(0.1);
+    return distancePIDVision.atSetpoint();
   }
 
-  public void setpoint(double distancesetpoint, double anglesetpoint, double Speedlimitdistance,
-      double Speedlimitangle) {
+  public void setpoint(Point point, double InitLinearSpeed, double initDistacn, double initTata) {
+    double angleSetPoint = tataFromDistance(point.getDistance(), point.getAngle(), initDistacn, initTata);
 
-    anglePidMApath.setSetpoint(anglesetpoint);
-    accelerationPidMApath.setSetpoint(distancesetpoint);
+    if (point.getAngle() - getAngle() > 0) {
+      rightVelocityControl.setSetpoint(MACalculations.fromLinearSpeedToRPM(
+          accelerationVelocitySetPoint(InitLinearSpeed, point.getVelocity(), point.getAcceleration()),
+          ChassisConstants.KCHASSIS_GEAR));
 
-    accelerationPidMApath.setP(ChassisConstants.KP_MAPATH_DISTANCE * Speedlimitdistance);
-    accelerationPidMApath.setD(ChassisConstants.KD_MAPATH_DISTANCE * Speedlimitdistance);
+      leftVelocityControl.setSetpoint(MACalculations.fromLinearSpeedToRPM(
+          theOtherVelocitySetPoint(angleSetPoint, InitLinearSpeed, point.getVelocity(), point.getAcceleration()),
+          ChassisConstants.KCHASSIS_GEAR));
 
-    anglePidMApath.setP(ChassisConstants.KP_MAPATH_ANGLE * Speedlimitangle);
-    anglePidMApath.setD(ChassisConstants.KD_MAPATH_ANGLE * Speedlimitangle);
+      anglePidMApath.setSetpoint(angleSetPoint);
+    } else if (point.getAngle() - getAngle() < 0) {
+
+      leftVelocityControl.setSetpoint(MACalculations.fromLinearSpeedToRPM(
+          accelerationVelocitySetPoint(InitLinearSpeed, point.getVelocity(), point.getAcceleration()),
+          ChassisConstants.KCHASSIS_GEAR));
+
+      rightVelocityControl.setSetpoint(MACalculations.fromLinearSpeedToRPM(
+          theOtherVelocitySetPoint(angleSetPoint, InitLinearSpeed, point.getVelocity(), point.getAcceleration()),
+          ChassisConstants.KCHASSIS_GEAR));
+
+      anglePidMApath.setSetpoint(angleSetPoint);
+    } else {
+      leftVelocityControl.setSetpoint(MACalculations.fromLinearSpeedToRPM(
+          accelerationVelocitySetPoint(InitLinearSpeed, point.getVelocity(), point.getAcceleration()),
+          ChassisConstants.KCHASSIS_GEAR));
+
+      rightVelocityControl.setSetpoint(MACalculations.fromLinearSpeedToRPM(
+          theOtherVelocitySetPoint(angleSetPoint, InitLinearSpeed, point.getVelocity(), point.getAcceleration()),
+          ChassisConstants.KCHASSIS_GEAR));
+      anglePidMApath.setSetpoint(angleSetPoint);
+    }
+
   }
 
   public double angleEror() {
     return anglePidMApath.getPositionError();
   }
 
-  public double distanceEror() {
-    return accelerationPidMApath.getPositionError();
+  public double velocityErorRight() {
+    return rightVelocityControl.getPositionError();
+  }
+
+  public double velocityErorLeft() {
+    return leftVelocityControl.getPositionError();
+  }
+
+  public boolean isPIDRightVelocityAtSetPoint() {
+    return rightVelocityControl.atSetpoint();
+  }
+
+  public boolean isPIDLeftVelocityAtSetPoint() {
+    return leftVelocityControl.atSetpoint();
+  }
+
+  public boolean isPIDAngleAtSetPoint() {
+    return anglePidMApath.atSetpoint();
   }
 
   public double angleMApathPIDOutput() {
     return anglePidMApath.calculate(getAngle());
   }
 
-  public double distanceMApathPIDOutput() {
-    return accelerationPidMApath.calculate(acceleration());
+  public double rightVelocityMApathPIDOutput() {
+    return rightVelocityControl.calculate(rightRPM());
   }
 
-  public void pathfinder() {
-    try {
-      double angle = chassis.angleMApathPIDOutput() * Path.mainPath[MAPath.stage][5];
-      double distance = chassis.distanceMApathPIDOutput() * Path.mainPath[MAPath.stage][4];
-      chassis.arcadeDrive(angle, distance);
-    } catch (Exception e) {
-      leftcontrol(0);
-      rightcontrol(0);
+  public double leftVelocityMApathPIDOutput() {
+    return leftVelocityControl.calculate(leftRPM());
+  }
+
+  public double accelerationVelocitySetPoint(double LinearSpeed, double setPoint, double acceleration) {
+    if (velocity + acceleration * RobotConstants.KDELTA_TIME >= setPoint) {
+      return setPoint;
+    } else {
+      velocity = velocity + LinearSpeed + (acceleration * RobotConstants.KDELTA_TIME);
+      return velocity;
     }
+
+  }
+
+  public double theOtherVelocitySetPoint(double tata, double LinearSpeed, double setPoint, double acceleration) {
+    double V = accelerationVelocitySetPoint(LinearSpeed, setPoint, acceleration);
+    if (tata > getAngle()) {
+      return V - Math.sin(tata / 2) / ChassisConstants.KchassisLength;
+    } else if (tata < getAngle()) {
+      return V + Math.sin(tata / 2) / ChassisConstants.KchassisLength;
+    }
+    return V;
+  }
+
+  public double tataFromDistance(double maxDistacn, double maxTata, double initDistacn, double initTata) {
+    double sight = Math.abs(maxTata) / maxTata;
+    double a = maxDistacn * Math.cos(maxTata);
+    if (Math.abs(initTata) + 10 > Math.abs(getAngle())) {
+      return initTata + 10 * sight;
+    }
+
+    if (Math.abs(getAngle()) + 10 >= maxTata) {
+      return maxTata;
+    }
+
+    if (maxTata - initTata > 0) {
+      double H = rigthDistance() - initDistacn;
+      return Math.toDegrees(Math.tan(H / a)) * -1;
+    } else if (maxTata - initTata < 0) {
+      double H = leftDistance() - initDistacn;
+      return Math.toDegrees(Math.tan(H / a));
+    }
+
+    return 0;
+  }
+
+  public void pathMotorOutPut() {
+    double leftPower = leftVelocityMApathPIDOutput();
+    double rightPower = rightVelocityMApathPIDOutput();
+    double anglePower = angleMApathPIDOutput();
+    leftcontrol(leftPower - anglePower);
+    rightcontrol(rightPower + anglePower);
   }
 
   public void leftcontrol(double voltage) {
@@ -198,38 +290,23 @@ public class Chassis extends MASubsystem {
     rightFrontMotor.setVoltage(voltage);
   }
 
+  public boolean atPoint(Point point) {
+    if (Math.abs(point.getAngle()) > 0) {
+      return Math.abs((point.getAngle() - getAngle())) < 2;
+    } else {
+      return Math.abs((point.getAngle() - getAngle())) < 2 && Math.abs(point.getDistance() - rigthDistance()) < 0.1
+          && Math.abs(MACalculations.fromLinearSpeedToRPM(point.getVelocity(), ChassisConstants.KCHASSIS_GEAR)
+              - rightRPM()) < 20
+          && Math.abs(MACalculations.fromLinearSpeedToRPM(point.getVelocity(), ChassisConstants.KCHASSIS_GEAR)
+              - leftRPM()) < 20;
+    }
+  }
+
   public static Chassis getinstance() {
     if (chassis == null) {
       chassis = new Chassis();
     }
     return chassis;
-  }
-
-  public double deltaV() {
-    curentV = MACalculations.fromRPMToLinearSpeed(averageRPM(), ChassisConstants.KCHASSIS_GEAR);
-    double delta = curentV - prevV;
-    prevV = curentV;
-    return delta;
-
-  }
-
-  public double acceleration() {
-    return deltaV() / RobotConstants.KDELTA_TIME;
-  }
-
-  public double getAccelerationSetPoint(Point point) {
-    VInit = averageRPM();
-    if (Math.abs(VInit) < Math.abs(point.getVelocity())) {
-      return (point.getVelocity() - VInit) / point.getAccelerationTime();
-    } else {
-      return 0;
-    }
-  }
-
-  public void setSetPoint(Point point) {
-    anglePidMApath.setSetpoint(point.getAngle());
-    accelerationPidMApath.setSetpoint(getAccelerationSetPoint(point));
-
   }
 
   @Override
@@ -238,13 +315,20 @@ public class Chassis extends MASubsystem {
   }
 
   public void printValues() {
+    double angle = tataFromDistance(4, 180, 0, 0);
     chassisShuffleboard.addBoolean("isPIDVisionOnTargetAngle", isPIDVisionOnTargetAngle());
     chassisShuffleboard.addNum("Stage", MAPath.stage);
     chassisShuffleboard.addNum("fixedAngle", getAngle());
-    chassisShuffleboard.addNum("distacne", averageDistance());
-    chassisShuffleboard.addNum("RPM", deltaV());
-    chassisShuffleboard.addNum("acceleration", acceleration());
     chassisShuffleboard.addNum("angleSetPoint", anglePidMApath.getSetpoint());
-    chassisShuffleboard.addNum("accelerationSetPoint", accelerationPidMApath.getSetpoint());
+
+    chassisShuffleboard.addNum("right distance", rigthDistance());
+    chassisShuffleboard.addNum("left distance", leftDistance());
+    chassisShuffleboard.addNum("right ticks", rightFrontMotor.getPosition());
+
+    chassisShuffleboard.addNum("V1 setPoint",
+        accelerationVelocitySetPoint(0, ChassisConstants.KMAX_SPEED, ChassisConstants.KMAX_ACCELERATION));
+    chassisShuffleboard.addNum("V2 setPoint",
+        theOtherVelocitySetPoint(angle, 0, ChassisConstants.KMAX_SPEED, ChassisConstants.KMAX_ACCELERATION));
+    chassisShuffleboard.addNum("angle setPoint", angle);
   }
 }

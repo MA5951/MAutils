@@ -5,11 +5,12 @@ package frc.robot.utils.Controlers;
  * @author yuval rader
  */
 
-import edu.wpi.first.wpilibj.Timer;
+
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpiutil.math.MathUtil;
+import frc.robot.utils.Controlers.Interfaces.PIDControler;
 
-public class MAPidController {
+public class MAPidController implements PIDControler {
     private PIDController pidController;
     private double KP;
     private double KI;
@@ -18,8 +19,6 @@ public class MAPidController {
     private double tolorance;
     private double low;
     private double high;
-    private double lastTimeOnTarget;
-
     /**
      * Allocates a PIDController with the given constants for Kp, Ki, Kd and KF and
      * a default period of 0.02 seconds.
@@ -93,23 +92,6 @@ public class MAPidController {
     }
 
     /**
-     * Returns true if the error is within the percentage of the total input range,
-     * determined by SetTolerance and if the PID was at atSetPoint for a Period of
-     * time. This asssumes that the maximum and minimum input were set using
-     * SetInput.
-     *
-     * <p>
-     * This will return false until at least one input value has been computed.
-     * 
-     * @param waitTime the Time the PID need to be atSetPoint .
-     * 
-     * @return Whether the error is within the acceptable bounds.
-     */
-    public boolean atSetpoint(double waitTime) {
-        return pidController.atSetpoint() && Timer.getFPGATimestamp() - lastTimeOnTarget > waitTime;
-    }
-
-    /**
      * Returns the next output of the PID controller.
      *
      * @param measurement The current measurement of the process variable.
@@ -117,9 +99,6 @@ public class MAPidController {
      */
 
     public double calculate(double measurement, double setPoint) {
-        if (!pidController.atSetpoint()) {
-            lastTimeOnTarget = Timer.getFPGATimestamp();
-        }
         return MathUtil.clamp(pidController.calculate(measurement, setPoint) + KF, low, high);
     }
 
@@ -129,9 +108,6 @@ public class MAPidController {
      * @param measurement The current measurement of the process variable.
      */
     public double calculate(double measurement) {
-        if (!pidController.atSetpoint()) {
-            lastTimeOnTarget = Timer.getFPGATimestamp();
-        }
         return MathUtil.clamp(pidController.calculate(measurement) + KF, low, high);
     }
 
@@ -272,6 +248,16 @@ public class MAPidController {
      */
     public void setIntegratorRange(double minimumIntegral, double maximumIntegral) {
         pidController.setIntegratorRange(minimumIntegral, maximumIntegral);
+    }
+
+    @Override
+    public boolean atSetpoint() {
+        return pidController.atSetpoint();
+    }
+
+    @Override
+    public double getF() {
+        return KF;
     }
 
 }

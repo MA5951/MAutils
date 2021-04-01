@@ -8,11 +8,15 @@ import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.MASubsystem.Intrfaces.MASubsystemInterface;
+
 
 /** Add your docs here. */
 public class MASubsystem extends SubsystemBase implements MASubsystemInterface {
 
   protected ArrayList<MAMotorControler> maMotorControlers = new ArrayList<MAMotorControler>();
+
+  protected SubConstants constants;
 
   public enum ENCODER {
     No_Encoder, Encoder, Alternate_Encoder
@@ -75,31 +79,9 @@ public class MASubsystem extends SubsystemBase implements MASubsystemInterface {
     return false;
   }
 
- 
 
 
-  @Override
-  public void setSetPoint(double setPoint) {
 
-  }
-
-  @Override
-  public boolean isPIDAtTarget(double waitTime) {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  @Override
-  public double getSetpointPID() {
-    // TODO Auto-generated method stub
-    return 0;
-  }
-
-  @Override
-  public double getPositionError() {
-    // TODO Auto-generated method stub
-    return 0;
-  }
 
   @Override
   public double getStatorCurrent() {
@@ -119,28 +101,12 @@ public class MASubsystem extends SubsystemBase implements MASubsystemInterface {
     return 0;
   }
 
-  @Override
-  public void setPiston(boolean on) {
-    // TODO Auto-generated method stub
 
-  }
-
-  @Override
-  public void togglePiston() {
-    // TODO Auto-generated method stub
-
-  }
 
   @Override
   public void resetSensor() {
     // TODO Auto-generated method stub
 
-  }
-
-  @Override
-  public double resetPID() {
-    // TODO Auto-generated method stub
-    return 0;
   }
 
   @Override
@@ -174,6 +140,24 @@ public class MASubsystem extends SubsystemBase implements MASubsystemInterface {
   }
 
   @Override
+  public void setPiston(boolean on) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void togglePiston() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public boolean getPistonValue() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
   public double calculatePIDOutput(double setPoint) {
     // TODO Auto-generated method stub
     return 0;
@@ -186,8 +170,33 @@ public class MASubsystem extends SubsystemBase implements MASubsystemInterface {
   }
 
   @Override
-  public boolean getPistonValue() {
+  public void setSetPoint(double setPoint) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public double resetPID() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  public boolean isPIDAtTarget() {
     // TODO Auto-generated method stub
     return false;
   }
+
+  @Override
+  public double getSetpointPID() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  public double getPositionError() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
 }

@@ -6,6 +6,7 @@ package frc.robot.subsystems.Shooter;
 
 import frc.robot.utils.Calculation.MACalculations;
 import frc.robot.utils.MASubsystem.MASubsystem;
+import frc.robot.utils.MASubsystem.SubConstants;
 import edu.wpi.first.wpilibj.controller.LinearQuadraticRegulator;
 import edu.wpi.first.wpilibj.estimator.KalmanFilter;
 import edu.wpi.first.wpilibj.system.LinearSystem;
@@ -48,7 +49,6 @@ public class MoonShooter extends MASubsystem {
 
     flyWhLinearSystemLoop = new LinearSystemLoop<>(flyWheelLinearSystem, flyWheelLinearQuadraticRegulator,
         flyWheelKalmanFilter, 10, RobotConstants.KDELTA_TIME);
-
   }
 
   @Override
@@ -119,20 +119,21 @@ public class MoonShooter extends MASubsystem {
   }
 
   @Override
-  public boolean isPIDAtTarget(double waitTime) {
+  public boolean isPIDAtTarget() {
     return Math.abs(getPositionError()) < 70;
   }
 
   @Override
   public void printValues() {
-
     shooterShuffleboard.addNum("MoonShooterAngularVelocity", getAngularVelocity());
     shooterShuffleboard.addNum("MoonShooterPIDSetPoint", getSetpointPID());
     shooterShuffleboard.addNum("MoonShooterPositionError", getPositionError());
     shooterShuffleboard.addNum("outPut", calculatePIDOutput());
-    shooterShuffleboard.addBoolean("MoonShooterAtSetPoint", isPIDAtTarget(0.1));
+    shooterShuffleboard.addBoolean("MoonShooterAtSetPoint", isPIDAtTarget());
 
   }
+
+ 
 
   public static MoonShooter getinstance() {
     if (m_Shooter == null) {

@@ -26,7 +26,7 @@ public class PIDVision extends CommandBase {
   public void initialize() {
     limelight.camMode(0);
     limelight.pipeline(0);
-    chassis.rampRate(0);
+    
 
   }
 
