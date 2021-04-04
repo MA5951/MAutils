@@ -9,29 +9,39 @@ import frc.robot.subsystems.Chassis.ChassisConstants;
 /** Add your docs here. */
 public class Point {
 
-    private double distance, angle, velocity = ChassisConstants.KMAX_SPEED,
-            acceleration = ChassisConstants.KMAX_ACCELERATION;
+    private double distance, angle, maxVelocity = ChassisConstants.KMAX_SPEED,
+            acceleration = ChassisConstants.KMAX_ACCELERATION, endVelocity = ChassisConstants.KMAX_SPEED,
+            arcDistance = 0;
 
     public Point(double distance, double angle) {
         this.distance = distance;
         this.angle = angle;
     }
 
-    public Point(double distance, double angle, double velocity) {
+    public Point(double distance, double angle, double maxVelocity, double endVelocity) {
         this.distance = distance;
         this.angle = angle;
-        this.velocity = velocity;
+        this.endVelocity = endVelocity;
+        this.maxVelocity = maxVelocity;
+        this.acceleration = acceleration * Math.abs(maxVelocity) / maxVelocity;
+
     }
 
-    public Point(double distance, double angle, double velocity, double acceleration) {
+    public Point(double distance, double angle, double maxVelocity, double endVelocity, double acceleration) {
         this.distance = distance;
         this.angle = angle;
-        this.velocity = velocity;
+        this.maxVelocity = maxVelocity;
+        this.endVelocity = endVelocity;
         this.acceleration = acceleration;
+
     }
 
-    public double getVelocity() {
-        return velocity;
+    public double getEndVelocity() {
+        return endVelocity;
+    }
+
+    public double getMaxVelocity() {
+        return maxVelocity;
     }
 
     public double getDistance() {
@@ -44,6 +54,11 @@ public class Point {
 
     public double getAcceleration() {
         return acceleration;
+    }
+
+    public double getArcDistance() {
+        arcDistance = 0;// TODO
+        return arcDistance;
     }
 
 }

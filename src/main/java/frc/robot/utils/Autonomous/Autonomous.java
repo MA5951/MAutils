@@ -16,9 +16,32 @@ public class Autonomous {
 
   public static final SendableChooser<String> m_chooser = new SendableChooser<>();
   public static String selected;
+  private static double lastDistance = 0;
+
+  public static enum autonomousState {
+    RIGHT, LEFT, STRAIGHT_LINE, TURN_IN_PLACE
+  }
 
   public Autonomous() {
 
+  }
+
+  public static void setLastDistance(double LastDistance) {
+    lastDistance = LastDistance;
+  }
+
+  public static autonomousState getState(double tata, double initTata, double distacne) {
+    double sight = distacne / Math.abs(distacne);
+    if (distacne == lastDistance) {
+      return autonomousState.TURN_IN_PLACE;
+    } else if ((tata - initTata) * sight > 0) {
+      return autonomousState.RIGHT;
+    } else if ((tata - initTata) * sight < 0) {
+      return autonomousState.LEFT;
+    } else if (tata == initTata) {
+      return autonomousState.STRAIGHT_LINE;
+    }
+    return autonomousState.STRAIGHT_LINE;
   }
 
   public static void setAutonomousCommand() {

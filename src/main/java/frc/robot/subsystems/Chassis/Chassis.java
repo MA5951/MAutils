@@ -13,8 +13,11 @@ import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.Controlers.MAPidController;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 import frc.robot.utils.MASubsystem.MASubsystem;
+import frc.robot.utils.Autonomous.Autonomous;
 import frc.robot.utils.Autonomous.Point;
+import frc.robot.utils.Autonomous.Autonomous.autonomousState;
 import frc.robot.utils.Calculation.MACalculations;
+import frc.robot.Robot;
 import frc.robot.commands.Chassis.MAPath;
 
 public class Chassis extends MASubsystem {
@@ -36,8 +39,13 @@ public class Chassis extends MASubsystem {
   private MAShuffleboard chassisShuffleboard;
 
   private static Chassis chassis;
+  public static autonomousState state;
 
   private double velocity = 0;
+  private double timeInPoint = 0;
+  private double rightCircelRadius = 0;
+  private double leftCircelRadius = 0;
+  private double timeInMaxSpeed = 0;
 
   private Chassis() {
     chassisShuffleboard = new MAShuffleboard(ChassisConstants.KSUBSYSTEM_NAME);
@@ -91,11 +99,11 @@ public class Chassis extends MASubsystem {
   }
 
   public double rightRPM() {
-    return (rightMotor.getVelocity() + rightFrontMotor.getVelocity()) / 2;
+    return rightMotor.getVelocity();
   }
 
   public double leftRPM() {
-    return (leftFrontMotor.getVelocity() + leftMotor.getVelocity()) / 2;
+    return leftMotor.getVelocity();
   }
 
   public double getAngle() {
@@ -109,16 +117,19 @@ public class Chassis extends MASubsystem {
     rightMotor.changeMood(onOf);
   }
 
-  public void reserEncoder() {
+  public void reserValueForAutonomous() {
     velocity = 0;
-    rightFrontMotor.resetEncoder();
-    leftFrontMotor.resetEncoder();
+    timeInPoint = 0;
+    leftCircelRadius = 0;
+    rightCircelRadius = 0;
+ 
   }
 
   // resat the value of the encoder and the navx
   public void resetValue() {
     navx.zeroYaw();
-    reserEncoder();
+    rightFrontMotor.resetEncoder();
+    leftFrontMotor.resetEncoder();
   }
 
   // pid
@@ -159,38 +170,52 @@ public class Chassis extends MASubsystem {
     return distancePIDVision.atSetpoint();
   }
 
+  public void setCircelRaduis() {
+    if (state == autonomousState.RIGHT) {
+      leftCircelRadius = 0;// TODO
+      rightCircelRadius = leftCircelRadius + ChassisConstants.KchassisLength;
+    } else if (state == autonomousState.LEFT) {
+      rightCircelRadius = 0;// TODO
+      leftCircelRadius = rightCircelRadius + ChassisConstants.KchassisLength;
+    } else if (state == autonomousState.TURN_IN_PLACE) {
+      leftCircelRadius = 0;
+      rightCircelRadius = leftCircelRadius;
+    } else {
+      leftCircelRadius = 0;
+      rightCircelRadius = leftCircelRadius;
+    }
+  }
+
   public void setpoint(Point point, double InitLinearSpeed, double initDistacn, double initTata) {
+
+    timeInPoint = +RobotConstants.KDELTA_TIME;
+
     double angleSetPoint = tataFromDistance(point.getDistance(), point.getAngle(), initDistacn, initTata);
 
-    if (point.getAngle() - getAngle() > 0) {
-      rightVelocityControl.setSetpoint(MACalculations.fromLinearSpeedToRPM(
-          accelerationVelocitySetPoint(InitLinearSpeed, point.getVelocity(), point.getAcceleration()),
-          ChassisConstants.KCHASSIS_GEAR));
+    double accelerationVelocitySetPoint = MACalculations
+        .fromLinearSpeedToRPM(accelerationVelocitySetPoint(InitLinearSpeed, point), ChassisConstants.KCHASSIS_GEAR);
 
-      leftVelocityControl.setSetpoint(MACalculations.fromLinearSpeedToRPM(
-          theOtherVelocitySetPoint(angleSetPoint, InitLinearSpeed, point.getVelocity(), point.getAcceleration()),
-          ChassisConstants.KCHASSIS_GEAR));
+    double theOtherVelocitySetPoint = MACalculations.fromLinearSpeedToRPM(
+        theOtherVelocitySetPoint(accelerationVelocitySetPoint, angleSetPoint), ChassisConstants.KCHASSIS_GEAR);
 
+    if (state == autonomousState.RIGHT) {
+      rightVelocityControl.setSetpoint(accelerationVelocitySetPoint);
+      leftVelocityControl.setSetpoint(theOtherVelocitySetPoint);
       anglePidMApath.setSetpoint(angleSetPoint);
-    } else if (point.getAngle() - getAngle() < 0) {
 
-      leftVelocityControl.setSetpoint(MACalculations.fromLinearSpeedToRPM(
-          accelerationVelocitySetPoint(InitLinearSpeed, point.getVelocity(), point.getAcceleration()),
-          ChassisConstants.KCHASSIS_GEAR));
-
-      rightVelocityControl.setSetpoint(MACalculations.fromLinearSpeedToRPM(
-          theOtherVelocitySetPoint(angleSetPoint, InitLinearSpeed, point.getVelocity(), point.getAcceleration()),
-          ChassisConstants.KCHASSIS_GEAR));
-
+    } else if (state == autonomousState.LEFT) {
+      leftVelocityControl.setSetpoint(accelerationVelocitySetPoint);
+      rightVelocityControl.setSetpoint(theOtherVelocitySetPoint);
       anglePidMApath.setSetpoint(angleSetPoint);
+
+    } else if (state == autonomousState.STRAIGHT_LINE) {
+      leftVelocityControl.setSetpoint(accelerationVelocitySetPoint);
+      rightVelocityControl.setSetpoint(accelerationVelocitySetPoint);
+      anglePidMApath.setSetpoint(point.getAngle());
+
     } else {
-      leftVelocityControl.setSetpoint(MACalculations.fromLinearSpeedToRPM(
-          accelerationVelocitySetPoint(InitLinearSpeed, point.getVelocity(), point.getAcceleration()),
-          ChassisConstants.KCHASSIS_GEAR));
-
-      rightVelocityControl.setSetpoint(MACalculations.fromLinearSpeedToRPM(
-          theOtherVelocitySetPoint(angleSetPoint, InitLinearSpeed, point.getVelocity(), point.getAcceleration()),
-          ChassisConstants.KCHASSIS_GEAR));
+      rightVelocityControl.setSetpoint(accelerationVelocitySetPoint);
+      leftVelocityControl.setSetpoint(theOtherVelocitySetPoint);
       anglePidMApath.setSetpoint(angleSetPoint);
     }
 
@@ -232,23 +257,53 @@ public class Chassis extends MASubsystem {
     return leftVelocityControl.calculate(leftRPM());
   }
 
-  public double accelerationVelocitySetPoint(double LinearSpeed, double setPoint, double acceleration) {
-    if (velocity + acceleration * RobotConstants.KDELTA_TIME >= setPoint) {
-      return setPoint;
+  public double accelerationVelocitySetPoint(double LinearSpeed, Point point) {
+
+    double accelerationTimeToSetPoint = Math
+        .abs((point.getMaxVelocity() - point.getEndVelocity() / point.getAcceleration()));
+
+    double accelerationTimeToMaxSpeed = Math.abs((point.getEndVelocity() - LinearSpeed) / point.getAcceleration());
+
+    double distacnePassInAccelerationMove = LinearSpeed * accelerationTimeToMaxSpeed
+        + (point.getAcceleration() / 2) * Math.pow(accelerationTimeToMaxSpeed, 2);
+
+    double distacnePassInAccelerationToSetPoint = point.getEndVelocity() * accelerationTimeToSetPoint
+        + (-point.getAcceleration() / 2) * Math.pow(accelerationTimeToSetPoint, 2);
+
+    if (state == autonomousState.RIGHT || state == autonomousState.LEFT) {
+      timeInMaxSpeed = Math.abs(point.getArcDistance()
+          - (distacnePassInAccelerationToSetPoint + distacnePassInAccelerationMove) / point.getEndVelocity());
     } else {
-      velocity = velocity + LinearSpeed + (acceleration * RobotConstants.KDELTA_TIME);
-      return velocity;
+      timeInMaxSpeed = Math.abs(point.getDistance()
+          - (distacnePassInAccelerationToSetPoint + distacnePassInAccelerationMove) / point.getEndVelocity());
     }
 
+    if (timeInPoint < accelerationTimeToMaxSpeed || Math
+        .abs((velocity + point.getAcceleration() * RobotConstants.KDELTA_TIME)) < Math.abs(point.getMaxVelocity())) {
+      velocity = velocity + LinearSpeed + (point.getAcceleration() * RobotConstants.KDELTA_TIME);
+      return velocity;
+    } else if (timeInPoint + RobotConstants.KDELTA_TIME < timeInMaxSpeed) {
+      return point.getMaxVelocity();
+    } else {
+      if (Math.abs(velocity) <= Math.abs(point.getEndVelocity()))
+        return point.getEndVelocity();
+      else {
+        velocity = velocity - (point.getAcceleration() * RobotConstants.KDELTA_TIME);
+        return velocity;
+      }
+    }
   }
 
-  public double theOtherVelocitySetPoint(double tata, double LinearSpeed, double setPoint, double acceleration) {
-    double V = accelerationVelocitySetPoint(LinearSpeed, setPoint, acceleration);
-    if (tata > getAngle()) {
-      return V - Math.sin(tata / 2) / ChassisConstants.KchassisLength;
-    } else if (tata < getAngle()) {
-      return V + Math.sin(tata / 2) / ChassisConstants.KchassisLength;
+  public double theOtherVelocitySetPoint(double V, double tata) {
+    double sight = Math.abs(V) / V;
+    double tataToRadians = Math.toRadians(tata);
+    if (state == autonomousState.RIGHT || state == autonomousState.LEFT)
+      return V - ((2 * ChassisConstants.KchassisLength / Math.tan(tataToRadians)) * sight);
+
+    if (state == autonomousState.TURN_IN_PLACE) {
+      return -V;
     }
+
     return V;
   }
 
@@ -259,22 +314,28 @@ public class Chassis extends MASubsystem {
       return initTata + 10 * sight;
     }
 
-    if (Math.abs(getAngle()) + 10 >= maxTata) {
+    if (Math.abs(getAngle()) + 10 >= Math.abs(maxTata)) {
       return maxTata;
     }
 
-    if (maxTata - initTata > 0) {
+    if (state == autonomousState.RIGHT) {
       double H = rigthDistance() - initDistacn;
-      return Math.toDegrees(Math.tan(H / a)) * -1;
-    } else if (maxTata - initTata < 0) {
+      return Math.toDegrees(Math.atan(H / a));
+    } else if (state == autonomousState.LEFT) {
       double H = leftDistance() - initDistacn;
-      return Math.toDegrees(Math.tan(H / a));
+      return Math.toDegrees(Math.atan(H / a)) * -1;
     }
 
     return 0;
   }
 
+  public void setAutonomousState(Point point) {
+    state = Autonomous.getState(point.getAngle(), getAngle(), point.getDistance()); // TODO
+  }
+
   public void pathMotorOutPut() {
+    leftVelocityControl.setF((leftVelocityControl.getSetpoint() / RobotConstants.KMAX_RPM_NEO) * 12);
+    rightVelocityControl.setF((rightVelocityControl.getSetpoint() / RobotConstants.KMAX_RPM_NEO) * 12);
     double leftPower = leftVelocityMApathPIDOutput();
     double rightPower = rightVelocityMApathPIDOutput();
     double anglePower = angleMApathPIDOutput();
@@ -291,14 +352,19 @@ public class Chassis extends MASubsystem {
   }
 
   public boolean atPoint(Point point) {
-    if (Math.abs(point.getAngle()) > 0) {
-      return Math.abs((point.getAngle() - getAngle())) < 2;
+    if (state == autonomousState.RIGHT) {
+      return point.getAngle() == getAngle() && Math.abs(point.getArcDistance() - leftDistance()) < 0.2
+          && Math.abs(point.getEndVelocity()
+              - MACalculations.fromRPMToLinearSpeed(leftRPM(), ChassisConstants.KCHASSIS_GEAR)) < 0.1;
+    } else if (state == autonomousState.LEFT) {
+      return point.getAngle() == getAngle() && Math.abs(point.getArcDistance() - rigthDistance()) < 0.2
+          && Math.abs(point.getEndVelocity()
+              - MACalculations.fromRPMToLinearSpeed(rightRPM(), ChassisConstants.KCHASSIS_GEAR)) < 0.1;
     } else {
-      return Math.abs((point.getAngle() - getAngle())) < 2 && Math.abs(point.getDistance() - rigthDistance()) < 0.1
-          && Math.abs(MACalculations.fromLinearSpeedToRPM(point.getVelocity(), ChassisConstants.KCHASSIS_GEAR)
-              - rightRPM()) < 20
-          && Math.abs(MACalculations.fromLinearSpeedToRPM(point.getVelocity(), ChassisConstants.KCHASSIS_GEAR)
-              - leftRPM()) < 20;
+      return point.getAngle() == getAngle()
+          && Math.abs(point.getDistance() - (rigthDistance() + leftDistance()) / 2) < 0.2
+          && Math.abs(point.getEndVelocity() - MACalculations.fromRPMToLinearSpeed((rightRPM() + leftRPM()) / 2,
+              ChassisConstants.KCHASSIS_GEAR)) < 0.1;
     }
   }
 
@@ -315,20 +381,10 @@ public class Chassis extends MASubsystem {
   }
 
   public void printValues() {
-    double angle = tataFromDistance(4, 180, 0, 0);
-    chassisShuffleboard.addBoolean("isPIDVisionOnTargetAngle", isPIDVisionOnTargetAngle());
     chassisShuffleboard.addNum("Stage", MAPath.stage);
     chassisShuffleboard.addNum("fixedAngle", getAngle());
-    chassisShuffleboard.addNum("angleSetPoint", anglePidMApath.getSetpoint());
-
     chassisShuffleboard.addNum("right distance", rigthDistance());
     chassisShuffleboard.addNum("left distance", leftDistance());
-    chassisShuffleboard.addNum("right ticks", rightFrontMotor.getPosition());
 
-    chassisShuffleboard.addNum("V1 setPoint",
-        accelerationVelocitySetPoint(0, ChassisConstants.KMAX_SPEED, ChassisConstants.KMAX_ACCELERATION));
-    chassisShuffleboard.addNum("V2 setPoint",
-        theOtherVelocitySetPoint(angle, 0, ChassisConstants.KMAX_SPEED, ChassisConstants.KMAX_ACCELERATION));
-    chassisShuffleboard.addNum("angle setPoint", angle);
   }
 }

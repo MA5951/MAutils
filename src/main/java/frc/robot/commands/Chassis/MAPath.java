@@ -10,6 +10,7 @@ package frc.robot.commands.Chassis;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.utils.Autonomous.*;
+import frc.robot.utils.Autonomous.Autonomous.autonomousState;
 import frc.robot.utils.Calculation.MACalculations;
 import frc.robot.subsystems.Chassis.Chassis;
 import frc.robot.subsystems.Chassis.ChassisConstants;
@@ -26,6 +27,7 @@ public class MAPath extends CommandBase {
   private double initTata = 0;
   private double InitLinearSpeed = 0;
   private Point point;
+  private autonomousState lastStae = autonomousState.STRAIGHT_LINE;
 
   private void setParmater(double initTata, double initDistacn, double InitLinearSpeed) {
     this.initDistacn = initDistacn;
@@ -33,31 +35,43 @@ public class MAPath extends CommandBase {
     this.InitLinearSpeed = InitLinearSpeed;
   }
 
+  private double getInitDistace() {
+    if (chassis.state == autonomousState.STRAIGHT_LINE || chassis.state == autonomousState.TURN_IN_PLACE) {
+      return (chassis.leftDistance() + chassis.rigthDistance() / 2);
+    } else if (chassis.state == autonomousState.RIGHT && lastStae != autonomousState.LEFT) {
+      return chassis.leftDistance();
+    } else if (chassis.state == autonomousState.LEFT && lastStae != autonomousState.RIGHT) {
+      return chassis.rigthDistance();
+    }
+    return (chassis.leftDistance() + chassis.rigthDistance() / 2);
+  }
+
   public MAPath() {
     chassis = Chassis.getinstance();
     addRequirements(chassis);
-
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     Path.mainPath = Path.teast;
-    chassis.setidilmodeBrake(false);
     stage = 0;
     point = Path.mainPath[stage];
+    chassis.setAutonomousState(point);
+    Autonomous.setLastDistance(point.getDistance());
+    chassis.setCircelRaduis();
 
-    if (point.getAngle() - chassis.getAngle() > 0) {
-      setParmater(chassis.getAngle(), chassis.leftDistance(),
+    if (chassis.state == autonomousState.RIGHT) {
+      setParmater(chassis.getAngle(), getInitDistace(),
           MACalculations.fromRPMToLinearSpeed(chassis.leftRPM(), ChassisConstants.KCHASSIS_GEAR));
-    } else if (point.getAngle() - chassis.getAngle() < 0) {
-      setParmater(chassis.getAngle(), chassis.rigthDistance(),
+    } else if (chassis.state == autonomousState.LEFT) {
+      setParmater(chassis.getAngle(), getInitDistace(),
           MACalculations.fromRPMToLinearSpeed(chassis.rightRPM(), ChassisConstants.KCHASSIS_GEAR));
     } else {
-      setParmater(chassis.getAngle(), (chassis.rigthDistance() + chassis.leftDistance()) / 2, MACalculations
+      setParmater(chassis.getAngle(), getInitDistace(), MACalculations
           .fromRPMToLinearSpeed((chassis.rightRPM() + chassis.leftRPM()) / 2, ChassisConstants.KCHASSIS_GEAR));
     }
-
+    lastStae = chassis.state;
     chassis.setpoint(point, InitLinearSpeed, initDistacn, initTata);
 
   }
@@ -65,20 +79,24 @@ public class MAPath extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    chassis.pathMotorOutPut();
+
     if (stage + 1 != Path.mainPath.length) {
       if (chassis.atPoint(point)) {
+        setParmater(chassis.getAngle(), getInitDistace(), MACalculations
+            .fromRPMToLinearSpeed((chassis.rightRPM() + chassis.leftRPM()) / 2, ChassisConstants.KCHASSIS_GEAR));
         stage++;
         point = Path.mainPath[stage];
-        setParmater(chassis.getAngle(), 0, MACalculations
-            .fromRPMToLinearSpeed((chassis.rightRPM() + chassis.leftRPM()) / 2, ChassisConstants.KCHASSIS_GEAR));
-        chassis.reserEncoder();
+        chassis.setAutonomousState(point);
+        lastStae = chassis.state;
+        Autonomous.setLastDistance(point.getDistance());
+        chassis.setCircelRaduis();
+        chassis.reserValueForAutonomous();
       }
-    } else {
-      stage++;
     }
-    chassis.setpoint(point, InitLinearSpeed, initDistacn, initTata);
+    
 
+    chassis.setpoint(point, InitLinearSpeed, initDistacn, initTata);
+    chassis.pathMotorOutPut();
   }
 
   // Called once the command ends or is interrupted.
@@ -101,7 +119,7 @@ public class MAPath extends CommandBase {
   @Override
   public boolean isFinished() {
 
-    if (stage == Path.mainPath.length) {
+    if (stage + 1 >= Path.mainPath.length && chassis.atPoint(Path.mainPath[Path.mainPath.length - 1])) {
       return true;
     }
     return false;
