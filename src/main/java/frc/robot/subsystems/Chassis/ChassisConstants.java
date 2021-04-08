@@ -43,12 +43,12 @@ public class ChassisConstants {
     public static final double KwhellRadius = 0.0762;
 
     public static final double KSUB_MAS = 56;
-    public static final int KTICKS_PER_METER = 22000;
+    public static final int KTICKS_PER_METER = 20;
     public final static double KSPROCKET_RADIUS = 0.0162671;// TOOD
     public final static double KMOTOR_GEAR = 1 / 11.25;
     public static final double KCHASSIS_GEAR = KwhellRadius * KMOTOR_GEAR; // TODO
-    public final static double KMOTOR_FORCE = ((1 / KMOTOR_GEAR) *RobotConstants.KSTALL_TORQUE_NEO * 2) / KwhellRadius;
+    public final static double KMOTOR_FORCE = ((1 / KMOTOR_GEAR) * RobotConstants.KSTALL_TORQUE_NEO * 2) / KwhellRadius;
     public static final double KMAX_SPEED = MACalculations
-            .fromRPMToLinearSpeed(DCMotor.getNEO(2).freeSpeedRadPerSec * 10 , KCHASSIS_GEAR); // TODO
+            .fromRPMToLinearSpeed(DCMotor.getNEO(2).freeSpeedRadPerSec * 10, KCHASSIS_GEAR); // TODO
     public static final double KMAX_ACCELERATION = KMOTOR_FORCE / KSUB_MAS;// KMOTOR_FORCE / KSUB_MAS; // TODO
 }

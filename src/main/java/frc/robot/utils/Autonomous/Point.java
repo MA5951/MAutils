@@ -5,13 +5,13 @@
 package frc.robot.utils.Autonomous;
 
 import frc.robot.subsystems.Chassis.ChassisConstants;
+import frc.robot.utils.Autonomous.Autonomous.autonomousState;
 
 /** Add your docs here. */
 public class Point {
 
     private double distance, angle, maxVelocity = ChassisConstants.KMAX_SPEED,
-            acceleration = ChassisConstants.KMAX_ACCELERATION, endVelocity = ChassisConstants.KMAX_SPEED,
-            arcDistance = 0;
+            acceleration = ChassisConstants.KMAX_ACCELERATION, endVelocity = ChassisConstants.KMAX_SPEED;
 
     public Point(double distance, double angle) {
         this.distance = distance;
@@ -57,8 +57,15 @@ public class Point {
     }
 
     public double getArcDistance() {
-        arcDistance = 0;// TODO
-        return arcDistance;
+        if (Autonomous.state == autonomousState.RIGHT) {
+            return Autonomous.getLeftCircelRadius() * Autonomous.getDeltaTheta();
+        } else if (Autonomous.state == autonomousState.LEFT) {
+            return Autonomous.getRightCircelRadius() * Autonomous.getDeltaTheta();
+        } else if (Autonomous.state == autonomousState.TURN_IN_PLACE) {
+            return Autonomous.getLeftCircelRadius() * Autonomous.getDeltaTheta();
+        } else {
+            return 0;
+        }
     }
 
 }

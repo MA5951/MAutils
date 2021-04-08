@@ -24,23 +24,23 @@ public class MAPath extends CommandBase {
   public static int stage = 0;
   public static int pathnum = 0;
   private double initDistacn = 0;
-  private double initTata = 0;
+  private double initTheta = 0;
   private double InitLinearSpeed = 0;
   private Point point;
   private autonomousState lastStae = autonomousState.STRAIGHT_LINE;
 
-  private void setParmater(double initTata, double initDistacn, double InitLinearSpeed) {
+  private void setParmater(double initTheta, double initDistacn, double InitLinearSpeed) {
     this.initDistacn = initDistacn;
-    this.initTata = initTata;
+    this.initTheta = initTheta;
     this.InitLinearSpeed = InitLinearSpeed;
   }
 
   private double getInitDistace() {
-    if (chassis.state == autonomousState.STRAIGHT_LINE || chassis.state == autonomousState.TURN_IN_PLACE) {
+    if (Autonomous.state == autonomousState.STRAIGHT_LINE || Autonomous.state == autonomousState.TURN_IN_PLACE) {
       return (chassis.leftDistance() + chassis.rigthDistance() / 2);
-    } else if (chassis.state == autonomousState.RIGHT && lastStae != autonomousState.LEFT) {
+    } else if (Autonomous.state == autonomousState.RIGHT && lastStae != autonomousState.LEFT) {
       return chassis.leftDistance();
-    } else if (chassis.state == autonomousState.LEFT && lastStae != autonomousState.RIGHT) {
+    } else if (Autonomous.state == autonomousState.LEFT && lastStae != autonomousState.RIGHT) {
       return chassis.rigthDistance();
     }
     return (chassis.leftDistance() + chassis.rigthDistance() / 2);
@@ -54,25 +54,27 @@ public class MAPath extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Autonomous.reserValueForAutonomous();
     Path.mainPath = Path.teast;
     stage = 0;
     point = Path.mainPath[stage];
-    chassis.setAutonomousState(point);
+    Autonomous.setAutonomousState(point);
     Autonomous.setLastDistance(point.getDistance());
-    chassis.setCircelRaduis();
+    Autonomous.setCircelRaduis(point);
 
-    if (chassis.state == autonomousState.RIGHT) {
+    if (Autonomous.state == autonomousState.RIGHT) {
       setParmater(chassis.getAngle(), getInitDistace(),
           MACalculations.fromRPMToLinearSpeed(chassis.leftRPM(), ChassisConstants.KCHASSIS_GEAR));
-    } else if (chassis.state == autonomousState.LEFT) {
+    } else if (Autonomous.state == autonomousState.LEFT) {
       setParmater(chassis.getAngle(), getInitDistace(),
           MACalculations.fromRPMToLinearSpeed(chassis.rightRPM(), ChassisConstants.KCHASSIS_GEAR));
     } else {
       setParmater(chassis.getAngle(), getInitDistace(), MACalculations
           .fromRPMToLinearSpeed((chassis.rightRPM() + chassis.leftRPM()) / 2, ChassisConstants.KCHASSIS_GEAR));
     }
-    lastStae = chassis.state;
-    chassis.setpoint(point, InitLinearSpeed, initDistacn, initTata);
+    lastStae = Autonomous.state;
+    Autonomous.calculatTimeAndDistanceToAutonomous(InitLinearSpeed, point);
+    chassis.setpoint(point, InitLinearSpeed, initDistacn, initTheta);
 
   }
 
@@ -81,21 +83,21 @@ public class MAPath extends CommandBase {
   public void execute() {
 
     if (stage + 1 != Path.mainPath.length) {
-      if (chassis.atPoint(point)) {
+      if (Autonomous.atPoint(point)) {
         setParmater(chassis.getAngle(), getInitDistace(), MACalculations
             .fromRPMToLinearSpeed((chassis.rightRPM() + chassis.leftRPM()) / 2, ChassisConstants.KCHASSIS_GEAR));
         stage++;
         point = Path.mainPath[stage];
-        chassis.setAutonomousState(point);
-        lastStae = chassis.state;
+        Autonomous.setAutonomousState(point);
+        lastStae = Autonomous.state;
         Autonomous.setLastDistance(point.getDistance());
-        chassis.setCircelRaduis();
-        chassis.reserValueForAutonomous();
+        Autonomous.setCircelRaduis(point);
+        Autonomous.reserValueForAutonomous();
       }
     }
-    
 
-    chassis.setpoint(point, InitLinearSpeed, initDistacn, initTata);
+    chassis.setpoint(point, InitLinearSpeed, initDistacn, initTheta);
+    Autonomous.calculatTimeAndDistanceToAutonomous(InitLinearSpeed, point);
     chassis.pathMotorOutPut();
   }
 
@@ -119,7 +121,7 @@ public class MAPath extends CommandBase {
   @Override
   public boolean isFinished() {
 
-    if (stage + 1 >= Path.mainPath.length && chassis.atPoint(Path.mainPath[Path.mainPath.length - 1])) {
+    if (stage + 1 >= Path.mainPath.length && Autonomous.atPoint(Path.mainPath[Path.mainPath.length - 1])) {
       return true;
     }
     return false;
