@@ -15,7 +15,7 @@ import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 import frc.robot.utils.MASubsystem.MASubsystem;
 import frc.robot.utils.Autonomous.Autonomous;
 import frc.robot.utils.Autonomous.Point;
-import frc.robot.utils.Autonomous.Autonomous.autonomousState;
+import frc.robot.utils.Autonomous.Point.pointState;
 import frc.robot.utils.Calculation.MACalculations;
 import frc.robot.commands.Chassis.MAPath;
 
@@ -36,6 +36,8 @@ public class Chassis extends MASubsystem {
   private MAPidController distancePIDVision;
 
   private MAShuffleboard chassisShuffleboard;
+
+  private double distacne = 0;
 
   private static Chassis chassis;
 
@@ -80,9 +82,6 @@ public class Chassis extends MASubsystem {
 
     resetValue();
 
-    rightVelocityControl.setSetpoint(3000);
-    anglePidMApath.setSetpoint(0);
-    // leftVelocityControl.setSetpoint(3000);
   }
 
   public double leftDistance() {
@@ -159,38 +158,59 @@ public class Chassis extends MASubsystem {
     return distancePIDVision.atSetpoint();
   }
 
-  public void setpoint(Point point, double InitLinearSpeed, double initDistacn, double inittheta) {
+  public void setpoint(Point point) {
 
-    double angleSetPoint = Autonomous.thetaFromDistance(point.getDistance(), point.getAngle(), initDistacn, inittheta);
+    double angleSetPoint = getAngle() + Autonomous.thetaFromDistance(distacne, point);
 
-    double accelerationVelocitySetPoint = MACalculations.fromLinearSpeedToRPM(
-        Autonomous.accelerationVelocitySetPoint(InitLinearSpeed, point), ChassisConstants.KCHASSIS_GEAR);
+    double accelerationVelocitySetPoint = MACalculations
+        .fromLinearSpeedToRPM(Autonomous.accelerationVelocitySetPoint(point), ChassisConstants.KCHASSIS_GEAR);
 
     double theOtherVelocitySetPoint = MACalculations.fromLinearSpeedToRPM(
         Autonomous.theOtherVelocitySetPoint(accelerationVelocitySetPoint, angleSetPoint),
         ChassisConstants.KCHASSIS_GEAR);
 
-    if (Autonomous.state == autonomousState.RIGHT) {
-      rightVelocityControl.setSetpoint(accelerationVelocitySetPoint);
-      leftVelocityControl.setSetpoint(theOtherVelocitySetPoint);
-      anglePidMApath.setSetpoint(angleSetPoint);
+    // System.out.println(Autonomous.accelerationVelocitySetPoint(point));
 
-    } else if (Autonomous.state == autonomousState.LEFT) {
-      leftVelocityControl.setSetpoint(accelerationVelocitySetPoint);
+    if (point.getState() == pointState.RIGHT) {
+      distacne = leftDistance() - point.getLastPoint().getArcDistance();
       rightVelocityControl.setSetpoint(theOtherVelocitySetPoint);
+      leftVelocityControl.setSetpoint(accelerationVelocitySetPoint);
       anglePidMApath.setSetpoint(angleSetPoint);
 
-    } else if (Autonomous.state == autonomousState.STRAIGHT_LINE) {
+    } else if (point.getState() == pointState.LEFT) {
+      distacne = rigthDistance() - point.getLastPoint().getArcDistance();
+      leftVelocityControl.setSetpoint(theOtherVelocitySetPoint);
+      rightVelocityControl.setSetpoint(accelerationVelocitySetPoint);
+      anglePidMApath.setSetpoint(angleSetPoint);
+
+    } else if (point.getState() == pointState.STRAIGHT_LINE) {
       leftVelocityControl.setSetpoint(accelerationVelocitySetPoint);
       rightVelocityControl.setSetpoint(accelerationVelocitySetPoint);
       anglePidMApath.setSetpoint(point.getAngle());
-
     } else {
+      double sight = point.getAngle() / Math.abs(point.getAngle());
       rightVelocityControl.setSetpoint(accelerationVelocitySetPoint);
-      leftVelocityControl.setSetpoint(theOtherVelocitySetPoint);
-      anglePidMApath.setSetpoint(angleSetPoint);
+      leftVelocityControl.setSetpoint(accelerationVelocitySetPoint * sight);
+      anglePidMApath.setSetpoint(point.getAngle());
     }
 
+  }
+
+  public boolean atPoint(Point point) {
+    if (point.getState() == pointState.RIGHT) {
+      return point.getAngle() == getAngle() && Math.abs(point.getArcDistance() - leftDistance()) < 0.2
+          && Math.abs(point.getEndVelocity()
+              - MACalculations.fromRPMToLinearSpeed(leftRPM(), ChassisConstants.KCHASSIS_GEAR)) < 0.1;
+    } else if (point.getState() == pointState.LEFT) {
+      return point.getAngle() == getAngle() && Math.abs(point.getArcDistance() - rigthDistance()) < 0.2
+          && Math.abs(point.getEndVelocity()
+              - MACalculations.fromRPMToLinearSpeed(rightRPM(), ChassisConstants.KCHASSIS_GEAR)) < 0.1;
+    } else {
+      return point.getAngle() == getAngle()
+          && Math.abs(point.getDistance() - (rigthDistance() + leftDistance()) / 2) < 0.2
+          && Math.abs(point.getEndVelocity() - MACalculations.fromRPMToLinearSpeed((rightRPM() + leftRPM()) / 2,
+              ChassisConstants.KCHASSIS_GEAR)) < 0.1;
+    }
   }
 
   public double angleEror() {
@@ -264,14 +284,17 @@ public class Chassis extends MASubsystem {
     chassisShuffleboard.addNum("fixedAngle", getAngle());
     chassisShuffleboard.addNum("right distance", rigthDistance());
     chassisShuffleboard.addNum("left distance", leftDistance());
+    chassisShuffleboard.addNum("velocity", Autonomous.getVelocity());
+    chassisShuffleboard.addString("state", MAPath.point.getState().toString());
 
     chassisShuffleboard.addNum("lefttVelocityControlPositionError", leftVelocityControl.getPositionError());
     chassisShuffleboard.addNum("rightVelocityControlPositionError", rightVelocityControl.getPositionError());
     chassisShuffleboard.addNum("lefttVelocityControlSetPoint", leftVelocityControl.getSetpoint());
     chassisShuffleboard.addNum("rightVelocityControlSetPoint", rightVelocityControl.getSetpoint());
+
+    chassisShuffleboard.addNum("angle setPoint", anglePidMApath.getSetpoint());
     chassisShuffleboard.addNum("right RPM", rightRPM());
     chassisShuffleboard.addNum("left RPM", leftRPM());
 
-    chassisShuffleboard.addString("state", Autonomous.state.toString());
   }
 }

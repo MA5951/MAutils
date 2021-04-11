@@ -9,42 +9,20 @@
 package frc.robot.commands.Chassis;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.utils.RobotConstants;
 import frc.robot.utils.Autonomous.*;
-import frc.robot.utils.Autonomous.Autonomous.autonomousState;
-import frc.robot.utils.Calculation.MACalculations;
 import frc.robot.subsystems.Chassis.Chassis;
-import frc.robot.subsystems.Chassis.ChassisConstants;
 
 public class MAPath extends CommandBase {
   /**
    * Creates a new MAPath.
    */
 
-  Chassis chassis;
+  private Chassis chassis;
   public static int stage = 0;
   public static int pathnum = 0;
-  private double initDistacn = 0;
-  private double initTheta = 0;
-  private double InitLinearSpeed = 0;
-  private Point point;
-  private autonomousState lastStae = autonomousState.STRAIGHT_LINE;
-
-  private void setParmater(double initTheta, double initDistacn, double InitLinearSpeed) {
-    this.initDistacn = initDistacn;
-    this.initTheta = initTheta;
-    this.InitLinearSpeed = InitLinearSpeed;
-  }
-
-  private double getInitDistace() {
-    if (Autonomous.state == autonomousState.STRAIGHT_LINE || Autonomous.state == autonomousState.TURN_IN_PLACE) {
-      return (chassis.leftDistance() + chassis.rigthDistance() / 2);
-    } else if (Autonomous.state == autonomousState.RIGHT && lastStae != autonomousState.LEFT) {
-      return chassis.leftDistance();
-    } else if (Autonomous.state == autonomousState.LEFT && lastStae != autonomousState.RIGHT) {
-      return chassis.rigthDistance();
-    }
-    return (chassis.leftDistance() + chassis.rigthDistance() / 2);
-  }
+  public static Point point = new Point(0, 0);
+  private double timeInPoint = 0;
 
   public MAPath() {
     chassis = Chassis.getinstance();
@@ -54,28 +32,15 @@ public class MAPath extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Autonomous.reserValueForAutonomous();
     Path.mainPath = Path.teast;
     stage = 0;
+    timeInPoint = RobotConstants.KDELTA_TIME;
     point = Path.mainPath[stage];
-    Autonomous.setAutonomousState(point);
-    Autonomous.setLastDistance(point.getDistance());
-    Autonomous.setCircelRaduis(point);
-
-    if (Autonomous.state == autonomousState.RIGHT) {
-      setParmater(chassis.getAngle(), getInitDistace(),
-          MACalculations.fromRPMToLinearSpeed(chassis.leftRPM(), ChassisConstants.KCHASSIS_GEAR));
-    } else if (Autonomous.state == autonomousState.LEFT) {
-      setParmater(chassis.getAngle(), getInitDistace(),
-          MACalculations.fromRPMToLinearSpeed(chassis.rightRPM(), ChassisConstants.KCHASSIS_GEAR));
-    } else {
-      setParmater(chassis.getAngle(), getInitDistace(), MACalculations
-          .fromRPMToLinearSpeed((chassis.rightRPM() + chassis.leftRPM()) / 2, ChassisConstants.KCHASSIS_GEAR));
-    }
-    lastStae = Autonomous.state;
-    Autonomous.calculatTimeAndDistanceToAutonomous(InitLinearSpeed, point);
-    chassis.setpoint(point, InitLinearSpeed, initDistacn, initTheta);
-
+    point.setLastPoint(new Point(0, 0, 4, 0));
+    point.setTimeInPoint(timeInPoint);
+    point.setState();
+    point.setCircelRaduis();
+    point.calculatTimeAndDistanceToAutonomous();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -83,21 +48,24 @@ public class MAPath extends CommandBase {
   public void execute() {
 
     if (stage + 1 != Path.mainPath.length) {
-      if (Autonomous.atPoint(point)) {
-        setParmater(chassis.getAngle(), getInitDistace(), MACalculations
-            .fromRPMToLinearSpeed((chassis.rightRPM() + chassis.leftRPM()) / 2, ChassisConstants.KCHASSIS_GEAR));
+      if (chassis.atPoint(point)) {
+        Point lasPoint = point;
+        Autonomous.setVelocity(0);
+        timeInPoint = RobotConstants.KDELTA_TIME;
         stage++;
         point = Path.mainPath[stage];
-        Autonomous.setAutonomousState(point);
-        lastStae = Autonomous.state;
-        Autonomous.setLastDistance(point.getDistance());
-        Autonomous.setCircelRaduis(point);
-        Autonomous.reserValueForAutonomous();
+        point.setTimeInPoint(timeInPoint);
+        point.setLastPoint(lasPoint);
+        point.setState();
+        point.setCircelRaduis();
+        point.calculatTimeAndDistanceToAutonomous();
+
       }
     }
 
-    chassis.setpoint(point, InitLinearSpeed, initDistacn, initTheta);
-    Autonomous.calculatTimeAndDistanceToAutonomous(InitLinearSpeed, point);
+    timeInPoint = timeInPoint + RobotConstants.KDELTA_TIME;
+    point.setTimeInPoint(timeInPoint);
+    chassis.setpoint(point);
     chassis.pathMotorOutPut();
   }
 
@@ -121,7 +89,7 @@ public class MAPath extends CommandBase {
   @Override
   public boolean isFinished() {
 
-    if (stage + 1 >= Path.mainPath.length && Autonomous.atPoint(Path.mainPath[Path.mainPath.length - 1])) {
+    if (stage + 1 >= Path.mainPath.length && chassis.atPoint(Path.mainPath[Path.mainPath.length - 1])) {
       return true;
     }
     return false;

@@ -31,8 +31,7 @@ public class ShooterConstants extends SubConstants {
     public static final double KSUB_MAS = 0.8; // KG
     public static final double KMAX_RPM = MAX_FREE_RPM * KMOTOR_GEAR;
     public static final double KMAX_ACCELERATION = KMOTOR_FORCE / KSUB_MAS;
-    public static final double KBEST_VOLTEG = MACalculations.RPMToVolteg(KMAX_RPM, KSPROCKET_RADIUS, KMOTOR_GEAR,
-            KSUB_MAS);
+
     private static final double FlywhellRadius = 0.0508;
     public static final double kFlywheelMomentOfInertia = KSUB_MAS * Math.pow(FlywhellRadius, 2); // mas*R^2
 

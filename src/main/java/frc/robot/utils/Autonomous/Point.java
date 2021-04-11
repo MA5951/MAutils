@@ -5,17 +5,33 @@
 package frc.robot.utils.Autonomous;
 
 import frc.robot.subsystems.Chassis.ChassisConstants;
-import frc.robot.utils.Autonomous.Autonomous.autonomousState;
 
 /** Add your docs here. */
 public class Point {
 
+    public static enum pointState {
+        RIGHT, LEFT, STRAIGHT_LINE, TURN_IN_PLACE
+    }
+
+    private Point lasPoint;
+
     private double distance, angle, maxVelocity = ChassisConstants.KMAX_SPEED,
-            acceleration = ChassisConstants.KMAX_ACCELERATION, endVelocity = ChassisConstants.KMAX_SPEED;
+            acceleration = ChassisConstants.KMAX_ACCELERATION, endVelocity = 0;
+
+    private pointState state = pointState.STRAIGHT_LINE;
+    private double timeInMaxSpeed = 0;
+    private double accelerationTimeToSetPoint = 0;
+    private double accelerationTimeToMaxSpeed = 0;
+    private double distacnePassInAccelerationMove = 0;
+    private double distacnePassInAccelerationToSetPoint = 0;
+    private double timeInPoint = 0;
+    private double rightCircelRadius = 0;
+    private double leftCircelRadius = 0;
 
     public Point(double distance, double angle) {
         this.distance = distance;
         this.angle = angle;
+
     }
 
     public Point(double distance, double angle, double maxVelocity, double endVelocity) {
@@ -33,7 +49,10 @@ public class Point {
         this.maxVelocity = maxVelocity;
         this.endVelocity = endVelocity;
         this.acceleration = acceleration;
+    }
 
+    public double getDeltaTheta() {
+        return Math.toRadians(getAngle() - lasPoint.getAngle());
     }
 
     public double getEndVelocity() {
@@ -56,13 +75,115 @@ public class Point {
         return acceleration;
     }
 
+    public double getTimeInPoint() {
+        return timeInPoint;
+    }
+
+    public void setTimeInPoint(double timeInPoint) {
+        this.timeInPoint = timeInPoint;
+    }
+
+    public double getDistacnePassInAccelerationToSetPoint() {
+        return distacnePassInAccelerationToSetPoint;
+    }
+
+    public double getDistacnePassInAccelerationMove() {
+        return distacnePassInAccelerationMove;
+    }
+
+    public double getAccelerationTimeToMaxSpeed() {
+        return accelerationTimeToMaxSpeed;
+    }
+
+    public double getAccelerationTimeToSetPoint() {
+        return accelerationTimeToSetPoint;
+    }
+
+    public double getTimeInMaxSpeed() {
+        return timeInMaxSpeed;
+    }
+
+    public void setLastPoint(Point point) {
+        lasPoint = point;
+    }
+
+    public Point getLastPoint() {
+        return lasPoint;
+    }
+
+    public void calculatTimeAndDistanceToAutonomous() {
+        accelerationTimeToSetPoint = Math.abs((getMaxVelocity() - getEndVelocity()) / getAcceleration());
+
+        accelerationTimeToMaxSpeed = Math.abs((getMaxVelocity() - lasPoint.getEndVelocity()) / getAcceleration());
+
+        distacnePassInAccelerationMove = lasPoint.getEndVelocity() * accelerationTimeToMaxSpeed
+                + (getAcceleration() / 2) * Math.pow(accelerationTimeToMaxSpeed, 2);
+
+        distacnePassInAccelerationToSetPoint = getMaxVelocity() * accelerationTimeToSetPoint
+                - (getAcceleration() / 2) * Math.pow(accelerationTimeToSetPoint, 2);
+
+        if (state == pointState.RIGHT || state == pointState.LEFT) {
+            timeInMaxSpeed = Math
+                    .abs((getArcDistance() - (distacnePassInAccelerationToSetPoint + distacnePassInAccelerationMove))
+                            / getMaxVelocity());
+        } else {
+            timeInMaxSpeed = Math
+                    .abs((getDistance() - (distacnePassInAccelerationToSetPoint + distacnePassInAccelerationMove))
+                            / getMaxVelocity());
+        }
+    }
+
+    public void setCircelRaduis() {
+        if (state == pointState.RIGHT) {
+            leftCircelRadius = Math.sqrt((Math.pow(getDistance(), 2) / (2 - 2 * Math.cos(getDeltaTheta()))));
+            rightCircelRadius = leftCircelRadius - ChassisConstants.KchassisLength;
+        } else if (state == pointState.LEFT) {
+            rightCircelRadius = Math.sqrt((Math.pow(getDistance(), 2) / (2 - 2 * Math.cos(getDeltaTheta()))));
+            leftCircelRadius = rightCircelRadius - ChassisConstants.KchassisLength;
+        } else if (state == pointState.TURN_IN_PLACE) {
+            leftCircelRadius = Math.sqrt((Math.pow(getDistance(), 2) / (2 - 2 * Math.cos(getDeltaTheta()))));
+            rightCircelRadius = leftCircelRadius;
+        } else {
+            leftCircelRadius = 0;
+            rightCircelRadius = leftCircelRadius;
+        }
+    }
+
+    public double getCircelRauis() {
+        if (state == pointState.RIGHT) {
+            return leftCircelRadius;
+        } else if (state == pointState.LEFT) {
+            return rightCircelRadius;
+        } else if (state == pointState.TURN_IN_PLACE) {
+            return leftCircelRadius;
+        }
+        return 0;
+    }
+
+    public pointState getState() {
+        return state;
+    }
+
+    public void setState() {
+        double sight = getDistance() / Math.abs(getDistance());
+        if (getDistance() == lasPoint.getDistance()) {
+            state = pointState.TURN_IN_PLACE;
+        } else if ((getAngle() - lasPoint.getAngle()) * sight > 0) {
+            state = pointState.RIGHT;
+        } else if ((getAngle() - lasPoint.getAngle()) * sight < 0) {
+            state = pointState.LEFT;
+        } else if (getAngle() == lasPoint.getAngle()) {
+            state = pointState.STRAIGHT_LINE;
+        }
+    }
+
     public double getArcDistance() {
-        if (Autonomous.state == autonomousState.RIGHT) {
-            return Autonomous.getLeftCircelRadius() * Autonomous.getDeltaTheta();
-        } else if (Autonomous.state == autonomousState.LEFT) {
-            return Autonomous.getRightCircelRadius() * Autonomous.getDeltaTheta();
-        } else if (Autonomous.state == autonomousState.TURN_IN_PLACE) {
-            return Autonomous.getLeftCircelRadius() * Autonomous.getDeltaTheta();
+        if (state == pointState.RIGHT) {
+            return leftCircelRadius * getDeltaTheta();
+        } else if (state == pointState.LEFT) {
+            return rightCircelRadius * getDeltaTheta();
+        } else if (state == pointState.TURN_IN_PLACE) {
+            return leftCircelRadius * getDeltaTheta();
         } else {
             return 0;
         }

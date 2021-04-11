@@ -10,7 +10,7 @@ import frc.robot.utils.RobotConstants;
 public class MACalculations {
 
     public static double fromRPMToLinearSpeed(double RPM, double gear) {
-        return (RPM * 10 ) * gear;
+        return (RPM * 10) * gear;
     }
 
     public static double fromLinearSpeedToRPM(double linearSpeed, double gear) {
@@ -25,9 +25,12 @@ public class MACalculations {
         return ((Rate * 10) / TPR) / 60;
     }
 
-    public static double RPMToVolteg(double RPM, double sprocketRadius, double gear, double mas) {
-        return MathUtil.clamp(
-                ((fromRPMToLinearSpeed(RPM, gear) * mas) / RobotConstants.KDELTA_TIME * sprocketRadius * gear/RobotConstants.KELECTRON_CHARGE), 12, -12);
+    public static double ForceToVolteg(double force) {
+        return MathUtil.clamp(force / RobotConstants.KELECTRON_CHARGE, 12, -12);
+    }
+
+    public static double RPMToVolteg(double RPM, double maxRPM) {
+        return (RPM / maxRPM) * 12;
     }
 
 }

@@ -22,7 +22,6 @@ public class IntakeConstants {
     public final static double KSUB_MAS = 0;
     public static final double KMAX_RPM = MAX_FREE_RPM * KMOTOR_GEAR_COLLECTION; // TODO
     public static final double KMAX_ACCELERATION = KMOTOR_GEAR_COLLECTION / KSUB_MAS; // TODO
-    public static final double KBEST_RPM_COLLECTION = MACalculations.RPMToVolteg(KMAX_RPM, KSPROCKET_RADIUS_COLLECTION,
-            KMOTOR_GEAR_COLLECTION, KSUB_MAS);
+    public static final double KBEST_RPM_COLLECTION = MACalculations.RPMToVolteg(KMAX_RPM, MAX_FREE_RPM);
 
 }

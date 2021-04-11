@@ -28,10 +28,10 @@ public class elevatorControl extends CommandBase {
   public void execute() {
     if (JoystickContainer.operatingJoystick.getRawAxis(RobotConstants.STICK_LEFT_Y_AXIS) > 0.5
         && elevator.getEncoderPosition() < -6000) {
-      elevator.setMotorPower(ElevatorConstants.KBEST_RPM, ElevatorConstants.KELEVATOR_MOVE);
+      elevator.setMotorPower(ElevatorConstants.KF, ElevatorConstants.KELEVATOR_MOVE);
     } else if (JoystickContainer.operatingJoystick.getRawAxis(RobotConstants.STICK_LEFT_Y_AXIS) < -0.5
         && elevator.getEncoderPosition() > -162000 && elevator.getPistonValue()) {
-      elevator.setMotorPower(-ElevatorConstants.KBEST_RPM, ElevatorConstants.KELEVATOR_MOVE);
+      elevator.setMotorPower(-ElevatorConstants.KF, ElevatorConstants.KELEVATOR_MOVE);
     } else {
       elevator.setMotorPower(0, ElevatorConstants.KELEVATOR_MOVE);
     }
