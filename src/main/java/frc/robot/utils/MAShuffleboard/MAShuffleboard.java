@@ -27,7 +27,7 @@ public class MAShuffleboard {
 
   }
 
-  public NetworkTableEntry maShugglebordPattern(NetworkTableEntry valEntry, String title, Object DV) {
+  public NetworkTableEntry maShufflebordPattern(NetworkTableEntry valEntry, String title, Object DV) {
     if (networkTableNameMap.get(title) == null) {
       valEntry = Shuffleboard.getTab(currnetTab).add(title, DV).getEntry();
       networkTableNameMap.put(title, valEntry);
@@ -35,7 +35,7 @@ public class MAShuffleboard {
     return networkTableNameMap.get(title);
   }
 
-  public NetworkTableEntry maShugglebordPattern(NetworkTableEntry valEntry, String title, Object DV,
+  public NetworkTableEntry maShufflebordPattern(NetworkTableEntry valEntry, String title, Object DV,
       WidgetType widgetType) {
     if (networkTableNameMap.get(title) == null) {
       valEntry = Shuffleboard.getTab(currnetTab).add(title, DV).withWidget(widgetType).getEntry();
@@ -45,52 +45,52 @@ public class MAShuffleboard {
   }
 
   public void addNum(String title, double value) {
-    maShugglebordPattern(numValue, title, 0).setValue(value);
+    maShufflebordPattern(numValue, title, 0).setValue(value);
   }
 
   public void addString(String title, String value) {
-    maShugglebordPattern(stringValue, title, "").setValue(value);
+    maShufflebordPattern(stringValue, title, "").setValue(value);
   }
 
   public void addBoolean(String title, Boolean value) {
-    maShugglebordPattern(booleanValue, title, false).setValue(value);
+    maShufflebordPattern(booleanValue, title, false).setValue(value);
   }
 
   public void addNum(String title, double value, WidgetType widgetType) {
-    maShugglebordPattern(numValue, title, 0, widgetType).setValue(value);
+    maShufflebordPattern(numValue, title, 0, widgetType).setValue(value);
   }
 
   public void addString(String title, String value, WidgetType widgetType) {
-    maShugglebordPattern(stringValue, title, "", widgetType).setValue(value);
+    maShufflebordPattern(stringValue, title, "", widgetType).setValue(value);
   }
 
   public void addBoolean(String title, Boolean value, WidgetType widgetType) {
-    maShugglebordPattern(booleanValue, title, false, widgetType).setValue(value);
+    maShufflebordPattern(booleanValue, title, false, widgetType).setValue(value);
   }
 
   public boolean getBolean(String title) {
 
-    return maShugglebordPattern(booleanValue, title, false).getBoolean(false);
+    return maShufflebordPattern(booleanValue, title, false).getBoolean(false);
   }
 
   public String getString(String title) {
-    return maShugglebordPattern(stringValue, title, "").getString("");
+    return maShufflebordPattern(stringValue, title, "").getString("");
   }
 
   public double getNum(String title) {
-    return (double) maShugglebordPattern(numValue, title, 0).getNumber(0);
+    return (double) maShufflebordPattern(numValue, title, 0).getNumber(0);
   }
 
   public boolean getBolean(String title, WidgetType widgetType) {
-    return maShugglebordPattern(booleanValue, title, false, widgetType).getBoolean(false);
+    return maShufflebordPattern(booleanValue, title, false, widgetType).getBoolean(false);
   }
 
   public String getString(String title, WidgetType widgetType) {
-    return maShugglebordPattern(stringValue, title, "", widgetType).getString("");
+    return maShufflebordPattern(stringValue, title, "", widgetType).getString("");
   }
 
   public double getNum(String title, WidgetType widgetType) {
-    return (double) maShugglebordPattern(numValue, title, 0, widgetType).getNumber(0);
+    return (double) maShufflebordPattern(numValue, title, 0, widgetType).getNumber(0);
   }
 
   public void addPID(String title, MAPidController pid) {

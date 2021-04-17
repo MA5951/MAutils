@@ -36,7 +36,7 @@ public class MAPath extends CommandBase {
     stage = 0;
     timeInPoint = RobotConstants.KDELTA_TIME;
     point = Path.mainPath[stage];
-    point.setLastPoint(new Point(0, 0, 4, 0));
+    point.setLastPoint(new Point(0, 0, -4, 0));
     point.setTimeInPoint(timeInPoint);
     point.setState();
     point.setCircelRaduis();
@@ -66,22 +66,23 @@ public class MAPath extends CommandBase {
     timeInPoint = timeInPoint + RobotConstants.KDELTA_TIME;
     point.setTimeInPoint(timeInPoint);
     chassis.setpoint(point);
-    chassis.pathMotorOutPut();
+    chassis.pathMotorOutPut(point);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    
     if (interrupted) {
       chassis.leftcontrol(0);
       chassis.rightcontrol(0);
-      chassis.setidilmodeBrake(true);
+      chassis.setidilmodeBrake(false);
     } else {
 
       pathnum++;
       chassis.leftcontrol(0);
       chassis.rightcontrol(0);
-      chassis.setidilmodeBrake(true);
+      chassis.setidilmodeBrake(false);
     }
   }
 

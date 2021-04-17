@@ -51,21 +51,21 @@ public class Autonomous {
   }
 
   public static double theOtherVelocitySetPoint(double V, double theta) {
-    double sight = Math.abs(V) / V;
     double thetaToRadians = Math.toRadians(theta);
-    if (V == 0) {
-      return 0;
+    if (Math.abs(theta) <= 15) {
+      return V;
     }
-    return V - ((2 * ChassisConstants.KchassisLength / Math.tan(thetaToRadians)) * sight);
+    return V - ((2 * ChassisConstants.KchassisLength / Math.tan(thetaToRadians)));
   }
 
   public static double thetaFromDistance(double distacne, Point point) {
+    double sight = Math.abs(point.getAngle()) / point.getAngle();
 
     if (distacne == 0) {
       return 10 * point.getAngle() / Math.abs(point.getAngle());
     }
-    
-    return Math.toDegrees(distacne / point.getCircelRauis());
+
+    return Math.toDegrees(distacne / point.getCircelRauis()) * sight;
   }
 
   public static void setAutonomousCommand() {

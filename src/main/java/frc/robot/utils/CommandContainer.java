@@ -15,6 +15,7 @@ import frc.robot.subsystems.Shooter.MoonShooter;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.Automation.Shooting;
+import frc.robot.commands.Chassis.MAPath;
 import frc.robot.subsystems.Automation.Automation;
 import frc.robot.subsystems.Balance.Balance;
 import frc.robot.utils.MAComannds.MABasicMotorCommand;
@@ -37,9 +38,12 @@ public class CommandContainer {
         public CommandContainer() {
                 JoystickContainer.LB.whenPressed(new MAPistonCommand(pistonIntake, true));
                 JoystickContainer.RB.whenPressed(new MAPistonCommand(pistonIntake, false));
-
-                JoystickContainer.AButton.whenPressed(new MAPistonCommand(pistonIntake, true).andThen(
-                                new MABasicMotorCommand(pistonIntake, 0.5, IntakeConstants.INTAKE_COLLECTION)));
+                /*
+                 * JoystickContainer.AButton.whenPressed(new MAPistonCommand(pistonIntake,
+                 * true).andThen( new MABasicMotorCommand(pistonIntake, 0.5,
+                 * IntakeConstants.INTAKE_COLLECTION)));
+                 */
+                JoystickContainer.AButton.whenPressed(new MAPath());
                 JoystickContainer.BButton.whileHeld(
                                 new MABasicMotorCommand(pistonIntake, -0.5, IntakeConstants.INTAKE_COLLECTION));
 

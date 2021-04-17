@@ -12,17 +12,17 @@ import frc.robot.utils.Calculation.MACalculations;
 public class ChassisConstants {
     public static final String KSUBSYSTEM_NAME = "Chassis";
 
-    public static final double KP_MAPATH_RIGHT_VELOCITY = 0;
+    public static final double KP_MAPATH_RIGHT_VELOCITY = 0.00015;
     public static final double KI_MAPATH_RIGHT_VELOCITY = 0;
     public static final double KD_MAPATH_RiGHT_VELOCITY = 0;
 
-    public static final double KP_MAPATH_LEFT_VELOCITY = 0;
+    public static final double KP_MAPATH_LEFT_VELOCITY = 0.00015;
     public static final double KI_MAPATH_LEFT_VELOCITY = 0;
     public static final double KD_MAPATH_LEFT_VELOCITY = 0;
 
-    public static final double KP_MAPATH_ANGLE = 0;
+    public static final double KP_MAPATH_ANGLE = 0.3;
     public static final double KI_MAPATH_ANGLE = 0;
-    public static final double KD_MAPATH_ANGLE = 0;
+    public static final double KD_MAPATH_ANGLE = 0.02;
 
     public static final double KP_VISION_ANGLE = 2.5e-2;
     public static final double KI_VISION_ANGLE = 8e-4;
