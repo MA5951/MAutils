@@ -86,7 +86,8 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     Chassis.getinstance().setidilmodeBrake(false);
     Chassis.getinstance().resetValue();
-    CommandScheduler.getInstance().setDefaultCommand(Chassis.getinstance(), new TankDrive());
+  
+    //CommandScheduler.getInstance().setDefaultCommand(Chassis.getinstance(), new TankDrive());
     // CommandScheduler.getInstance().setDefaultCommand(Balance.getinstance(), new
     // BalanceContorl());
     CommandScheduler.getInstance().setDefaultCommand(Elevator.getinstance(), new elevatorControl());
@@ -101,7 +102,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    //Chassis.getinstance().pathMotorOutPut();
+    // Chassis.getinstance().pathMotorOutPut();
   }
 
   @Override

@@ -44,11 +44,11 @@ public class Chassis extends MASubsystem {
 
   private Chassis() {
     chassisShuffleboard = new MAShuffleboard(ChassisConstants.KSUBSYSTEM_NAME);
-    leftFrontMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID1, true, 0, false,
+    leftFrontMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID1, false, 0, false,
         ENCODER.Encoder);
     leftMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID2, false, 0, false, ENCODER.Encoder);
 
-    rightFrontMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID3, false, 0, false,
+    rightFrontMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID3, true, 0, false,
         ENCODER.Encoder);
     rightMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID4, false, 0, false, ENCODER.Encoder);
 
@@ -162,26 +162,24 @@ public class Chassis extends MASubsystem {
   public void setpoint(Point point) {
 
     double angleSetPoint = Autonomous.thetaFromDistance(distacne, point);
-    double theOtherVelocityAngleSetPoint = point.getAngle() - angleSetPoint;
     double angleSetPointPID = point.getLastPoint().getAngle() + angleSetPoint;
 
     double accelerationVelocitySetPoint = MACalculations
         .fromLinearSpeedToRPM(Autonomous.accelerationVelocitySetPoint(point), ChassisConstants.KCHASSIS_GEAR);
 
     double theOtherVelocitySetPoint = MACalculations.fromLinearSpeedToRPM(
-        Autonomous.theOtherVelocitySetPoint(accelerationVelocitySetPoint, theOtherVelocityAngleSetPoint),
-        ChassisConstants.KCHASSIS_GEAR);
+        Autonomous.theOtherVelocitySetPoint(accelerationVelocitySetPoint, point), ChassisConstants.KCHASSIS_GEAR);
 
     if (point.getState() == pointState.RIGHT) {
       distacne = leftDistance() - point.getLastPoint().getArcDistance();
-      rightVelocityControl.setSetpoint(accelerationVelocitySetPoint);
-      leftVelocityControl.setSetpoint(theOtherVelocitySetPoint);
+      rightVelocityControl.setSetpoint(theOtherVelocitySetPoint);
+      leftVelocityControl.setSetpoint(accelerationVelocitySetPoint);
       anglePidMApath.setSetpoint(angleSetPointPID);
 
     } else if (point.getState() == pointState.LEFT) {
       distacne = rigthDistance() - point.getLastPoint().getArcDistance();
-      leftVelocityControl.setSetpoint(accelerationVelocitySetPoint);
       rightVelocityControl.setSetpoint(theOtherVelocitySetPoint);
+      leftVelocityControl.setSetpoint(accelerationVelocitySetPoint);
       anglePidMApath.setSetpoint(angleSetPointPID);
 
     } else if (point.getState() == pointState.STRAIGHT_LINE) {
@@ -199,19 +197,21 @@ public class Chassis extends MASubsystem {
 
   public boolean atPoint(Point point) {
     if (point.getState() == pointState.RIGHT) {
-      return Math.abs(point.getAngle() - getAngle()) < 2 && Math.abs(point.getArcDistance() - leftDistance()) < 0.2
+      return Math.abs(point.getAngle() - getAngle()) < 10 && Math.abs(point.getArcDistance() - leftDistance()) < 0.3
           && Math.abs(point.getEndVelocity()
-              - MACalculations.fromRPMToLinearSpeed(leftRPM(), ChassisConstants.KCHASSIS_GEAR)) < 0.1;
-    } else if (point.getState() == pointState.LEFT) {
-      return Math.abs(point.getAngle() - getAngle()) < 2 && Math.abs(point.getArcDistance() - rigthDistance()) < 0.2
-          && Math.abs(point.getEndVelocity()
-              - MACalculations.fromRPMToLinearSpeed(rightRPM(), ChassisConstants.KCHASSIS_GEAR)) < 0.1;
-    } else {
-      return Math.abs(point.getAngle() - getAngle()) < 2
-          && Math.abs(point.getDistance() - (rigthDistance() + leftDistance()) / 2) < 0.2
-          && Math.abs(point.getEndVelocity() - MACalculations.fromRPMToLinearSpeed((rightRPM() + leftRPM()) / 2,
-              ChassisConstants.KCHASSIS_GEAR)) < 0.1;
+              - MACalculations.fromRPMToLinearSpeed(leftRPM(), ChassisConstants.KCHASSIS_GEAR)) < 0.3;
     }
+
+    if (point.getState() == pointState.LEFT) {
+      return Math.abs(point.getAngle() - getAngle()) < 10 && Math.abs(point.getArcDistance() - rigthDistance()) < 0.3
+          && Math.abs(point.getEndVelocity()
+              - MACalculations.fromRPMToLinearSpeed(rightRPM(), ChassisConstants.KCHASSIS_GEAR)) < 0.3;
+    }
+
+    return Math.abs(point.getAngle() - getAngle()) < 5
+        && Math.abs(point.getDistance() - (rigthDistance() + leftDistance()) / 2) < 0.3
+        && Math.abs(point.getEndVelocity()
+            - MACalculations.fromRPMToLinearSpeed((rightRPM() + leftRPM()) / 2, ChassisConstants.KCHASSIS_GEAR)) < 0.5;
   }
 
   public double angleEror() {
@@ -256,12 +256,13 @@ public class Chassis extends MASubsystem {
     double leftPower = leftVelocityMApathPIDOutput();
     double rightPower = rightVelocityMApathPIDOutput();
     double anglePower = angleMApathPIDOutput();
+
     if (point.getState() == pointState.RIGHT) {
       leftcontrol(leftPower + anglePower);
       rightcontrol(rightPower - anglePower);
     } else if (point.getState() == pointState.LEFT) {
-      leftcontrol(leftPower - anglePower);
-      rightcontrol(rightPower + anglePower);
+      leftcontrol(leftPower + anglePower);
+      rightcontrol(rightPower - anglePower);
     } else if (point.getState() == pointState.STRAIGHT_LINE) {
       leftcontrol(leftPower);
       rightcontrol(rightPower);
@@ -288,6 +289,7 @@ public class Chassis extends MASubsystem {
 
   @Override
   public void periodic() {
+
     printValues();
   }
 
@@ -305,8 +307,17 @@ public class Chassis extends MASubsystem {
     chassisShuffleboard.addNum("rightVelocityControlSetPoint", rightVelocityControl.getSetpoint());
 
     chassisShuffleboard.addNum("angle setPoint", anglePidMApath.getSetpoint());
+
+    chassisShuffleboard.addNum("right power", rightFrontMotor.getOutput());
+    chassisShuffleboard.addNum("left power", leftFrontMotor.getOutput());
+
     chassisShuffleboard.addNum("right RPM", rightRPM());
     chassisShuffleboard.addNum("left RPM", leftRPM());
+
+    chassisShuffleboard.addNum("right velocity",
+        MACalculations.fromRPMToLinearSpeed(rightRPM(), ChassisConstants.KCHASSIS_GEAR));
+    chassisShuffleboard.addNum("left velocity",
+        MACalculations.fromRPMToLinearSpeed(leftRPM(), ChassisConstants.KCHASSIS_GEAR));
 
   }
 }

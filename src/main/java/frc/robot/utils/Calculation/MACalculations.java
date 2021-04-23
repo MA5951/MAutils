@@ -10,7 +10,7 @@ import frc.robot.utils.RobotConstants;
 public class MACalculations {
 
     public static double fromRPMToLinearSpeed(double RPM, double gear) {
-        return (RPM * 10) * gear;
+        return (RPM / 10) * gear;
     }
 
     public static double fromLinearSpeedToRPM(double linearSpeed, double gear) {

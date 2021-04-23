@@ -48,6 +48,7 @@ public class MAPath extends CommandBase {
   public void execute() {
 
     if (stage + 1 != Path.mainPath.length) {
+      System.out.println(chassis.atPoint(point));
       if (chassis.atPoint(point)) {
         Point lasPoint = point;
         Autonomous.setVelocity(0);
@@ -72,17 +73,16 @@ public class MAPath extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
     if (interrupted) {
       chassis.leftcontrol(0);
       chassis.rightcontrol(0);
-      chassis.setidilmodeBrake(false);
+      chassis.setidilmodeBrake(true);
     } else {
 
       pathnum++;
       chassis.leftcontrol(0);
       chassis.rightcontrol(0);
-      chassis.setidilmodeBrake(false);
+      chassis.setidilmodeBrake(true);
     }
   }
 
