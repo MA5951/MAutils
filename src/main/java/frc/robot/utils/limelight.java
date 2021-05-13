@@ -34,7 +34,7 @@ public class limelight {
   public static double distanceFromTargetLimelightY;
   public static double pipe;
 
-  private static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");;
+  private static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   private static NetworkTableEntry tx = table.getEntry("tx");
   private static NetworkTableEntry ty = table.getEntry("ty");
   private static NetworkTableEntry threeDimension = table.getEntry("camtran");

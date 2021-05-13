@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems.Automation;
 
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.Conveyor.Conveyor;
 import frc.robot.subsystems.Conveyor.ConveyorConstants;
@@ -19,10 +20,12 @@ public class Automation extends SubsystemBase {
   private static Automation auto;
 
   private Automation() {
+
   }
 
   public void conveyorControl(int mod) {
-    Conveyor.getinstance().setMotorPower(ConveyorConstants.KBEST_CONVEYOR_VOLTEG * mod, ConveyorConstants.KCONVEYOR_MOTOR);
+    Conveyor.getinstance().setMotorPower(ConveyorConstants.KBEST_CONVEYOR_VOLTEG * mod,
+        ConveyorConstants.KCONVEYOR_MOTOR);
     Conveyor.getinstance().setMotorPower(ConveyorConstants.KBEST_TRANSPORTATION_VOLTEG * mod,
         ConveyorConstants.KTRANSPORTATION_MOTOR);
   }

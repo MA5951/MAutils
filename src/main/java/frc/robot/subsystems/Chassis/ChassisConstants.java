@@ -50,5 +50,5 @@ public class ChassisConstants {
     public final static double KMOTOR_FORCE = ((1 / KMOTOR_GEAR) * RobotConstants.KSTALL_TORQUE_NEO * 2) / KwhellRadius;
     public static final double KMAX_SPEED = MACalculations
             .fromRPMToLinearSpeed(DCMotor.getNEO(2).freeSpeedRadPerSec * 10, KCHASSIS_GEAR); // TODO
-    public static final double KMAX_ACCELERATION = KMOTOR_FORCE / KSUB_MAS;// KMOTOR_FORCE / KSUB_MAS; // TODO
+    public static final double KMAX_ACCELERATION = KMOTOR_FORCE / KSUB_MAS;
 }

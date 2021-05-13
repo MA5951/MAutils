@@ -42,10 +42,12 @@ public class Autonomous {
       return point.getMaxVelocity();
     } else {
 
-      if (velocity > point.getEndVelocity())
-        return velocity = velocity - (point.getAcceleration() * RobotConstants.KDELTA_TIME);
-      else {
+      if (point.getTimeInPoint() + RobotConstants.KDELTA_TIME < point.getAccelerationTimeToSetPoint()
+          + point.getTimeInMaxSpeed() + point.getAccelerationTimeToMaxSpeed()
+          || Math.abs(velocity) < Math.abs(point.getEndVelocity()))
         return point.getEndVelocity();
+      else {
+        return velocity = velocity - (point.getAcceleration() * RobotConstants.KDELTA_TIME);
       }
     }
   }

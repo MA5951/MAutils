@@ -4,6 +4,7 @@
 
 package frc.robot.utils.Autonomous;
 
+
 import frc.robot.subsystems.Chassis.ChassisConstants;
 
 /** Add your docs here. */
@@ -131,6 +132,14 @@ public class Point {
                     .abs((getDistance() - (distacnePassInAccelerationToSetPoint + distacnePassInAccelerationMove))
                             / getMaxVelocity());
         }
+
+    }
+
+    public void changeSpeedByAngularVelocity() {
+        double anglePassInAcceleratio = Math.toRadians(angle) - ((distacnePassInAccelerationMove / getCircelRauis())
+                + (distacnePassInAccelerationToSetPoint / getCircelRauis()));
+        double angularVelocity = anglePassInAcceleratio / timeInMaxSpeed;
+        maxVelocity = angularVelocity * ChassisConstants.KwhellRadius;
     }
 
     public void setCircelRaduis() {
