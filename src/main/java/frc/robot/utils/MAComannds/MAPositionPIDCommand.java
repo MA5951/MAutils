@@ -16,26 +16,27 @@ public class MAPositionPIDCommand extends CommandBase {
     this.setPoint = setPoint;
     this.currentSubsystem = currentSubsystem;
     this.indax = indax;
-    addRequirements(this.currentSubsystem);
+    addRequirements(currentSubsystem);
 
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    currentSubsystem.setSetPoint(setPoint);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     double power = this.currentSubsystem.calculatePIDOutput(setPoint);
-    this.currentSubsystem.setMotorPower(power, indax);
+    currentSubsystem.setMotorVoltage(power, indax);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    this.currentSubsystem.setMotorPower(0, indax);
+    currentSubsystem.setMotorPower(0, indax);
   }
 
   // Returns true when the command should end.

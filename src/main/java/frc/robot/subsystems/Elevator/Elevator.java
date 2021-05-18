@@ -21,7 +21,7 @@ public class Elevator extends MASubsystem {
 
   private Elevator() {
     piston = new MAPiston(RobotConstants.P_ID6);
-    elevatorMove = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID8, false, 0, true,
+    elevatorMove = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless,ID8, false, 0, true,
         ENCODER.Alternate_Encoder);
     setMAMotorComtrolersList(elevatorMove);
 

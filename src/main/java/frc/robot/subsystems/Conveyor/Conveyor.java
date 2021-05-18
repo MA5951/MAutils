@@ -20,11 +20,11 @@ public class Conveyor extends MASubsystem {
   private int countBall = 0;
 
   private Conveyor() {
-    transportationMotor = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID11);
+    transportationMotor = new MAMotorControler(MOTOR_CONTROLL.TALON,ID11);
     setMAMotorComtrolersList(transportationMotor);
     transportationDigitalInput = new DigitalInput(RobotConstants.DIO_ID0);
 
-    conveyorMotor = new MAMotorControler(MOTOR_CONTROLL.TALON, IDMotor.ID7);
+    conveyorMotor = new MAMotorControler(MOTOR_CONTROLL.TALON,ID7);
     setMAMotorComtrolersList(conveyorMotor);
 
   }

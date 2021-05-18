@@ -44,13 +44,13 @@ public class Chassis extends MASubsystem {
 
   private Chassis() {
     chassisShuffleboard = new MAShuffleboard(ChassisConstants.KSUBSYSTEM_NAME);
-    leftFrontMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID1, false, 0, false,
+    leftFrontMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless,ID1, false, 0, false,
         ENCODER.Encoder);
-    leftMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID2, false, 0, false, ENCODER.Encoder);
+    leftMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless,ID2, false, 0, false, ENCODER.Encoder);
 
-    rightFrontMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID3, true, 0, false,
+    rightFrontMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless,ID3, true, 0, false,
         ENCODER.Encoder);
-    rightMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID4, false, 0, false, ENCODER.Encoder);
+    rightMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless,ID4, false, 0, false, ENCODER.Encoder);
 
     leftMotor.follow(leftFrontMotor);
     rightMotor.follow(rightFrontMotor);

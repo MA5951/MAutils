@@ -11,7 +11,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.utils.MADriverStation;
 import frc.robot.utils.MASubsystem.MASubsystem.ENCODER;
 import frc.robot.utils.MASubsystem.MASubsystem.MOTOR_CONTROLL;
-import frc.robot.utils.MASubsystem.MASubsystem.IDMotor;
 
 public class MAMotorControler {
     private MOTOR_CONTROLL MC;
@@ -22,7 +21,7 @@ public class MAMotorControler {
     private boolean hasReverseLimitSwitch;
     private boolean hasForwardLimitSwitch;
 
-    public MAMotorControler(MOTOR_CONTROLL MC, IDMotor id) {
+    public MAMotorControler(MOTOR_CONTROLL MC, int id) {
         this.MC = MC;
         encoder = ENCODER.No_Encoder;
         hasForwardLimitSwitch = false;
@@ -31,7 +30,7 @@ public class MAMotorControler {
 
     }
 
-    public MAMotorControler(MOTOR_CONTROLL MC, IDMotor id, boolean inverted) {
+    public MAMotorControler(MOTOR_CONTROLL MC, int id, boolean inverted) {
         this.MC = MC;
         encoder = ENCODER.No_Encoder;
         hasForwardLimitSwitch = false;
@@ -40,7 +39,7 @@ public class MAMotorControler {
 
     }
 
-    public MAMotorControler(MOTOR_CONTROLL MC, IDMotor id, boolean inverted, double rampRate, boolean mod) {
+    public MAMotorControler(MOTOR_CONTROLL MC, int id, boolean inverted, double rampRate, boolean mod) {
         this.MC = MC;
         encoder = ENCODER.No_Encoder;
         hasForwardLimitSwitch = false;
@@ -49,7 +48,7 @@ public class MAMotorControler {
 
     }
 
-    public MAMotorControler(MOTOR_CONTROLL MC, IDMotor id, boolean inverted, double rampRate, boolean mod,
+    public MAMotorControler(MOTOR_CONTROLL MC, int id, boolean inverted, double rampRate, boolean mod,
             ENCODER encoder) {
         this.MC = MC;
         this.encoder = encoder;
@@ -60,7 +59,7 @@ public class MAMotorControler {
 
     }
 
-    public MAMotorControler(MOTOR_CONTROLL MC, IDMotor id, boolean inverted, double rampRate, boolean mod,
+    public MAMotorControler(MOTOR_CONTROLL MC, int id, boolean inverted, double rampRate, boolean mod,
             boolean hasForwardLimitSwitch, boolean hasReverseLimitSwitch) {
         this.MC = MC;
         this.hasForwardLimitSwitch = hasForwardLimitSwitch;
@@ -72,7 +71,7 @@ public class MAMotorControler {
 
     }
 
-    public MAMotorControler(MOTOR_CONTROLL MC, IDMotor id, boolean inverted, double rampRate, boolean mod,
+    public MAMotorControler(MOTOR_CONTROLL MC, int id, boolean inverted, double rampRate, boolean mod,
             boolean hasForwardLimitSwitch, boolean hasReverseLimitSwitch, ENCODER encoder) {
         this.MC = MC;
         this.encoder = encoder;
@@ -237,31 +236,23 @@ public class MAMotorControler {
         return getMotorControll().getID();
     }
 
-    private int idChooser(IDMotor myID) {
-        String id = myID.toString();
-        if (id.substring(id.length() - 3).charAt(0) == 'D')
-            return Integer.parseInt(id.substring(id.length() - 2));
-        else
-            return Integer.parseInt(id.substring(id.length() - 1));
-    }
-
-    private void setMAMotorControl(IDMotor id, boolean inverted, double rampRate, boolean mod,
+    private void setMAMotorControl(int id, boolean inverted, double rampRate, boolean mod,
             boolean hasForwardLimitSwitch, boolean hasReverseLimitSwitch, ENCODER encoder) {
         switch (MC) {
             case TALON:
-                talonSRX = new MATalonSRX(idChooser(id), inverted, rampRate, mod, hasForwardLimitSwitch,
-                        hasReverseLimitSwitch, FeedbackDevice.QuadEncoder);
+                talonSRX = new MATalonSRX(id, inverted, rampRate, mod, hasForwardLimitSwitch, hasReverseLimitSwitch,
+                        FeedbackDevice.QuadEncoder);
                 break;
             case VICTOR:
-                victorSPX = new MAVictorSPX(idChooser(id), inverted, rampRate, mod);
+                victorSPX = new MAVictorSPX(id, inverted, rampRate, mod);
                 break;
             case SPARKMAXBrushless:
-                cansSpakrMax = new MASpakrMax(idChooser(id), inverted, rampRate, mod, hasForwardLimitSwitch,
-                        hasReverseLimitSwitch, encoder, MotorType.kBrushless);
+                cansSpakrMax = new MASpakrMax(id, inverted, rampRate, mod, hasForwardLimitSwitch, hasReverseLimitSwitch,
+                        encoder, MotorType.kBrushless);
                 break;
             case SPARKMAXBrushled:
-                cansSpakrMax = new MASpakrMax(idChooser(id), inverted, rampRate, mod, hasForwardLimitSwitch,
-                        hasReverseLimitSwitch, encoder, MotorType.kBrushed);
+                cansSpakrMax = new MASpakrMax(id, inverted, rampRate, mod, hasForwardLimitSwitch, hasReverseLimitSwitch,
+                        encoder, MotorType.kBrushed);
                 break;
         }
     }

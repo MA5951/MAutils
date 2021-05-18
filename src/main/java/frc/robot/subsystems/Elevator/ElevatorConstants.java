@@ -16,7 +16,7 @@ public class ElevatorConstants {
     public static final double KP_ELEVATOR_MOVE = 0; // TODO
     public static final double KI_ELEVATOR_MOVE = 0; // TODO
     public static final double KD_ELEVATOR_MOVE = 0; // TODO
-    public static final double KF_ELEVATOR_MOVE = 0.1;
+    public static final double KF_ELEVATOR_MOVE = 0; //TODO
 
     public static final double KUP_SETPOINT = 100;
     public static final double KDOWN_SETPOINT = -100;

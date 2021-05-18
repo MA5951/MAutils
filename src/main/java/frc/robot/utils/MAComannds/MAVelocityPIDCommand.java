@@ -17,7 +17,7 @@ public class MAVelocityPIDCommand extends CommandBase {
     this.currentSubsystem = currentSubsystem;
     this.setPoint = requireNonNullParam(setPoint, "setPoint", "MAVelocityPIDCommand");
     this.indax = indax;
-    addRequirements(this.currentSubsystem);
+    addRequirements(currentSubsystem);
   }
 
   // Called when the command is initially scheduled.

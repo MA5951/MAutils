@@ -57,7 +57,7 @@ public class MAPiston {
         if (isDoubleSolenoid)
             doubleSolenoid.set(fromBooleanToValue(!get()));
         else
-            solenoid.set(get());
+            solenoid.set(!get());
     }
 
 }

@@ -5,50 +5,29 @@
 package frc.robot.subsystems.Shooter;
 
 import frc.robot.utils.Calculation.MACalculations;
+import frc.robot.utils.Controlers.MAPidController;
+import frc.robot.utils.Controlers.Interfaces.Controler;
 import frc.robot.utils.MASubsystem.MASubsystem;
-import frc.robot.utils.MASubsystem.SubConstants;
-import edu.wpi.first.wpilibj.controller.LinearQuadraticRegulator;
-import edu.wpi.first.wpilibj.estimator.KalmanFilter;
-import edu.wpi.first.wpilibj.system.LinearSystem;
-import edu.wpi.first.wpilibj.system.LinearSystemLoop;
-import edu.wpi.first.wpilibj.system.plant.DCMotor;
-import edu.wpi.first.wpilibj.system.plant.LinearSystemId;
-import edu.wpi.first.wpiutil.math.Nat;
-import edu.wpi.first.wpiutil.math.VecBuilder;
-import edu.wpi.first.wpiutil.math.numbers.N1;
 import frc.robot.utils.RobotConstants;
 import frc.robot.utils.limelight;
 import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
-public class MoonShooter extends MASubsystem {
+public class Shooter extends MASubsystem {
   private MAMotorControler motorA;
   private MAMotorControler motorB;
-  private static MoonShooter m_Shooter;
-  private LinearSystem<N1, N1, N1> flyWheelLinearSystem;
-  private KalmanFilter<N1, N1, N1> flyWheelKalmanFilter;
-  private LinearQuadraticRegulator<N1, N1, N1> flyWheelLinearQuadraticRegulator;
-  private LinearSystemLoop<N1, N1, N1> flyWhLinearSystemLoop;
+  private static Shooter m_Shooter;
+  private Controler controler;
   private MAShuffleboard shooterShuffleboard = new MAShuffleboard(ShooterConstants.KSUBSYSTEM_NAME);
 
-  private MoonShooter() {
-    motorA = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID5, true, 0, false, ENCODER.Encoder);
+  private Shooter() {
+    motorA = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, ID5, true, 0, false, ENCODER.Encoder);
     setMAMotorComtrolersList(motorA);
-    motorB = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, IDMotor.ID6, false, 0, false, ENCODER.Encoder);
+    motorB = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless, ID6, false, 0, false, ENCODER.Encoder);
     setMAMotorComtrolersList(motorB);
     motorB.follow(motorA);
-
-    flyWheelLinearSystem = LinearSystemId.createFlywheelSystem(DCMotor.getNEO(2),
-        ShooterConstants.kFlywheelMomentOfInertia, ShooterConstants.KSHOOTER_GEAR);
-
-    flyWheelKalmanFilter = new KalmanFilter<>(Nat.N1(), Nat.N1(), flyWheelLinearSystem, VecBuilder.fill(3),
-        VecBuilder.fill(0.01), RobotConstants.KDELTA_TIME);
-
-    flyWheelLinearQuadraticRegulator = new LinearQuadraticRegulator<>(flyWheelLinearSystem, VecBuilder.fill(7.0),
-        VecBuilder.fill(12), RobotConstants.KDELTA_TIME);
-
-    flyWhLinearSystemLoop = new LinearSystemLoop<>(flyWheelLinearSystem, flyWheelLinearQuadraticRegulator,
-        flyWheelKalmanFilter, 10, RobotConstants.KDELTA_TIME);
+    controler = new MAPidController(ShooterConstants.MOTOR_A_KP, ShooterConstants.MOTOR_A_KI,
+        ShooterConstants.MOTOR_A_KD, 0, 70, -10, 10);
   }
 
   @Override
@@ -95,32 +74,27 @@ public class MoonShooter extends MASubsystem {
 
   @Override
   public void setSetPoint(double setPoint) {
-    flyWhLinearSystemLoop.setNextR(VecBuilder.fill(setPoint / 10)); // in radain per
-    // secend
+
   }
 
   @Override
   public double calculatePIDOutput() {
-
-    flyWhLinearSystemLoop.correct(VecBuilder.fill(getAngularVelocity()));
-    flyWhLinearSystemLoop.predict(RobotConstants.KDELTA_TIME);
-    return flyWhLinearSystemLoop.getU(0);
-
+    return controler.calculate(getEncdoerRPM());
   }
 
   @Override
   public double getPositionError() {
-    return flyWhLinearSystemLoop.getError(0); // TODO the right indax
+    return controler.getPositionError();
   }
 
   @Override
   public double getSetpointPID() {
-    return flyWhLinearSystemLoop.getNextR(0); // TODO the right row
+    return controler.getSetpoint();
   }
 
   @Override
   public boolean isPIDAtTarget() {
-    return Math.abs(getPositionError()) < 70;
+    return controler.atSetpoint();
   }
 
   @Override
@@ -133,11 +107,9 @@ public class MoonShooter extends MASubsystem {
 
   }
 
- 
-
-  public static MoonShooter getinstance() {
+  public static Shooter getinstance() {
     if (m_Shooter == null) {
-      m_Shooter = new MoonShooter();
+      m_Shooter = new Shooter();
     }
     return m_Shooter;
   }

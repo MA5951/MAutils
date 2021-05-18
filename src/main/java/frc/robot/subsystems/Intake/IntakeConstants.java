@@ -12,7 +12,12 @@ public class IntakeConstants {
     private final static DCMotor MOTOR = DCMotor.getAndymarkRs775_125(1);
     private final static double MAX_FREE_RPM = MOTOR.freeSpeedRadPerSec * 10;
 
+    public static final double KP_INTAKE_MOVE = 0; // TODO
+    public static final double KI_INTAKE_MOVE = 0; // TODO
+    public static final double KD_INTAKE_MOVE = 0; // TODO
+
     public static final int INTAKE_COLLECTION = 0;
+    public static final int INTAKE_MOVE = 1;
     public static final String KSUBSYSTEM_NAME = "Intake";
 
     public final static double KSPROCKET_RADIUS_COLLECTION = 0;// TODO

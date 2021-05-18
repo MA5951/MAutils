@@ -48,7 +48,6 @@ public class MAPath extends CommandBase {
   public void execute() {
 
     if (stage + 1 != Path.mainPath.length) {
-      System.out.println(chassis.atPoint(point));
       if (chassis.atPoint(point)) {
         Point lasPoint = point;
         Autonomous.setVelocity(0);

@@ -11,9 +11,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.Chassis.MAPath;
-import frc.robot.commands.Elevator.elevatorControl;
+import frc.robot.commands.Chassis.TankDrive;
 import frc.robot.subsystems.Chassis.Chassis;
-import frc.robot.subsystems.Elevator.Elevator;
 import frc.robot.utils.CommandContainer;
 import frc.robot.utils.MADriverStation;
 import frc.robot.utils.limelight;
@@ -83,11 +82,7 @@ public class Robot extends TimedRobot {
     Chassis.getinstance().setidilmodeBrake(false);
     Chassis.getinstance().resetValue();
 
-    // CommandScheduler.getInstance().setDefaultCommand(Chassis.getinstance(), new
-    // TankDrive());
-    // CommandScheduler.getInstance().setDefaultCommand(Balance.getinstance(), new
-    // BalanceContorl());
-    CommandScheduler.getInstance().setDefaultCommand(Elevator.getinstance(), new elevatorControl());
+    CommandScheduler.getInstance().setDefaultCommand(Chassis.getinstance(), new TankDrive());
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();

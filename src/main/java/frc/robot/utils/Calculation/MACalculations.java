@@ -5,9 +5,10 @@
 package frc.robot.utils.Calculation;
 
 import edu.wpi.first.wpiutil.math.MathUtil;
-import frc.robot.utils.RobotConstants;
+
 
 public class MACalculations {
+    private final static double KELECTRON_CHARGE = -1.6e-19;
 
     public static double fromRPMToLinearSpeed(double RPM, double gear) {
         return (RPM / 10) * gear;
@@ -26,7 +27,7 @@ public class MACalculations {
     }
 
     public static double ForceToVolteg(double force) {
-        return MathUtil.clamp(force / RobotConstants.KELECTRON_CHARGE, 12, -12);
+        return MathUtil.clamp(force / KELECTRON_CHARGE, 12, -12);
     }
 
     public static double RPMToVolteg(double RPM, double maxRPM) {
