@@ -136,8 +136,8 @@ public class Point {
     }
 
     public void changeSpeedByAngularVelocity() {
-        double anglePassInAcceleratio = Math.toRadians(angle) - ((distacnePassInAccelerationMove / getCircelRauis())
-                + (distacnePassInAccelerationToSetPoint / getCircelRauis()));
+        double anglePassInAcceleratio = Math.toRadians(angle) - ((distacnePassInAccelerationMove / getCircelRadius())
+                + (distacnePassInAccelerationToSetPoint / getCircelRadius()));
         double angularVelocity = anglePassInAcceleratio / timeInMaxSpeed;
         maxVelocity = angularVelocity * ChassisConstants.KwhellRadius;
     }
@@ -158,7 +158,7 @@ public class Point {
         }
     }
 
-    public double getCircelRauis() {
+    public double getCircelRadius() {
         if (state == pointState.RIGHT) {
             return leftCircelRadius;
         } else if (state == pointState.LEFT) {

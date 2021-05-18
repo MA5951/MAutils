@@ -53,7 +53,7 @@ public class Autonomous {
   }
 
   public static double theOtherVelocitySetPoint(double V, Point point) {
-    return ((point.getCircelRauis() - ChassisConstants.KchassisLength) / point.getCircelRauis()) * V;
+    return ((point.getCircelRadius() - ChassisConstants.KchassisLength) / point.getCircelRadius()) * V;
 
   }
 
@@ -61,11 +61,12 @@ public class Autonomous {
     double sight = Math.abs(point.getAngle()) / point.getAngle();
 
     if (Math.abs(point.getArcDistance() - distacne) < 0.2
-        || Math.abs(Math.toDegrees(distacne / point.getCircelRauis()) * sight) > Math.abs(point.getAngle())) {
+        || Math.abs(Math.toDegrees(distacne / point.getCircelRadius()) * sight) > Math.abs(point.getAngle())) {
+
       return point.getAngle();
     }
 
-    return Math.toDegrees(distacne / point.getCircelRauis()) * sight;
+    return Math.toDegrees(distacne / point.getCircelRadius()) * sight;
   }
 
   public static void setAutonomousCommand() {
