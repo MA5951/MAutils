@@ -299,7 +299,7 @@ public class Chassis extends MASubsystem {
     chassisShuffleboard.addNum("right distance", rigthDistance());
     chassisShuffleboard.addNum("left distance", leftDistance());
     chassisShuffleboard.addString("state", MAPath.point.getState().toString());
-    chassisShuffleboard.addBoolean("isAutoEnd", atPoint(Path.teast[Path.teast.length - 1]));
+    chassisShuffleboard.addBoolean("isAutoEnd", atPoint(Path.test[Path.test.length - 1]));
 
     chassisShuffleboard.addNum("lefttVelocityControlPositionError", leftVelocityControl.getPositionError());
     chassisShuffleboard.addNum("rightVelocityControlPositionError", rightVelocityControl.getPositionError());

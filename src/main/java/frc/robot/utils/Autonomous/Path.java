@@ -13,6 +13,6 @@ package frc.robot.utils.Autonomous;
 public class Path {
         public static Point[] mainPath; // the array we us as the main Path in the MApath
 
-        public static Point[] teast = { new Point(4, 180, 1, 1, 5)};
+        public static Point[] test = { new Point(4, 180, 1, 1, 5)};
 
 }

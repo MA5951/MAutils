@@ -32,7 +32,7 @@ public class MAPath extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    Path.mainPath = Path.teast;
+    Path.mainPath = Path.test;
     stage = 0;
     timeInPoint = RobotConstants.KDELTA_TIME;
     point = Path.mainPath[stage];
