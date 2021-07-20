@@ -57,16 +57,16 @@ public class Autonomous {
 
   }
 
-  public static double thetaFromDistance(double distacne, Point point) {
+  public static double thetaFromDistance(double distance, Point point) {
     double sight = Math.abs(point.getAngle()) / point.getAngle();
 
-    if (Math.abs(point.getArcDistance() - distacne) < 0.2
-        || Math.abs(Math.toDegrees(distacne / point.getCircelRadius()) * sight) > Math.abs(point.getAngle())) {
+    if (Math.abs(point.getArcDistance() - distance) < 0.2
+        || Math.abs(Math.toDegrees(distance / point.getCircelRadius()) * sight) > Math.abs(point.getAngle())) {
 
       return point.getAngle();
     }
 
-    return Math.toDegrees(distacne / point.getCircelRadius()) * sight;
+    return Math.toDegrees(distance / point.getCircelRadius()) * sight;
   }
 
   public static void setAutonomousCommand() {

@@ -38,7 +38,7 @@ public class Chassis extends MASubsystem {
 
   private MAShuffleboard chassisShuffleboard;
 
-  private double distacne = 0;
+  private double distance = 0;
 
   private static Chassis chassis;
 
@@ -134,9 +134,9 @@ public class Chassis extends MASubsystem {
     return distancePIDVision.calculate(limelight.Tshort, setpoint);
   }
 
-  public void arcadeDrive(double angle, double distacne) {
-    double w = (100 - Math.abs(angle * 100)) * (distacne) + distacne * 100;
-    double v = (100 - Math.abs(distacne * 100)) * (angle) + angle * 100;
+  public void arcadeDrive(double angle, double distance) {
+    double w = (100 - Math.abs(angle * 100)) * (distance) + distance * 100;
+    double v = (100 - Math.abs(distance * 100)) * (angle) + angle * 100;
     double leftVoltage = (-(v + w) / 200);
     double rightVoltage = ((v - w) / 200);
     leftcontrol(leftVoltage);
@@ -161,7 +161,7 @@ public class Chassis extends MASubsystem {
 
   public void setpoint(Point point) {
 
-    double angleSetPoint = Autonomous.thetaFromDistance(distacne, point);
+    double angleSetPoint = Autonomous.thetaFromDistance(distance, point);
     double angleSetPointPID = point.getLastPoint().getAngle() + angleSetPoint;
 
     double accelerationVelocitySetPoint = MACalculations
@@ -171,13 +171,13 @@ public class Chassis extends MASubsystem {
         Autonomous.theOtherVelocitySetPoint(accelerationVelocitySetPoint, point), ChassisConstants.KCHASSIS_GEAR);
 
     if (point.getState() == pointState.RIGHT) {
-      distacne = leftDistance() - point.getLastPoint().getArcDistance();
+      distance = leftDistance() - point.getLastPoint().getArcDistance();
       rightVelocityControl.setSetpoint(theOtherVelocitySetPoint);
       leftVelocityControl.setSetpoint(accelerationVelocitySetPoint);
       anglePidMApath.setSetpoint(angleSetPointPID);
 
     } else if (point.getState() == pointState.LEFT) {
-      distacne = rigthDistance() - point.getLastPoint().getArcDistance();
+      distance = rigthDistance() - point.getLastPoint().getArcDistance();
       rightVelocityControl.setSetpoint(theOtherVelocitySetPoint);
       leftVelocityControl.setSetpoint(accelerationVelocitySetPoint);
       anglePidMApath.setSetpoint(angleSetPointPID);

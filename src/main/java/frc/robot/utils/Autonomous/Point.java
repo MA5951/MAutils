@@ -23,8 +23,8 @@ public class Point {
     private double timeInMaxSpeed = 0;
     private double accelerationTimeToSetPoint = 0;
     private double accelerationTimeToMaxSpeed = 0;
-    private double distacnePassInAccelerationMove = 0;
-    private double distacnePassInAccelerationToSetPoint = 0;
+    private double distancePassInAccelerationMove = 0;
+    private double distancePassInAccelerationToSetPoint = 0;
     private double timeInPoint = 0;
     private double rightCircelRadius = 0;
     private double leftCircelRadius = 0;
@@ -84,12 +84,12 @@ public class Point {
         this.timeInPoint = timeInPoint;
     }
 
-    public double getDistacnePassInAccelerationToSetPoint() {
-        return distacnePassInAccelerationToSetPoint;
+    public double getDistancePassInAccelerationToSetPoint() {
+        return distancePassInAccelerationToSetPoint;
     }
 
-    public double getDistacnePassInAccelerationMove() {
-        return distacnePassInAccelerationMove;
+    public double getDistancePassInAccelerationMove() {
+        return distancePassInAccelerationMove;
     }
 
     public double getAccelerationTimeToMaxSpeed() {
@@ -117,27 +117,27 @@ public class Point {
 
         accelerationTimeToMaxSpeed = Math.abs((getMaxVelocity() - lasPoint.getEndVelocity()) / getAcceleration());
 
-        distacnePassInAccelerationMove = lasPoint.getEndVelocity() * accelerationTimeToMaxSpeed
+        distancePassInAccelerationMove = lasPoint.getEndVelocity() * accelerationTimeToMaxSpeed
                 + (getAcceleration() / 2) * Math.pow(accelerationTimeToMaxSpeed, 2);
 
-        distacnePassInAccelerationToSetPoint = getMaxVelocity() * accelerationTimeToSetPoint
+        distancePassInAccelerationToSetPoint = getMaxVelocity() * accelerationTimeToSetPoint
                 - (getAcceleration() / 2) * Math.pow(accelerationTimeToSetPoint, 2);
 
         if (state == pointState.RIGHT || state == pointState.LEFT) {
             timeInMaxSpeed = Math
-                    .abs((getArcDistance() - (distacnePassInAccelerationToSetPoint + distacnePassInAccelerationMove))
+                    .abs((getArcDistance() - (distancePassInAccelerationToSetPoint + distancePassInAccelerationMove))
                             / getMaxVelocity());
         } else {
             timeInMaxSpeed = Math
-                    .abs((getDistance() - (distacnePassInAccelerationToSetPoint + distacnePassInAccelerationMove))
+                    .abs((getDistance() - (distancePassInAccelerationToSetPoint + distancePassInAccelerationMove))
                             / getMaxVelocity());
         }
 
     }
 
     public void changeSpeedByAngularVelocity() {
-        double anglePassInAcceleratio = Math.toRadians(angle) - ((distacnePassInAccelerationMove / getCircelRadius())
-                + (distacnePassInAccelerationToSetPoint / getCircelRadius()));
+        double anglePassInAcceleratio = Math.toRadians(angle) - ((distancePassInAccelerationMove / getCircelRadius())
+                + (distancePassInAccelerationToSetPoint / getCircelRadius()));
         double angularVelocity = anglePassInAcceleratio / timeInMaxSpeed;
         maxVelocity = angularVelocity * ChassisConstants.KwhellRadius;
     }
