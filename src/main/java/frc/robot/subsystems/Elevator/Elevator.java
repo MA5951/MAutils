@@ -25,7 +25,7 @@ public class Elevator extends MASubsystem {
         ENCODER.Alternate_Encoder);
     setMAMotorComtrolersList(elevatorMove);
 
-    // cahnge Tolorance
+    // cahnge Tolerance
     elevatorMovePID = new MAPidController(ElevatorConstants.KP_ELEVATOR_MOVE, ElevatorConstants.KI_ELEVATOR_MOVE,
         ElevatorConstants.KD_ELEVATOR_MOVE, ElevatorConstants.KF_ELEVATOR_MOVE, 10, -12, 12);
     resetSensor();

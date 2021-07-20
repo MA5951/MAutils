@@ -16,7 +16,7 @@ public class MAPidController implements PIDControler {
     private double KI;
     private double KD;
     private double KF;
-    private double tolorance;
+    private double tolerance;
     private double low;
     private double high;
     /**
@@ -27,22 +27,22 @@ public class MAPidController implements PIDControler {
      * @param KI        The integral coefficient.
      * @param KD        The derivative coefficient.
      * @param KF        The feed forward.
-     * @param tolorance Sets the error which is considered tolerable for use with
+     * @param tolerance Sets the error which is considered tolerable for use with
      *                  atSetpoint()
      * @param low       The lower boundary to which to clamp value.
      * @param high      The higher boundary to which to clamp value.
      * 
      */
-    public MAPidController(double KP, double KI, double KD, double KF, double tolorance, double low, double high) {
+    public MAPidController(double KP, double KI, double KD, double KF, double tolerance, double low, double high) {
         this.KP = KP;
         this.KI = KI;
         this.KD = KD;
         this.KF = KF;
         this.high = high;
         this.low = low;
-        this.tolorance = tolorance;
+        this.tolerance = tolerance;
         pidController = new PIDController(this.KP, this.KI, this.KD);
-        pidController.setTolerance(this.tolorance);
+        pidController.setTolerance(this.tolerance);
 
     }
 
@@ -54,19 +54,19 @@ public class MAPidController implements PIDControler {
      * @param KP        The proportional coefficient.
      * @param KI        The integral coefficient.
      * @param KD        The derivative coefficient.
-     * @param tolorance Sets the error which is considered tolerable for use with
+     * @param tolerance Sets the error which is considered tolerable for use with
      *                  atSetpoint()
      */
-    public MAPidController(double KP, double KI, double KD, double tolorance) {
+    public MAPidController(double KP, double KI, double KD, double tolerance) {
         this.KP = KP;
         this.KI = KI;
         this.KD = KD;
-        this.tolorance = tolorance;
+        this.tolerance = tolerance;
         low = -1;
         high = 1;
         KF = 0;
         pidController = new PIDController(this.KP, this.KI, this.KD);
-        pidController.setTolerance(this.tolorance);
+        pidController.setTolerance(this.tolerance);
 
     }
 

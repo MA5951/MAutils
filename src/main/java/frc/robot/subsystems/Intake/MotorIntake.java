@@ -28,7 +28,7 @@ public class MotorIntake extends MASubsystem {
     intakeMove = new MAMotorControler(MOTOR_CONTROLL.TALON, ID7, false, 0, false, true, true, ENCODER.Encoder);
     setMAMotorComtrolersList(intakeMove);
 
-    // cahnge Tolorance
+    // cahnge Tolerance
     intakeMovePID = new MAPidController(IntakeConstants.KP_INTAKE_MOVE, IntakeConstants.KI_INTAKE_MOVE,
         IntakeConstants.KD_INTAKE_MOVE, 0, 10, -1, 1);
     resetSensor();

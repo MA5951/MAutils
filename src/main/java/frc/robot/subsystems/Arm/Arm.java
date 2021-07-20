@@ -20,7 +20,7 @@ public class Arm extends MASubsystem {
   private Arm() {
     armMove = new MAMotorControler(MOTOR_CONTROLL.TALON, ID5, false, 0, true, true, true, ENCODER.Encoder);
     setMAMotorComtrolersList(armMove);
-    // cahnge Tolorance
+    // cahnge Tolerance
     armMovePID = new MAPidController(ArmConstants.KP_ARM_MOVE, ArmConstants.KI_ARM_MOVE, ArmConstants.KD_ARM_MOVE, 0,
         10, -12, 12);
     resetSensor();

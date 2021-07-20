@@ -19,19 +19,19 @@ public class MAPidVA implements PIDVAControler {
     private double low = -12, high = 12;
     private double acceleration = 0;
 
-    public MAPidVA(double Kp, double Ki, double Kd, double tolorance, double maxVelocity, double maxAcceleration) {
+    public MAPidVA(double Kp, double Ki, double Kd, double tolerance, double maxVelocity, double maxAcceleration) {
         profiledPIDController = new ProfiledPIDController(Kp, Ki, Kd,
                 new TrapezoidProfile.Constraints(maxVelocity, maxAcceleration));
-        profiledPIDController.setTolerance(tolorance, tolorance);
+        profiledPIDController.setTolerance(tolerance, tolerance);
         setFeedforward(0, 0, 0);
         acceleration = maxAcceleration;
     }
 
-    public MAPidVA(double Kp, double Ki, double Kd, double tolorance, double maxVelocity, double maxAcceleration,
+    public MAPidVA(double Kp, double Ki, double Kd, double tolerance, double maxVelocity, double maxAcceleration,
             double Ks, double Kv, double Ka) {
         profiledPIDController = new ProfiledPIDController(Kp, Ki, Kd,
                 new TrapezoidProfile.Constraints(maxVelocity, maxAcceleration));
-        profiledPIDController.setTolerance(tolorance, tolorance);
+        profiledPIDController.setTolerance(tolerance, tolerance);
         setFeedforward(Ks, Kv, Ka);
         acceleration = maxAcceleration;
     }
