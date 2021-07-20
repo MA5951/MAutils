@@ -26,11 +26,11 @@ public class MACalculations {
         return ((Rate * 10) / TPR) / 60;
     }
 
-    public static double ForceToVolteg(double force) {
+    public static double ForceToVoltage(double force) {
         return MathUtil.clamp(force / KELECTRON_CHARGE, 12, -12);
     }
 
-    public static double RPMToVolteg(double RPM, double maxRPM) {
+    public static double RPMToVoltage(double RPM, double maxRPM) {
         return (RPM / maxRPM) * 12;
     }
 

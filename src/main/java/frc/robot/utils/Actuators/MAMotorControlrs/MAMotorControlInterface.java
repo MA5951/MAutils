@@ -2,7 +2,7 @@ package frc.robot.utils.Actuators.MAMotorControlrs;
 
 interface MAMotorControlInterface {
 
-    public void setvoltage(double Volteg);
+    public void setvoltage(double Voltage);
 
     public void set(double Power);
 

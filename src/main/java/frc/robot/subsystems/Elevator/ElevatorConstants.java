@@ -35,5 +35,5 @@ public class ElevatorConstants {
     public static final double KMAX_RPM = MAX_FREE_RPM * KMOTOR_GEAR;
     public static final double KMAX_ACCELERATION = KMOTOR_FORCE / KSUB_MAS;
     public static final double KF = MACalculations
-            .ForceToVolteg(KMOTOR_FORCE - (KSUB_MAS * RobotConstants.KGRAVITY_ACCELERATION));
+            .ForceToVoltage(KMOTOR_FORCE - (KSUB_MAS * RobotConstants.KGRAVITY_ACCELERATION));
 }

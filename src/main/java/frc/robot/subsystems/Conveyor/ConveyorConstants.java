@@ -39,9 +39,9 @@ public class ConveyorConstants {
         public static final double KMAX_CONVEYOR_RPM = MAX_FREE_RPM_CONVEYOR * KGEAR_KCONVEYOR_MOTOR;
         public static final double KMAX_CONVEYOR_ACCELERATION = KMOTOR_CONVEYOR_FORCE / KCONVEYOR_MAS;
 
-        public static final double KBEST_TRANSPORTATION_VOLTEG = MACalculations.RPMToVolteg(KMAX_TRANSPORTATION_RPM,
+        public static final double KBEST_TRANSPORTATION_VOLTAGE = MACalculations.RPMToVoltage(KMAX_TRANSPORTATION_RPM,
                         MAX_FREE_RPM_TRANSPORTATION);
 
-        public static final double KBEST_CONVEYOR_VOLTEG = MACalculations.RPMToVolteg(KMAX_CONVEYOR_RPM,
+        public static final double KBEST_CONVEYOR_VOLTAGE = MACalculations.RPMToVoltage(KMAX_CONVEYOR_RPM,
                         MAX_FREE_RPM_CONVEYOR);
 }

@@ -21,7 +21,7 @@ public class SubConstants {
     public double KSubMas = 1; // KG
     public final double KMaxRPM = KmaxFreeRPM * KMotorGear;
     public final double KMaxAcceleration = KmotorForce / KSubMas;
-    public final double KBestVolteg = MACalculations.RPMToVolteg(KMaxRPM, KmaxFreeRPM);
+    public final double KBestVoltage = MACalculations.RPMToVoltage(KMaxRPM, KmaxFreeRPM);
     public double KRaduisForMoment = 1;
     public final double KMomentOfInertia = KSubMas * Math.pow(KRaduisForMoment, 2); // mas*R^
 }
