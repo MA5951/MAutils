@@ -26,8 +26,8 @@ public class Point {
     private double distancePassInAccelerationMove = 0;
     private double distancePassInAccelerationToSetPoint = 0;
     private double timeInPoint = 0;
-    private double rightCircelRadius = 0;
-    private double leftCircelRadius = 0;
+    private double rightCircleRadius = 0;
+    private double leftCircleRadius = 0;
 
     public Point(double distance, double angle) {
         this.distance = distance;
@@ -136,35 +136,35 @@ public class Point {
     }
 
     public void changeSpeedByAngularVelocity() {
-        double anglePassInAcceleratio = Math.toRadians(angle) - ((distancePassInAccelerationMove / getCircelRadius())
-                + (distancePassInAccelerationToSetPoint / getCircelRadius()));
+        double anglePassInAcceleratio = Math.toRadians(angle) - ((distancePassInAccelerationMove / getCircleRadius())
+                + (distancePassInAccelerationToSetPoint / getCircleRadius()));
         double angularVelocity = anglePassInAcceleratio / timeInMaxSpeed;
         maxVelocity = angularVelocity * ChassisConstants.KwhellRadius;
     }
 
-    public void setCircelRaduis() {
+    public void setCircleRaduis() {
         if (state == pointState.RIGHT) {
-            leftCircelRadius = Math.sqrt((Math.pow(getDistance(), 2) / (2 - 2 * Math.cos(getDeltaTheta()))));
-            rightCircelRadius = leftCircelRadius - ChassisConstants.KchassisLength;
+            leftCircleRadius = Math.sqrt((Math.pow(getDistance(), 2) / (2 - 2 * Math.cos(getDeltaTheta()))));
+            rightCircleRadius = leftCircleRadius - ChassisConstants.KchassisLength;
         } else if (state == pointState.LEFT) {
-            rightCircelRadius = Math.sqrt((Math.pow(getDistance(), 2) / (2 - 2 * Math.cos(getDeltaTheta()))));
-            leftCircelRadius = rightCircelRadius - ChassisConstants.KchassisLength;
+            rightCircleRadius = Math.sqrt((Math.pow(getDistance(), 2) / (2 - 2 * Math.cos(getDeltaTheta()))));
+            leftCircleRadius = rightCircleRadius - ChassisConstants.KchassisLength;
         } else if (state == pointState.TURN_IN_PLACE) {
-            leftCircelRadius = Math.sqrt((Math.pow(getDistance(), 2) / (2 - 2 * Math.cos(getDeltaTheta()))));
-            rightCircelRadius = leftCircelRadius;
+            leftCircleRadius = Math.sqrt((Math.pow(getDistance(), 2) / (2 - 2 * Math.cos(getDeltaTheta()))));
+            rightCircleRadius = leftCircleRadius;
         } else {
-            leftCircelRadius = 0;
-            rightCircelRadius = leftCircelRadius;
+            leftCircleRadius = 0;
+            rightCircleRadius = leftCircleRadius;
         }
     }
 
-    public double getCircelRadius() {
+    public double getCircleRadius() {
         if (state == pointState.RIGHT) {
-            return leftCircelRadius;
+            return leftCircleRadius;
         } else if (state == pointState.LEFT) {
-            return rightCircelRadius;
+            return rightCircleRadius;
         } else if (state == pointState.TURN_IN_PLACE) {
-            return leftCircelRadius;
+            return leftCircleRadius;
         }
         return 0;
     }
@@ -188,11 +188,11 @@ public class Point {
 
     public double getArcDistance() {
         if (state == pointState.RIGHT) {
-            return leftCircelRadius * getDeltaTheta();
+            return leftCircleRadius * getDeltaTheta();
         } else if (state == pointState.LEFT) {
-            return rightCircelRadius * getDeltaTheta();
+            return rightCircleRadius * getDeltaTheta();
         } else if (state == pointState.TURN_IN_PLACE) {
-            return leftCircelRadius * getDeltaTheta();
+            return leftCircleRadius * getDeltaTheta();
         } else {
             return 0;
         }

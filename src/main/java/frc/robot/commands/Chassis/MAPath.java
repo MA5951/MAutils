@@ -39,7 +39,7 @@ public class MAPath extends CommandBase {
     point.setLastPoint(new Point(0, 0, -4, 0));
     point.setTimeInPoint(timeInPoint);
     point.setState();
-    point.setCircelRaduis();
+    point.setCircleRaduis();
     point.calculatTimeAndDistanceToAutonomous();
   }
 
@@ -57,7 +57,7 @@ public class MAPath extends CommandBase {
         point.setTimeInPoint(timeInPoint);
         point.setLastPoint(lasPoint);
         point.setState();
-        point.setCircelRaduis();
+        point.setCircleRaduis();
         point.calculatTimeAndDistanceToAutonomous();
 
       }
