@@ -42,7 +42,7 @@ public class MotorIntake extends MASubsystem {
   }
 
   /**
-   * indax 0 - IntakeCollection indax 1 - IntakeMove
+   * index 0 - IntakeCollection index 1 - IntakeMove
    */
   @Override
   public void setMotorPower(double power, int Indax) {
@@ -89,8 +89,8 @@ public class MotorIntake extends MASubsystem {
   }
 
   @Override
-  public double getStatorCurrent(int indax) {
-    return maMotorControlers.get(indax).getStatorCurrent();
+  public double getStatorCurrent(int index) {
+    return maMotorControlers.get(index).getStatorCurrent();
   }
 
   @Override

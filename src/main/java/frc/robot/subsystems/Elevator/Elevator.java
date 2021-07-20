@@ -38,7 +38,7 @@ public class Elevator extends MASubsystem {
   }
 
   /**
-   * set voltage -12 to 12 indax 0 - ElevatorMove
+   * set voltage -12 to 12 index 0 - ElevatorMove
    */
   @Override
   public void setMotorPower(double power, int Indax) {

@@ -34,7 +34,7 @@ public class Arm extends MASubsystem {
   }
 
   /**
-   * set voltage -12 to 12 indax 0 - ArmMove
+   * set voltage -12 to 12 index 0 - ArmMove
    */
   @Override
   public void setMotorPower(double Power, int Indax) {

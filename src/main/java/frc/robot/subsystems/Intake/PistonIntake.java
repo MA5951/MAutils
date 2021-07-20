@@ -44,7 +44,7 @@ public class PistonIntake extends MASubsystem {
   }
 
   /**
-   * indax 0 - IntakeCollection
+   * index 0 - IntakeCollection
    */
   @Override
   public void setMotorPower(double power, int Indax) {

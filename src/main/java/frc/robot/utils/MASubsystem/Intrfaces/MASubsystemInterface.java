@@ -9,13 +9,13 @@ package frc.robot.utils.MASubsystem.Intrfaces;
 
 public interface MASubsystemInterface {
 
-  public void setMotorPower(double power, int indax);
+  public void setMotorPower(double power, int index);
 
-  public void setMotorVoltage(double voltage, int indax);
+  public void setMotorVoltage(double voltage, int index);
 
-  public double getEncoderPosition(int indax);
+  public double getEncoderPosition(int index);
 
-  public double getEncdoerRPM(int indax);
+  public double getEncdoerRPM(int index);
 
   public double getEncoderPosition();
 
@@ -31,9 +31,9 @@ public interface MASubsystemInterface {
 
   public boolean getPistonValue();
 
-  public boolean getLimitSwitchFValuse(int indax);
+  public boolean getLimitSwitchFValuse(int index);
 
-  public boolean getLimitSwitchRValuse(int indax);
+  public boolean getLimitSwitchRValuse(int index);
 
   public void resetSensor();
 
@@ -47,7 +47,7 @@ public interface MASubsystemInterface {
 
   public double resetPID();
 
-  public double getStatorCurrent(int indax);
+  public double getStatorCurrent(int index);
 
   public boolean isPIDAtTarget();
 

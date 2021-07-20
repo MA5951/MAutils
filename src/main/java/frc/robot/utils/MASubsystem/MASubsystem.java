@@ -54,7 +54,7 @@ public class MASubsystem extends SubsystemBase implements MASubsystemInterface {
   }
 
   @Override
-  public void setMotorVoltage(double voltage, int indax) {
+  public void setMotorVoltage(double voltage, int index) {
     // TODO Auto-generated method stub
 
   }
@@ -84,7 +84,7 @@ public class MASubsystem extends SubsystemBase implements MASubsystemInterface {
   }
 
   @Override
-  public double getStatorCurrent(int indax) {
+  public double getStatorCurrent(int index) {
     // TODO Auto-generated method stub
     return 0;
   }
@@ -108,25 +108,25 @@ public class MASubsystem extends SubsystemBase implements MASubsystemInterface {
   }
 
   @Override
-  public double getEncoderPosition(int indax) {
+  public double getEncoderPosition(int index) {
     // TODO Auto-generated method stub
     return 0;
   }
 
   @Override
-  public double getEncdoerRPM(int indax) {
+  public double getEncdoerRPM(int index) {
     // TODO Auto-generated method stub
     return 0;
   }
 
   @Override
-  public boolean getLimitSwitchFValuse(int indax) {
+  public boolean getLimitSwitchFValuse(int index) {
     // TODO Auto-generated method stub
     return false;
   }
 
   @Override
-  public boolean getLimitSwitchRValuse(int indax) {
+  public boolean getLimitSwitchRValuse(int index) {
     // TODO Auto-generated method stub
     return false;
   }

@@ -12,19 +12,19 @@ public class MABasicMotorCommand extends CommandBase {
   private MASubsystem currentSubsystem;
   private double power;
   private double voltage;
-  private int indax;
+  private int index;
   private boolean mod =false;
 
-  public MABasicMotorCommand(MASubsystem currentSubsystem, double power, int indax) {
+  public MABasicMotorCommand(MASubsystem currentSubsystem, double power, int index) {
     this.power = power;
-    this.indax = indax;
+    this.index = index;
     this.currentSubsystem = currentSubsystem;
     addRequirements(this.currentSubsystem);
   }
 
-  public MABasicMotorCommand(MASubsystem currentSubsystem, double voltage, int indax, boolean mod) {
+  public MABasicMotorCommand(MASubsystem currentSubsystem, double voltage, int index, boolean mod) {
     this.voltage = voltage;
-    this.indax = indax;
+    this.index = index;
     this.mod = mod;
     this.currentSubsystem = currentSubsystem;
     addRequirements(this.currentSubsystem);
@@ -39,9 +39,9 @@ public class MABasicMotorCommand extends CommandBase {
   @Override
   public void execute() {
     if(!mod){
-      this.currentSubsystem.setMotorPower(power, indax);
+      this.currentSubsystem.setMotorPower(power, index);
     }else{
-      this.currentSubsystem.setMotorVoltage(voltage, indax);
+      this.currentSubsystem.setMotorVoltage(voltage, index);
     }
    
   }
@@ -49,7 +49,7 @@ public class MABasicMotorCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    this.currentSubsystem.setMotorPower(0, indax);
+    this.currentSubsystem.setMotorPower(0, index);
   }
 
   // Returns true when the command should end.

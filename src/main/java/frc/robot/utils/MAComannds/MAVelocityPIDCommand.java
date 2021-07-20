@@ -11,12 +11,12 @@ import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
 public class MAVelocityPIDCommand extends CommandBase {
   private MASubsystem currentSubsystem;
   private Runnable setPoint;
-  private int indax;
+  private int index;
 
-  public MAVelocityPIDCommand(MASubsystem currentSubsystem, Runnable setPoint, int indax) {
+  public MAVelocityPIDCommand(MASubsystem currentSubsystem, Runnable setPoint, int index) {
     this.currentSubsystem = currentSubsystem;
     this.setPoint = requireNonNullParam(setPoint, "setPoint", "MAVelocityPIDCommand");
-    this.indax = indax;
+    this.index = index;
     addRequirements(currentSubsystem);
   }
 
@@ -30,13 +30,13 @@ public class MAVelocityPIDCommand extends CommandBase {
   @Override
   public void execute() {
     double voltage = currentSubsystem.calculatePIDOutput();
-    currentSubsystem.setMotorVoltage(voltage, indax);
+    currentSubsystem.setMotorVoltage(voltage, index);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    currentSubsystem.setMotorVoltage(0, indax);
+    currentSubsystem.setMotorVoltage(0, index);
   }
 
   // Returns true when the command should end.

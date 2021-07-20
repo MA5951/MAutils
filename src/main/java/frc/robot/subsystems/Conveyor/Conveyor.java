@@ -36,16 +36,16 @@ public class Conveyor extends MASubsystem {
   }
 
   /**
-   * indax 0 - TransportationMotor indax 1 - ConveyorMotor
+   * index 0 - TransportationMotor index 1 - ConveyorMotor
    */
   @Override
-  public void setMotorPower(double power, int indax) {
-    maMotorControlers.get(indax).set(power);
+  public void setMotorPower(double power, int index) {
+    maMotorControlers.get(index).set(power);
   }
 
   @Override
-  public double getStatorCurrent(int indax) {
-    return maMotorControlers.get(indax).getStatorCurrent();
+  public double getStatorCurrent(int index) {
+    return maMotorControlers.get(index).getStatorCurrent();
   }
 
   @Override

@@ -10,12 +10,12 @@ import frc.robot.utils.MASubsystem.MASubsystem;
 public class MAPositionPIDCommand extends CommandBase {
   private MASubsystem currentSubsystem;
   private double setPoint;
-  private int indax;
+  private int index;
 
-  public MAPositionPIDCommand(MASubsystem currentSubsystem, double setPoint, int indax) {
+  public MAPositionPIDCommand(MASubsystem currentSubsystem, double setPoint, int index) {
     this.setPoint = setPoint;
     this.currentSubsystem = currentSubsystem;
-    this.indax = indax;
+    this.index = index;
     addRequirements(currentSubsystem);
 
   }
@@ -30,13 +30,13 @@ public class MAPositionPIDCommand extends CommandBase {
   @Override
   public void execute() {
     double power = this.currentSubsystem.calculatePIDOutput(setPoint);
-    currentSubsystem.setMotorVoltage(power, indax);
+    currentSubsystem.setMotorVoltage(power, index);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    currentSubsystem.setMotorPower(0, indax);
+    currentSubsystem.setMotorPower(0, index);
   }
 
   // Returns true when the command should end.
