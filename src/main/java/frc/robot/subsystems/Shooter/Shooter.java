@@ -39,19 +39,19 @@ public class Shooter extends MASubsystem {
    * voltage -12 to 12, MotorA = 0
    */
   @Override
-  public void setMotorPower(double power, int Indax) {
-    maMotorControlers.get(Indax).setVoltage(power);
+  public void setMotorPower(double power, int Index) {
+    maMotorControlers.get(Index).setVoltage(power);
   }
 
   @Override
-  public double getEncdoerRPM() {
+  public double getEncoderRPM() {
 
     return (maMotorControlers.get(ShooterConstants.MOTOR_A).getVelocity()
         + maMotorControlers.get(ShooterConstants.MOTOR_B).getVelocity()) / 2;
   }
 
   private double getAngularVelocity() {
-    return getEncdoerRPM() / 10;
+    return getEncoderRPM() / 10;
   }
 
   public double distanceToRPM() {
@@ -79,7 +79,7 @@ public class Shooter extends MASubsystem {
 
   @Override
   public double calculatePIDOutput() {
-    return controler.calculate(getEncdoerRPM());
+    return controler.calculate(getEncoderRPM());
   }
 
   @Override

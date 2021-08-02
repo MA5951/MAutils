@@ -1,5 +1,5 @@
 
-package frc.robot.utils.Controlers;
+package frc.robot.utils.controllers;
 
 /**
  * @author yuval rader
@@ -8,7 +8,7 @@ package frc.robot.utils.Controlers;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpiutil.math.MathUtil;
-import frc.robot.utils.Controlers.Interfaces.PIDControler;
+import frc.robot.utils.controllers.interfaces.PIDControler;
 
 public class MAPidController implements PIDControler {
     private PIDController pidController;

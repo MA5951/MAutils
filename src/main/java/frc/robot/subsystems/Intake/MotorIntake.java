@@ -6,8 +6,8 @@ package frc.robot.subsystems.Intake;
 
 import frc.robot.utils.MASubsystem.MASubsystem;
 import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
-import frc.robot.utils.Controlers.MAPidController;
-import frc.robot.utils.Controlers.Interfaces.Controler;
+import frc.robot.utils.controllers.MAPidController;
+import frc.robot.utils.controllers.interfaces.Controler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class MotorIntake extends MASubsystem {
@@ -45,8 +45,8 @@ public class MotorIntake extends MASubsystem {
    * index 0 - IntakeCollection index 1 - IntakeMove
    */
   @Override
-  public void setMotorPower(double power, int Indax) {
-    maMotorControlers.get(Indax).set(power);
+  public void setMotorPower(double power, int Index) {
+    maMotorControlers.get(Index).set(power);
   }
 
   @Override
@@ -55,7 +55,7 @@ public class MotorIntake extends MASubsystem {
   }
 
   @Override
-  public boolean getLimitSwitchFValuse() {
+  public boolean getLimitSwitchFValues() {
     return maMotorControlers.get(IntakeConstants.INTAKE_MOVE).getForwardLimitSwitch();
   }
 
@@ -102,7 +102,7 @@ public class MotorIntake extends MASubsystem {
     intakesShuffleboard.addNum("MotorIntakeGetStatorCurrentCollection",
         getStatorCurrent(IntakeConstants.INTAKE_COLLECTION));
     intakesShuffleboard.addBoolean("MotorIntakeAtSetPoint", isPIDAtTarget());
-    intakesShuffleboard.addBoolean("MotorIntakeLimitSwitchValuse", getLimitSwitchFValuse());
+    intakesShuffleboard.addBoolean("MotorIntakeLimitSwitchValues", getLimitSwitchFValues());
   }
 
   public static MotorIntake getinstance() {

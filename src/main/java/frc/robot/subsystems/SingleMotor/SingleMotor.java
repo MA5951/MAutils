@@ -28,8 +28,8 @@ public class SingleMotor extends MASubsystem {
    * Motor - 0
    */
   @Override
-  public void setMotorPower(double power, int Indax) {
-    maMotorControlers.get(Indax).set(power);
+  public void setMotorPower(double power, int Index) {
+    maMotorControlers.get(Index).set(power);
   }
 
   @Override

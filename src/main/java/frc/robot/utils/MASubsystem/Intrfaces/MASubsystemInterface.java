@@ -15,25 +15,25 @@ public interface MASubsystemInterface {
 
   public double getEncoderPosition(int index);
 
-  public double getEncdoerRPM(int index);
+  public double getEncoderRPM(int index);
 
   public double getEncoderPosition();
 
-  public double getEncdoerRPM();
+  public double getEncoderRPM();
 
   public void setPiston(boolean on);
 
   public void togglePiston();
 
-  public boolean getLimitSwitchFValuse();
+  public boolean getLimitSwitchFValues();
 
-  public boolean getLimitSwitchRValuse();
+  public boolean getLimitSwitchRValues();
 
   public boolean getPistonValue();
 
-  public boolean getLimitSwitchFValuse(int index);
+  public boolean getLimitSwitchFValues(int index);
 
-  public boolean getLimitSwitchRValuse(int index);
+  public boolean getLimitSwitchRValues(int index);
 
   public void resetSensor();
 

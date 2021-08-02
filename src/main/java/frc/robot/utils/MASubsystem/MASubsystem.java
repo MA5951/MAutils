@@ -43,7 +43,7 @@ public class MASubsystem extends SubsystemBase implements MASubsystemInterface {
   }
 
   @Override
-  public void setMotorPower(double power, int Indax) {
+  public void setMotorPower(double power, int Index) {
 
   }
 
@@ -66,13 +66,13 @@ public class MASubsystem extends SubsystemBase implements MASubsystemInterface {
   }
 
   @Override
-  public boolean getLimitSwitchFValuse() {
+  public boolean getLimitSwitchFValues() {
     // TODO Auto-generated method stub
     return false;
   }
 
   @Override
-  public boolean getLimitSwitchRValuse() {
+  public boolean getLimitSwitchRValues() {
     // TODO Auto-generated method stub
     return false;
   }
@@ -90,7 +90,7 @@ public class MASubsystem extends SubsystemBase implements MASubsystemInterface {
   }
 
   @Override
-  public double getEncdoerRPM() {
+  public double getEncoderRPM() {
     // TODO Auto-generated method stub
     return 0;
   }
@@ -114,19 +114,19 @@ public class MASubsystem extends SubsystemBase implements MASubsystemInterface {
   }
 
   @Override
-  public double getEncdoerRPM(int index) {
+  public double getEncoderRPM(int index) {
     // TODO Auto-generated method stub
     return 0;
   }
 
   @Override
-  public boolean getLimitSwitchFValuse(int index) {
+  public boolean getLimitSwitchFValues(int index) {
     // TODO Auto-generated method stub
     return false;
   }
 
   @Override
-  public boolean getLimitSwitchRValuse(int index) {
+  public boolean getLimitSwitchRValues(int index) {
     // TODO Auto-generated method stub
     return false;
   }

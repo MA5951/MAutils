@@ -6,8 +6,8 @@ package frc.robot.subsystems.Arm;
 
 import frc.robot.utils.MASubsystem.MASubsystem;
 import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
-import frc.robot.utils.Controlers.MAPidController;
-import frc.robot.utils.Controlers.Interfaces.Controler;
+import frc.robot.utils.controllers.MAPidController;
+import frc.robot.utils.controllers.interfaces.Controler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class Arm extends MASubsystem {
@@ -37,8 +37,8 @@ public class Arm extends MASubsystem {
    * set voltage -12 to 12 index 0 - ArmMove
    */
   @Override
-  public void setMotorPower(double Power, int Indax) {
-    maMotorControlers.get(Indax).setVoltage(Power);
+  public void setMotorPower(double Power, int Index) {
+    maMotorControlers.get(Index).setVoltage(Power);
   }
 
   @Override
@@ -47,12 +47,12 @@ public class Arm extends MASubsystem {
   }
 
   @Override
-  public boolean getLimitSwitchFValuse() {
+  public boolean getLimitSwitchFValues() {
     return maMotorControlers.get(ArmConstants.KARM_MOVE).getForwardLimitSwitch();
   }
 
   @Override
-  public boolean getLimitSwitchRValuse() {
+  public boolean getLimitSwitchRValues() {
     return maMotorControlers.get(ArmConstants.KARM_MOVE).getReversLimitSwitch();
   }
 
@@ -91,8 +91,8 @@ public class Arm extends MASubsystem {
     armShuffleBoard.addNum("ARMgetSetPoint", getSetpointPID());
     armShuffleBoard.addNum("ARMgetPositionError", getPositionError());
     armShuffleBoard.addBoolean("ARMatSetPoint", isPIDAtTarget());
-    armShuffleBoard.addBoolean("ARMgetLimitSwitchRValuse", getLimitSwitchRValuse());
-    armShuffleBoard.addBoolean("ARMgetLimitSwitchFValuse", getLimitSwitchFValuse());
+    armShuffleBoard.addBoolean("ARMgetLimitSwitchRValues", getLimitSwitchRValues());
+    armShuffleBoard.addBoolean("ARMgetLimitSwitchFValues", getLimitSwitchFValues());
   }
 
   public static Arm getinstance() {

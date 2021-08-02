@@ -47,8 +47,8 @@ public class PistonIntake extends MASubsystem {
    * index 0 - IntakeCollection
    */
   @Override
-  public void setMotorPower(double power, int Indax) {
-    maMotorControlers.get(Indax).set(power);
+  public void setMotorPower(double power, int Index) {
+    maMotorControlers.get(Index).set(power);
   }
 
   @Override

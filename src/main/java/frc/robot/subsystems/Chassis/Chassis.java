@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.SPI.Port;
 import frc.robot.utils.RobotConstants;
 import frc.robot.utils.limelight;
 import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
-import frc.robot.utils.Controlers.MAPidController;
+import frc.robot.utils.controllers.MAPidController;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 import frc.robot.utils.MASubsystem.MASubsystem;
 import frc.robot.utils.Autonomous.Autonomous;

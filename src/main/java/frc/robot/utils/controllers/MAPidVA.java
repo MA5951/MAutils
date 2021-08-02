@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.utils.Controlers;
+package frc.robot.utils.controllers;
 
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.utils.MADriverStation;
-import frc.robot.utils.Controlers.Interfaces.PIDVAControler;
+import frc.robot.utils.controllers.interfaces.PIDVAControler;
 
 public class MAPidVA implements PIDVAControler {
     private ProfiledPIDController profiledPIDController;

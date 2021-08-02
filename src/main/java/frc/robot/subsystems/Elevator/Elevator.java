@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems.Elevator;
 
-import frc.robot.utils.Controlers.MAPidController;
+import frc.robot.utils.controllers.MAPidController;
 import frc.robot.utils.MASubsystem.MASubsystem;
 import frc.robot.utils.RobotConstants;
 import frc.robot.utils.Actuators.MAPiston;
@@ -41,8 +41,8 @@ public class Elevator extends MASubsystem {
    * set voltage -12 to 12 index 0 - ElevatorMove
    */
   @Override
-  public void setMotorPower(double power, int Indax) {
-    maMotorControlers.get(Indax).setVoltage(power);
+  public void setMotorPower(double power, int Index) {
+    maMotorControlers.get(Index).setVoltage(power);
   }
 
   @Override
@@ -92,8 +92,8 @@ public class Elevator extends MASubsystem {
     elevatoShuffleboard.addNum("ElevatorGetSetPoint", getSetpointPID());
     elevatoShuffleboard.addNum("ElevatorGetPositionError", getPositionError());
     elevatoShuffleboard.addBoolean("ElevatorAtSetPoint", isPIDAtTarget());
-    elevatoShuffleboard.addBoolean("ElevatorGetLimitSwitchRValuse", getLimitSwitchRValuse());
-    elevatoShuffleboard.addBoolean("ElevatorGetLimitSwitchFValuse", getLimitSwitchFValuse());
+    elevatoShuffleboard.addBoolean("ElevatorGetLimitSwitchRValues", getLimitSwitchRValues());
+    elevatoShuffleboard.addBoolean("ElevatorGetLimitSwitchFValues", getLimitSwitchFValues());
   }
 
   public static Elevator getinstance() {

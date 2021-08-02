@@ -49,7 +49,7 @@ public class Conveyor extends MASubsystem {
   }
 
   @Override
-  public boolean getLimitSwitchRValuse() {
+  public boolean getLimitSwitchRValues() {
     return transportationDigitalInput.get();
   }
 
@@ -59,11 +59,11 @@ public class Conveyor extends MASubsystem {
   }
 
   public int count() {
-    if (getLimitSwitchRValuse() && counterLimit) {
+    if (getLimitSwitchRValues() && counterLimit) {
       countBall++;
-      counterLimit = !getLimitSwitchRValuse();
-    } else if (!getLimitSwitchRValuse()) {
-      counterLimit = !getLimitSwitchRValuse();
+      counterLimit = !getLimitSwitchRValues();
+    } else if (!getLimitSwitchRValues()) {
+      counterLimit = !getLimitSwitchRValues();
     }
     return countBall;
   }
@@ -81,6 +81,6 @@ public class Conveyor extends MASubsystem {
         getStatorCurrent(ConveyorConstants.KTRANSPORTATION_MOTOR));
     conveyorMAShuffleboard.addNum("CountBall", count());
     conveyorMAShuffleboard.addNum("StatorCurrentConveyorMotor", getStatorCurrent(ConveyorConstants.KCONVEYOR_MOTOR));
-    conveyorMAShuffleboard.addBoolean("TransportationDigitalInputValue", getLimitSwitchRValuse());
+    conveyorMAShuffleboard.addBoolean("TransportationDigitalInputValue", getLimitSwitchRValues());
   }
 }
