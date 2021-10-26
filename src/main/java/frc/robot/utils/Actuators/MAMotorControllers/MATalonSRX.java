@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.utils.Actuators.MAMotorControlrs;
+package frc.robot.utils.Actuators.MAMotorControllers;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -20,7 +20,7 @@ class MATalonSRX implements MAMotorControlInterface {
         talonSRX = new WPI_TalonSRX(id);
         setInverted(inverted);
         configRampRate(rampRate);
-        changeMood(mod);
+        changeMode(mod);
 
         if (hasForwardLimitSwitch)
             configForwardLimitSwitchSource();
@@ -71,7 +71,7 @@ class MATalonSRX implements MAMotorControlInterface {
     }
 
     @Override
-    public void changeMood(boolean onOff) {
+    public void changeMode(boolean onOff) {
         talonSRX.setNeutralMode(onOff ? NeutralMode.Brake : NeutralMode.Coast);
 
     }
@@ -87,7 +87,7 @@ class MATalonSRX implements MAMotorControlInterface {
     }
 
     @Override
-    public boolean getReversLimitSwitch() {
+    public boolean getReverseLimitSwitch() {
         return talonSRX.getSensorCollection().isRevLimitSwitchClosed();
     }
 

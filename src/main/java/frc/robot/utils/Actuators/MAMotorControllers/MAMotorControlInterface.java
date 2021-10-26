@@ -1,4 +1,4 @@
-package frc.robot.utils.Actuators.MAMotorControlrs;
+package frc.robot.utils.Actuators.MAMotorControllers;
 
 interface MAMotorControlInterface {
 
@@ -12,7 +12,7 @@ interface MAMotorControlInterface {
 
     public void setInverted(Boolean setInverted);
 
-    public void changeMood(boolean onOff);
+    public void changeMode(boolean onOff);
 
     public int getID();
 
@@ -40,7 +40,7 @@ interface MAMotorControlInterface {
         return false;
     }
 
-    default boolean getReversLimitSwitch() {
+    default boolean getReverseLimitSwitch() {
         return false;
     }
 

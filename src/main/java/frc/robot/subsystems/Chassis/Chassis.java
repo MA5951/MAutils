@@ -9,7 +9,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI.Port;
 import frc.robot.utils.RobotConstants;
 import frc.robot.utils.limelight;
-import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.Actuators.MAMotorControllers.MAMotorController;
 import frc.robot.utils.controllers.MAPidController;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 import frc.robot.utils.MASubsystem.MASubsystem;
@@ -21,11 +21,11 @@ import frc.robot.utils.Calculation.MACalculations;
 import frc.robot.commands.Chassis.MAPath;
 
 public class Chassis extends MASubsystem {
-  private MAMotorControler leftFrontMotor;
-  private MAMotorControler leftMotor;
+  private MAMotorController leftFrontMotor;
+  private MAMotorController leftMotor;
 
-  private MAMotorControler rightFrontMotor;
-  private MAMotorControler rightMotor;
+  private MAMotorController rightFrontMotor;
+  private MAMotorController rightMotor;
 
   private AHRS navx;
 
@@ -44,13 +44,13 @@ public class Chassis extends MASubsystem {
 
   private Chassis() {
     chassisShuffleboard = new MAShuffleboard(ChassisConstants.KSUBSYSTEM_NAME);
-    leftFrontMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless,ID1, false, 0, false,
+    leftFrontMotor = new MAMotorController(MOTOR_CONTROLL.SPARKMAXBrushless,ID1, false, 0, false,
         ENCODER.Encoder);
-    leftMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless,ID2, false, 0, false, ENCODER.Encoder);
+    leftMotor = new MAMotorController(MOTOR_CONTROLL.SPARKMAXBrushless,ID2, false, 0, false, ENCODER.Encoder);
 
-    rightFrontMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless,ID3, true, 0, false,
+    rightFrontMotor = new MAMotorController(MOTOR_CONTROLL.SPARKMAXBrushless,ID3, true, 0, false,
         ENCODER.Encoder);
-    rightMotor = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless,ID4, false, 0, false, ENCODER.Encoder);
+    rightMotor = new MAMotorController(MOTOR_CONTROLL.SPARKMAXBrushless,ID4, false, 0, false, ENCODER.Encoder);
 
     leftMotor.follow(leftFrontMotor);
     rightMotor.follow(rightFrontMotor);
@@ -319,5 +319,10 @@ public class Chassis extends MASubsystem {
     chassisShuffleboard.addNum("left velocity",
         MACalculations.fromRPMToLinearSpeed(leftRPM(), ChassisConstants.KCHASSIS_GEAR));
 
+    chassisShuffleboard.addPID("rightControl", rightVelocityControl);
+    chassisShuffleboard.addPID("leftControl", leftVelocityControl);
+
+    chassisShuffleboard.addNum("rightSetpoint", rightVelocityControl.getSetpoint());
+    chassisShuffleboard.addNum("leftSetpoint", leftVelocityControl.getSetpoint());
   }
 }

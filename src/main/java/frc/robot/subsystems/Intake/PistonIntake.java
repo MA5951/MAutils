@@ -6,20 +6,20 @@ package frc.robot.subsystems.Intake;
 
 import frc.robot.utils.*;
 import frc.robot.utils.Actuators.*;
-import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.Actuators.MAMotorControllers.MAMotorController;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 import frc.robot.utils.MASubsystem.MASubsystem;
 
 public class PistonIntake extends MASubsystem {
 
-  private MAMotorControler intakeCollection;
+  private MAMotorController intakeCollection;
   private MAPiston pistonA;
   private MAPiston pistonB;
   private static PistonIntake m_Intake;
   private MAShuffleboard intakesMaShuffleboard = new MAShuffleboard(IntakeConstants.KSUBSYSTEM_NAME);
 
   private PistonIntake() {
-    intakeCollection = new MAMotorControler(MOTOR_CONTROLL.VICTOR, ID12);
+    intakeCollection = new MAMotorController(MOTOR_CONTROLL.VICTOR, ID12);
     setMAMotorComtrolersList(intakeCollection);
     pistonA = new MAPiston(RobotConstants.P_ID2);
     pistonB = new MAPiston(RobotConstants.P_ID3);

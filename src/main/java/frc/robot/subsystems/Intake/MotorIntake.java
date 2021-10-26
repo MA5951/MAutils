@@ -5,15 +5,15 @@
 package frc.robot.subsystems.Intake;
 
 import frc.robot.utils.MASubsystem.MASubsystem;
-import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.Actuators.MAMotorControllers.MAMotorController;
 import frc.robot.utils.controllers.MAPidController;
 import frc.robot.utils.controllers.interfaces.Controler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class MotorIntake extends MASubsystem {
 
-  private MAMotorControler intakeMove;
-  private MAMotorControler intakeCollection;
+  private MAMotorController intakeMove;
+  private MAMotorController intakeCollection;
   private Controler intakeMovePID;
   private static MotorIntake m_Intake;
 
@@ -21,11 +21,11 @@ public class MotorIntake extends MASubsystem {
 
   private MotorIntake() {
 
-    intakeCollection = new MAMotorControler(MOTOR_CONTROLL.TALON, ID8);
+    intakeCollection = new MAMotorController(MOTOR_CONTROLL.TALON, ID8);
     setMAMotorComtrolersList(intakeCollection);
 
     // change the Limit
-    intakeMove = new MAMotorControler(MOTOR_CONTROLL.TALON, ID7, false, 0, false, true, true, ENCODER.Encoder);
+    intakeMove = new MAMotorController(MOTOR_CONTROLL.TALON, ID7, false, 0, false, true, true, ENCODER.Encoder);
     setMAMotorComtrolersList(intakeMove);
 
     // cahnge Tolerance

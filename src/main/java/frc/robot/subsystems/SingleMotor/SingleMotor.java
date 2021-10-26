@@ -5,16 +5,16 @@
 package frc.robot.subsystems.SingleMotor;
 
 import frc.robot.utils.MASubsystem.MASubsystem;
-import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.Actuators.MAMotorControllers.MAMotorController;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class SingleMotor extends MASubsystem {
-  private MAMotorControler motor;
+  private MAMotorController motor;
   private static SingleMotor singleMotor;
   private MAShuffleboard singleMotorShuffleboard = new MAShuffleboard(SingleMotorConstants.KSUBSYSTEM_NAME);
 
   private SingleMotor() {
-    motor = new MAMotorControler(MOTOR_CONTROLL.TALON, ID15);
+    motor = new MAMotorController(MOTOR_CONTROLL.TALON, ID15);
     setMAMotorComtrolersList(motor);
 
   }

@@ -5,20 +5,20 @@
 package frc.robot.subsystems.Arm;
 
 import frc.robot.utils.MASubsystem.MASubsystem;
-import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.Actuators.MAMotorControllers.MAMotorController;
 import frc.robot.utils.controllers.MAPidController;
 import frc.robot.utils.controllers.interfaces.Controler;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class Arm extends MASubsystem {
 
-  private MAMotorControler armMove;
+  private MAMotorController armMove;
   private Controler armMovePID;
   private static Arm m_Arm;
   private MAShuffleboard armShuffleBoard = new MAShuffleboard(ArmConstants.KSUBSYSTEM_NAME);
 
   private Arm() {
-    armMove = new MAMotorControler(MOTOR_CONTROLL.TALON, ID5, false, 0, true, true, true, ENCODER.Encoder);
+    armMove = new MAMotorController(MOTOR_CONTROLL.TALON, ID5, false, 0, true, true, true, ENCODER.Encoder);
     setMAMotorComtrolersList(armMove);
     // cahnge Tolerance
     armMovePID = new MAPidController(ArmConstants.KP_ARM_MOVE, ArmConstants.KI_ARM_MOVE, ArmConstants.KD_ARM_MOVE, 0,

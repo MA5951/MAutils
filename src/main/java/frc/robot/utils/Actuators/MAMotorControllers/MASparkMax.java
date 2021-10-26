@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.utils.Actuators.MAMotorControlrs;
+package frc.robot.utils.Actuators.MAMotorControllers;
 
 import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.CANDigitalInput;
@@ -15,20 +15,20 @@ import frc.robot.utils.MASubsystem.MASubsystem;
 import frc.robot.utils.RobotConstants;
 
 /** Add your docs here. */
-class MASpakrMax implements MAMotorControlInterface {
+class MASparkMax implements MAMotorControlInterface {
 
     private CANSparkMax canSparkMax;
     private CANEncoder canEncoder;
     private CANDigitalInput forwardLimitSwitch;
     private CANDigitalInput reversLimitSwitch;
 
-    public MASpakrMax(int id, boolean inverted, double rampRate, boolean mod, boolean hasForwardLimitSwitch,
+    public MASparkMax(int id, boolean inverted, double rampRate, boolean mod, boolean hasForwardLimitSwitch,
             boolean hasReverseLimitSwitch, MASubsystem.ENCODER encoder, MotorType type) {
         canSparkMax = new CANSparkMax(id, type);
         canSparkMax.restoreFactoryDefaults();
         setInverted(inverted);
         configRampRate(rampRate);
-        changeMood(mod);
+        changeMode(mod);
         setCurrentLimit(60);
         if (hasForwardLimitSwitch)
             forwardLimitSwitch = canSparkMax.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
@@ -85,7 +85,7 @@ class MASpakrMax implements MAMotorControlInterface {
     }
 
     @Override
-    public void changeMood(boolean onOff) {
+    public void changeMode(boolean onOff) {
         canSparkMax.setIdleMode(onOff ? IdleMode.kBrake : IdleMode.kCoast);
 
     }
@@ -101,7 +101,7 @@ class MASpakrMax implements MAMotorControlInterface {
     }
 
     @Override
-    public boolean getReversLimitSwitch() {
+    public boolean getReverseLimitSwitch() {
         return reversLimitSwitch.get();
     }
 

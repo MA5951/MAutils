@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.utils.Actuators.MAMotorControlrs;
+package frc.robot.utils.Actuators.MAMotorControllers;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.IMotorController;
@@ -18,7 +18,7 @@ class MAVictorSPX implements MAMotorControlInterface {
         victorSPX = new WPI_VictorSPX(id);
         setInverted(inverted);
         configRampRate(rampRate);
-        changeMood(mod);
+        changeMode(mod);
     }
 
     @Override
@@ -50,7 +50,7 @@ class MAVictorSPX implements MAMotorControlInterface {
     }
 
     @Override
-    public void changeMood(boolean onOff) {
+    public void changeMode(boolean onOff) {
         victorSPX.setNeutralMode(onOff ? NeutralMode.Brake : NeutralMode.Coast);
 
     }

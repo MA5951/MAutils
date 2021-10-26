@@ -8,12 +8,12 @@ import frc.robot.utils.controllers.MAPidController;
 import frc.robot.utils.MASubsystem.MASubsystem;
 import frc.robot.utils.RobotConstants;
 import frc.robot.utils.Actuators.MAPiston;
-import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.Actuators.MAMotorControllers.MAMotorController;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class Elevator extends MASubsystem {
 
-  private MAMotorControler elevatorMove;
+  private MAMotorController elevatorMove;
   private MAPidController elevatorMovePID;
   private MAPiston piston;
   private static Elevator m_Elevator;
@@ -21,7 +21,7 @@ public class Elevator extends MASubsystem {
 
   private Elevator() {
     piston = new MAPiston(RobotConstants.P_ID6);
-    elevatorMove = new MAMotorControler(MOTOR_CONTROLL.SPARKMAXBrushless,ID8, false, 0, true,
+    elevatorMove = new MAMotorController(MOTOR_CONTROLL.SPARKMAXBrushless,ID8, false, 0, true,
         ENCODER.Alternate_Encoder);
     setMAMotorComtrolersList(elevatorMove);
 

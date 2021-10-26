@@ -7,12 +7,12 @@ package frc.robot.subsystems.Conveyor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.utils.MASubsystem.MASubsystem;
 import frc.robot.utils.RobotConstants;
-import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.Actuators.MAMotorControllers.MAMotorController;
 import frc.robot.utils.MAShuffleboard.MAShuffleboard;
 
 public class Conveyor extends MASubsystem {
-  private MAMotorControler transportationMotor;
-  private MAMotorControler conveyorMotor;
+  private MAMotorController transportationMotor;
+  private MAMotorController conveyorMotor;
   private DigitalInput transportationDigitalInput;
   private MAShuffleboard conveyorMAShuffleboard = new MAShuffleboard(ConveyorConstants.KSUBSYSTEM_NAME);
   private static Conveyor mConveyor;
@@ -20,11 +20,11 @@ public class Conveyor extends MASubsystem {
   private int countBall = 0;
 
   private Conveyor() {
-    transportationMotor = new MAMotorControler(MOTOR_CONTROLL.TALON,ID11);
+    transportationMotor = new MAMotorController(MOTOR_CONTROLL.TALON,ID11);
     setMAMotorComtrolersList(transportationMotor);
     transportationDigitalInput = new DigitalInput(RobotConstants.DIO_ID0);
 
-    conveyorMotor = new MAMotorControler(MOTOR_CONTROLL.TALON,ID7);
+    conveyorMotor = new MAMotorController(MOTOR_CONTROLL.TALON,ID7);
     setMAMotorComtrolersList(conveyorMotor);
 
   }

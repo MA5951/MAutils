@@ -7,13 +7,13 @@ package frc.robot.utils.MASubsystem;
 import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utils.Actuators.MAMotorControlrs.MAMotorControler;
+import frc.robot.utils.Actuators.MAMotorControllers.MAMotorController;
 import frc.robot.utils.MASubsystem.Intrfaces.MASubsystemInterface;
 
 /** Add your docs here. */
 public class MASubsystem extends SubsystemBase implements MASubsystemInterface {
 
-  protected ArrayList<MAMotorControler> maMotorControlers = new ArrayList<MAMotorControler>();
+  protected ArrayList<MAMotorController> maMotorControlers = new ArrayList<MAMotorController>();
 
   protected SubConstants constants;
 
@@ -28,12 +28,12 @@ public class MASubsystem extends SubsystemBase implements MASubsystemInterface {
   protected static int ID1 = 1, ID2 = 2, ID3 = 3, ID4 = 4, ID5 = 5, ID6 = 6, ID7 = 7, ID8 = 8, ID9 = 9, ID10 = 10,
       ID11 = 11, ID12 = 12, ID13 = 13, ID14 = 14, ID15 = 15, ID16 = 16;
 
-  public void setMAMotorComtrolersList(MAMotorControler motor) {
+  public void setMAMotorComtrolersList(MAMotorController motor) {
     maMotorControlers.add(motor);
   }
 
-  public void addFollowMotorToMaster(MAMotorControler master, int id) {
-    MAMotorControler Motor = new MAMotorControler(master.getMotorControllType(), id);
+  public void addFollowMotorToMaster(MAMotorController master, int id) {
+    MAMotorController Motor = new MAMotorController(master.getMotorControllType(), id);
     Motor.follow(master);
   }
 

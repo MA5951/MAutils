@@ -5,6 +5,8 @@ import frc.robot.utils.controllers.MAPidController;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.node.NullNode;
+
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -27,15 +29,15 @@ public class MAShuffleboard {
 
   }
 
-  public NetworkTableEntry maShufflebordPattern(NetworkTableEntry valEntry, String title, Object DV) {
+  private NetworkTableEntry maShufflebordPattern(NetworkTableEntry valEntry, String title, Object DV) {
     if (networkTableNameMap.get(title) == null) {
       valEntry = Shuffleboard.getTab(currnetTab).add(title, DV).getEntry();
-      networkTableNameMap.put(title, valEntry);
+      networkTableNameMap.put(title, valEntry); 
     }
     return networkTableNameMap.get(title);
   }
 
-  public NetworkTableEntry maShufflebordPattern(NetworkTableEntry valEntry, String title, Object DV,
+  private NetworkTableEntry maShufflebordPattern(NetworkTableEntry valEntry, String title, Object DV,
       WidgetType widgetType) {
     if (networkTableNameMap.get(title) == null) {
       valEntry = Shuffleboard.getTab(currnetTab).add(title, DV).withWidget(widgetType).getEntry();
@@ -110,5 +112,5 @@ public class MAShuffleboard {
 
     pid.setSetpoint((double) networkTableNameMap.get("setPoint").getNumber(0));
   }
-
+  
 }
