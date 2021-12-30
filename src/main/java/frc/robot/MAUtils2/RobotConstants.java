@@ -10,8 +10,15 @@ package frc.robot.MAUtils2;
 public class RobotConstants {
 
     public enum ENCODER {
-        NEO_ENCODER, MEG_ENCODER, CIMCODER
+        No_Encoder, Encoder, Alternate_Encoder
     }
+
+    public enum MOTOR_CONTROLL {
+        TALON, VICTOR, SPARKMAXBrushless, SPARKMAXBrushled
+    }
+
+    protected static int ID1 = 1, ID2 = 2, ID3 = 3, ID4 = 4, ID5 = 5, ID6 = 6, ID7 = 7, ID8 = 8, ID9 = 9, ID10 = 10,
+            ID11 = 11, ID12 = 12, ID13 = 13, ID14 = 14, ID15 = 15, ID16 = 16;
 
     public final static int KMAX_RPM_CIM = 5330;
     public final static int KMAX_RPM_RS = 18730;
@@ -31,7 +38,6 @@ public class RobotConstants {
     public final static int KCTRE_MAG_ENCODER_TPR = 4096;
     public final static int KCIMCODER_TPR = 80;
 
-    
     public final static int KTICKS_PER_PULSE = 1;
     public final static double KDELTA_TIME = 0.020;
     public final static double KGRAVITY_ACCELERATION = 9.82;

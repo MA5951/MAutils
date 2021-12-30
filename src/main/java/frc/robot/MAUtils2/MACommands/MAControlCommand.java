@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.MAUtils2.MASubsystem.MotorInterface;
 import frc.robot.MAUtils2.MASubsystem.ControlInterface;
 
-public class MAControlCommand<MAMotorInterface extends MotorInterface & ControlInterface & Subsystem> extends CommandBase {
+public class MAControlCommand <MAMotorInterface extends MotorInterface & ControlInterface & Subsystem> extends CommandBase {
   /** Creates a new MAControlCommand. */
 
   private MAMotorInterface subSystem;
