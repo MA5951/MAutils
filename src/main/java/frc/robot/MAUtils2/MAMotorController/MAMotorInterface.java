@@ -10,7 +10,7 @@ interface MAMotorControlInterface {
 
     public void configRampRate(double rampRate);
 
-    public void setInverted(Boolean setInverted);
+    public void setInverted(boolean setInverted);
 
     public void changeMode(boolean onOff);
 
