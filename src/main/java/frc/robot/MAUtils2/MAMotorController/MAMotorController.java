@@ -96,19 +96,19 @@ public class MAMotorController {
             getMotorControll().resetEncoder();
     }
 
-    public void resatOnLimitF(boolean limit) {
+    public void resetOnLimitF(boolean limit) {
         printWarningForMC("victor dont support", true, MOTOR_CONTROLL.VICTOR);
         if (MC == MOTOR_CONTROLL.TALON && encoder == ENCODER.Encoder) {
-            talonSRX.resatOnLimitF(limit);
+            talonSRX.resetOnLimitF(limit);
         }
     }
 
-    public void resatOnLimitR(boolean limit) {
+    public void resetOnLimitR(boolean limit) {
         printWarningForMC("victor dont support", true, MOTOR_CONTROLL.VICTOR);
         printWarningForMC("sparkMax dont support", true, MOTOR_CONTROLL.SPARKMAXBrushled);
         printWarningForMC("sparkMax dont support", true, MOTOR_CONTROLL.SPARKMAXBrushless);
         if (MC == MOTOR_CONTROLL.TALON && encoder == ENCODER.Encoder) {
-            talonSRX.resatOnLimitR(limit);
+            talonSRX.resetOnLimitR(limit);
         }
     }
 

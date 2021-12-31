@@ -105,11 +105,11 @@ class MATalonSRX implements MAMotorControlInterface{
         talonSRX.setSensorPhase(PhaseSensor);
     }
 
-    public void resatOnLimitF(boolean limit) {
+    public void resetOnLimitF(boolean limit) {
         talonSRX.configClearPositionOnLimitF(limit, 0);
     }
 
-    public void resatOnLimitR(boolean limit) {
+    public void resetOnLimitR(boolean limit) {
         talonSRX.configClearPositionOnLimitR(limit, 0);
     }
 
