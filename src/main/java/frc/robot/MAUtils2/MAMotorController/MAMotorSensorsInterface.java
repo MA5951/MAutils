@@ -9,4 +9,12 @@ public interface MAMotorSensorsInterface {
     public double getVelocity();
 
     public double getStatorCurrent();
+
+    public void phaseSensor(boolean phaseSensor);
+
+    public void setCurrentLimit(int limit);
+
+    public boolean getForwardLimitSwitch();
+
+    public boolean getReverseLimitSwitch();
 }
