@@ -1,6 +1,6 @@
 package frc.robot.MAUtils2.MASubsystem;
 
-public interface MotorInterface extends singletonInterface{
+public interface MotorInterface {
     public void setVoltege (double voltege);
     
     default void setPower(double power){

@@ -1,6 +1,6 @@
 package frc.robot.MAUtils2.MASubsystem;
 
-public interface PistonInterface extends singletonInterface{
+public interface PistonInterface {
     public void open();
 
     public void close();

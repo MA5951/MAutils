@@ -1,6 +1,6 @@
 package frc.robot.MAUtils2.MASubsystem;
 
-public interface ControlInterface extends singletonInterface{
+public interface ControlInterface {
     public void setSetpoint(double setPoint);
 
     public boolean atSetpoint();

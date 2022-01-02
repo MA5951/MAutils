@@ -12,7 +12,7 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-class MATalonSRX implements MAMotorControlInterface{
+public class MATalonSRX implements MAMotorControlInterface, MAMotorSensorsInterface, MAMotorAndSensorInterface{
     private WPI_TalonSRX talonSRX;
 
     public MATalonSRX(int id, boolean inverted, double rampRate, boolean mod, boolean hasForwardLimitSwitch,

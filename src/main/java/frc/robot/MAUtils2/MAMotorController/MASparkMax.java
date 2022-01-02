@@ -15,7 +15,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.MAUtils2.RobotConstants;
 
 /** Add your docs here. */
-class MASparkMax implements MAMotorControlInterface {
+public class MASparkMax implements MAMotorControlInterface, MAMotorSensorsInterface {
 
     private CANSparkMax canSparkMax;
     private CANEncoder canEncoder;
@@ -141,5 +141,4 @@ class MASparkMax implements MAMotorControlInterface {
     public void setCurrentLimit(int limit) {
         canSparkMax.setSmartCurrentLimit(limit);
     }
-
 }

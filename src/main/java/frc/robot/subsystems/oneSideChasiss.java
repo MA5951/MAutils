@@ -5,23 +5,31 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.MAUtils2.MAMotorController.MAFalcon;
+import frc.robot.MAUtils2.MAShuffleboard;
+import frc.robot.MAUtils2.MAMotorController.MAMotorAndSensorInterface;
 import frc.robot.MAUtils2.MAMotorController.MAMotorControlInterface;
+import frc.robot.MAUtils2.MAMotorController.MAMotorSensorsInterface;
+import frc.robot.MAUtils2.MAMotorController.MATalonSRX;
 import frc.robot.MAUtils2.MASubsystem.MotorInterface;
+import frc.robot.MAUtils2.MASubsystem.SensorInterface;
 
-public class oneSideChasiss extends SubsystemBase implements MotorInterface {
+public class oneSideChasiss extends SubsystemBase implements MotorInterface, MAMotorAndSensorInterface {
+  
+  private MAMotorAndSensorInterface front;
+  private MAMotorAndSensorInterface back;
 
-  private MAMotorControlInterface front;
-  private MAMotorControlInterface back;
-  private oneSideChasiss subChassis;
+  private static oneSideChasiss oneSide;
+
+  private MAShuffleboard shuffleboard;
 
   public oneSideChasiss() {
-    front = new MAFalcon(0, false, 0, NeutralMode.Brake, false, false, FeedbackDevice.None);
-    back = new MAFalcon(1, false, 0, NeutralMode.Brake, false, false, FeedbackDevice.None);
+    front = new MATalonSRX(1, false, 0, false, false, false, FeedbackDevice.QuadEncoder);
+    back = new MATalonSRX(2, false, 0, false, false, false, FeedbackDevice.QuadEncoder);
+
+    MAShuffleboard shuffleboard = new MAShuffleboard("Test");
   }
   
   @Override
@@ -31,20 +39,25 @@ public class oneSideChasiss extends SubsystemBase implements MotorInterface {
   }
   
   @Override
-  public double getPower() {
+  public double getVoltege() {
     return front.getOutPut();
   }
 
-  @Override
-  public oneSideChasiss getInstance() {
-    if (subChassis == null){
-      subChassis = new oneSideChasiss();
+  public double getEncoder(){
+    return front.getPosition();
+  }
+
+
+  public static oneSideChasiss getInstance() {
+    if (oneSide == null){
+      oneSide = new oneSideChasiss();
     }
-    return subChassis;
+    return oneSide;
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    shuffleboard.addNum("Front Motor", getVoltege());
+    shuffleboard.addNum("Front Encoder", getVoltege());
   }
 }

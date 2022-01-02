@@ -10,7 +10,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 /** Add your docs here. */
-class MAVictorSPX implements MAMotorControlInterface {
+public class MAVictorSPX implements MAMotorControlInterface {
 
     private WPI_VictorSPX victorSPX;
 

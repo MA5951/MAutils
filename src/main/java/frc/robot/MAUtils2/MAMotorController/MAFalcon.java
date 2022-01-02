@@ -11,7 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import frc.robot.MAUtils2.RobotConstants;
 
-public class MAFalcon implements MAMotorControlInterface {
+public class MAFalcon implements MAMotorControlInterface, MAMotorSensorsInterface {
 
     private TalonFX falcon;
 
@@ -80,12 +80,12 @@ public class MAFalcon implements MAMotorControlInterface {
         falcon.setSelectedSensorPosition(0);
     }
 
-    public int getForwardLimitSwitch() {
-        return falcon.getSensorCollection().isFwdLimitSwitchClosed();
+    public boolean getForwardLimitSwitch() {
+        return falcon.getSensorCollection().isFwdLimitSwitchClosed() == 1 ? true : false;
     }
 
-    public int getReverseLimitSwitch() {
-        return falcon.getSensorCollection().isRevLimitSwitchClosed();
+    public boolean getReverseLimitSwitch() {
+        return falcon.getSensorCollection().isRevLimitSwitchClosed() == 1 ? true : false;
     }
 
     public double getPosition() {
