@@ -105,11 +105,11 @@ class MATalonSRX implements MAMotorControlInterface{
         talonSRX.setSensorPhase(PhaseSensor);
     }
 
-    public void resetOnLimitF(boolean limit) {
+    public void resatOnLimitF(boolean limit) {
         talonSRX.configClearPositionOnLimitF(limit, 0);
     }
 
-    public void resetOnLimitR(boolean limit) {
+    public void resatOnLimitR(boolean limit) {
         talonSRX.configClearPositionOnLimitR(limit, 0);
     }
 
@@ -124,10 +124,6 @@ class MATalonSRX implements MAMotorControlInterface{
     @Override
     public int getID() {
         return talonSRX.getDeviceID();
-    }
-
-    public IMotorController getIMotorController() {
-        return talonSRX;
     }
 
     public void follow(IMotorController Motor) {

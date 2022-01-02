@@ -7,9 +7,9 @@ public interface MotorInterface extends singletonInterface{
         setVoltege(power * 12);
     }
 
-    public double getVoltege();
-
-    default double getPower(){
-        return getVoltege() / 12;
+    default double getVoltege(){
+        return getPower() * 12;
     }
+
+    default double getPower();
 }

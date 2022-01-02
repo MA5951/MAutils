@@ -55,10 +55,6 @@ class MAVictorSPX implements MAMotorControlInterface {
 
     }
 
-    public IMotorController getIMotorController() {
-        return victorSPX;
-    }
-
     public void follow(IMotorController Motor) {
         victorSPX.follow(Motor);
     }
