@@ -46,6 +46,8 @@ public class RobotConstants {
     public final static int KRIGHT_JOYSTICK_PORT = 1;
     public final static int KOPERATING_JOYSTICK_PORT = 2;
 
+    public final static int KTRIGGER_THRESHOLD_TIME = 0;
+
     // Pneumatics
     public final static int P_ID0 = 0;
     public final static int P_ID1 = 1;

@@ -5,8 +5,11 @@ import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
+import frc.robot.MAUtils2.RobotConstants;
 
 public class MAFalcon implements MAMotorControlInterface {
 
@@ -128,5 +131,13 @@ public class MAFalcon implements MAMotorControlInterface {
 
     public void setFeedBack(FeedbackDevice FD) {
         falcon.configSelectedFeedbackSensor(FD);
+    }
+
+    public void setCurrentLimit(int limit){
+        falcon.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, limit, RobotConstants.KTRIGGER_THRESHOLD_TIME, 0));
+    }
+
+    public void setCurrentLimit(int limit, int triggerThresholdCurrent){
+        falcon.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, limit, RobotConstants.KTRIGGER_THRESHOLD_TIME, triggerThresholdCurrent));
     }
 }
