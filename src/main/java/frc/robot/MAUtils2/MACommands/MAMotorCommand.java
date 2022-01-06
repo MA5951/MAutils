@@ -5,15 +5,14 @@
 package frc.robot.MAUtils2.MACommands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.MAUtils2.MASubsystem.MotorInterface;
+import frc.robot.MAUtils2.MASubsystem.MotorInterfaceSubsystem;
 
-public class MAMotorCommands <MAMotor extends MotorInterface & Subsystem> extends InstantCommand  {
+public class MAMotorCommand extends InstantCommand  {
   /** Creates a new MAMotorCommands. */
-  private MAMotor subsystem;
+  private MotorInterfaceSubsystem subsystem;
   private double power;
 
-  public MAMotorCommands(MAMotor subsystem, double power) {
+  public MAMotorCommand(MotorInterfaceSubsystem subsystem, double power) {
     this.subsystem = subsystem;
     this.power = power;
     addRequirements(subsystem);

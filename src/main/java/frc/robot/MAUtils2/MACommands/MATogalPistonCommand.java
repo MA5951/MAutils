@@ -5,17 +5,16 @@
 package frc.robot.MAUtils2.MACommands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.MAUtils2.MASubsystem.PistonInterface;
+import frc.robot.MAUtils2.MASubsystem.PistonInterfaceSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class MATogalPistonCommand <MAPiston extends PistonInterface & Subsystem> extends InstantCommand {
+public class MATogalPistonCommand extends InstantCommand {
 
-    private MAPiston subsystem;
+    private PistonInterfaceSubsystem subsystem;
 
-  public MATogalPistonCommand(MAPiston subsystem) {
+  public MATogalPistonCommand(PistonInterfaceSubsystem subsystem) {
     this.subsystem = subsystem;
     addRequirements(subsystem);
   }

@@ -1,7 +1,6 @@
 package frc.robot.MAUtils2;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import frc.robot.MAUtils2.MAShuffleboard;
 
 /** Add your docs here. */
 public class MADriverStation {

@@ -22,13 +22,13 @@ public class chasissCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    oneSide.setPower(0.5);
+    oneSide.setVoltege(0.5 * 12);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    oneSide.setPower(0);
+    oneSide.setVoltege(0);
   }
 
   // Returns true when the command should end.

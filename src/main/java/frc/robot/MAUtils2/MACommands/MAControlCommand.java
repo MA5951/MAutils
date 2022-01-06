@@ -5,20 +5,18 @@
 package frc.robot.MAUtils2.MACommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.MAUtils2.MASubsystem.MotorInterface;
-import frc.robot.MAUtils2.MASubsystem.ControlInterface;
+import frc.robot.MAUtils2.MASubsystem.ControlInterfaceSubsystem;
 
-public class MAControlCommand <MAMotorInterface extends MotorInterface & ControlInterface & Subsystem> extends CommandBase {
+public class MAControlCommand extends CommandBase {
   /** Creates a new MAControlCommand. */
 
-  private MAMotorInterface subSystem;
+  private ControlInterfaceSubsystem subSystem;
   private double SetPoint;
   private boolean stoppable;
   private boolean voltege;
 
 
-  public MAControlCommand(MAMotorInterface subSystem, double setPoint, boolean stoppable, boolean voltege) {
+  public MAControlCommand(ControlInterfaceSubsystem subSystem, double setPoint, boolean stoppable, boolean voltege) {
     this.subSystem = subSystem;
     this.SetPoint = setPoint;
     this.stoppable = stoppable;

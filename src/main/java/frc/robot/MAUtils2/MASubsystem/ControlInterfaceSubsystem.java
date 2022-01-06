@@ -1,6 +1,6 @@
 package frc.robot.MAUtils2.MASubsystem;
 
-public interface ControlInterface {
+public interface ControlInterfaceSubsystem extends MotorInterfaceSubsystem{
     public void setSetpoint(double setPoint);
 
     public boolean atSetpoint();

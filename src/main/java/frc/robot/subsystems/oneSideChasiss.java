@@ -5,18 +5,14 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.MAUtils2.MAShuffleboard;
 import frc.robot.MAUtils2.MAMotorController.MAMotorAndSensorInterface;
-import frc.robot.MAUtils2.MAMotorController.MAMotorControlInterface;
-import frc.robot.MAUtils2.MAMotorController.MAMotorSensorsInterface;
 import frc.robot.MAUtils2.MAMotorController.MATalonSRX;
 import frc.robot.MAUtils2.MASubsystem.MotorInterface;
-import frc.robot.MAUtils2.MASubsystem.SensorInterface;
 
-public class oneSideChasiss extends SubsystemBase implements MotorInterface, MAMotorAndSensorInterface {
+public class oneSideChasiss extends SubsystemBase implements MotorInterface {
   
   private MAMotorAndSensorInterface front;
   private MAMotorAndSensorInterface back;
@@ -29,7 +25,7 @@ public class oneSideChasiss extends SubsystemBase implements MotorInterface, MAM
     front = new MATalonSRX(1, false, 0, false, false, false, FeedbackDevice.QuadEncoder);
     back = new MATalonSRX(2, false, 0, false, false, false, FeedbackDevice.QuadEncoder);
 
-    MAShuffleboard shuffleboard = new MAShuffleboard("Test");
+    shuffleboard = new MAShuffleboard("Test");
   }
   
   @Override
@@ -57,7 +53,8 @@ public class oneSideChasiss extends SubsystemBase implements MotorInterface, MAM
 
   @Override
   public void periodic() {
-    shuffleboard.addNum("Front Motor", getVoltege());
-    shuffleboard.addNum("Front Encoder", getVoltege());
+    // shuffleboard.addNum("Front Motor", getVoltege());
+    // shuffleboard.addNum("Front Encoder", getVoltege());
+    shuffleboard.addNum("Encoder:", getEncoder());
   }
 }

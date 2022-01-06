@@ -4,15 +4,14 @@
 
 package frc.robot.MAUtils2.MACommands;
 
+import frc.robot.MAUtils2.MASubsystem.PistonInterfaceSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.MAUtils2.MASubsystem.PistonInterface;
 
-public class MApistonCommand <MAPiston extends Subsystem & PistonInterface> extends InstantCommand {
-  private MAPiston subsystem;
+public class MApistonCommand extends InstantCommand {
+  private PistonInterfaceSubsystem subsystem;
   private boolean value;
 
-  public MApistonCommand(MAPiston subsystem, boolean value) {
+  public MApistonCommand(PistonInterfaceSubsystem subsystem, boolean value) {
     this.value = value;
     this.subsystem = subsystem;
     addRequirements(subsystem);
