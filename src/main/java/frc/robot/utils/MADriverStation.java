@@ -12,8 +12,8 @@ public class MADriverStation {
     private static MADriverStation m_DriverStation;
 
     private MADriverStation() {
-        alliance = DriverStation.getInstance().getAlliance().toString();
-        location = DriverStation.getInstance().getLocation();
+        alliance = DriverStation.getAlliance().toString();
+        location = DriverStation.getLocation();
     }
 
     public static void printError(String error, boolean printTrace) {
@@ -25,27 +25,27 @@ public class MADriverStation {
     }
 
     public static String getGameSpecificMessage() {
-        return DriverStation.getInstance().getGameSpecificMessage();
+        return DriverStation.getGameSpecificMessage();
     }
 
     public static boolean isOperatorControlEnabled() {
-        return DriverStation.getInstance().isOperatorControlEnabled();
+        return DriverStation.isTeleopEnabled();
     }
 
     public static boolean isFMSAttached() {
-        return DriverStation.getInstance().isFMSAttached();
+        return DriverStation.isFMSAttached();
     }
 
     public static boolean isDSAttached() {
-        return DriverStation.getInstance().isDSAttached();
+        return DriverStation.isDSAttached();
     }
 
     public static boolean isAutonomousEnabled() {
-        return DriverStation.getInstance().isAutonomousEnabled();
+        return DriverStation.isAutonomousEnabled();
     }
 
     public static boolean isJoystickConnected(int Port) {
-        return DriverStation.getInstance().isJoystickConnected(Port);
+        return DriverStation.isJoystickConnected(Port);
     }
 
     private void printValues() {

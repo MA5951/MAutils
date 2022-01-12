@@ -4,13 +4,13 @@
 
 package frc.robot.utils.Actuators.MAMotorControllers;
 
-import com.revrobotics.AlternateEncoderType;
-import com.revrobotics.CANDigitalInput;
-import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxAlternateEncoder;
+import com.revrobotics.SparkMaxLimitSwitch;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxLimitSwitch.Type;
 import frc.robot.utils.MASubsystem.MASubsystem;
 import frc.robot.utils.RobotConstants;
 
@@ -18,9 +18,9 @@ import frc.robot.utils.RobotConstants;
 class MASparkMax implements MAMotorControlInterface {
 
     private CANSparkMax canSparkMax;
-    private CANEncoder canEncoder;
-    private CANDigitalInput forwardLimitSwitch;
-    private CANDigitalInput reversLimitSwitch;
+    private RelativeEncoder canEncoder;
+    private SparkMaxLimitSwitch forwardLimitSwitch;
+    private SparkMaxLimitSwitch reversLimitSwitch;
 
     public MASparkMax(int id, boolean inverted, double rampRate, boolean mod, boolean hasForwardLimitSwitch,
             boolean hasReverseLimitSwitch, MASubsystem.ENCODER encoder, MotorType type) {
@@ -31,10 +31,10 @@ class MASparkMax implements MAMotorControlInterface {
         changeMode(mod);
         setCurrentLimit(60);
         if (hasForwardLimitSwitch)
-            forwardLimitSwitch = canSparkMax.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+            forwardLimitSwitch = canSparkMax.getForwardLimitSwitch(Type.kNormallyOpen);
 
         if (hasReverseLimitSwitch)
-            reversLimitSwitch = canSparkMax.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyOpen);
+            reversLimitSwitch = canSparkMax.getReverseLimitSwitch(Type.kNormallyOpen);
 
         if (encoder == MASubsystem.ENCODER.Encoder) {
             setCanEncoder();
@@ -50,7 +50,7 @@ class MASparkMax implements MAMotorControlInterface {
     }
 
     private void setCanAlternateEncoder() {
-        canEncoder = canSparkMax.getAlternateEncoder(AlternateEncoderType.kQuadrature, RobotConstants.KTICKS_PER_PULSE);
+        canEncoder = canSparkMax.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature, RobotConstants.KTICKS_PER_PULSE);
         canEncoder.setPositionConversionFactor(RobotConstants.KTICKS_PER_PULSE);
         canEncoder.setVelocityConversionFactor(RobotConstants.KTICKS_PER_PULSE);
     }
@@ -97,12 +97,12 @@ class MASparkMax implements MAMotorControlInterface {
 
     @Override
     public boolean getForwardLimitSwitch() {
-        return forwardLimitSwitch.get();
+        return forwardLimitSwitch.isPressed();
     }
 
     @Override
     public boolean getReverseLimitSwitch() {
-        return reversLimitSwitch.get();
+        return reversLimitSwitch.isPressed();
     }
 
     @Override
