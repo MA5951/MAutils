@@ -9,11 +9,12 @@ public class MADriverStation {
     private String alliance = "";
     private int location = 0;
     private MAShuffleboard driverStationShuffleboard = new MAShuffleboard("SmartDashboard");
+    private static DriverStation driverStation;
     private static MADriverStation m_DriverStation;
 
     private MADriverStation() {
-        alliance = DriverStation.getAlliance().toString();
-        location = DriverStation.getLocation();
+        alliance = driverStation.getAlliance().toString();
+        location = driverStation.getLocation();
     }
 
     public static void printError(String error, boolean printTrace) {
@@ -25,27 +26,27 @@ public class MADriverStation {
     }
 
     public static String getGameSpecificMessage() {
-        return DriverStation.getGameSpecificMessage();
+        return driverStation.getGameSpecificMessage();
     }
 
     public static boolean isOperatorControlEnabled() {
-        return DriverStation.isTeleopEnabled();
+        return driverStation.isEnabled();
     }
 
     public static boolean isFMSAttached() {
-        return DriverStation.isFMSAttached();
+        return driverStation.isFMSAttached();
     }
 
     public static boolean isDSAttached() {
-        return DriverStation.isDSAttached();
+        return driverStation.isDSAttached();
     }
 
     public static boolean isAutonomousEnabled() {
-        return DriverStation.isAutonomousEnabled();
+        return driverStation.isAutonomousEnabled();
     }
 
     public static boolean isJoystickConnected(int Port) {
-        return DriverStation.isJoystickConnected(Port);
+        return driverStation.isJoystickConnected(Port);
     }
 
     private void printValues() {

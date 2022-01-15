@@ -2,10 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.utils.Actuators;
+package frc.robot.utils.Actuators.MAMotorControllers;
 
+/** Add your docs here. */
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
+// import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
@@ -15,14 +16,14 @@ public class MAPiston {
     private DoubleSolenoid doubleSolenoid;
     private boolean isDoubleSolenoid;
 
-    public MAPiston(int channel) {
+    public MAPiston(int moduleType,int channel) {
         isDoubleSolenoid = false;
-        solenoid = new Solenoid(PneumaticsModuleType.CTREPCM, channel);
+        solenoid = new Solenoid(moduleType, channel);
     }
 
-    public MAPiston(int forwardChannel, int reverseChannel) {
+    public MAPiston(int moduleType,int forwardChannel, int reverseChannel) {
         isDoubleSolenoid = true;
-        doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, forwardChannel, reverseChannel);
+        doubleSolenoid = new DoubleSolenoid(moduleType, forwardChannel, reverseChannel);
     }
 
     public void set(boolean on) {
@@ -62,3 +63,4 @@ public class MAPiston {
     }
 
 }
+
