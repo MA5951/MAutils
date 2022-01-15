@@ -4,7 +4,7 @@
 
 package frc.robot.MAUtils2;
 
-import edu.wpi.first.wpiutil.math.MathUtil;
+import edu.wpi.first.math.MathUtil;
 
 public class MACalculations {
     private final static double KELECTRON_CHARGE = -1.6e-19;

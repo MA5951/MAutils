@@ -6,8 +6,8 @@ package frc.robot.MAUtils2.controllers;
  */
 
 
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpiutil.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.MathUtil;
 import frc.robot.MAUtils2.controllers.interfaces.PIDControler;
 
 public class MAPidController implements PIDControler {

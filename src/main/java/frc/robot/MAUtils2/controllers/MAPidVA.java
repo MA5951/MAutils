@@ -4,12 +4,12 @@
 
 package frc.robot.MAUtils2.controllers;
 
-import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.State;
-import edu.wpi.first.wpiutil.math.MathUtil;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+import edu.wpi.first.math.MathUtil;
 import frc.robot.MAUtils2.MADriverStation;
 import frc.robot.MAUtils2.controllers.interfaces.PIDVAControler;
 
