@@ -6,7 +6,7 @@ package frc.robot.utils.MASubsystem;
 
 import java.util.ArrayList;
 
-import edu.wpi.first.wpilibj.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.DCMotor;
 import frc.robot.utils.Calculation.MACalculations;
 
 /** Add your docs here. */

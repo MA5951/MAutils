@@ -7,7 +7,7 @@
 
 package frc.robot.subsystems.Automation;
 
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.Conveyor.Conveyor;
 import frc.robot.subsystems.Conveyor.ConveyorConstants;

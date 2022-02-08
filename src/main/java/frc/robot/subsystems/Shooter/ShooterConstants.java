@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems.Shooter;
 
-import edu.wpi.first.wpilibj.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.DCMotor;
 import frc.robot.utils.MASubsystem.SubConstants;
 
 /** Add your docs here. */

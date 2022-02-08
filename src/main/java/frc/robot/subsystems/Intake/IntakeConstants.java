@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems.Intake;
 
-import edu.wpi.first.wpilibj.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.DCMotor;
 import frc.robot.utils.Calculation.MACalculations;
 
 /** Add your docs here. */

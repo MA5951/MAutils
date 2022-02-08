@@ -4,7 +4,7 @@
 
 package frc.robot.utils.Calculation;
 
-import edu.wpi.first.wpiutil.math.MathUtil;
+import edu.wpi.first.math.MathUtil;
 
 
 public class MACalculations {
