@@ -5,7 +5,7 @@
 package frc.robot.utils.controllers.interfaces;
 
 /** Add your docs here. */
-public interface PIDVAControler extends PIDControler {
+public interface PIDVAController extends PIDController {
     public void setConstraints(double maxVelocity, double maxAcceleration);
 
     public void setGoal(double position, double velocity);

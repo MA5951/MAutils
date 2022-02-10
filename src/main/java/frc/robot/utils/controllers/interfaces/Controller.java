@@ -5,7 +5,7 @@
 package frc.robot.utils.controllers.interfaces;
 
 /** Add your docs here. */
-public interface Controler {
+public interface Controller {
     public void setSetpoint(double setPoint);
 
     public boolean atSetpoint();

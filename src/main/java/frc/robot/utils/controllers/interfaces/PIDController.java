@@ -5,7 +5,7 @@
 package frc.robot.utils.controllers.interfaces;
 
 /** Add your docs here. */
-public interface PIDControler extends Controler {
+public interface PIDController extends Controller {
     public void setOutputRange(double low, double high);
 
     public void setPID(double kp, double ki, double kd);

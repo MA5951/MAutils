@@ -15,7 +15,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
-public class limelight {
+public class Limelight {
   public static final double KDELTA_Y = 0; // TODO
   private static final double KLIMELIGHT_STATIC_ANGLE = 0; // TODO
   public static double x;

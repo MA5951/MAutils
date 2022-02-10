@@ -28,7 +28,7 @@ public class MATalonSRX implements MAMotorControllerInterface, MAMotorSensorsInt
         if (hasReverseLimitSwitch)
             configReverseLimitSwitchSource();
 
-        talonSRX.configSelectedFeedbackSensor(feedbackDevice);
+        // talonSRX.configSelectedFeedbackSensor(feedbackDevice);
 
     }
 
@@ -90,18 +90,17 @@ public class MATalonSRX implements MAMotorControllerInterface, MAMotorSensorsInt
 
     @Override
     public void setInverted(Boolean setInverted) {
-        talonSRX.setInverted(setInverted);
-
+        // talonSRX.setInverted(setInverted);
     }
 
     @Override
     public void changeMode(boolean onOff) {
-        talonSRX.setNeutralMode(onOff ? NeutralMode.Brake : NeutralMode.Coast);
+        // talonSRX.setNeutralMode(onOff ? NeutralMode.Brake : NeutralMode.Coast);
 
     }
 
     public void resetEncoder() {
-        talonSRX.setSelectedSensorPosition(0);
+        // talonSRX.setSelectedSensorPosition(0);
     }
 
     public boolean getForwardLimitSwitch() {
@@ -154,7 +153,7 @@ public class MATalonSRX implements MAMotorControllerInterface, MAMotorSensorsInt
     }
 
     public void setFeedBack(FeedbackDevice FD) {
-        talonSRX.configSelectedFeedbackSensor(FD);
+        // talonSRX.configSelectedFeedbackSensor(FD);
     }
 
     public void setCurrentLimit(int limit) {

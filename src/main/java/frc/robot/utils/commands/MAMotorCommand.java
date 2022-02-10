@@ -5,14 +5,14 @@
 package frc.robot.utils.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.utils.subsystem.MotorInterfaceSubsystem;
+import frc.robot.utils.subsystem.MotorSubsystem;
 
 public class MAMotorCommand extends CommandBase  {
   /** Creates a new MAMotorCommands. */
-  private MotorInterfaceSubsystem subsystem;
+  private MotorSubsystem subsystem;
   private double power;
 
-  public MAMotorCommand(MotorInterfaceSubsystem subsystem, double power) {
+  public MAMotorCommand(MotorSubsystem subsystem, double power) {
     this.subsystem = subsystem;
     this.power = power;
     addRequirements(subsystem);

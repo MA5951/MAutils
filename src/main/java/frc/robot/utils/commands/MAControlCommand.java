@@ -5,24 +5,24 @@
 package frc.robot.utils.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.utils.subsystem.ControlInterfaceSubsystem;
+import frc.robot.utils.subsystem.ControlSubsystem;
 
 public class MAControlCommand extends CommandBase {
   /** Creates a new MAControlCommand. */
 
-  private ControlInterfaceSubsystem subSystem;
-  private double SetPoint;
+  private ControlSubsystem subsystem;
+  private double setpoint;
   private boolean stoppable;
-  private boolean voltege;
+  private boolean voltage;
 
 
-  public MAControlCommand(ControlInterfaceSubsystem subSystem, double setPoint, boolean stoppable, boolean voltage) {
-    this.subSystem = subSystem;
-    this.SetPoint = setPoint;
+  public MAControlCommand(ControlSubsystem subsystem, double setPoint, boolean stoppable, boolean voltage) {
+    this.subsystem = subsystem;
+    this.setpoint = setPoint;
     this.stoppable = stoppable;
-    this.voltege = voltage;
+    this.voltage = voltage;
 
-    addRequirements(subSystem);
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -33,24 +33,24 @@ public class MAControlCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (voltege) {
-      subSystem.setVoltage(subSystem.calculate(SetPoint));
+    if (voltage) {
+      subsystem.setVoltage(subsystem.calculate(setpoint));
     } else {
-      subSystem.setPower(subSystem.calculate(SetPoint));
+      subsystem.setPower(subsystem.calculate(setpoint));
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    subSystem.setPower(0);
+    subsystem.setPower(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     if (stoppable) {
-      if (subSystem.atSetpoint()) {
+      if (subsystem.atSetpoint()) {
         return true;
       }
     }

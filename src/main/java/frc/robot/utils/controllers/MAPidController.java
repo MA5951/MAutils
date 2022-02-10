@@ -1,16 +1,10 @@
 
 package frc.robot.utils.controllers;
 
-/**
- * @author yuval rader
- */
-
-
 import edu.wpi.first.math.controller.PIDController;
-import frc.robot.utils.controllers.interfaces.PIDControler;
 import edu.wpi.first.math.MathUtil;
 
-public class MAPidController implements PIDControler {
+public class MAPidController implements frc.robot.utils.controllers.interfaces.PIDController {
     private PIDController pidController;
     private double KP;
     private double KI;
