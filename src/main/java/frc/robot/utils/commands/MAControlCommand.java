@@ -33,10 +33,12 @@ public class MAControlCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (voltege) {
-      subSystem.setVoltage(subSystem.calculate(SetPoint));
-    } else {
-      subSystem.setPower(subSystem.calculate(SetPoint));
+      if (subSystem.canMove()){
+        if (voltege) {
+          subSystem.setVoltage(subSystem.calculate(SetPoint));
+        } else {
+          subSystem.setPower(subSystem.calculate(SetPoint));
+        }
     }
   }
 
