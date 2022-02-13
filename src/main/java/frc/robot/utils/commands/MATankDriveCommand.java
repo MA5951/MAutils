@@ -11,7 +11,7 @@ public class MATankDriveCommand extends CommandBase {
   private Joystick leftJoystick;
   private Joystick rightJoystick;
 
-  public MATankDriveCommand(Joystick leftJoystick,Joystick rightJoystick,ChassisInterfaceSubsystem chassis) {
+  public MATankDriveCommand(ChassisInterfaceSubsystem chassis,Joystick leftJoystick,Joystick rightJoystick) {
     this.leftJoystick=leftJoystick;
     this.rightJoystick=rightJoystick;
     this.chassis=chassis;
