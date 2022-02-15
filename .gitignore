@@ -111,7 +111,7 @@ Temporary Items
 !.vscode/extensions.json
 
 ### IntelliJ ###
-.idea/
+.idea/*
 
 ### Windows ###
 # Windows thumbnail cache files
