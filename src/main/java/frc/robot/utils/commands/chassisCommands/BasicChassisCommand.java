@@ -5,16 +5,15 @@
 package frc.robot.utils.commands.chassisCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.utils.JoystickContainer;
-import frc.robot.utils.subsystem.chassis.BasicChassisSubsystem;
+import frc.robot.utils.subsystem.chassis.BaseChassisSubsystem;
 
 public class BasicChassisCommand extends CommandBase {
   /** Creates a new BasicChassisCommand. */
-  private BasicChassisSubsystem chassis;
+  private BaseChassisSubsystem chassis;
   private double LeftPower;
   private double RightPower;
 
-  public BasicChassisCommand(BasicChassisSubsystem chassis, double LeftPower, double RightPower) {
+  public BasicChassisCommand(BaseChassisSubsystem chassis, double LeftPower, double RightPower) {
     this.chassis = chassis;
     this.LeftPower = LeftPower;
     this.RightPower = RightPower;

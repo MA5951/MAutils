@@ -5,15 +5,15 @@
 package frc.robot.utils.commands.chassisCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.utils.subsystem.chassis.BasicChassisPIDSubsystem;
+import frc.robot.utils.subsystem.chassis.BaseChassisPIDSubsystem;
 public class ChassisPIDCommand extends CommandBase {
   /** Creates a new ChassisPIDCommand. */
-  private BasicChassisPIDSubsystem chassis;
+  private BaseChassisPIDSubsystem chassis;
   private boolean voltage;
   private double LeftPower;
   private double RightPower;
 
-  public ChassisPIDCommand(BasicChassisPIDSubsystem chassis, boolean voltage, double LeftPower, double RightPower) {
+  public ChassisPIDCommand(BaseChassisPIDSubsystem chassis, boolean voltage, double LeftPower, double RightPower) {
     this.chassis = chassis;
     this.voltage = voltage;
     this.RightPower = RightPower;

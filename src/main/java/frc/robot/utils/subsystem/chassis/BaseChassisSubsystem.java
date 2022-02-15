@@ -2,7 +2,7 @@ package frc.robot.utils.subsystem.chassis;
 
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
-public interface BasicChassisSubsystem extends Subsystem{
+public interface BaseChassisSubsystem extends Subsystem{
     public void setLeftVoltage(double voltage);
 
     public void setRightVoltage(double voltage);

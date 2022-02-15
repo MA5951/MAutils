@@ -1,6 +1,6 @@
 package frc.robot.utils.subsystem.chassis;
 
-public interface BasicChassisPIDSubsystem extends BasicChassisSubsystem {
+public interface BaseChassisPIDSubsystem extends BaseChassisSubsystem {
     public boolean isPIDRightVelocityAtSetPoint();
 
     public boolean isPIDLeftVelocityAtSetPoint();
