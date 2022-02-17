@@ -31,9 +31,10 @@ public class Shuffleboard {
     }
 
     private NetworkTableEntry shuffleboardPattern(NetworkTableEntry valEntry, String title, Object DV,
-                                                  WidgetType widgetType) {
+            WidgetType widgetType) {
         if (networkTableNameMap.get(title) == null) {
-            valEntry = edu.wpi.first.wpilibj.shuffleboard.Shuffleboard.getTab(currnetTab).add(title, DV).withWidget(widgetType).getEntry();
+            valEntry = edu.wpi.first.wpilibj.shuffleboard.Shuffleboard.getTab(currnetTab).add(title, DV)
+                    .withWidget(widgetType).getEntry();
             networkTableNameMap.put(title, valEntry);
         }
         return networkTableNameMap.get(title);
@@ -90,7 +91,8 @@ public class Shuffleboard {
 
     public void addPID(String title, PIDController pid) {
         if (networkTableNameMap.get("setPoint") == null) {
-            ShuffleboardLayout PID = edu.wpi.first.wpilibj.shuffleboard.Shuffleboard.getTab(currnetTab).getLayout(title, BuiltInLayouts.kList);
+            ShuffleboardLayout PID = edu.wpi.first.wpilibj.shuffleboard.Shuffleboard.getTab(currnetTab).getLayout(title,
+                    BuiltInLayouts.kList);
             numValue = PID.add("KP", 0).getEntry();
             networkTableNameMap.put("KP", numValue);
             numValue = PID.add("KI", 0).getEntry();
@@ -100,7 +102,8 @@ public class Shuffleboard {
             numValue = PID.add("setPoint", 0).getEntry();
             networkTableNameMap.put("setPoint", numValue);
         }
-        pid.setPID((double) networkTableNameMap.get("KP").getNumber(0), (double) networkTableNameMap.get("KI").getNumber(0),
+        pid.setPID((double) networkTableNameMap.get("KP").getNumber(0),
+                (double) networkTableNameMap.get("KI").getNumber(0),
                 (double) networkTableNameMap.get("KD").getNumber(0));
 
         pid.setSetpoint((double) networkTableNameMap.get("setPoint").getNumber(0));

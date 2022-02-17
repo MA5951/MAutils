@@ -30,7 +30,7 @@ public class PathFollower {
      * @param trackWidth        distance between the wheel of the robot side-to-side
      */
     public PathFollower(List<Waypoint> path, OdometryHandler odometry,
-                        double lookaheadDistance, double maxRate, double robotWidth) {
+            double lookaheadDistance, double maxRate, double robotWidth) {
         this.path = path;
         this.odometry = odometry;
         this.rateLimiter = new RateLimiter(maxRate);
@@ -121,8 +121,8 @@ public class PathFollower {
         System.out.println("curvature: " + lookaheadPoint.curvature);
         double velocity = closestPoint.targetVelocity;
         velocity = rateLimiter.calculate(closestPoint.targetVelocity);
-        return new double[]{(velocity * (2 + lookaheadPoint.curvature * robotWidth) / 2) * sign,
-                (velocity * (2 - lookaheadPoint.curvature * robotWidth) / 2) * sign};
+        return new double[] { (velocity * (2 + lookaheadPoint.curvature * robotWidth) / 2) * sign,
+                (velocity * (2 - lookaheadPoint.curvature * robotWidth) / 2) * sign };
     }
 
     public boolean isDone() {

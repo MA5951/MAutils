@@ -4,7 +4,6 @@
 
 package com.ma5951.utils.motor;
 
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxAlternateEncoder;
@@ -22,7 +21,8 @@ public class SparkMax implements MotorController, MotorSensors {
     private SparkMaxLimitSwitch forwardLimitSwitch;
     private SparkMaxLimitSwitch reversLimitSwitch;
 
-    public SparkMax(int id, boolean inverted, double rampRate, boolean mod, RobotConstants.LIMIT_SWITCH limitSwitch, RobotConstants.ENCODER encoder, MotorType type) {
+    public SparkMax(int id, boolean inverted, double rampRate, boolean mod, RobotConstants.LIMIT_SWITCH limitSwitch,
+            RobotConstants.ENCODER encoder, MotorType type) {
         canSparkMax = new CANSparkMax(id, type);
         canSparkMax.restoreFactoryDefaults();
         setInverted(inverted);
@@ -42,7 +42,8 @@ public class SparkMax implements MotorController, MotorSensors {
         }
     }
 
-    public SparkMax(int id, boolean inverted, boolean mod, RobotConstants.LIMIT_SWITCH limitSwitch, RobotConstants.ENCODER encoder, MotorType type) {
+    public SparkMax(int id, boolean inverted, boolean mod, RobotConstants.LIMIT_SWITCH limitSwitch,
+            RobotConstants.ENCODER encoder, MotorType type) {
         canSparkMax = new CANSparkMax(id, type);
         canSparkMax.restoreFactoryDefaults();
         setInverted(inverted);
@@ -61,7 +62,8 @@ public class SparkMax implements MotorController, MotorSensors {
         }
     }
 
-    public SparkMax(int id, boolean inverted, double rampRate, boolean mode, RobotConstants.ENCODER encoder, MotorType type) {
+    public SparkMax(int id, boolean inverted, double rampRate, boolean mode, RobotConstants.ENCODER encoder,
+            MotorType type) {
         canSparkMax = new CANSparkMax(id, type);
         canSparkMax.restoreFactoryDefaults();
         setInverted(inverted);
@@ -96,7 +98,8 @@ public class SparkMax implements MotorController, MotorSensors {
     }
 
     private void setCanAlternateEncoder() {
-        canEncoder = canSparkMax.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature, RobotConstants.KTICKS_PER_PULSE);
+        canEncoder = canSparkMax.getAlternateEncoder(SparkMaxAlternateEncoder.Type.kQuadrature,
+                RobotConstants.KTICKS_PER_PULSE);
         canEncoder.setPositionConversionFactor(RobotConstants.KTICKS_PER_PULSE);
         canEncoder.setVelocityConversionFactor(RobotConstants.KTICKS_PER_PULSE);
     }

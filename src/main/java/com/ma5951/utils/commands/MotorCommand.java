@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 
 import com.ma5951.utils.subsystem.MotorSubsystem;
 
-public class MotorCommand extends CommandBase  {
+public class MotorCommand extends CommandBase {
   /** Creates a new MAMotorCommands. */
   private MotorSubsystem subsystem;
   private Supplier<Double> power;
@@ -27,10 +27,11 @@ public class MotorCommand extends CommandBase  {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   @Override
-  public void execute(){
+  public void execute() {
     subsystem.setPower(power.get());
   }
 

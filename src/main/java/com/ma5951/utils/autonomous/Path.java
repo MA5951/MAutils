@@ -28,7 +28,7 @@ public class Path implements Serializable {
     public double maxRate;
 
     public Path(List<Waypoint> points, double spacing, double k, double maxVelocity,
-                double maxAcceleration, double lookaheadDistance, double maxRate) {
+            double maxAcceleration, double lookaheadDistance, double maxRate) {
         this.points = points;
         this.spacing = spacing;
         this.k = k;

@@ -125,7 +125,7 @@ public class PathGenerator {
 
             double b = 0.5 * (Math.pow(x2, 2) - (2 * x2 * k1) + Math.pow(y2, 2) - Math.pow(x3, 2) + (2 * x3 * k1))
                     - Math.pow(y3, 2) /
-                    ((x3 * k2) - y3 + y2 - (x2 * k2));
+                            ((x3 * k2) - y3 + y2 - (x2 * k2));
             double a = k1 - (k2 * b);
 
             double r = Math.sqrt(Math.pow(x1 - a, 2) + Math.pow(y1 - b, 2));

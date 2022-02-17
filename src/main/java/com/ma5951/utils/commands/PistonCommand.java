@@ -28,10 +28,9 @@ public class PistonCommand extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (value.get()){
+    if (value.get()) {
       subsystem.open();
-    }
-    else{
+    } else {
       subsystem.close();
     }
   }

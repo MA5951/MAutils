@@ -19,7 +19,8 @@ public class PIDVAController implements BasePIDVAController {
     private double low = -12, high = 12;
     private double acceleration = 0;
 
-    public PIDVAController(double kp, double ki, double kd, double tolerance, double maxVelocity, double maxAcceleration) {
+    public PIDVAController(double kp, double ki, double kd, double tolerance, double maxVelocity,
+            double maxAcceleration) {
         profiledPIDController = new ProfiledPIDController(kp, ki, kd,
                 new TrapezoidProfile.Constraints(maxVelocity, maxAcceleration));
         profiledPIDController.setTolerance(tolerance, tolerance);
@@ -27,8 +28,9 @@ public class PIDVAController implements BasePIDVAController {
         acceleration = maxAcceleration;
     }
 
-    public PIDVAController(double kp, double ki, double kd, double tolerance, double maxVelocity, double maxAcceleration,
-                           double ks, double kv, double ka) {
+    public PIDVAController(double kp, double ki, double kd, double tolerance, double maxVelocity,
+            double maxAcceleration,
+            double ks, double kv, double ka) {
         profiledPIDController = new ProfiledPIDController(kp, ki, kd,
                 new TrapezoidProfile.Constraints(maxVelocity, maxAcceleration));
         profiledPIDController.setTolerance(tolerance, tolerance);
@@ -184,7 +186,7 @@ public class PIDVAController implements BasePIDVAController {
 
     @Override
     public double calculate(double measurement, double positionSetpoint, double velocitySetpoint, double maxVelocity,
-                            double maxAcceleration) {
+            double maxAcceleration) {
         acceleration = maxAcceleration;
         setConstraints(maxVelocity, maxAcceleration);
         return calculate(measurement, positionSetpoint, velocitySetpoint);

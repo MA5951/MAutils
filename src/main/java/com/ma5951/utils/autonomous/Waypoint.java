@@ -79,7 +79,8 @@ public class Waypoint {
     }
 
     /**
-     * takes a WPILib's {@link Pose2d} and returns it's translation in {@link Waypoint} terms.
+     * takes a WPILib's {@link Pose2d} and returns it's translation in
+     * {@link Waypoint} terms.
      *
      * @param point the target point
      * @return the point in {@link Waypoint} terms
@@ -94,6 +95,6 @@ public class Waypoint {
     }
 
     public double[] toArray() {
-        return new double[]{x, y};
+        return new double[] { x, y };
     }
 }

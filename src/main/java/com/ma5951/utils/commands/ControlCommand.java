@@ -18,7 +18,6 @@ public class ControlCommand extends CommandBase {
   private boolean stoppable;
   private boolean voltage;
 
-
   public ControlCommand(ControlSubsystem subsystem, Supplier<Double> setpoint, boolean stoppable, boolean voltage) {
     this.subsystem = subsystem;
     this.setpoint = setpoint;
