@@ -5,24 +5,31 @@
 package com.ma5951.utils.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
+import java.util.function.Supplier;
+
 import com.ma5951.utils.subsystem.ControlSubsystem;
 
 public class ControlCommand extends CommandBase {
   /** Creates a new MAControlCommand. */
 
   private ControlSubsystem subsystem;
-  private double setpoint;
+  private Supplier<Double> setpoint;
   private boolean stoppable;
   private boolean voltage;
 
 
-  public ControlCommand(ControlSubsystem subsystem, double setpoint, boolean stoppable, boolean voltage) {
+  public ControlCommand(ControlSubsystem subsystem, Supplier<Double> setpoint, boolean stoppable, boolean voltage) {
     this.subsystem = subsystem;
     this.setpoint = setpoint;
     this.stoppable = stoppable;
     this.voltage = voltage;
 
     addRequirements(subsystem);
+  }
+
+  public ControlCommand(ControlSubsystem subsystem, double setpoint, boolean stoppable, boolean voltage) {
+    this(subsystem, () -> setpoint, stoppable, voltage);
   }
 
   // Called when the command is initially scheduled.
@@ -34,9 +41,9 @@ public class ControlCommand extends CommandBase {
   @Override
   public void execute() {
     if (voltage) {
-      subsystem.setVoltage(subsystem.calculate(setpoint));
+      subsystem.setVoltage(subsystem.calculate(setpoint.get()));
     } else {
-      subsystem.setPower(subsystem.calculate(setpoint));
+      subsystem.setPower(subsystem.calculate(setpoint.get()));
     }
   }
 
