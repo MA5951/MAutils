@@ -1,8 +1,8 @@
 
-package frc.robot.utils.controllers;
+package utils.controllers;
 
 import edu.wpi.first.math.MathUtil;
-import frc.robot.utils.controllers.interfaces.BasePIDController;
+import utils.controllers.interfaces.BasePIDController;
 
 public class PIDController implements BasePIDController {
     private edu.wpi.first.math.controller.PIDController pidController;

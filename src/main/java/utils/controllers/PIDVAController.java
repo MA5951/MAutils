@@ -2,16 +2,16 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.utils.controllers;
+package utils.controllers;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
-import frc.robot.utils.DriverStation;
-import frc.robot.utils.controllers.interfaces.BasePIDVAController;
-import edu.wpi.first.math.MathUtil;
+import utils.DriverStation;
+import utils.controllers.interfaces.BasePIDVAController;
 
 public class PIDVAController implements BasePIDVAController {
     private ProfiledPIDController profiledPIDController;
@@ -113,8 +113,8 @@ public class PIDVAController implements BasePIDVAController {
     }
 
     @Override
-    public void setSetpoint(double setPoint) {
-        profiledPIDController.setGoal(setPoint);
+    public void setSetpoint(double setpoint) {
+        profiledPIDController.setGoal(setpoint);
 
     }
 

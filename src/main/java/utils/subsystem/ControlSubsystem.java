@@ -1,4 +1,4 @@
-package frc.robot.utils.subsystem;
+package utils.subsystem;
 
 public interface ControlSubsystem extends MotorSubsystem{
     public void setSetpoint(double setpoint);

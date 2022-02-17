@@ -8,7 +8,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
-import frc.robot.utils.controllers.PIDController;
+import utils.controllers.PIDController;
 
 public class Shuffleboard {
     private NetworkTableEntry numValue;

@@ -1,4 +1,4 @@
-package frc.robot.utils.motor;
+package utils.motor;
 
 public interface MotorSensors {
     

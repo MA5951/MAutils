@@ -2,10 +2,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.utils.commands.chassisCommands;
+package utils.commands.chassisCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.utils.subsystem.chassis.BaseChassisSubsystem;
+import utils.subsystem.chassis.BaseChassisSubsystem;
 
 public class BasicChassisCommand extends CommandBase {
     /**

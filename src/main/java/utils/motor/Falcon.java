@@ -1,4 +1,4 @@
-package frc.robot.utils.motor;
+package utils.motor;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.IMotorController;
@@ -9,7 +9,7 @@ import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
-import frc.robot.utils.RobotConstants;
+import utils.RobotConstants;
 
 public class Falcon implements MotorController, MotorSensors {
 
