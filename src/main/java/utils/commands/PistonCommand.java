@@ -4,24 +4,30 @@
 
 package utils.commands;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import utils.subsystem.PistonSubsystem;
 
 public class PistonCommand extends InstantCommand {
   private PistonSubsystem subsystem;
-  private boolean value;
+  private Supplier<Boolean> value;
 
-  public PistonCommand(PistonSubsystem subsystem, boolean value) {
+  public PistonCommand(PistonSubsystem subsystem, Supplier<Boolean> value) {
     this.value = value;
     this.subsystem = subsystem;
 
     addRequirements(subsystem);
   }
 
+  public PistonCommand(PistonSubsystem subsystem, boolean value) {
+    this(subsystem, () -> value);
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (value){
+    if (value.get()){
       subsystem.open();
     }
     else{
