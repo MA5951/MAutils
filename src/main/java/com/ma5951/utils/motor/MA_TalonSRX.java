@@ -7,11 +7,11 @@ package com.ma5951.utils.motor;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-public class TalonSRX implements MotorController, MotorSensors {
+public class MA_TalonSRX implements MotorController, MotorSensors {
     private WPI_TalonSRX talonSRX;
 
-    public TalonSRX(int id, boolean inverted, double rampRate, boolean mod, boolean hasForwardLimitSwitch,
-                    boolean hasReverseLimitSwitch, FeedbackDevice feedbackDevice) {
+    public MA_TalonSRX(int id, boolean inverted, double rampRate, boolean mod, boolean hasForwardLimitSwitch,
+                       boolean hasReverseLimitSwitch, FeedbackDevice feedbackDevice) {
         talonSRX = new WPI_TalonSRX(id);
         setInverted(inverted);
         configRampRate(rampRate);
@@ -26,8 +26,8 @@ public class TalonSRX implements MotorController, MotorSensors {
         talonSRX.configSelectedFeedbackSensor(feedbackDevice);
     }
 
-    public TalonSRX(int id, boolean inverted, double rampRate, boolean mode, boolean hasForwardLimitSwitch,
-                    boolean hasReverseLimitSwitch) {
+    public MA_TalonSRX(int id, boolean inverted, double rampRate, boolean mode, boolean hasForwardLimitSwitch,
+                       boolean hasReverseLimitSwitch) {
         talonSRX = new WPI_TalonSRX(id);
         setInverted(inverted);
         configRampRate(rampRate);
@@ -41,7 +41,7 @@ public class TalonSRX implements MotorController, MotorSensors {
 
     }
 
-    public TalonSRX(int id, boolean inverted, boolean mode) {
+    public MA_TalonSRX(int id, boolean inverted, boolean mode) {
         talonSRX = new WPI_TalonSRX(id);
         setInverted(inverted);
         changeMode(mode);
@@ -140,8 +140,10 @@ public class TalonSRX implements MotorController, MotorSensors {
         return talonSRX.getDeviceID();
     }
 
-    public void follow(IMotorController motor) {
-        talonSRX.follow(motor);
+    private WPI_TalonSRX getWPITalonSRX() { return talonSRX; }
+
+    public void follow(MA_TalonSRX motor) {
+        talonSRX.follow(motor.getWPITalonSRX());
     }
 
     public void setFeedBack(FeedbackDevice fd) {

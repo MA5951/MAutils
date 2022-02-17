@@ -16,13 +16,13 @@ import com.ma5951.utils.RobotConstants;
 /**
  * Add your docs here.
  */
-public class SparkMax implements MotorController, MotorSensors {
+public class MA_SparkMax implements MotorController, MotorSensors {
     private final CANSparkMax canSparkMax;
     private RelativeEncoder canEncoder;
     private SparkMaxLimitSwitch forwardLimitSwitch;
     private SparkMaxLimitSwitch reversLimitSwitch;
 
-    public SparkMax(int id, boolean inverted, double rampRate, boolean mod, RobotConstants.LIMIT_SWITCH limitSwitch, RobotConstants.ENCODER encoder, MotorType type) {
+    public MA_SparkMax(int id, boolean inverted, double rampRate, boolean mod, RobotConstants.LIMIT_SWITCH limitSwitch, RobotConstants.ENCODER encoder, MotorType type) {
         canSparkMax = new CANSparkMax(id, type);
         canSparkMax.restoreFactoryDefaults();
         setInverted(inverted);
@@ -42,7 +42,7 @@ public class SparkMax implements MotorController, MotorSensors {
         }
     }
 
-    public SparkMax(int id, boolean inverted, boolean mod, RobotConstants.LIMIT_SWITCH limitSwitch, RobotConstants.ENCODER encoder, MotorType type) {
+    public MA_SparkMax(int id, boolean inverted, boolean mod, RobotConstants.LIMIT_SWITCH limitSwitch, RobotConstants.ENCODER encoder, MotorType type) {
         canSparkMax = new CANSparkMax(id, type);
         canSparkMax.restoreFactoryDefaults();
         setInverted(inverted);
@@ -61,7 +61,7 @@ public class SparkMax implements MotorController, MotorSensors {
         }
     }
 
-    public SparkMax(int id, boolean inverted, double rampRate, boolean mode, RobotConstants.ENCODER encoder, MotorType type) {
+    public MA_SparkMax(int id, boolean inverted, double rampRate, boolean mode, RobotConstants.ENCODER encoder, MotorType type) {
         canSparkMax = new CANSparkMax(id, type);
         canSparkMax.restoreFactoryDefaults();
         setInverted(inverted);
@@ -75,7 +75,7 @@ public class SparkMax implements MotorController, MotorSensors {
         }
     }
 
-    public SparkMax(int id, boolean inverted, boolean mode, RobotConstants.ENCODER encoder, MotorType type) {
+    public MA_SparkMax(int id, boolean inverted, boolean mode, RobotConstants.ENCODER encoder, MotorType type) {
         canSparkMax = new CANSparkMax(id, type);
         canSparkMax.restoreFactoryDefaults();
         setInverted(inverted);
@@ -168,12 +168,12 @@ public class SparkMax implements MotorController, MotorSensors {
         return canSparkMax.getDeviceId();
     }
 
-    public CANSparkMax getCanSparkMax() {
+    private CANSparkMax getCanSparkMax() {
         return canSparkMax;
     }
 
-    public void follow(CANSparkMax motor) {
-        canSparkMax.follow(motor);
+    public void follow(MA_SparkMax motor) {
+        canSparkMax.follow(motor.getCanSparkMax());
     }
 
     public void enableLimitSwitchR(boolean enable) {

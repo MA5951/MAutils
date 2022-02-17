@@ -5,25 +5,24 @@
 package com.ma5951.utils.motor;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 /**
  * Add your docs here.
  */
-public class VictorSPX implements MotorController {
+public class MA_VictorSPX implements MotorController {
 
     private WPI_VictorSPX victorSPX;
 
-    public VictorSPX(int id, boolean inverted, double rampRate, boolean mode) {
+    public MA_VictorSPX(int id, boolean inverted, double rampRate, boolean mode) {
         victorSPX = new WPI_VictorSPX(id);
         setInverted(inverted);
         configRampRate(rampRate);
         changeMode(mode);
     }
 
-    public VictorSPX(int id, boolean inverted, boolean mode) {
+    public MA_VictorSPX(int id, boolean inverted, boolean mode) {
         victorSPX = new WPI_VictorSPX(id);
         setInverted(inverted);
         changeMode(mode);
@@ -63,8 +62,10 @@ public class VictorSPX implements MotorController {
 
     }
 
-    public void follow(IMotorController motor) {
-        victorSPX.follow(motor);
+    private WPI_VictorSPX getVictorSPX() { return victorSPX; }
+
+    public void follow(MA_VictorSPX motor) {
+        victorSPX.follow(motor.getVictorSPX());
     }
 
     @Override

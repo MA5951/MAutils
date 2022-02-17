@@ -1,7 +1,6 @@
 package com.ma5951.utils.motor;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -11,12 +10,12 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import com.ma5951.utils.RobotConstants;
 
-public class Falcon implements MotorController, MotorSensors {
+public class MA_Falcon implements MotorController, MotorSensors {
 
     private TalonFX falcon;
 
-    public Falcon(int id, boolean inverted, double rampRate, NeutralMode mode, boolean hasForwardLimitSwitch,
-                  boolean hasReverseLimitSwitch, FeedbackDevice feedbackDevice) {
+    public MA_Falcon(int id, boolean inverted, double rampRate, NeutralMode mode, boolean hasForwardLimitSwitch,
+                     boolean hasReverseLimitSwitch, FeedbackDevice feedbackDevice) {
         falcon = new TalonFX(id);
         setInverted(inverted);
         configRampRate(rampRate);
@@ -32,8 +31,8 @@ public class Falcon implements MotorController, MotorSensors {
 
     }
 
-    public Falcon(int id, boolean inverted, double rampRate, NeutralMode mode, boolean hasForwardLimitSwitch,
-                  boolean hasReverseLimitSwitch) {
+    public MA_Falcon(int id, boolean inverted, double rampRate, NeutralMode mode, boolean hasForwardLimitSwitch,
+                     boolean hasReverseLimitSwitch) {
         falcon = new TalonFX(id);
         setInverted(inverted);
         configRampRate(rampRate);
@@ -47,7 +46,7 @@ public class Falcon implements MotorController, MotorSensors {
 
     }
 
-    public Falcon(int id, boolean inverted, NeutralMode mode) {
+    public MA_Falcon(int id, boolean inverted, NeutralMode mode) {
         falcon = new TalonFX(id);
         setInverted(inverted);
         falcon.setNeutralMode(mode);
@@ -146,8 +145,10 @@ public class Falcon implements MotorController, MotorSensors {
         return falcon.getDeviceID();
     }
 
-    public void follow(IMotorController motor) {
-        falcon.follow(motor);
+    private TalonFX getTalonFX() { return falcon; }
+
+    public void follow(MA_Falcon motor) {
+        falcon.follow(motor.getTalonFX());
     }
 
     public void setFeedBack(FeedbackDevice fd) {
