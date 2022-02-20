@@ -5,26 +5,34 @@
 package com.ma5951.utils.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
+import java.util.function.Supplier;
+
 import com.ma5951.utils.subsystem.MotorSubsystem;
 
-public class MotorCommand extends CommandBase  {
+public class MotorCommand extends CommandBase {
   /** Creates a new MAMotorCommands. */
   private MotorSubsystem subsystem;
-  private double power;
+  private Supplier<Double> power;
 
-  public MotorCommand(MotorSubsystem subsystem, double power) {
+  public MotorCommand(MotorSubsystem subsystem, Supplier<Double> power) {
     this.subsystem = subsystem;
     this.power = power;
     addRequirements(subsystem);
   }
 
+  public MotorCommand(MotorSubsystem subsystem, double power) {
+    this(subsystem, () -> power);
+  }
+
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   @Override
-  public void execute(){
-    subsystem.setPower(power);
+  public void execute() {
+    subsystem.setPower(power.get());
   }
 
   // Called once the command ends or is interrupted.

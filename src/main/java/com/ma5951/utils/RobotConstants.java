@@ -27,7 +27,6 @@ public class RobotConstants {
     public final static boolean KMOTOR_BRAKE = true;
     public final static boolean KMOTOR_COAST = false;
 
-
     public final static int KMAX_RPM_CIM = 5330;
     public final static int KMAX_RPM_RS = 18730;
     public final static int KMAX_RPM_BAG = 13180;

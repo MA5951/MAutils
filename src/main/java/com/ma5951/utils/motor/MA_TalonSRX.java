@@ -11,7 +11,7 @@ public class MA_TalonSRX implements MotorController, MotorSensors {
     private WPI_TalonSRX talonSRX;
 
     public MA_TalonSRX(int id, boolean inverted, double rampRate, boolean mod, boolean hasForwardLimitSwitch,
-                       boolean hasReverseLimitSwitch, FeedbackDevice feedbackDevice) {
+            boolean hasReverseLimitSwitch, FeedbackDevice feedbackDevice) {
         talonSRX = new WPI_TalonSRX(id);
         setInverted(inverted);
         configRampRate(rampRate);
@@ -27,7 +27,7 @@ public class MA_TalonSRX implements MotorController, MotorSensors {
     }
 
     public MA_TalonSRX(int id, boolean inverted, double rampRate, boolean mode, boolean hasForwardLimitSwitch,
-                       boolean hasReverseLimitSwitch) {
+            boolean hasReverseLimitSwitch) {
         talonSRX = new WPI_TalonSRX(id);
         setInverted(inverted);
         configRampRate(rampRate);
@@ -140,14 +140,16 @@ public class MA_TalonSRX implements MotorController, MotorSensors {
         return talonSRX.getDeviceID();
     }
 
-    private WPI_TalonSRX getWPITalonSRX() { return talonSRX; }
+    private WPI_TalonSRX getWPITalonSRX() {
+        return talonSRX;
+    }
 
     public void follow(MA_TalonSRX motor) {
         talonSRX.follow(motor.getWPITalonSRX());
     }
 
     public void setFeedBack(FeedbackDevice fd) {
-         talonSRX.configSelectedFeedbackSensor(fd);
+        talonSRX.configSelectedFeedbackSensor(fd);
     }
 
     public void setCurrentLimit(int limit) {

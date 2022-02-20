@@ -19,5 +19,5 @@ public interface BasePIDVAController extends BasePIDController {
     public double calculate(double measurement, double positionSetpoint, double velocitySetpoint);
 
     public double calculate(double measurement, double positionSetpoint, double velocitySetpoint, double maxVelocity,
-                            double maxAcceleration);
+            double maxAcceleration);
 }

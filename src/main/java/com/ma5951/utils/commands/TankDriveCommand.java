@@ -4,8 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.ma5951.utils.subsystem.chassis.BaseChassisPIDSubsystem;
 
-public class
-TankDriveCommand extends CommandBase {
+public class TankDriveCommand extends CommandBase {
     private BaseChassisPIDSubsystem chassis;
     private Joystick leftJoystick;
     private Joystick rightJoystick;
@@ -42,7 +41,6 @@ TankDriveCommand extends CommandBase {
 
             chassis.setLeftPercent(0);
         }
-
 
         if (rightJoystick.getY() > K_THRESHOLD
                 || rightJoystick.getY() < -K_THRESHOLD) {

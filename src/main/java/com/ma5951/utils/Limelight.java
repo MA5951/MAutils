@@ -77,9 +77,9 @@ public class Limelight {
         Thor = thor.getDouble(0.0);
         Tvert = tvert.getDouble(0.0);
         Tshort = tshort.getDouble(0.0);
-        yaw = threeDimension.getDoubleArray(new double[]{0, 0, 0, 0, 0, 0, 0})[4];
-        distanceFromTargetLimelightX = threeDimension.getDoubleArray(new double[]{0, 0, 0, 0, 0, 0})[0];
-        distanceFromTargetLimelightY = threeDimension.getDoubleArray(new double[]{0, 0, 0, 0, 0, 0})[2];
+        yaw = threeDimension.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0, 0 })[4];
+        distanceFromTargetLimelightX = threeDimension.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0 })[0];
+        distanceFromTargetLimelightY = threeDimension.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0 })[2];
 
     }
 }

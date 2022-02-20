@@ -4,7 +4,7 @@ public interface MotorController {
 
     public void setVoltage(double voltage);
 
-    default void setPower(double power){
+    default void setPower(double power) {
         setVoltage(power * 12);
     }
 
@@ -17,5 +17,5 @@ public interface MotorController {
     public void changeMode(boolean onOff);
 
     public int getID();
-    
+
 }
