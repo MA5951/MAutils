@@ -10,7 +10,6 @@ package com.ma5951.utils.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-
 import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
 
 public class RunCommand extends CommandBase {

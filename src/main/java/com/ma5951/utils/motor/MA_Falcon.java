@@ -15,7 +15,7 @@ public class MA_Falcon implements MotorController, MotorSensors {
     private TalonFX falcon;
 
     public MA_Falcon(int id, boolean inverted, double rampRate, NeutralMode mode, boolean hasForwardLimitSwitch,
-                     boolean hasReverseLimitSwitch, FeedbackDevice feedbackDevice) {
+            boolean hasReverseLimitSwitch, FeedbackDevice feedbackDevice) {
         falcon = new TalonFX(id);
         setInverted(inverted);
         configRampRate(rampRate);
@@ -32,7 +32,7 @@ public class MA_Falcon implements MotorController, MotorSensors {
     }
 
     public MA_Falcon(int id, boolean inverted, double rampRate, NeutralMode mode, boolean hasForwardLimitSwitch,
-                     boolean hasReverseLimitSwitch) {
+            boolean hasReverseLimitSwitch) {
         falcon = new TalonFX(id);
         setInverted(inverted);
         configRampRate(rampRate);
@@ -145,7 +145,9 @@ public class MA_Falcon implements MotorController, MotorSensors {
         return falcon.getDeviceID();
     }
 
-    private TalonFX getTalonFX() { return falcon; }
+    private TalonFX getTalonFX() {
+        return falcon;
+    }
 
     public void follow(MA_Falcon motor) {
         falcon.follow(motor.getTalonFX());

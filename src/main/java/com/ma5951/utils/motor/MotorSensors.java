@@ -1,7 +1,7 @@
 package com.ma5951.utils.motor;
 
 public interface MotorSensors {
-    
+
     public void resetEncoder();
 
     public double getPosition();

@@ -13,7 +13,8 @@ public class OdometryHandler {
     private Supplier<Double> leftDistanceSupplier, rightDistanceSupplier;
     private Supplier<Double> yawSupplier;
 
-    public OdometryHandler(Supplier<Double> leftDistanceSupplier, Supplier<Double> rightDistanceSupplier, Supplier<Double> yawSupplier) {
+    public OdometryHandler(Supplier<Double> leftDistanceSupplier, Supplier<Double> rightDistanceSupplier,
+            Supplier<Double> yawSupplier) {
         this.leftDistanceSupplier = leftDistanceSupplier;
         this.rightDistanceSupplier = rightDistanceSupplier;
         this.yawSupplier = yawSupplier;
