@@ -32,7 +32,8 @@ public class MotorCommand extends CommandBase {
 
   @Override
   public void execute() {
-    subsystem.setPower(power.get());
+    if (subsystem.canMove())
+      subsystem.setPower(power.get());
   }
 
   // Called once the command ends or is interrupted.

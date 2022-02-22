@@ -4,10 +4,10 @@
 
 package com.ma5951.utils.commands;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.ma5951.utils.subsystem.PistonSubsystem;
 
-public class TogglePistonCommand extends InstantCommand {
+public class TogglePistonCommand extends CommandBase {
     private PistonSubsystem subsystem;
 
     public TogglePistonCommand(PistonSubsystem subsystem) {
@@ -24,5 +24,13 @@ public class TogglePistonCommand extends InstantCommand {
         } else {
             subsystem.open();
         }
+    }
+
+    public void end(boolean interrupted) {
+        subsystem.off();
+    }
+
+    public boolean isFinished() {
+        return true;
     }
 }
