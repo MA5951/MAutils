@@ -45,6 +45,8 @@ public class ControlCommand extends CommandBase {
       } else {
         subsystem.setPower(subsystem.calculate(setpoint.get()));
       }
+    } else {
+      subsystem.setPower(0);
     }
   }
 
