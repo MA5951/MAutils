@@ -36,7 +36,6 @@ public class PistonCommand extends CommandBase {
   }
 
   public void end(boolean interrupted) {
-    subsystem.off();
   }
 
   public boolean isFinished() {
