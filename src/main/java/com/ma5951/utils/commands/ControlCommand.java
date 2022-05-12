@@ -23,6 +23,7 @@ public class ControlCommand extends CommandBase {
   private double delay;
   private double time;
   private boolean wasInSetPoint;
+  private PIDControllerConstans PIDConstans;
 
 
   public ControlCommand(ControlSubsystem subsystem, Supplier<Double> setpoint,
@@ -31,6 +32,7 @@ public class ControlCommand extends CommandBase {
     this.setpoint = setpoint;
     this.voltage = voltage;
     this.delay = delay;
+    this.PIDConstans = PIDConstans;
     pid = new PIDController(PIDConstans.getKP(), PIDConstans.getKI(),
      PIDConstans.getKD(), PIDConstans.getKF(), PIDConstans.getTolorance(), 
      PIDConstans.getLow(), PIDConstans.getHigh());
@@ -63,9 +65,9 @@ public class ControlCommand extends CommandBase {
   @Override
   public void execute() {
       if (voltage) {
-        subsystem.setVoltage(pid.calculate(setpoint.get()));
+        subsystem.setVoltage(pid.calculate(setpoint.get()) + PIDConstans.getKS());
       } else {
-        subsystem.setPower(pid.calculate(setpoint.get()));
+        subsystem.setPower(pid.calculate(setpoint.get()) + PIDConstans.getKS());
       }
       if (pid.atSetpoint() && !wasInSetPoint){
         time = Timer.getFPGATimestamp();
