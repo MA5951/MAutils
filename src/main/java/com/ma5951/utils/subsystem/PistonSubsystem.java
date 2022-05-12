@@ -9,4 +9,5 @@ public interface PistonSubsystem extends Subsystem {
 
     public boolean isOpen();
 
+    public void off();
 }

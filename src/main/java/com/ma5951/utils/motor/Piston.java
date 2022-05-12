@@ -19,12 +19,12 @@ public class Piston {
 
     public Piston(int channel) {
         isDoubleSolenoid = false;
-        solenoid = new Solenoid(PneumaticsModuleType.CTREPCM, channel);
+        solenoid = new Solenoid(PneumaticsModuleType.REVPH, channel);
     }
 
     public Piston(int forwardChannel, int reverseChannel) {
         isDoubleSolenoid = true;
-        doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, forwardChannel, reverseChannel);
+        doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, forwardChannel, reverseChannel);
     }
 
     public void set(boolean on) {
@@ -63,4 +63,10 @@ public class Piston {
             solenoid.set(!get());
     }
 
+    public void off() {
+        if (isDoubleSolenoid)
+            doubleSolenoid.set(Value.kOff);
+        else
+            solenoid.set(false);
+    }
 }
