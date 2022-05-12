@@ -2,6 +2,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+/**
+ * Generic motor command
+ */
+
 package com.ma5951.utils.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -15,11 +19,23 @@ public class MotorCommand extends CommandBase {
   private MotorSubsystem subsystem;
   private Supplier<Double> power;
 
+  /**
+   * Constructing a new instance of motor command class
+   * @param subsystem Gets the subsystem that belong to the motor for the command to run
+   * @param power Gets the power value that the motor will operate at
+   */
+
   public MotorCommand(MotorSubsystem subsystem, Supplier<Double> power) {
     this.subsystem = subsystem;
     this.power = power;
     addRequirements(subsystem);
   }
+
+  /**
+   * Constructing a new instance of motor command class
+   * @param subsystem Gets the subsystem that belong to the motor for the command to run
+   * @param power Gets the power value that the motor will operate at
+   */
 
   public MotorCommand(MotorSubsystem subsystem, double power) {
     this(subsystem, () -> power);
