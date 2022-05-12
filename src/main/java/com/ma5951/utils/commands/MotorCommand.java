@@ -21,7 +21,7 @@ public class MotorCommand extends CommandBase {
 
   /**
    * Constructing a new instance of motor command class
-   * @param subsystem Gets the subsystem that belongs to the motor for the command to run
+   * @param subsystem Gets the subsystem that belong to the motor for the command to run
    * @param power Gets the power value that the motor will operate at
    */
 
@@ -33,7 +33,7 @@ public class MotorCommand extends CommandBase {
 
   /**
    * Constructing a new instance of motor command class
-   * @param subsystem Gets the subsystem that belongs to the motor for the command to run
+   * @param subsystem Gets the subsystem that belong to the motor for the command to run
    * @param power Gets the power value that the motor will operate at
    */
 
