@@ -4,13 +4,13 @@
 
 package com.ma5951.utils.commands;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.function.Supplier;
 
 import com.ma5951.utils.subsystem.PistonSubsystem;
 
-public class PistonCommand extends InstantCommand {
+public class PistonCommand extends CommandBase {
   private PistonSubsystem subsystem;
   private Supplier<Boolean> value;
 
@@ -33,5 +33,12 @@ public class PistonCommand extends InstantCommand {
     } else {
       subsystem.close();
     }
+  }
+
+  public void end(boolean interrupted) {
+  }
+
+  public boolean isFinished() {
+    return true;
   }
 }

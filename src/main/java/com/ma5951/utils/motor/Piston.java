@@ -63,4 +63,10 @@ public class Piston {
             solenoid.set(!get());
     }
 
+    public void off() {
+        if (isDoubleSolenoid)
+            doubleSolenoid.set(Value.kOff);
+        else
+            solenoid.set(false);
+    }
 }

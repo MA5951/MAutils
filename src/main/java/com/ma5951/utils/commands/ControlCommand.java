@@ -39,10 +39,14 @@ public class ControlCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (voltage) {
-      subsystem.setVoltage(subsystem.calculate(setpoint.get()));
+    if (subsystem.canMove()) {
+      if (voltage) {
+        subsystem.setVoltage(subsystem.calculate(setpoint.get()));
+      } else {
+        subsystem.setPower(subsystem.calculate(setpoint.get()));
+      }
     } else {
-      subsystem.setPower(subsystem.calculate(setpoint.get()));
+      subsystem.setPower(0);
     }
   }
 
