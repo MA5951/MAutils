@@ -4,10 +4,12 @@
 
 package com.ma5951.utils.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.function.Supplier;
 
+import com.ma5951.utils.controllers.PIDVAController;
 import com.ma5951.utils.subsystem.ControlSubsystem;
 
 public class ControlCommand extends CommandBase {
@@ -15,20 +17,32 @@ public class ControlCommand extends CommandBase {
 
   private ControlSubsystem subsystem;
   private Supplier<Double> setpoint;
-  private boolean stoppable;
   private boolean voltage;
+  private PIDVAController pid;
+  private double delay;
+  private double time;
+  private boolean wasInSetPoint;
 
-  public ControlCommand(ControlSubsystem subsystem, Supplier<Double> setpoint, boolean stoppable, boolean voltage) {
+  public ControlCommand(ControlSubsystem subsystem, Supplier<Double> setpoint, boolean voltage, double delay) {
     this.subsystem = subsystem;
     this.setpoint = setpoint;
-    this.stoppable = stoppable;
     this.voltage = voltage;
+    this.delay = delay;
+    wasInSetPoint = false;
 
     addRequirements(subsystem);
   }
 
-  public ControlCommand(ControlSubsystem subsystem, double setpoint, boolean stoppable, boolean voltage) {
-    this(subsystem, () -> setpoint, stoppable, voltage);
+  public ControlCommand(ControlSubsystem subsystem, double setpoint, boolean voltage, double delay) {
+    this(subsystem, () -> setpoint, voltage, delay);
+  }
+
+  public ControlCommand(ControlSubsystem subsystem, double setpoint, boolean voltage) {
+    this(subsystem, () -> setpoint, voltage, 0);
+  }
+
+  public ControlCommand(ControlSubsystem subsystem, Supplier<Double> setpoint, boolean voltage) {
+    this(subsystem, setpoint, voltage, 0);
   }
 
   // Called when the command is initially scheduled.
@@ -39,15 +53,18 @@ public class ControlCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (subsystem.canMove()) {
       if (voltage) {
-        subsystem.setVoltage(subsystem.calculate(setpoint.get()));
+        subsystem.setVoltage(pid.calculate(setpoint.get()));
       } else {
-        subsystem.setPower(subsystem.calculate(setpoint.get()));
+        subsystem.setPower(pid.calculate(setpoint.get()));
       }
-    } else {
-      subsystem.setPower(0);
-    }
+      if (pid.atSetpoint() && !wasInSetPoint){
+        time = Timer.getFPGATimestamp();
+        wasInSetPoint = true;
+      }
+      if (!pid.atSetpoint()){
+        wasInSetPoint = false;
+      }
   }
 
   // Called once the command ends or is interrupted.
@@ -59,11 +76,6 @@ public class ControlCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (stoppable) {
-      if (subsystem.atSetpoint()) {
-        return true;
-      }
-    }
-    return false;
+   return (pid.atSetpoint() && (Timer.getFPGATimestamp() - time) >= delay) || !subsystem.canMove();
   }
 }
