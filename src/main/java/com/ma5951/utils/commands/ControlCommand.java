@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.function.Supplier;
 
-import com.ma5951.utils.controllers.PIDVAController;
+import com.ma5951.utils.controllers.PIDController;
+import com.ma5951.utils.controllers.PIDControllerConstans;
 import com.ma5951.utils.subsystem.ControlSubsystem;
 
 public class ControlCommand extends CommandBase {
@@ -18,36 +19,44 @@ public class ControlCommand extends CommandBase {
   private ControlSubsystem subsystem;
   private Supplier<Double> setpoint;
   private boolean voltage;
-  private PIDVAController pid;
+  private PIDController pid;
   private double delay;
   private double time;
   private boolean wasInSetPoint;
 
-  public ControlCommand(ControlSubsystem subsystem, Supplier<Double> setpoint, boolean voltage, double delay) {
+
+  public ControlCommand(ControlSubsystem subsystem, Supplier<Double> setpoint,
+   boolean voltage, double delay, PIDControllerConstans PIDConstans) {
     this.subsystem = subsystem;
     this.setpoint = setpoint;
     this.voltage = voltage;
     this.delay = delay;
-    wasInSetPoint = false;
+    pid = new PIDController(PIDConstans.getKP(), PIDConstans.getKI(),
+     PIDConstans.getKD(), PIDConstans.getKF(), PIDConstans.getTolorance(), 
+     PIDConstans.getLow(), PIDConstans.getHigh());
 
     addRequirements(subsystem);
   }
 
-  public ControlCommand(ControlSubsystem subsystem, double setpoint, boolean voltage, double delay) {
-    this(subsystem, () -> setpoint, voltage, delay);
+  public ControlCommand(ControlSubsystem subsystem, double setpoint,
+   boolean voltage, double delay, PIDControllerConstans PIDConstans) {
+    this(subsystem, () -> setpoint, voltage, delay, PIDConstans);
   }
 
-  public ControlCommand(ControlSubsystem subsystem, double setpoint, boolean voltage) {
-    this(subsystem, () -> setpoint, voltage, 0);
+  public ControlCommand(ControlSubsystem subsystem, double setpoint,
+   boolean voltage, PIDControllerConstans PIDConstans) {
+    this(subsystem, () -> setpoint, voltage, 0, PIDConstans);
   }
 
-  public ControlCommand(ControlSubsystem subsystem, Supplier<Double> setpoint, boolean voltage) {
-    this(subsystem, setpoint, voltage, 0);
+  public ControlCommand(ControlSubsystem subsystem, Supplier<Double> setpoint,
+   boolean voltage, PIDControllerConstans PIDConstans) {
+    this(subsystem, setpoint, voltage, 0, PIDConstans);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    wasInSetPoint = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
