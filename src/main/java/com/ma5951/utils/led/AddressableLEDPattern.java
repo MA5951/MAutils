@@ -7,7 +7,7 @@ package com.ma5951.utils.led;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 
 /** Add your docs here. */
-public interface AdressableLEDPattern {
+public interface AddressableLEDPattern {
     public void setLEDs(AddressableLEDBuffer buffer);
 
     default public boolean isAnimated() {
