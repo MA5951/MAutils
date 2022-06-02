@@ -17,7 +17,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class limelight {
   public final double KDELTA_Y = 0; // TODO
-  private final double KLIMELIGHT_STATIC_ANGLE = 0; // TODO
+  private final double KLIMELIGHT_ANGLE = 0; // TODO
   public double x;
   public double y;
   public boolean v;
@@ -53,24 +53,80 @@ public class limelight {
   }
 
   public double distance() {
-    double limelightAngle = y + KLIMELIGHT_STATIC_ANGLE;
+    double limelightAngle = y + KLIMELIGHT_ANGLE;
     return Math.tan(limelightAngle) / KDELTA_Y;
   }
 
-  public void ledMode(int ledMode) {
+  public void setLedMode(int ledMode) {
     table.getEntry("ledMode").setNumber(ledMode);
   }
 
-  public void camMode(int camMode) {
+  public void setCamMode(int camMode) {
     table.getEntry("camMode").setNumber(camMode);
   }
 
-  public void pipeline(int pipeline) {
+  public void setPipeline(int pipeline) {
     table.getEntry("camMode").setNumber(pipeline);
   }
 
-  public void stream(int stream) {
+  public void setStream(int stream) {
     table.getEntry("stream").setNumber(stream);
+  }
+
+  public double getX(){
+    return this.x;
+  }
+
+  public double getY(){
+    return this.y;
+  }
+
+  public double getA(){
+    return this.a;
+  }
+
+  public Boolean getV(){
+    return this.v;
+  }
+
+  public double getS(){
+    return this.s;
+  }
+
+  public double getL(){
+    return this.l;
+  }
+
+  public double getPipe(){
+    return this.pipe;
+  }
+
+  public double getTlong(){
+    return this.Tlong;
+  }
+
+  public double getThor(){
+    return this.Thor;
+  }
+
+  public double getTvert(){
+    return this.Tvert;
+  }
+
+  public double getTshort(){
+    return this.Tshort;
+  }
+
+  public double getYaw(){
+    return this.yaw;
+  }
+
+  public double getDistanceFromTargetLimelightX(){
+    return this.distanceFromTargetLimelightX;
+  }
+
+  public double getDistanceFromTargetLimelightY(){
+    return this.distanceFromTargetLimelightY;
   }
 
   public void periodic() {
