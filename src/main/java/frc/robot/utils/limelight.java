@@ -16,60 +16,64 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class limelight {
-  public static final double KDELTA_Y = 0; // TODO
-  private static final double KLIMELIGHT_STATIC_ANGLE = 0; // TODO
-  public static double x;
-  public static double y;
-  public static boolean v;
-  public static double a;
-  public static double s;
-  public static double l;
-  public static double Tshort;
-  public static double Tlong;
-  public static double Thor;
-  public static double Tvert;
-  public static double Pipe;
-  public static double yaw;
-  public static double distanceFromTargetLimelightX;
-  public static double distanceFromTargetLimelightY;
-  public static double pipe;
+  public final double KDELTA_Y = 0; // TODO
+  private final double KLIMELIGHT_STATIC_ANGLE = 0; // TODO
+  public double x;
+  public double y;
+  public boolean v;
+  public double a;
+  public double s;
+  public double l;
+  public double Tshort;
+  public double Tlong;
+  public double Thor;
+  public double Tvert;
+  public double Pipe;
+  public double yaw;
+  public double distanceFromTargetLimelightX;
+  public double distanceFromTargetLimelightY;
+  public double pipe;
 
-  private static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  private static NetworkTableEntry tx = table.getEntry("tx");
-  private static NetworkTableEntry ty = table.getEntry("ty");
-  private static NetworkTableEntry threeDimension = table.getEntry("camtran");
-  private static NetworkTableEntry ta = table.getEntry("ta");
-  private static NetworkTableEntry tv = table.getEntry("tv");
-  private static NetworkTableEntry ts = table.getEntry("ts");
-  private static NetworkTableEntry tl = table.getEntry("tl");
-  private static NetworkTableEntry tlong = table.getEntry("tlong");
-  private static NetworkTableEntry tshort = table.getEntry("tshort");
-  private static NetworkTableEntry thor = table.getEntry("thor");
-  private static NetworkTableEntry tvert = table.getEntry("tvert");
-  private static NetworkTableEntry getpipe = table.getEntry("getpipe");
+  private NetworkTable table;
+  private NetworkTableEntry tx = table.getEntry("tx");
+  private NetworkTableEntry ty = table.getEntry("ty");
+  private NetworkTableEntry threeDimension = table.getEntry("camtran");
+  private NetworkTableEntry ta = table.getEntry("ta");
+  private NetworkTableEntry tv = table.getEntry("tv");
+  private NetworkTableEntry ts = table.getEntry("ts");
+  private NetworkTableEntry tl = table.getEntry("tl");
+  private NetworkTableEntry tlong = table.getEntry("tlong");
+  private NetworkTableEntry tshort = table.getEntry("tshort");
+  private NetworkTableEntry thor = table.getEntry("thor");
+  private NetworkTableEntry tvert = table.getEntry("tvert");
+  private NetworkTableEntry getpipe = table.getEntry("getpipe");
 
-  public static double distance() {
+  public limelight(String tableName){
+     table = NetworkTableInstance.getDefault().getTable(tableName);
+  }
+
+  public double distance() {
     double limelightAngle = y + KLIMELIGHT_STATIC_ANGLE;
     return Math.tan(limelightAngle) / KDELTA_Y;
   }
 
-  public static void ledMode(int ledMode) {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(ledMode);
+  public void ledMode(int ledMode) {
+    table.getEntry("ledMode").setNumber(ledMode);
   }
 
-  public static void camMode(int camMode) {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(camMode);
+  public void camMode(int camMode) {
+    table.getEntry("camMode").setNumber(camMode);
   }
 
-  public static void pipeline(int pipeline) {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(pipeline);
+  public void pipeline(int pipeline) {
+    table.getEntry("camMode").setNumber(pipeline);
   }
 
-  public static void stream(int stream) {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(stream);
+  public void stream(int stream) {
+    table.getEntry("stream").setNumber(stream);
   }
 
-  public static void periodic() {
+  public void periodic() {
     x = tx.getDouble(0.0);
     y = ty.getDouble(0.0);
     a = ta.getDouble(0.0);
@@ -84,7 +88,6 @@ public class limelight {
     yaw = threeDimension.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0, 0 })[4];
     distanceFromTargetLimelightX = threeDimension.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0 })[0];
     distanceFromTargetLimelightY = threeDimension.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0 })[2];
-
   }
 
 }

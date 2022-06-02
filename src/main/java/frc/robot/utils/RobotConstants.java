@@ -110,4 +110,7 @@ public class RobotConstants {
     public static final int POV_LEFT = 270;
     public static final int POV_LEFT_UP = 315;
 
+    //Voltage
+    public static final double voltage= 12;
+
 }

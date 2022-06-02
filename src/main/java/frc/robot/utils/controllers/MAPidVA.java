@@ -10,13 +10,14 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import frc.robot.utils.MADriverStation;
+import frc.robot.utils.RobotConstants;
 import frc.robot.utils.controllers.interfaces.PIDVAControler;
 import edu.wpi.first.math.MathUtil;
 
 public class MAPidVA implements PIDVAControler {
     private ProfiledPIDController profiledPIDController;
     private SimpleMotorFeedforward feed;
-    private double low = -12, high = 12;
+    private double low = -RobotConstants.voltage, high = RobotConstants.voltage;
     private double acceleration = 0;
 
     public MAPidVA(double Kp, double Ki, double Kd, double tolerance, double maxVelocity, double maxAcceleration) {

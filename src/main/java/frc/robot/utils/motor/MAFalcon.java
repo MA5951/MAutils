@@ -64,7 +64,7 @@ public class MAFalcon implements MAMotorControllerInterface, MAMotorSensorsInter
 
     @Override
     public void setvoltage(double voltage) {
-        falcon.set(TalonFXControlMode.PercentOutput, voltage / 12);
+        falcon.set(TalonFXControlMode.PercentOutput, voltage / RobotConstants.voltage);
 
     }
 
