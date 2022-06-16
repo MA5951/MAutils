@@ -16,40 +16,41 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class limelight {
-  public final double KDELTA_Y = 0; // TODO
-  private final double KLIMELIGHT_ANGLE = 0; // TODO
-  public double x;
-  public double y;
-  public boolean v;
-  public double a;
-  public double s;
-  public double l;
-  public double Tshort;
-  public double Tlong;
-  public double Thor;
-  public double Tvert;
-  public double Pipe;
-  public double yaw;
-  public double distanceFromTargetLimelightX;
-  public double distanceFromTargetLimelightY;
-  public double pipe;
+  private double KDELTA_Y = 0;
+  private double KLIMELIGHT_ANGLE = 0;
+  private double x;
+  private double y;
+  private boolean v;
+  private double targetArea;
+  private double skew ;
+  private double l;
+  private double Tshort;
+  private double Tlong;
+  private double Thor;
+  private double Tvert;
+  private double yaw;
+  private double distanceFromTargetLimelightX;
+  private double distanceFromTargetLimelightY;
+  private double pipe;
 
   private NetworkTable table;
-  private NetworkTableEntry tx = table.getEntry("tx");
-  private NetworkTableEntry ty = table.getEntry("ty");
   private NetworkTableEntry threeDimension = table.getEntry("camtran");
-  private NetworkTableEntry ta = table.getEntry("ta");
-  private NetworkTableEntry tv = table.getEntry("tv");
-  private NetworkTableEntry ts = table.getEntry("ts");
-  private NetworkTableEntry tl = table.getEntry("tl");
-  private NetworkTableEntry tlong = table.getEntry("tlong");
-  private NetworkTableEntry tshort = table.getEntry("tshort");
-  private NetworkTableEntry thor = table.getEntry("thor");
-  private NetworkTableEntry tvert = table.getEntry("tvert");
-  private NetworkTableEntry getpipe = table.getEntry("getpipe");
+  private NetworkTableEntry tx = table.getEntry("tx");//Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
+  private NetworkTableEntry ty = table.getEntry("ty");//Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
+  private NetworkTableEntry ta = table.getEntry("ta");//Target Area (0% of image to 100% of image)
+  private NetworkTableEntry tv = table.getEntry("tv");//Whether the limelight has any valid targets (0 or 1)
+  private NetworkTableEntry ts = table.getEntry("ts");//Skew or rotation (-90 degrees to 0 degrees)
+  private NetworkTableEntry tl = table.getEntry("tl");//The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
+  private NetworkTableEntry tlong = table.getEntry("tlong");//Sidelength of longest side of the fitted bounding box (pixels)
+  private NetworkTableEntry tshort = table.getEntry("tshort");//Sidelength of shortest side of the fitted bounding box (pixels)
+  private NetworkTableEntry thor = table.getEntry("thor");//Horizontal sidelength of the rough bounding box (0 - 320 pixels)
+  private NetworkTableEntry tvert = table.getEntry("tvert");//Vertical sidelength of the rough bounding box (0 - 320 pixels)
+  private NetworkTableEntry getpipe = table.getEntry("getpipe");//True active pipeline index of the camera (0 .. 9)
 
-  public limelight(String tableName){
+  public limelight(String tableName,double KDELTA_Y, double KLIMELIGHT_ANGLE){
      table = NetworkTableInstance.getDefault().getTable(tableName);
+     this.KDELTA_Y = KDELTA_Y;
+     this.KLIMELIGHT_ANGLE = KLIMELIGHT_ANGLE;
   }
 
   public double distance() {
@@ -82,7 +83,7 @@ public class limelight {
   }
 
   public double getA(){
-    return this.a;
+    return this.targetArea;
   }
 
   public Boolean getV(){
@@ -90,7 +91,7 @@ public class limelight {
   }
 
   public double getS(){
-    return this.s;
+    return this.skew;
   }
 
   public double getL(){
@@ -132,9 +133,9 @@ public class limelight {
   public void periodic() {
     x = tx.getDouble(0.0);
     y = ty.getDouble(0.0);
-    a = ta.getDouble(0.0);
+    targetArea = ta.getDouble(0.0);
     v = tv.getBoolean(false);
-    s = ts.getDouble(0.0);
+    skew = ts.getDouble(0.0);
     l = tl.getDouble(0.0);
     pipe = getpipe.getDouble(0.0);
     Tlong = tlong.getDouble(0.0);
