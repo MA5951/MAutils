@@ -13,46 +13,42 @@ import com.ma5951.utils.controllers.PIDController;
 import com.ma5951.utils.controllers.PIDControllerConstans;
 import com.ma5951.utils.subsystem.ControlSubsystem;
 
-public class ControlCommand extends CommandBase {
+public class ControlCommandPID extends CommandBase {
   /** Creates a new MAControlCommand. */
 
   private ControlSubsystem subsystem;
   private Supplier<Double> setpoint;
-  private boolean voltage;
+  private boolean isVoltage;
   private PIDController pid;
   private double delay;
   private double time;
   private boolean wasInSetPoint;
-  private PIDControllerConstans PIDConstans;
 
-
-  public ControlCommand(ControlSubsystem subsystem, Supplier<Double> setpoint,
-   boolean voltage, double delay, PIDControllerConstans PIDConstans) {
+  public ControlCommandPID(ControlSubsystem subsystem, Supplier<Double> setpoint,
+   PIDControllerConstans PIDConstans, boolean isVoltage, double delay) {
     this.subsystem = subsystem;
     this.setpoint = setpoint;
-    this.voltage = voltage;
+    this.isVoltage = isVoltage;
     this.delay = delay;
-    this.PIDConstans = PIDConstans;
     pid = new PIDController(PIDConstans.getKP(), PIDConstans.getKI(),
-     PIDConstans.getKD(), PIDConstans.getKF(), PIDConstans.getTolorance(), 
+     PIDConstans.getKD(), PIDConstans.getKF(), PIDConstans.gettolerance(), 
      PIDConstans.getLow(), PIDConstans.getHigh());
-
     addRequirements(subsystem);
   }
 
-  public ControlCommand(ControlSubsystem subsystem, double setpoint,
-   boolean voltage, double delay, PIDControllerConstans PIDConstans) {
-    this(subsystem, () -> setpoint, voltage, delay, PIDConstans);
+  public ControlCommandPID(ControlSubsystem subsystem, double setpoint,
+  PIDControllerConstans PIDConstans, boolean isVoltage, double delay) {
+    this(subsystem, () -> setpoint, PIDConstans, isVoltage, delay);
   }
 
-  public ControlCommand(ControlSubsystem subsystem, double setpoint,
-   boolean voltage, PIDControllerConstans PIDConstans) {
-    this(subsystem, () -> setpoint, voltage, 0, PIDConstans);
+  public ControlCommandPID(ControlSubsystem subsystem, double setpoint,
+   PIDControllerConstans PIDConstans, boolean isVoltage) {
+    this(subsystem, () -> setpoint, PIDConstans, isVoltage, 0);
   }
 
-  public ControlCommand(ControlSubsystem subsystem, Supplier<Double> setpoint,
-   boolean voltage, PIDControllerConstans PIDConstans) {
-    this(subsystem, setpoint, voltage, 0, PIDConstans);
+  public ControlCommandPID(ControlSubsystem subsystem, Supplier<Double> setpoint,
+   PIDControllerConstans PIDConstans, boolean isVoltage) {
+    this(subsystem, setpoint, PIDConstans, isVoltage, 0);
   }
 
   // Called when the command is initially scheduled.
@@ -64,10 +60,10 @@ public class ControlCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      if (voltage) {
-        subsystem.setVoltage(pid.calculate(setpoint.get()) + PIDConstans.getKS());
+      if (isVoltage) {
+        subsystem.setVoltage(pid.calculate(setpoint.get()));
       } else {
-        subsystem.setPower(pid.calculate(setpoint.get()) + PIDConstans.getKS());
+        subsystem.setPower(pid.calculate(setpoint.get()));
       }
       if (pid.atSetpoint() && !wasInSetPoint){
         time = Timer.getFPGATimestamp();

@@ -11,41 +11,83 @@ public class PIDControllerConstans {
     private double KD;
     private double KF;
     private double KS;
-    private double tolorance;
+    private double tolerance;
     private double high;
     private double low;
 
-    public PIDControllerConstans (double KP, double KI, double KD, double KF,
-     double KS, double tolorance, double high, double low) {
+    /**
+     * @param KP
+     * @param KI
+     * @param KD
+     * @param KF
+     * @param KS
+     * @param tolerance
+     * @param high
+     * @param low
+     */
+    public PIDControllerConstans (double tolerance, double KP, double KI, double KD, double KF,
+        double KS, double high, double low) {
         this.KP = KP;
         this.KI = KI;
         this.KD = KD;
         this.KF = KF;
         this.KS = KS;
-        this.tolorance = tolorance;
+        this.tolerance = tolerance;
         this.high = high;
         this.low = low;
     }
 
-    public PIDControllerConstans (double KP, double KI, double KD, double KF,
-     double tolorance, double high, double low) {
-        this(KP, KI, KD, KF, 0, tolorance, high, low);
+    /**
+     * @param tolerance
+     * @param KP
+     * @param KI
+     * @param KD
+     * @param KF
+     * @param KS
+     */
+    public  PIDControllerConstans (double tolerance, double KP, double KI, double KD, double KF,
+        double KS){
+            this(tolerance, KP, KI, KD, KF, KS, 1, -1);
     }
 
-    public PIDControllerConstans (double KP, double KI, double KD,
-     double tolorance, double high, double low) {
-        this(KP, KI, KD, 0, 0, tolorance, high, low);
+    /**
+     * @param tolerance
+     * @param KP
+     * @param KI
+     * @param KD
+     * @param KF
+     */
+    public  PIDControllerConstans (double tolerance, double KP, double KI, double KD, double KF){
+        this(tolerance, KP, KI, KD, KF, 0, 1, -1);
     }
 
-    public PIDControllerConstans (double KP, double KF,
-     double tolorance, double high, double low) {
-        this(KP, 0, 0, KF, 0, tolorance, high, low);
+    /**
+     * @param tolerance
+     * @param KP
+     * @param KI
+     * @param KD
+     */
+    public  PIDControllerConstans (double tolerance, double KP, double KI, double KD){
+        this(tolerance, KP, KI, KD, 0, 0, 1, -1);
     }
 
-    public PIDControllerConstans (double KP, double tolorance, double high, double low) {
-        this(KP, 0, 0, 0, 0, tolorance, high, low);
+    /**
+     * @param tolerance
+     * @param KP
+     * @param KI
+     */
+    public  PIDControllerConstans (double tolerance, double KP, double KI){
+        this(tolerance, KP, KI, 0, 0, 0, 1, -1);
     }
 
+    /**
+     * @param tolerance
+     * @param KP
+     */
+    public  PIDControllerConstans (double tolerance, double KP){
+        this(tolerance, KP, 0, 0, 0, 0, 1, -1);
+    }
+    
     public double getKD() {
         return KD;
     }
@@ -74,7 +116,7 @@ public class PIDControllerConstans {
         return low;
     }
 
-    public double getTolorance() {
-        return tolorance;
+    public double gettolerance() {
+        return tolerance;
     }
 }
