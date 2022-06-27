@@ -23,10 +23,14 @@ public class ControlCommandProfiledPID extends CommandBase {
   private SimpleMotorFeedforward feedforward;
   private double lastTime;
   private double lastSpeed;
+  private boolean AtGoal;
+  private double delay;
+  private double time;
 
   public ControlCommandProfiledPID(ControlSubsystem subsystem, Supplier<TrapezoidProfile.State> goal,
    double maxVelocity, double maxAcceleration,
-    ProfiledPIDControllerConstant profiledpidControllerConstant) {
+    ProfiledPIDControllerConstant profiledpidControllerConstant, double delay) {
+    this.delay = delay;
     this.subsystem = subsystem;
     this.goal = goal;
     this.feedforward = new SimpleMotorFeedforward(profiledpidControllerConstant.getKS(),
@@ -38,6 +42,12 @@ public class ControlCommandProfiledPID extends CommandBase {
       profiledpidControllerConstant.getVelocityTolerance());
     addRequirements(subsystem);
   }
+
+  public ControlCommandProfiledPID (ControlSubsystem subsystem, TrapezoidProfile.State goal,
+    double maxVelocity, double maxAcceleration,
+    ProfiledPIDControllerConstant profiledpidControllerConstant, double delay){
+      this(subsystem, () -> goal, maxVelocity, maxAcceleration, profiledpidControllerConstant, delay);
+    }
 
   // Called when the command is initially scheduled.
   @Override
@@ -58,6 +68,13 @@ public class ControlCommandProfiledPID extends CommandBase {
     );
     lastTime = Timer.getFPGATimestamp();
     lastSpeed = ProfiledPID.getSetpoint().velocity;
+    if (ProfiledPID.atGoal() && AtGoal){
+      AtGoal = true;
+      time = Timer.getFPGATimestamp();
+    }
+    if (!ProfiledPID.atGoal()) {
+      AtGoal = false;
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -68,6 +85,6 @@ public class ControlCommandProfiledPID extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ProfiledPID.atGoal();
+    return (ProfiledPID.atGoal() && (Timer.getFPGATimestamp() - time) >= delay) || !subsystem.canMove();
   }
 }
