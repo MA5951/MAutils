@@ -4,6 +4,7 @@
 
 package com.ma5951.utils.commands;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -23,6 +24,7 @@ public class ControlCommandPID extends CommandBase {
   private double delay;
   private double time;
   private boolean wasInSetPoint;
+  private SimpleMotorFeedforward feedforward;
 
   public ControlCommandPID(ControlSubsystem subsystem, Supplier<Double> setpoint,
    PIDControllerConstans PIDConstans, boolean isVoltage, double delay) {
@@ -30,6 +32,7 @@ public class ControlCommandPID extends CommandBase {
     this.setpoint = setpoint;
     this.isVoltage = isVoltage;
     this.delay = delay;
+    this.feedforward = new SimpleMotorFeedforward(PIDConstans.getKS(), PIDConstans.getKV());
     pid = new PIDController(PIDConstans.getKP(), PIDConstans.getKI(),
      PIDConstans.getKD(), PIDConstans.getKF(), PIDConstans.gettolerance(), 
      PIDConstans.getLow(), PIDConstans.getHigh());
@@ -60,18 +63,18 @@ public class ControlCommandPID extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      if (isVoltage) {
-        subsystem.setVoltage(pid.calculate(setpoint.get()));
-      } else {
-        subsystem.setPower(pid.calculate(setpoint.get()));
-      }
-      if (pid.atSetpoint() && !wasInSetPoint){
-        time = Timer.getFPGATimestamp();
-        wasInSetPoint = true;
-      }
-      if (!pid.atSetpoint()){
-        wasInSetPoint = false;
-      }
+    if (isVoltage) {
+      subsystem.setVoltage(pid.calculate(setpoint.get()) + feedforward.calculate(pid.getSetpoint()));
+    } else {
+      subsystem.setPower(pid.calculate(setpoint.get()) + feedforward.calculate(pid.getSetpoint()));
+    }
+    if (pid.atSetpoint() && !wasInSetPoint){
+      time = Timer.getFPGATimestamp();
+      wasInSetPoint = true;
+    }
+    if (!pid.atSetpoint()){
+      wasInSetPoint = false;
+    }
   }
 
   // Called once the command ends or is interrupted.
