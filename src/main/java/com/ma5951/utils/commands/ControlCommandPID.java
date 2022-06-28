@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import java.util.function.Supplier;
 
 import com.ma5951.utils.controllers.PIDController;
-import com.ma5951.utils.controllers.PIDControllerConstans;
+import com.ma5951.utils.controllers.PIDControllerConstants;
 import com.ma5951.utils.subsystem.ControlSubsystem;
 
 public class ControlCommandPID extends CommandBase {
@@ -27,12 +27,13 @@ public class ControlCommandPID extends CommandBase {
   private SimpleMotorFeedforward feedforward;
 
   public ControlCommandPID(ControlSubsystem subsystem, Supplier<Double> setpoint,
-   PIDControllerConstans PIDConstans, boolean isVoltage, double delay) {
+   PIDControllerConstants PIDConstans, boolean isVoltage, double delay) {
     this.subsystem = subsystem;
     this.setpoint = setpoint;
     this.isVoltage = isVoltage;
     this.delay = delay;
-    this.feedforward = new SimpleMotorFeedforward(PIDConstans.getKS(), PIDConstans.getKV());
+    this.feedforward = new SimpleMotorFeedforward(PIDConstans.getKS(),
+     PIDConstans.getKV(), PIDConstans.getKA());
     pid = new PIDController(PIDConstans.getKP(), PIDConstans.getKI(),
      PIDConstans.getKD(), PIDConstans.getKF(), PIDConstans.gettolerance(), 
      PIDConstans.getLow(), PIDConstans.getHigh());
@@ -40,17 +41,17 @@ public class ControlCommandPID extends CommandBase {
   }
 
   public ControlCommandPID(ControlSubsystem subsystem, double setpoint,
-  PIDControllerConstans PIDConstans, boolean isVoltage, double delay) {
+  PIDControllerConstants PIDConstans, boolean isVoltage, double delay) {
     this(subsystem, () -> setpoint, PIDConstans, isVoltage, delay);
   }
 
   public ControlCommandPID(ControlSubsystem subsystem, double setpoint,
-   PIDControllerConstans PIDConstans, boolean isVoltage) {
+   PIDControllerConstants PIDConstans, boolean isVoltage) {
     this(subsystem, () -> setpoint, PIDConstans, isVoltage, 0);
   }
 
   public ControlCommandPID(ControlSubsystem subsystem, Supplier<Double> setpoint,
-   PIDControllerConstans PIDConstans, boolean isVoltage) {
+   PIDControllerConstants PIDConstans, boolean isVoltage) {
     this(subsystem, setpoint, PIDConstans, isVoltage, 0);
   }
 

@@ -6,7 +6,7 @@ package com.ma5951.utils.commands;
 
 import java.util.function.Supplier;
 
-import com.ma5951.utils.controllers.ProfiledPIDControllerConstant;
+import com.ma5951.utils.controllers.ProfiledPIDControllerConstants;
 import com.ma5951.utils.subsystem.ControlSubsystem;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ControlCommandProfiledPID extends CommandBase {
-  /** Creates a new ControlCommandPIDVA. */
   private ControlSubsystem subsystem;
   private Supplier<TrapezoidProfile.State> goal;
   private ProfiledPIDController  ProfiledPID;
@@ -29,7 +28,7 @@ public class ControlCommandProfiledPID extends CommandBase {
 
   public ControlCommandProfiledPID(ControlSubsystem subsystem, Supplier<TrapezoidProfile.State> goal,
    double maxVelocity, double maxAcceleration,
-    ProfiledPIDControllerConstant profiledpidControllerConstant, double delay) {
+    ProfiledPIDControllerConstants profiledpidControllerConstant, double delay) {
     this.delay = delay;
     this.subsystem = subsystem;
     this.goal = goal;
@@ -45,7 +44,7 @@ public class ControlCommandProfiledPID extends CommandBase {
 
   public ControlCommandProfiledPID (ControlSubsystem subsystem, TrapezoidProfile.State goal,
     double maxVelocity, double maxAcceleration,
-    ProfiledPIDControllerConstant profiledpidControllerConstant, double delay){
+    ProfiledPIDControllerConstants profiledpidControllerConstant, double delay){
       this(subsystem, () -> goal, maxVelocity, maxAcceleration, profiledpidControllerConstant, delay);
     }
 
@@ -80,6 +79,7 @@ public class ControlCommandProfiledPID extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    subsystem.setVoltage(0);
   }
 
   // Returns true when the command should end.

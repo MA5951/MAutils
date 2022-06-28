@@ -1,6 +1,6 @@
 package com.ma5951.utils.controllers;
 
-public class ProfiledPIDControllerConstant {
+public class ProfiledPIDControllerConstants {
     private double KP;
     private double KI;
     private double KD;
@@ -10,7 +10,7 @@ public class ProfiledPIDControllerConstant {
     private double positionTolerance;
     private double velocityTolerance;
 
-    public ProfiledPIDControllerConstant (double positionTolerance, 
+    public ProfiledPIDControllerConstants (double positionTolerance, 
     double velocityTolerance, double KP, double KI, double KD, double KS, double KV, double KA) {
         this.KP = KP;
         this.KI = KI;
@@ -22,22 +22,22 @@ public class ProfiledPIDControllerConstant {
         this.velocityTolerance = velocityTolerance;
     }
 
-    public ProfiledPIDControllerConstant (double positionTolerance, 
+    public ProfiledPIDControllerConstants (double positionTolerance, 
     double velocityTolerance, double KP, double KI, double KD, double KS, double KV) {
         this(positionTolerance, velocityTolerance, KP, KI, KD, KS, KV, 0);
     }
 
-    public ProfiledPIDControllerConstant (double positionTolerance, 
+    public ProfiledPIDControllerConstants (double positionTolerance, 
     double velocityTolerance, double KP, double KI, double KD) {
         this(positionTolerance, velocityTolerance, KP, KI, KD, 0, 0, 0);
     }
 
-    public ProfiledPIDControllerConstant (double positionTolerance, 
+    public ProfiledPIDControllerConstants (double positionTolerance, 
     double velocityTolerance, double KP, double KI) {
         this(positionTolerance, velocityTolerance, KP, KI, 0, 0, 0, 0);
     }
 
-    public ProfiledPIDControllerConstant (double positionTolerance, 
+    public ProfiledPIDControllerConstants (double positionTolerance, 
     double velocityTolerance, double KP) {
         this(positionTolerance, velocityTolerance, KP, 0, 0, 0, 0, 0);
     }
