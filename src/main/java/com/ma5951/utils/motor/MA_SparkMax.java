@@ -211,64 +211,118 @@ public class MA_SparkMax implements MotorController, MotorSensors {
     }
 
     /**
-     * Changes the mode of the motor - brushed or brashless
+     * @param changeMode Changes the mode of the motor - brake or coast
      * @param onOff Gets the mode of the motor to be set
      */
-
     @Override
     public void changeMode(boolean onOff) {
         canSparkMax.setIdleMode(onOff ? IdleMode.kBrake : IdleMode.kCoast);
 
     }
 
+    /**
+     * @param resetEncoder reset the motor encoder to 0 degrees
+     */
+
     public void resetEncoder() {
         canEncoder.setPosition(0);
     }
 
+    /**
+     * @param getForwardLimitSwitch returns if the forward LimitSwitch is pressed
+     */
     public boolean getForwardLimitSwitch() {
         return forwardLimitSwitch.isPressed();
     }
 
+
+    /**
+     * @param getReverseLimitSwitch returns if the reverse LimitSwitch is pressed
+     */
     public boolean getReverseLimitSwitch() {
         return reversLimitSwitch.isPressed();
     }
 
+
+    /**
+     * @param getPosition returns the number of rotations of the motor
+     */
     public double getPosition() {
         return canEncoder.getPosition();
     }
 
+
+    /**
+     * @param getVelocity returns the RPM(rounds per minute) of the motor
+     */
     public double getVelocity() {
         return canEncoder.getVelocity();
     }
 
+
+    /**
+     * @param getStatorCurrent returns the motor controller's output in Amps
+     */
     public double getStatorCurrent() {
         return canSparkMax.getOutputCurrent();
     }
 
+
+    /**
+     * @param phaseSensor inverts encoder or analog sensor
+     * @param phaseSensor the sensor you want to invert
+     */
     public void phaseSensor(boolean phaseSensor) {
         canEncoder.setInverted(phaseSensor);
     }
 
+
+    /**
+     * @param getID returns the motor ID
+     */
     public int getID() {
         return canSparkMax.getDeviceId();
     }
 
+
+    /**
+     * @param getCanSparkMax returns the motor controller objeect
+     */
     private CANSparkMax getCanSparkMax() {
         return canSparkMax;
     }
 
+
+    /**
+     * @param follow set motor to follow
+     * @param motor the motor you want to follow at
+     */
     public void follow(MA_SparkMax motor) {
         canSparkMax.follow(motor.getCanSparkMax());
     }
 
+    /**
+     * @param enableLimitSwitchR enable or disables controller shutdown based on the revers limit switch.
+     * @param enable enable or disables
+     */
     public void enableLimitSwitchR(boolean enable) {
         reversLimitSwitch.enableLimitSwitch(enable);
     }
 
+    
+    /**
+     * @param enableLimitSwitchF enable or disables controller shutdown based on the forward limit switch.
+     * @param enable enable or disables
+     */
     public void enableLimitSwitchF(boolean enable) {
         forwardLimitSwitch.enableLimitSwitch(enable);
     }
 
+
+    /**
+     * @param setCurrentLimit Sets the current limit in Amps.
+     * @param limit limit The current limit in Amps.
+     */
     public void setCurrentLimit(int limit) {
         canSparkMax.setSmartCurrentLimit(limit);
     }
