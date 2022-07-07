@@ -24,8 +24,8 @@ public class SpaceStateControlCommand extends CommandBase {
   private Supplier<Double> setPoint;
   private ControlSubsystem subsystem;
   /**
-   * @param kV Volts per (radian per second)
-   * @param kA Volts per (radian per second squared)
+   * @param systemIdentification1 
+   * @param systemIdentification2
    * @param qelms Velocity error tolerance, in radians per second.
    *   Decrease this to more heavily penalize state excursion,
    *   or make the controller behave more
@@ -34,18 +34,19 @@ public class SpaceStateControlCommand extends CommandBase {
    *  heavily penalize control effort, or make the controller less aggressive. 12 is a good
    *   starting point because that is the (approximate) maximum voltage of a battery.
    */
-  public SpaceStateControlCommand(ControlSubsystem subsystem, double kV, double kA, double modelAccuracy,
-   double encodAccuracy, double qelms, double relms, Supplier<Double> setPoint) {
+  public SpaceStateControlCommand(ControlSubsystem subsystem, double systemIdentification1,
+   double systemIdentification2, Supplier<Double> setPoint, double modelAccuracy,
+   double measurementAccuracy, double qelms, double relms) {
     // Use addRequirements() here to declare subsystem dependencies.
     final LinearSystem<N1, N1, N1> System =
-    LinearSystemId.identifyVelocitySystem(kV, kA);
+    LinearSystemId.identifyVelocitySystem(systemIdentification1, systemIdentification2);
     final KalmanFilter<N1, N1, N1> Observer =
       new KalmanFilter<>(
           Nat.N1(),
           Nat.N1(),
           System,
           VecBuilder.fill(modelAccuracy),
-          VecBuilder.fill(encodAccuracy),
+          VecBuilder.fill(measurementAccuracy),
           0.020);
     final LinearQuadraticRegulator<N1, N1, N1> Controller = 
     new LinearQuadraticRegulator<>(
@@ -59,12 +60,33 @@ public class SpaceStateControlCommand extends CommandBase {
     this.setPoint = setPoint;
     this.subsystem = subsystem;
   }
+
+  public SpaceStateControlCommand(ControlSubsystem subsystem, double systemIdentification1,
+   double systemIdentification2, Supplier<Double> setPoint, double modelAccuracy,
+   double measurementAccuracy, double qelms) {
+      this (subsystem, systemIdentification1, systemIdentification2,
+       setPoint, modelAccuracy, measurementAccuracy, qelms, 12);
+    }
+
+  public SpaceStateControlCommand(ControlSubsystem subsystem, double systemIdentification1,
+   double systemIdentification2, double setPoint, double modelAccuracy,
+   double measurementAccuracy, double qelms, double relms) {
+    this(subsystem, systemIdentification1, systemIdentification2, () -> setPoint,
+     modelAccuracy, measurementAccuracy, qelms, relms);
+  }
+
+  public SpaceStateControlCommand(ControlSubsystem subsystem, double systemIdentification1,
+   double systemIdentification2, double setPoint, double modelAccuracy,
+    double measurementAccuracy, double qelms) {
+      this (subsystem, systemIdentification1, systemIdentification2,
+       setPoint, modelAccuracy, measurementAccuracy, qelms, 12);
+    }
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     Loop.setNextR(VecBuilder.fill(setPoint.get()));
   }
-
+  
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {

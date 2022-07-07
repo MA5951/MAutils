@@ -47,6 +47,16 @@ public class ControlCommandProfiledPID extends CommandBase {
     ProfiledPIDControllerConstants profiledpidControllerConstant, double delay){
       this(subsystem, () -> goal, maxVelocity, maxAcceleration, profiledpidControllerConstant, delay);
     }
+  
+  public ControlCommandProfiledPID (ControlSubsystem subsystem, TrapezoidProfile.State goal, double maxVelocity, 
+    double maxAcceleration, ProfiledPIDControllerConstants profiledpidControllerConstant) {
+    this(subsystem, () -> goal, maxVelocity, maxAcceleration, profiledpidControllerConstant, 0);
+  }
+  
+  public ControlCommandProfiledPID (ControlSubsystem subsystem, Supplier<TrapezoidProfile.State> goal, double maxVelocity, 
+    double maxAcceleration, ProfiledPIDControllerConstants profiledpidControllerConstant) {
+    this(subsystem, goal, maxVelocity, maxAcceleration, profiledpidControllerConstant, 0);
+  }
 
   // Called when the command is initially scheduled.
   @Override
