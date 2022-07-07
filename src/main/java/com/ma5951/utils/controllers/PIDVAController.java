@@ -10,13 +10,15 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
-import com.ma5951.utils.DriverStation;
-import com.ma5951.utils.controllers.interfaces.BasePIDVAController;
+import frc.robot.utils.MADriverStation;
+import frc.robot.utils.RobotConstants;
+import frc.robot.utils.controllers.interfaces.PIDVAControler;
+import edu.wpi.first.math.MathUtil;
 
 public class PIDVAController implements BasePIDVAController {
     private ProfiledPIDController profiledPIDController;
     private SimpleMotorFeedforward feed;
-    private double low = -12, high = 12;
+    private double low = -com.ma5951.utils.RobotConstants.voltage, high = com.ma5951.utils.RobotConstants.voltage;
     private double acceleration = 0;
 
     public PIDVAController(double kp, double ki, double kd, double tolerance, double maxVelocity,

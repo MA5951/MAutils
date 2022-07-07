@@ -26,10 +26,10 @@ public class Calculations {
     }
 
     public static double ForceToVoltage(double force) {
-        return MathUtil.clamp(force / K_ELECTRON_CHARGE, 12, -12);
+        return MathUtil.clamp(force / K_ELECTRON_CHARGE, RobotConstants.voltage, -RobotConstants.voltage);//לשנות פה גם ל voltage?
     }
 
     public static double RPMToVoltage(double RPM, double maxRPM) {
-        return (RPM / maxRPM) * 12;
+        return (RPM / maxRPM) * RobotConstants.voltage;
     }
 }
