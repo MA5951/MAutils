@@ -26,33 +26,48 @@ public class ControlCommandProfiledPID extends CommandBase {
   private double delay;
   private double time;
 
+  /**
+   * @param goal needs to be position or velocity and position
+   * @param delay the amount of time you what the system to be in the goal before stoping
+   */
   public ControlCommandProfiledPID(ControlSubsystem subsystem, Supplier<TrapezoidProfile.State> goal,
    double maxVelocity, double maxAcceleration,
-    ProfiledPIDControllerConstants profiledpidControllerConstant, double delay) {
+    ProfiledPIDControllerConstants profiledpidControllerConstants, double delay) {
     this.delay = delay;
     this.subsystem = subsystem;
     this.goal = goal;
-    this.feedforward = new SimpleMotorFeedforward(profiledpidControllerConstant.getKS(),
-      profiledpidControllerConstant.getKV(), profiledpidControllerConstant.getKA());
-    ProfiledPID = new ProfiledPIDController(profiledpidControllerConstant.getKP(),
-     profiledpidControllerConstant.getKI(), profiledpidControllerConstant.getKD(),
+    this.feedforward = new SimpleMotorFeedforward(profiledpidControllerConstants.getKS(),
+    profiledpidControllerConstants.getKV(), profiledpidControllerConstants.getKA());
+    ProfiledPID = new ProfiledPIDController(profiledpidControllerConstants.getKP(),
+    profiledpidControllerConstants.getKI(), profiledpidControllerConstants.getKD(),
      new TrapezoidProfile.Constraints(maxVelocity, maxAcceleration));
-    ProfiledPID.setTolerance(profiledpidControllerConstant.getPositionTolerance(),
-      profiledpidControllerConstant.getVelocityTolerance());
+    ProfiledPID.setTolerance(profiledpidControllerConstants.getPositionTolerance(),
+    profiledpidControllerConstants.getVelocityTolerance());
     addRequirements(subsystem);
   }
 
+   /**
+   * @param goal needs to be position or velocity and position
+   * @param delay the amount of time you what the system to be in the goal before stoping
+   */
   public ControlCommandProfiledPID (ControlSubsystem subsystem, TrapezoidProfile.State goal,
     double maxVelocity, double maxAcceleration,
     ProfiledPIDControllerConstants profiledpidControllerConstant, double delay){
       this(subsystem, () -> goal, maxVelocity, maxAcceleration, profiledpidControllerConstant, delay);
-    }
+  }
   
-  public ControlCommandProfiledPID (ControlSubsystem subsystem, TrapezoidProfile.State goal, double maxVelocity, 
-    double maxAcceleration, ProfiledPIDControllerConstants profiledpidControllerConstant) {
+  /**
+   * @param goal needs to be position or velocity and position
+   */
+  public ControlCommandProfiledPID (ControlSubsystem subsystem, TrapezoidProfile.State goal,
+   double maxVelocity, double maxAcceleration,
+   ProfiledPIDControllerConstants profiledpidControllerConstant) {
     this(subsystem, () -> goal, maxVelocity, maxAcceleration, profiledpidControllerConstant, 0);
   }
   
+  /**
+   * @param goal needs to be position or velocity and position
+   */
   public ControlCommandProfiledPID (ControlSubsystem subsystem, Supplier<TrapezoidProfile.State> goal, double maxVelocity, 
     double maxAcceleration, ProfiledPIDControllerConstants profiledpidControllerConstant) {
     this(subsystem, goal, maxVelocity, maxAcceleration, profiledpidControllerConstant, 0);

@@ -24,8 +24,6 @@ public class SpaceStateControlCommand extends CommandBase {
   private Supplier<Double> setPoint;
   private ControlSubsystem subsystem;
   /**
-   * @param systemIdentification1 
-   * @param systemIdentification2
    * @param qelms Velocity error tolerance, in radians per second.
    *   Decrease this to more heavily penalize state excursion,
    *   or make the controller behave more
@@ -60,21 +58,36 @@ public class SpaceStateControlCommand extends CommandBase {
     this.setPoint = setPoint;
     this.subsystem = subsystem;
   }
-
+  /**
+   * @param qelms Velocity error tolerance, in radians per second.
+   *   Decrease this to more heavily penalize state excursion,
+   *   or make the controller behave more
+   *   aggressively.
+   */
   public SpaceStateControlCommand(ControlSubsystem subsystem, double systemIdentification1,
    double systemIdentification2, Supplier<Double> setPoint, double modelAccuracy,
    double measurementAccuracy, double qelms) {
       this (subsystem, systemIdentification1, systemIdentification2,
        setPoint, modelAccuracy, measurementAccuracy, qelms, 12);
     }
-
+  /**
+   * @param qelms Velocity error tolerance, in radians per second.
+   *   Decrease this to more heavily penalize state excursion,
+   *   or make the controller behave more
+   *   aggressively.
+   */
   public SpaceStateControlCommand(ControlSubsystem subsystem, double systemIdentification1,
    double systemIdentification2, double setPoint, double modelAccuracy,
    double measurementAccuracy, double qelms, double relms) {
     this(subsystem, systemIdentification1, systemIdentification2, () -> setPoint,
      modelAccuracy, measurementAccuracy, qelms, relms);
   }
-
+   /**
+   * @param qelms Velocity error tolerance, in radians per second.
+   *   Decrease this to more heavily penalize state excursion,
+   *   or make the controller behave more
+   *   aggressively.
+   */
   public SpaceStateControlCommand(ControlSubsystem subsystem, double systemIdentification1,
    double systemIdentification2, double setPoint, double modelAccuracy,
     double measurementAccuracy, double qelms) {

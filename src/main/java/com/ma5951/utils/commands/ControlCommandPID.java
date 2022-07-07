@@ -26,30 +26,44 @@ public class ControlCommandPID extends CommandBase {
   private boolean wasInSetPoint;
   private SimpleMotorFeedforward feedforward;
 
+  /**
+   * @param isVoltage if you want the motor to work in Voltage way and not a percentage way
+   * @param delay the amount of time you what the system to be in the goal before stoping
+   */
   public ControlCommandPID(ControlSubsystem subsystem, Supplier<Double> setpoint,
-   PIDControllerConstants PIDConstans, boolean isVoltage, double delay) {
+   PIDControllerConstants PIDConstants, boolean isVoltage, double delay) {
     this.subsystem = subsystem;
     this.setpoint = setpoint;
     this.isVoltage = isVoltage;
     this.delay = delay;
-    this.feedforward = new SimpleMotorFeedforward(PIDConstans.getKS(),
-     PIDConstans.getKV(), PIDConstans.getKA());
-    pid = new PIDController(PIDConstans.getKP(), PIDConstans.getKI(),
-     PIDConstans.getKD(), PIDConstans.getKF(), PIDConstans.gettolerance(), 
-     PIDConstans.getLow(), PIDConstans.getHigh());
+    this.feedforward = new SimpleMotorFeedforward(PIDConstants.getKS(),
+    PIDConstants.getKV(), PIDConstants.getKA());
+    pid = new PIDController(PIDConstants.getKP(), PIDConstants.getKI(),
+    PIDConstants.getKD(), PIDConstants.getKF(), PIDConstants.gettolerance(), 
+    PIDConstants.getLow(), PIDConstants.getHigh());
     addRequirements(subsystem);
   }
 
+  /**
+   * @param isVoltage if you want the motor to work in Voltage way and not a percentage way
+   * @param delay the amount of time you what the system to be in the goal before stoping
+   */
   public ControlCommandPID(ControlSubsystem subsystem, double setpoint,
   PIDControllerConstants PIDConstans, boolean isVoltage, double delay) {
     this(subsystem, () -> setpoint, PIDConstans, isVoltage, delay);
   }
 
+  /**
+   * @param isVoltage if you want the motor to work in Voltage way and not a percentage way
+   */
   public ControlCommandPID(ControlSubsystem subsystem, double setpoint,
    PIDControllerConstants PIDConstans, boolean isVoltage) {
     this(subsystem, () -> setpoint, PIDConstans, isVoltage, 0);
   }
 
+  /**
+  * @param isVoltage if you want the motor to work in Voltage way and not a percentage way
+  */
   public ControlCommandPID(ControlSubsystem subsystem, Supplier<Double> setpoint,
    PIDControllerConstants PIDConstans, boolean isVoltage) {
     this(subsystem, setpoint, PIDConstans, isVoltage, 0);
