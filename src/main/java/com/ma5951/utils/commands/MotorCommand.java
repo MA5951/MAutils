@@ -32,10 +32,12 @@ public class MotorCommand extends CommandBase {
 
   @Override
   public void execute() {
-    if (subsystem.canMove())
-      subsystem.setPower(power.get());
-    else
-      subsystem.setPower(0);
+    subsystem.setPower(power.get());
+  }
+
+  @Override
+  public boolean isFinished(){
+    return !subsystem.canMove();
   }
 
   // Called once the command ends or is interrupted.

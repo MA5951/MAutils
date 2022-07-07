@@ -14,6 +14,15 @@ public class MA_Falcon implements MotorController, MotorSensors {
 
     private TalonFX falcon;
 
+    /**
+     * @param id
+     * @param inverted
+     * @param rampRate
+     * @param mode
+     * @param hasForwardLimitSwitch
+     * @param hasReverseLimitSwitch
+     * @param feedbackDevice
+     */
     public MA_Falcon(int id, boolean inverted, double rampRate, NeutralMode mode, boolean hasForwardLimitSwitch,
             boolean hasReverseLimitSwitch, FeedbackDevice feedbackDevice) {
         falcon = new TalonFX(id);
