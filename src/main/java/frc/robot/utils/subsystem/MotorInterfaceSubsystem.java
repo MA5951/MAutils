@@ -1,7 +1,8 @@
 package frc.robot.utils.subsystem;
 
+import com.ma5951.utils.RobotConstants;
+
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.utils.RobotConstants;
 
 public interface MotorInterfaceSubsystem extends Subsystem {
     public void setVoltage (double voltege);

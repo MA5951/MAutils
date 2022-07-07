@@ -49,7 +49,6 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
@@ -109,6 +108,9 @@ Temporary Items
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+### IntelliJ ###
+.idea/*
 
 ### Windows ###
 # Windows thumbnail cache files
