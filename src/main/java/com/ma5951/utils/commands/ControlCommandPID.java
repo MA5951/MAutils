@@ -73,15 +73,16 @@ public class ControlCommandPID extends CommandBase {
   @Override
   public void initialize() {
     wasInSetPoint = false;
+    pid.setSetpoint(setpoint.get());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (isVoltage) {
-      subsystem.setVoltage(pid.calculate(setpoint.get()) + feedforward.calculate(pid.getSetpoint()));
+      subsystem.setVoltage(pid.calculate(subsystem.getMeasurement()) + feedforward.calculate(pid.getSetpoint()));
     } else {
-      subsystem.setPower(pid.calculate(setpoint.get()) + feedforward.calculate(pid.getSetpoint()));
+      subsystem.setPower(pid.calculate(subsystem.getMeasurement()) + feedforward.calculate(pid.getSetpoint()));
     }
     if (pid.atSetpoint() && !wasInSetPoint){
       time = Timer.getFPGATimestamp();

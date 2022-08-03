@@ -4,10 +4,12 @@ package com.ma5951.utils;
 import java.util.HashMap;
 import java.util.Map;
 
+
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
+
 import com.ma5951.utils.controllers.PIDController;
 
 public class Shuffleboard {
@@ -106,7 +108,5 @@ public class Shuffleboard {
                 (double) networkTableNameMap.get("KI").getNumber(0),
                 (double) networkTableNameMap.get("KD").getNumber(0));
 
-        pid.setSetpoint((double) networkTableNameMap.get("setPoint").getNumber(0));
-    }
-
+        pid.setSetpoint((double) networkTableNameMap.get("setPoint").getNumber(0));    }
 }
