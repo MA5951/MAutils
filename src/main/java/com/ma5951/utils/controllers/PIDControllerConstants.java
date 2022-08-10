@@ -75,6 +75,7 @@ public class PIDControllerConstants {
         this.KF = KF;
         this.KS = 0;
         this.KV = 0;
+        this.KA = 0;
         this.tolerance = tolerance;
         this.high = high;
         this.low = low;
