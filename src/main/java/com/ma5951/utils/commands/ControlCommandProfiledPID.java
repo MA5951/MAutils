@@ -6,6 +6,7 @@ package com.ma5951.utils.commands;
 
 import java.util.function.Supplier;
 
+import com.ma5951.utils.Shuffleboard;
 import com.ma5951.utils.controllers.ProfiledPIDControllerConstants;
 import com.ma5951.utils.subsystem.ControlSubsystem;
 
@@ -25,6 +26,28 @@ public class ControlCommandProfiledPID extends CommandBase {
   private boolean AtGoal;
   private double delay;
   private double time;
+  private boolean isShuffleboard;
+  private Shuffleboard board;
+
+  public ControlCommandProfiledPID(ControlSubsystem subsystem, String tabName) {
+    this.subsystem = subsystem;
+    isShuffleboard = true;
+    addRequirements(subsystem);
+    board = new Shuffleboard(tabName);
+    board.addNum("setPointPosition", 0);
+    board.addNum("setPointVelocity", 0);
+    board.addNum("Kp", 0);
+    board.addNum("Ki", 0);
+    board.addNum("Kd", 0);
+    board.addNum("Ks", 0);
+    board.addNum("Kv", 0);
+    board.addNum("Ka", 0);
+    board.addNum("positionTolerance", 0);
+    board.addNum("velocityTolerance", 0);
+    board.addNum("delay", 0);
+    board.addNum("maxVelocity", 0);
+    board.addNum("maxAcceleration", 0);
+  }
 
   /**
    * @param goal needs to be position or velocity and position
@@ -76,9 +99,21 @@ public class ControlCommandProfiledPID extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    ProfiledPID.setGoal(goal.get());
     lastSpeed = 0;
     lastTime = Timer.getFPGATimestamp();
+    if (isShuffleboard) {
+      this.feedforward = new SimpleMotorFeedforward(board.getNum("Ks"),
+       board.getNum("Kv"), board.getNum("Ka"));
+      this.ProfiledPID = new ProfiledPIDController(board.getNum("Kp"), 
+       board.getNum("Ki"), board.getNum("Kd"),
+        new TrapezoidProfile.Constraints(board.getNum("maxVelocity"), board.getNum("maxAcceleration")));
+      this.ProfiledPID.setGoal(new TrapezoidProfile.State(
+        board.getNum("setPointPosition"), board.getNum("setPointVelocity")));
+      this.ProfiledPID.setTolerance(board.getNum("positionTolerance"), board.getNum("velocityTolerance"));
+      this.delay = board.getNum("delay");
+    } else {
+      ProfiledPID.setGoal(goal.get());
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
