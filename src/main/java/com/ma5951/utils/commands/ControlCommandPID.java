@@ -125,6 +125,7 @@ public class ControlCommandPID extends CommandBase {
     if (!pid.atSetpoint()){
       wasInSetPoint = false;
     }
+    board.addNum("Measurement", subsystem.getMeasurement());
   }
 
   // Called once the command ends or is interrupted.
