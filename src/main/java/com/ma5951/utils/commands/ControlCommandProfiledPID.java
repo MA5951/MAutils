@@ -134,6 +134,7 @@ public class ControlCommandProfiledPID extends CommandBase {
     if (!ProfiledPID.atGoal()) {
       AtGoal = false;
     }
+    board.addNum("Measurement", subsystem.getMeasurement());
   }
 
   // Called once the command ends or is interrupted.
