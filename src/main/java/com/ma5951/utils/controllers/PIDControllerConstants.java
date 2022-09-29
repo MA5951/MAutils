@@ -62,11 +62,11 @@ public class PIDControllerConstants {
     }
 
     public PIDControllerConstants (Supplier<Double> tolerance, Supplier<Double> KP, Supplier<Double> KI, Supplier<Double> KD, Supplier<Double> KF){
-        this(tolerance.get(), KP.get(), KI.get(), KD.get(), KF.get(), 1.0, -1.0);
+        this(tolerance, KP, KI, KD, KF, ()-> 1.0, ()-> -1.0);
     }
 
     public PIDControllerConstants (Supplier<Double> tolerance, Supplier<Double> KP, Supplier<Double> KI, Supplier<Double> KD){
-        this(tolerance.get(), KP.get(), KI.get(), KD.get(), 0.0, 1.0, -1.0);
+        this(tolerance, KP, KI, KD, ()-> 0.0, ()-> 1.0, ()-> -1.0);
     }
 
     /**
@@ -75,7 +75,7 @@ public class PIDControllerConstants {
      * @param KI
      */
     public PIDControllerConstants (Supplier<Double> tolerance, Supplier<Double> KP, Supplier<Double> KI){
-        this(tolerance.get(), KP.get(), KI.get(), 0.0, 0.0, 1.0, -1.0);
+        this(tolerance, KP, KI, ()-> 0.0, ()-> 0.0, ()-> 1.0, ()-> -1.0);
     }
 
     /**
@@ -83,7 +83,7 @@ public class PIDControllerConstants {
      * @param KP
      */
     public PIDControllerConstants (Supplier<Double> tolerance, Supplier<Double> KP){
-        this(tolerance.get(), KP.get(), 0.0, 0.0, 0.0, 1.0, -1.0);
+        this(tolerance, KP, ()-> 0.0, ()-> 0.0, ()-> 0.0, ()-> 1.0, ()-> -1.0);
     }
     
     /**
@@ -131,7 +131,7 @@ public class PIDControllerConstants {
      * @param KF
      */
     public PIDControllerConstants (double tolerance, double KP, double KI, double KD, double KF){
-        this(tolerance, KP, KI, KD, KF, 1.0, -1.0);
+        this(()-> tolerance, ()-> KP, ()-> KI, ()-> KD, ()-> KF, ()-> 1.0, ()-> -1.0);
     }
 
     /**
@@ -141,7 +141,7 @@ public class PIDControllerConstants {
      * @param KD
      */
     public PIDControllerConstants (double tolerance, double KP, double KI, double KD){
-        this(tolerance, KP, KI, KD, 0.0, 1.0, -1.0);
+        this(()-> tolerance, ()-> KP, ()-> KI, ()-> KD, ()-> 0.0, ()-> 1.0, ()-> -1.0);
     }
 
     /**
@@ -150,7 +150,7 @@ public class PIDControllerConstants {
      * @param KI
      */
     public PIDControllerConstants (double tolerance, double KP, double KI){
-        this(tolerance, KP, KI, 0.0, 0.0, 1.0, -1.0);
+        this(()-> tolerance, ()-> KP, ()-> KI, ()-> 0.0, ()-> 0.0, ()-> 1.0, ()-> -1.0);
     }
 
     /**
@@ -158,7 +158,7 @@ public class PIDControllerConstants {
      * @param KP
      */
     public PIDControllerConstants (double tolerance, double KP){
-        this(tolerance, KP, 0.0, 0.0, 0.0, 1.0, -1.0);
+        this(()-> tolerance, ()-> KP, ()-> 0.0, ()-> 0.0, ()-> 0.0, ()-> 1.0, ()-> -1.0);
     }
     
     public double getKD() {

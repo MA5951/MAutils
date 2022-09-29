@@ -26,22 +26,22 @@ public class ProfiledPIDControllerConstants {
 
     public ProfiledPIDControllerConstants (Supplier<Double> positionTolerance, 
     Supplier<Double> velocityTolerance, Supplier<Double> KP, Supplier<Double> KI, Supplier<Double> KD, Supplier<Double> KS, Supplier<Double> KV) {
-        this(positionTolerance.get(), velocityTolerance.get(), KP.get(), KI.get(), KD.get(), KS.get(), KV.get(), 0.0);
+        this(positionTolerance, velocityTolerance, KP, KI, KD, KS, KV, ()-> 0.0);
     }
 
     public ProfiledPIDControllerConstants (Supplier<Double> positionTolerance, 
     Supplier<Double> velocityTolerance, Supplier<Double> KP, Supplier<Double> KI, Supplier<Double> KD) {
-        this(positionTolerance.get(), velocityTolerance.get(), KP.get(), KI.get(), KD.get(), 0.0, 0.0, 0.0);
+        this(positionTolerance, velocityTolerance, KP, KI, KD, ()-> 0.0, ()-> 0.0, ()-> 0.0);
     }
 
     public ProfiledPIDControllerConstants (Supplier<Double> positionTolerance, 
     Supplier<Double> velocityTolerance, Supplier<Double> KP, Supplier<Double> KI) {
-        this(positionTolerance.get(), velocityTolerance.get(), KP.get(), KI.get(), 0.0, 0.0, 0.0, 0.0);
+        this(positionTolerance, velocityTolerance, KP, KI, ()-> 0.0, ()-> 0.0, ()-> 0.0, ()-> 0.0);
     }
 
     public ProfiledPIDControllerConstants (Supplier<Double> positionTolerance, 
     Supplier<Double> velocityTolerance, Supplier<Double> KP) {
-        this(positionTolerance.get(), velocityTolerance.get(), KP.get(), 0.0, 0.0, 0.0, 0.0, 0.0);
+        this(positionTolerance, velocityTolerance, KP, ()-> 0.0, ()-> 0.0, ()-> 0.0, ()-> 0.0, ()-> 0.0);
     }
 
     public ProfiledPIDControllerConstants (double positionTolerance, 
@@ -51,22 +51,22 @@ public class ProfiledPIDControllerConstants {
 
     public ProfiledPIDControllerConstants (double positionTolerance, 
     double velocityTolerance, double KP, double KI, double KD, double KS, double KV) {
-        this(positionTolerance, velocityTolerance, KP, KI, KD, KS, KV, 0);
+        this(()-> positionTolerance, ()-> velocityTolerance, ()-> KP, ()-> KI, ()-> KD, ()-> KS, ()-> KV, ()-> 0.0);
     }
 
     public ProfiledPIDControllerConstants (double positionTolerance, 
     double velocityTolerance, double KP, double KI, double KD) {
-        this(positionTolerance, velocityTolerance, KP, KI, KD, 0, 0, 0);
+        this(()-> positionTolerance, ()-> velocityTolerance, ()-> KP, ()-> KI, ()-> KD, ()-> 0.0, ()-> 0.0, ()-> 0.0);
     }
 
     public ProfiledPIDControllerConstants (double positionTolerance, 
     double velocityTolerance, double KP, double KI) {
-        this(positionTolerance, velocityTolerance, KP, KI, 0, 0, 0, 0);
+        this(()-> positionTolerance, ()-> velocityTolerance, ()-> KP, ()-> KI, ()-> 0.0, ()-> 0.0, ()-> 0.0, ()-> 0.0);
     }
 
     public ProfiledPIDControllerConstants (double positionTolerance, 
     double velocityTolerance, double KP) {
-        this(positionTolerance, velocityTolerance, KP, 0, 0, 0, 0, 0);
+        this(()-> positionTolerance, ()-> velocityTolerance, ()-> KP, ()-> 0.0, ()-> 0.0, ()-> 0.0, ()-> 0.0, ()-> 0.0);
     }
 
     public double getKD() {
