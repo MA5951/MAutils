@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import java.util.function.Supplier;
 
-import com.ma5951.utils.Shuffleboard;
 import com.ma5951.utils.controllers.PIDController;
 import com.ma5951.utils.controllers.PIDControllerConstants;
 import com.ma5951.utils.subsystem.ControlSubsystem;
@@ -26,28 +25,7 @@ public class ControlCommandPID extends CommandBase {
   private double time;
   private boolean wasInSetPoint;
   private SimpleMotorFeedforward feedforward;
-  private boolean isShuffleboard;
-  private Shuffleboard board;
-
-  public ControlCommandPID(ControlSubsystem subsystem, String tabName, boolean isVoltage) {
-    this.subsystem = subsystem;
-    isShuffleboard = true;
-    this.isVoltage = isVoltage;
-    addRequirements(subsystem);
-    board = new Shuffleboard(tabName);
-    board.addNum("setPoint", 0);
-    board.addNum("Kp", 0);
-    board.addNum("Ki", 0);
-    board.addNum("Kd", 0);
-    board.addNum("Kf", 0);
-    board.addNum("Ks", 0);
-    board.addNum("Kv", 0);
-    board.addNum("Ka", 0);
-    board.addNum("tolerance", 0);
-    board.addNum("high", 0);
-    board.addNum("low", 0);
-    board.addNum("delay", 0);
-  }
+  private PIDControllerConstants pidConstants;
 
   /**
    * @param isVoltage if you want the motor to work in Voltage way and not a percentage way
@@ -59,13 +37,8 @@ public class ControlCommandPID extends CommandBase {
     this.setpoint = setpoint;
     this.isVoltage = isVoltage;
     this.delay = delay;
-    this.feedforward = new SimpleMotorFeedforward(PIDConstants.getKS(),
-    PIDConstants.getKV(), PIDConstants.getKA());
-    pid = new PIDController(PIDConstants.getKP(), PIDConstants.getKI(),
-    PIDConstants.getKD(), PIDConstants.getKF(), PIDConstants.gettolerance(), 
-    PIDConstants.getLow(), PIDConstants.getHigh());
+    this.pidConstants = PIDConstants;
     addRequirements(subsystem);
-    isShuffleboard = false;
   }
 
   /**
@@ -96,18 +69,12 @@ public class ControlCommandPID extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    wasInSetPoint = false;
-    if (isShuffleboard) {
-      this.feedforward = new SimpleMotorFeedforward(board.getNum("Ks"),
-       board.getNum("Kv"), board.getNum("Ka"));
-      this.pid = new PIDController(board.getNum("Kp"), board.getNum("Ki"), 
-        board.getNum("Kd"), board.getNum("Kf"), 
-        board.getNum("tolerance"), board.getNum("low"), board.getNum("high"));
-      pid.setSetpoint(board.getNum("setPoint"));
-      this.delay = board.getNum("delay");
-    } else {
-      pid.setSetpoint(setpoint.get());
-    }
+    this.feedforward = new SimpleMotorFeedforward(pidConstants.getKS(),
+    pidConstants.getKV(), pidConstants.getKA());
+    pid = new PIDController(pidConstants.getKP(), pidConstants.getKI(),
+    pidConstants.getKD(), pidConstants.getKF(), pidConstants.gettolerance(), 
+    pidConstants.getLow(), pidConstants.getHigh());
+    pid.setSetpoint(setpoint.get());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -125,7 +92,6 @@ public class ControlCommandPID extends CommandBase {
     if (!pid.atSetpoint()){
       wasInSetPoint = false;
     }
-    board.addNum("Measurement", subsystem.getMeasurement());
   }
 
   // Called once the command ends or is interrupted.

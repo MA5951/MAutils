@@ -1,25 +1,27 @@
 package com.ma5951.utils.controllers;
 
+import java.util.function.Supplier;
+
 public class ProfiledPIDControllerConstants {
-    private double KP;
-    private double KI;
-    private double KD;
-    private double KS;
-    private double KV;
-    private double KA;
-    private double positionTolerance;
-    private double velocityTolerance;
+    private Supplier<Double> KP;
+    private Supplier<Double> KI;
+    private Supplier<Double> KD;
+    private Supplier<Double> KS;
+    private Supplier<Double> KV;
+    private Supplier<Double> KA;
+    private Supplier<Double> positionTolerance;
+    private Supplier<Double> velocityTolerance;
 
     public ProfiledPIDControllerConstants (double positionTolerance, 
     double velocityTolerance, double KP, double KI, double KD, double KS, double KV, double KA) {
-        this.KP = KP;
-        this.KI = KI;
-        this.KD = KD;
-        this.KS = KS;
-        this.KV = KV;
-        this.KA = KA;
-        this.positionTolerance = positionTolerance;
-        this.velocityTolerance = velocityTolerance;
+        this.KP = ()-> KP;
+        this.KI = ()-> KI;
+        this.KD = ()-> KD;
+        this.KS = ()-> KS;
+        this.KV = ()-> KV;
+        this.KA = ()-> KA;
+        this.positionTolerance = ()-> positionTolerance;
+        this.velocityTolerance = ()-> velocityTolerance;
     }
 
     public ProfiledPIDControllerConstants (double positionTolerance, 
@@ -42,35 +44,60 @@ public class ProfiledPIDControllerConstants {
         this(positionTolerance, velocityTolerance, KP, 0, 0, 0, 0, 0);
     }
 
+    public ProfiledPIDControllerConstants (Supplier<Double> positionTolerance, 
+    Supplier<Double> velocityTolerance, Supplier<Double> KP, Supplier<Double> KI, Supplier<Double> KD, Supplier<Double> KS, Supplier<Double> KV, Supplier<Double> KA) {
+        this(positionTolerance.get(), velocityTolerance.get(), KP.get(), KI.get(), KD.get(), KS.get(), KV.get(), KA.get());
+    }
+
+    public ProfiledPIDControllerConstants (Supplier<Double> positionTolerance, 
+    Supplier<Double> velocityTolerance, Supplier<Double> KP, Supplier<Double> KI, Supplier<Double> KD, Supplier<Double> KS, Supplier<Double> KV) {
+        this(positionTolerance.get(), velocityTolerance.get(), KP.get(), KI.get(), KD.get(), KS.get(), KV.get(), 0.0);
+    }
+
+    public ProfiledPIDControllerConstants (Supplier<Double> positionTolerance, 
+    Supplier<Double> velocityTolerance, Supplier<Double> KP, Supplier<Double> KI, Supplier<Double> KD) {
+        this(positionTolerance.get(), velocityTolerance.get(), KP.get(), KI.get(), KD.get(), 0.0, 0.0, 0.0);
+    }
+
+    public ProfiledPIDControllerConstants (Supplier<Double> positionTolerance, 
+    Supplier<Double> velocityTolerance, Supplier<Double> KP, Supplier<Double> KI) {
+        this(positionTolerance.get(), velocityTolerance.get(), KP.get(), KI.get(), 0.0, 0.0, 0.0, 0.0);
+    }
+
+    public ProfiledPIDControllerConstants (Supplier<Double> positionTolerance, 
+    Supplier<Double> velocityTolerance, Supplier<Double> KP) {
+        this(positionTolerance.get(), velocityTolerance.get(), KP.get(), 0.0, 0.0, 0.0, 0.0, 0.0);
+    }
+
     public double getKD() {
-        return KD;
+        return KD.get();
     }
 
     public double getKI() {
-        return KI;
+        return KI.get();
     }
 
     public double getKP() {
-        return KP;
+        return KP.get();
     }
 
     public double getKS() {
-        return KS;
+        return KS.get();
     }
 
     public double getKV() {
-        return KV;
+        return KV.get();
     }
 
     public double getKA() {
-        return KA;
+        return KA.get();
     }
 
     public double getPositionTolerance() {
-        return positionTolerance;
+        return positionTolerance.get();
     }
 
     public double getVelocityTolerance() {
-        return velocityTolerance;
+        return velocityTolerance.get();
     }
 }
