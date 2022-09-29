@@ -12,41 +12,16 @@ public class ProfiledPIDControllerConstants {
     private Supplier<Double> positionTolerance;
     private Supplier<Double> velocityTolerance;
 
-    public ProfiledPIDControllerConstants (double positionTolerance, 
-    double velocityTolerance, double KP, double KI, double KD, double KS, double KV, double KA) {
-        this.KP = ()-> KP;
-        this.KI = ()-> KI;
-        this.KD = ()-> KD;
-        this.KS = ()-> KS;
-        this.KV = ()-> KV;
-        this.KA = ()-> KA;
-        this.positionTolerance = ()-> positionTolerance;
-        this.velocityTolerance = ()-> velocityTolerance;
-    }
-
-    public ProfiledPIDControllerConstants (double positionTolerance, 
-    double velocityTolerance, double KP, double KI, double KD, double KS, double KV) {
-        this(positionTolerance, velocityTolerance, KP, KI, KD, KS, KV, 0);
-    }
-
-    public ProfiledPIDControllerConstants (double positionTolerance, 
-    double velocityTolerance, double KP, double KI, double KD) {
-        this(positionTolerance, velocityTolerance, KP, KI, KD, 0, 0, 0);
-    }
-
-    public ProfiledPIDControllerConstants (double positionTolerance, 
-    double velocityTolerance, double KP, double KI) {
-        this(positionTolerance, velocityTolerance, KP, KI, 0, 0, 0, 0);
-    }
-
-    public ProfiledPIDControllerConstants (double positionTolerance, 
-    double velocityTolerance, double KP) {
-        this(positionTolerance, velocityTolerance, KP, 0, 0, 0, 0, 0);
-    }
-
     public ProfiledPIDControllerConstants (Supplier<Double> positionTolerance, 
     Supplier<Double> velocityTolerance, Supplier<Double> KP, Supplier<Double> KI, Supplier<Double> KD, Supplier<Double> KS, Supplier<Double> KV, Supplier<Double> KA) {
-        this(positionTolerance.get(), velocityTolerance.get(), KP.get(), KI.get(), KD.get(), KS.get(), KV.get(), KA.get());
+        this.KP = KP;
+        this.KI = KI;
+        this.KD = KD;
+        this.KS = KS;
+        this.KV = KV;
+        this.KA = KA;
+        this.positionTolerance = positionTolerance;
+        this.velocityTolerance = velocityTolerance;
     }
 
     public ProfiledPIDControllerConstants (Supplier<Double> positionTolerance, 
@@ -67,6 +42,31 @@ public class ProfiledPIDControllerConstants {
     public ProfiledPIDControllerConstants (Supplier<Double> positionTolerance, 
     Supplier<Double> velocityTolerance, Supplier<Double> KP) {
         this(positionTolerance.get(), velocityTolerance.get(), KP.get(), 0.0, 0.0, 0.0, 0.0, 0.0);
+    }
+
+    public ProfiledPIDControllerConstants (double positionTolerance, 
+    double velocityTolerance, double KP, double KI, double KD, double KS, double KV, double KA) {
+        this(()-> positionTolerance, ()-> velocityTolerance, ()-> KP, ()-> KI, ()-> KD, ()-> KS, ()-> KV, ()-> KA);
+    }
+
+    public ProfiledPIDControllerConstants (double positionTolerance, 
+    double velocityTolerance, double KP, double KI, double KD, double KS, double KV) {
+        this(positionTolerance, velocityTolerance, KP, KI, KD, KS, KV, 0);
+    }
+
+    public ProfiledPIDControllerConstants (double positionTolerance, 
+    double velocityTolerance, double KP, double KI, double KD) {
+        this(positionTolerance, velocityTolerance, KP, KI, KD, 0, 0, 0);
+    }
+
+    public ProfiledPIDControllerConstants (double positionTolerance, 
+    double velocityTolerance, double KP, double KI) {
+        this(positionTolerance, velocityTolerance, KP, KI, 0, 0, 0, 0);
+    }
+
+    public ProfiledPIDControllerConstants (double positionTolerance, 
+    double velocityTolerance, double KP) {
+        this(positionTolerance, velocityTolerance, KP, 0, 0, 0, 0, 0);
     }
 
     public double getKD() {
