@@ -4,6 +4,36 @@ import com.revrobotics.SparkMaxAlternateEncoder.Type;
 
 public class Motor_Fallbacks {
 
+
+    double voltage;
+    double position;
+    double lastPosition;
+    double voltageThreshold;
+    double voltageUsed;
+    double movesThreshold;
+    boolean isEnviromentDependent;
+
+    public Motor_Fallbacks(double voltage, double position,
+                                         double lastPosition, double voltageThreshold, 
+                                         double VoltageUsed, double movesThreshold,
+                                         boolean isEnviromentDependent)
+    {
+        this.voltage=voltage;
+        this.position=position;
+        this.lastPosition=lastPosition;
+        this.voltageThreshold=voltageThreshold;
+        this.voltageUsed=voltageUsed;
+        this.movesThreshold=movesThreshold;
+        this.isEnviromentDependent=isEnviromentDependent;
+    }
+
+    public Motor_Fallbacks(double voltage, double VoltageUsed)
+    {
+        this.voltage=voltage;
+        this.voltageUsed=voltageUsed;
+    }
+
+
     public static boolean allMotorChecks(double voltage, double position,
                                          double lastPosition, double voltageThreshold, 
                                          double VoltageUsed, double movesThreshold,
