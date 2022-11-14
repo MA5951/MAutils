@@ -4,13 +4,12 @@
 
 package com.ma5951.utils.led;
 
-import com.ma5951.utils.Shuffleboard;
-
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 
 /** Add your docs here. */
 public interface AddressableLEDPattern {
     public void setLEDs(AddressableLEDBuffer buffer);
+    
     default public boolean isAnimated() {
         return false;
     }
