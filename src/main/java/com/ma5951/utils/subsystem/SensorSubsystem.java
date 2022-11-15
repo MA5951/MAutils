@@ -14,7 +14,7 @@ public interface SensorSubsystem extends Subsystem {
 
     /**
      * remember do not run motors in this function.
-     * the raw side is when to save the value (0 means false); 
+     * the first side is when to save the value (0 means false); 
      */
     public Value<Double>[][] getValuesForLogger();
 

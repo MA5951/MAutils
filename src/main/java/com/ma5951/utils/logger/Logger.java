@@ -30,7 +30,7 @@ public class Logger {
                 j < subsystemValues.length;
                     j++) {
                         values.add(subsystemValues[j][1]);
-                        toSaveValues.add(subsystemValues[0][j]);
+                        toSaveValues.add(subsystemValues[j][0]);
             }
         }
         valuesFile = new MA_file("valuesFile.txt");

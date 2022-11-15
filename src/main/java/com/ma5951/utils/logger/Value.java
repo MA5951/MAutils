@@ -11,6 +11,11 @@ public class Value<T> {
         this.valueGetter = valueGetter;
     }
 
+    public Value(Supplier<T> valueGetter) {
+        this.valueName = "noName";
+        this.valueGetter = valueGetter;
+    }
+
     public T getValue() {
         return valueGetter.get();
     }
