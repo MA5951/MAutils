@@ -1,7 +1,6 @@
 package com.ma5951.utils.logger;
 
 import com.ma5951.utils.Shuffleboard;
-import com.ma5951.utils.subsystem.SensorSubsystem;
 
 import edu.wpi.first.wpilibj.Timer;
 
@@ -15,22 +14,10 @@ public class Logger {
     private MA_file valuesFile;
     private MA_file problemsFile;
 
-    public Logger(SensorSubsystem[] subsystems) {
+    public Logger(ArrayList<Problem> problems, ArrayList<Value> values) {
+        this.problems = problems;
+        this.values = values;
         board = new Shuffleboard("logger");
-        for (int i = 0; i < subsystems.length; i++) {
-            Problem[] subsystemProblems = subsystems[i].checkForProblems();
-            Value[] subsystemValues = subsystems[i].getValuesForLogger();
-            for (int j = 0;
-                j < subsystemProblems.length;
-                    j++) {
-                        problems.add(subsystemProblems[j]);
-            }
-            for (int j = 0;
-                j < subsystemValues.length;
-                    j++) {
-                        values.add(subsystemValues[j]);
-            }
-        }
         valuesFile = new MA_file("valuesFile.txt");
         problemsFile = new MA_file("problemsFile");
     }
