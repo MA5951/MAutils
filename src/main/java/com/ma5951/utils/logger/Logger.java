@@ -8,9 +8,8 @@ import edu.wpi.first.wpilibj.Timer;
 import java.util.ArrayList;
 
 public class Logger {
-    private ArrayList<Value<Boolean>> problems;
-    private ArrayList<Value<Double>> values;
-    private ArrayList<Value<Double>> toSaveValues;
+    private ArrayList<Problem> problems;
+    private ArrayList<Value> values;
     private Shuffleboard board;
     private double InitTime;
     private MA_file valuesFile;
@@ -19,8 +18,8 @@ public class Logger {
     public Logger(SensorSubsystem[] subsystems) {
         board = new Shuffleboard("logger");
         for (int i = 0; i < subsystems.length; i++) {
-            Value<Boolean>[] subsystemProblems = subsystems[i].checkForProblems();
-            Value<Double>[][] subsystemValues = subsystems[i].getValuesForLogger();
+            Problem[] subsystemProblems = subsystems[i].checkForProblems();
+            Value[] subsystemValues = subsystems[i].getValuesForLogger();
             for (int j = 0;
                 j < subsystemProblems.length;
                     j++) {
@@ -29,8 +28,7 @@ public class Logger {
             for (int j = 0;
                 j < subsystemValues.length;
                     j++) {
-                        values.add(subsystemValues[j][1]);
-                        toSaveValues.add(subsystemValues[j][0]);
+                        values.add(subsystemValues[j]);
             }
         }
         valuesFile = new MA_file("valuesFile.txt");
@@ -46,17 +44,17 @@ public class Logger {
      */
     public void runLogger() {
         for (int i = 0; i < problems.size(); i++) {
-            Value<Boolean> problem = problems.get(i);
-            if (problem.getValue()) {
+            Problem problem = problems.get(i);
+            if (problem.getProblem()) {
                 problemsFile.wirte(
-                    problem.getValueName() + " at" + 
+                    problem.getProblemName() + " at" + 
                     (Timer.getFPGATimestamp() - InitTime));
-                board.addBoolean(problem.getValueName(), true);
+                board.addBoolean(problem.getProblemName(), true);
             }
         }
         for (int i = 0; i < values.size(); i++) {
-            Value<Double> value = values.get(i);
-            if (toSaveValues.get(i).getValue() != 0) {
+            Value value = values.get(i);
+            if (value.toSave()) {
                 valuesFile.wirte(
                     value.getValueName() + 
                     " is: " + value.getValue() + 
@@ -69,7 +67,7 @@ public class Logger {
         problemsFile.close();
         valuesFile.close();
         for (int i = 0; i < problems.size(); i++) {
-            board.addBoolean(problems.get(i).getValueName(), false);
+            board.addBoolean(problems.get(i).getProblemName(), false);
         }
     }
 }
