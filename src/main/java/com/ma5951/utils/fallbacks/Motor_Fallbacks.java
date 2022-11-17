@@ -1,28 +1,53 @@
 package com.ma5951.utils.fallbacks;
 
+import com.ctre.phoenix.motorcontrol.IMotorController;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.SparkMaxAlternateEncoder.Type;
 
 public class Motor_Fallbacks {
 
 
-    double voltage;
+    double busVoltage;
     double position;
     double lastPosition;
     double voltageThreshold;
-    double voltageUsed;
+    double voltageInput;
     double movesThreshold;
     boolean isEnviromentDependent;
+    // List<String> motor_types= Arrays.AsList("Falcon","SparkMax","Neo","Word4");
 
-    public Motor_Fallbacks(double voltage, double position,
-                                         double lastPosition, double voltageThreshold, 
-                                         double VoltageUsed, double movesThreshold,
-                                         boolean isEnviromentDependent)
+    public boolean MaFaults(IMotorController motor)
     {
-        this.voltage=voltage;
+        TalonFX talon;
+
+        
+        motor.getMotorOutputVoltage();
+        motor.enableVoltageCompensation(true);
+        motor.getTemperature();
+        motor.getFaults();
+
+        boolean underVol = motor.getFaults().underVoltage();
+        motor.getLastError();
+        //command to see if a motor is connected to the robot
+        
+    } 
+
+    public Motor_Fallbacks(double voltageInput, double position,
+                           double lastPosition, double VoltageUsed, 
+                           double movesThreshold, boolean isEnviromentDependent, 
+                           String moudle_used, Object motor)
+    {
+        // moudle_used = moudle_used.toLowerCase();
+        // if (moudle_used == "falcon"){
+
+        // }
+
+        //
+        this.voltageInput=voltageInput;
         this.position=position;
         this.lastPosition=lastPosition;
         this.voltageThreshold=voltageThreshold;
-        this.voltageUsed=voltageUsed;
+        this.busVoltage=busVoltage;
         this.movesThreshold=movesThreshold;
         this.isEnviromentDependent=isEnviromentDependent;
     }
@@ -73,11 +98,11 @@ public class Motor_Fallbacks {
         return voltage > 0 && position - threshold >= lastPosition && position + threshold <= lastPosition;
     }
 
-    public static boolean movesWhenSouldent(double voltage, double position, double lastPosition, double threshold, boolean type)
+    public static boolean movesWhenSouldent(double givenVoltage, double position, double lastPosition, double threshold, boolean type)
     {
         if (type = false)
         {
-            return voltage == 0 && position - threshold >= lastPosition && position + threshold <= lastPosition;
+            return givenVoltage == 0 && position - threshold >= lastPosition && position + threshold <= lastPosition;
         }
         else
         {
