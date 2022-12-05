@@ -5,7 +5,6 @@ import com.ma5951.utils.RobotConstants;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class MA_Ps5Controller {
     public final PS4Controller controller;
@@ -68,23 +67,5 @@ public class MA_Ps5Controller {
         Right_stick_x = new JoystickButton(controller, RobotConstants.Right_stick_x);
         Left_stick_Y = new JoystickButton(controller, RobotConstants.Left_stick_Y);
         Right_stick_y = new JoystickButton(controller, RobotConstants.Right_stick_y);
-
-        triggerL = new TriggerL();
-        triggerR = new TriggerR();
-    }
-
-    class TriggerL extends Trigger {
-        @Override
-        public boolean get() {
-            return controller.getRawAxis(RobotConstants.L_TRIGER) > 0.5;
-        }
-    
-    }
-    
-    class TriggerR extends Trigger {
-        @Override
-        public boolean get() {
-            return controller.getRawAxis(RobotConstants.R_TRIGER) > 0.5;
-        }
     }
 }
