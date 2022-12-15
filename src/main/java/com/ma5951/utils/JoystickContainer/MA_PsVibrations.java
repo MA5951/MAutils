@@ -11,14 +11,29 @@ public class MA_PsVibrations
 {
     public final PS4Controller controller;
 
-    public MA_PsVibrations(int ID, int VibrationAmount,double VibrationStrenght, string VibrationType);
+    public MA_PsVibrations(int ControllerId, double VibrationAmount,double VibrationStrenght, int VibrationGapMillis, boolean IsRightVibration) throws InterruptedException
     {
-        controller = new PS4Controller(ID);
+        controller = new PS4Controller(ControllerId);
+        
+        new Thread(
+            ()-> {
+                try{
+                    for (int i = 0; i <= VibrationAmount; i++)
+                    {
+                        if (IsRightVibration==true){
+                            controller.setRumble(RumbleType.kRightRumble, VibrationStrenght);
+                        }
+                        else{
+                            controller.setRumble(RumbleType.kLeftRumble, VibrationStrenght);
+                        }
+                        Thread.sleep(VibrationGapMillis);
+                    }
+                } catch (Exception e) {
 
-        for (int i = 0; i <= VibrationAmount; i++)
-        {
-            controller.setRumble(RumbleType.kRightRumble, VibrationStrenght);
+                }
+            }
+        ).start();
         }
     }
-}
+
 
