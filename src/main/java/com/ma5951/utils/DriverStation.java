@@ -6,7 +6,7 @@ package com.ma5951.utils;
 public class DriverStation {
     private String alliance = "";
     private int location = 0;
-    private Shuffleboard driverStationShuffleboard = new Shuffleboard("SmartDashboard");
+    private MAShuffleboard driverStationShuffleboard = new MAShuffleboard("SmartDashboard");
     private static DriverStation driverStation;
 
     private DriverStation() {

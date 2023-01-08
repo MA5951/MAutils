@@ -27,7 +27,7 @@ public class OdometryHandler {
 
     public void reset() {
         currentPose = new Pose2d(0, 0, new Rotation2d());
-        odometry = new DifferentialDriveOdometry(new Rotation2d(0), currentPose);
+        odometry = new DifferentialDriveOdometry(new Rotation2d(0), 0, 0, currentPose);
     }
 
     public Waypoint getCurrentPosition() {
