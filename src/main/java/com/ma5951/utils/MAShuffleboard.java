@@ -1,4 +1,3 @@
-
 package com.ma5951.utils;
 
 import java.util.HashMap;
@@ -7,94 +6,77 @@ import edu.wpi.first.networktables.BooleanPublisher;
 import edu.wpi.first.networktables.BooleanSubscriber;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.DoubleSubscriber;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.Publisher;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringSubscriber;
 import edu.wpi.first.networktables.Subscriber;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class MAShuffleboard {
-    private Map<String, Subscriber> networkSubscriberTableNameMap = new HashMap<String, Subscriber>();
-    private Map<String, Publisher> networkPublisherTableNameMap = new HashMap<String, Publisher>();
-
-    private NetworkTableInstance inst;
-    private NetworkTable dataTable;
+    private ShuffleboardTab board;
+    private HashMap<String, GenericEntry> values;
 
     public MAShuffleboard(String tab) {
-        inst = NetworkTableInstance.getDefault();
-        dataTable = inst.getTable("SmartDashboard").getSubTable(tab);
+        board = Shuffleboard.getTab(tab);
+        values = new HashMap<String, GenericEntry>();
     }
 
-    public void addNum(String title, double value) {
-        if (!networkPublisherTableNameMap.containsKey(title)) {
-            Publisher pub = dataTable.getDoubleTopic(title).publish();
-  
-            networkPublisherTableNameMap.put(title, pub);
+    public void addNum(String title, double num) {
+        try {
+            values.get(title).setDouble(num);
         }
-        DoublePublisher pub = (DoublePublisher) networkPublisherTableNameMap.get(title);
-        pub.set(value);
-    }
-
-    public void addString(String title, String value) {
-        if (!networkPublisherTableNameMap.containsKey(title)) {
-            Publisher pub = dataTable.getDoubleTopic(title).publish();
-  
-            networkPublisherTableNameMap.put(title, pub);
+        catch (Exception e) {
+            values.put(title, board.add(title, num).getEntry());
         }
-        StringPublisher pub = (StringPublisher) networkPublisherTableNameMap.get(title);
-        pub.set(value);
     }
 
-    public void addBoolean(String title, Boolean value) {
-        if (!networkPublisherTableNameMap.containsKey(title)) {
-            Publisher pub = dataTable.getDoubleTopic(title).publish();
-  
-            networkPublisherTableNameMap.put(title, pub);
+    public void addString(String title, String str) {
+        try {
+            values.get(title).setString(str);
         }
-        BooleanPublisher pub = (BooleanPublisher) networkPublisherTableNameMap.get(title);
-        pub.set(value);
-    }
-
-    public boolean getBoolean(String title, boolean value) {
-        if (!networkSubscriberTableNameMap.containsKey(title)) {
-            Subscriber sub = dataTable.getBooleanTopic(title).subscribe(value);
-  
-            networkSubscriberTableNameMap.put(title, sub);
+        catch (Exception e) {
+            values.put(title, board.add(title, str).getEntry());
         }
-        BooleanSubscriber sub = (BooleanSubscriber) networkSubscriberTableNameMap.get(title);
-        return sub.get();
     }
 
-    public String getString(String title, String value) {
-        if (!networkSubscriberTableNameMap.containsKey(title)) {
-            Subscriber sub = dataTable.getStringTopic(title).subscribe(value);
-  
-            networkSubscriberTableNameMap.put(title, sub);
+    public void addBoolean(String title, boolean bol) {
+        try {
+            values.get(title).setBoolean(bol);
         }
-        StringSubscriber sub = (StringSubscriber) networkSubscriberTableNameMap.get(title);
-        return sub.get();
-    }
-
-    public double getNum(String title, double value) {
-        if (!networkSubscriberTableNameMap.containsKey(title)) {
-            Subscriber sub = dataTable.getDoubleTopic(title).subscribe(value);
-  
-            networkSubscriberTableNameMap.put(title, sub);
+        catch (Exception e) {
+            values.put(title, board.add(title, bol).getEntry());
         }
-        DoubleSubscriber sub = (DoubleSubscriber) networkSubscriberTableNameMap.get(title);
-        return sub.get();
     }
-
-    public boolean getBoolean(String title) {
-        return getBoolean(title, false);
+    
+    public double getNum(String title) {
+        try {
+            return values.get(title).getDouble(0);
+        } catch (Exception e){
+            System.err.println("none existing title");
+        }
+        return 0;
     }
 
     public String getString(String title) {
-        return getString(title, "Why?");
+        try {
+            return values.get(title).getString("null");
+        } catch (Exception e){
+            System.err.println("none existing title");
+        }
+        return "null";
     }
 
-    public double getNum(String title) {
-        return getNum(title, 0);
+    public Boolean getBoolean(String title) {
+        try {
+            return values.get(title).getBoolean(false);
+        } catch (Exception e){
+            System.err.println("none existing title");
+        }
+        return false;
     }
 }

@@ -7,6 +7,10 @@
 
 package com.ma5951.utils;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -29,24 +33,40 @@ public class Limelight {
   private double distanceFromTargetLimelightY;
   private double pipe;
 
-  private NetworkTable table;
-  private NetworkTableEntry threeDimension = table.getEntry("camtran");
-  private NetworkTableEntry tx = table.getEntry("tx");//Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
-  private NetworkTableEntry ty = table.getEntry("ty");//Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
-  private NetworkTableEntry ta = table.getEntry("ta");//Target Area (0% of image to 100% of image)
-  private NetworkTableEntry tv = table.getEntry("tv");//Whether the limelight has any valid targets (0 or 1)
-  private NetworkTableEntry ts = table.getEntry("ts");//Skew or rotation (-90 degrees to 0 degrees)
-  private NetworkTableEntry tl = table.getEntry("tl");//The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
-  private NetworkTableEntry tlong = table.getEntry("tlong");//Sidelength of longest side of the fitted bounding box (pixels)
-  private NetworkTableEntry tshort = table.getEntry("tshort");//Sidelength of shortest side of the fitted bounding box (pixels)
-  private NetworkTableEntry thor = table.getEntry("thor");//Horizontal sidelength of the rough bounding box (0 - 320 pixels)
-  private NetworkTableEntry tvert = table.getEntry("tvert");//Vertical sidelength of the rough bounding box (0 - 320 pixels)
-  private NetworkTableEntry getpipe = table.getEntry("getpipe");//True active pipeline index of the camera (0 .. 9)
+  private final NetworkTable table;
+  private final NetworkTableEntry threeDimension;
+  private final NetworkTableEntry ty ;//Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
+  private final NetworkTableEntry ta ;//Target Area (0% of image to 100% of image)
+  private final NetworkTableEntry tx ;//Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
+  private final NetworkTableEntry tv ;//Whether the limelight has any valid targets (0 or 1)
+  private final NetworkTableEntry ts ;//Skew or rotation (-90 degrees to 0 degrees)
+  private final NetworkTableEntry tl ;//The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
+  private final NetworkTableEntry tlong ;//Sidelength of longest side of the fitted bounding box (pixels)
+  private final NetworkTableEntry tshort ;//Sidelength of shortest side of the fitted bounding box (pixels)
+  private final NetworkTableEntry thor ;//Horizontal sidelength of the rough bounding box (0 - 320 pixels)
+  private final NetworkTableEntry tvert ;//Vertical sidelength of the rough bounding box (0 - 320 pixels)
+  private final NetworkTableEntry getpipe;//True active pipeline index of the camera (0 .. 9)
 
-  public Limelight(String tableName,double KDELTA_Y, double KLIMELIGHT_ANGLE){
-     table = NetworkTableInstance.getDefault().getTable(tableName);
-     this.KDELTA_Y = KDELTA_Y;
-     this.KLIMELIGHT_ANGLE = KLIMELIGHT_ANGLE;
+  private String PIAddress;
+
+  public Limelight(String tableName,double KDELTA_Y, double KLIMELIGHT_ANGLE,String PIAddress){
+    table = NetworkTableInstance.getDefault().getTable(tableName);//Check the name of the limelight
+    this.KDELTA_Y = KDELTA_Y;
+    this.KLIMELIGHT_ANGLE = KLIMELIGHT_ANGLE;
+    this.PIAddress = PIAddress;
+
+    threeDimension = table.getEntry("camtran");
+    tx = table.getEntry("tx");//Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
+    ty = table.getEntry("ty");//Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
+    ta = table.getEntry("ta");//Target Area (0% of image to 100% of image)
+    tv = table.getEntry("tv");//Whether the limelight has any valid targets (0 or 1)
+    ts = table.getEntry("ts");//Skew or rotation (-90 degrees to 0 degrees)
+    tl = table.getEntry("tl");//The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
+    tlong = table.getEntry("tlong");//Sidelength of longest side of the fitted bounding box (pixels)
+    tshort = table.getEntry("tshort");//Sidelength of shortest side of the fitted bounding box (pixels)
+    thor = table.getEntry("thor");//Horizontal sidelength of the rough bounding box (0 - 320 pixels)
+    tvert = table.getEntry("tvert");//Vertical sidelength of the rough bounding box (0 - 320 pixels)
+    getpipe = table.getEntry("getpipe");//True active pipeline index of the camera (0 .. 9)
   }
 
   public double distance() {
@@ -126,6 +146,34 @@ public class Limelight {
     return this.distanceFromTargetLimelightY;
   }
 
+  public boolean isConnected()
+  {
+      boolean isConnected = false;
+      try
+      {
+          InetAddress limeliInetAddress = InetAddress.getByName(PIAddress);
+          //System.out.println("Sending Ping Request to " + limeliInetAddress);
+
+          if (limeliInetAddress.isReachable(500))
+          {
+              isConnected = true;
+          }
+          System.out.println("isConnected:" + isConnected);
+          return isConnected;
+      }
+      catch (UnknownHostException e)
+      {
+          System.out.println("I can't reach this IPAddres: " + e.getMessage());
+          e.printStackTrace();
+      }
+      catch (IOException e)
+      {
+          System.out.println("IO Exception" + e.getMessage());
+      }
+
+      return false;
+  }
+
   public void periodic() {
     x = tx.getDouble(0.0);
     y = ty.getDouble(0.0);
@@ -141,6 +189,7 @@ public class Limelight {
     yaw = threeDimension.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0, 0 })[4];
     distanceFromTargetLimelightX = threeDimension.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0 })[0];
     distanceFromTargetLimelightY = threeDimension.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0 })[2];
+    isConnected();
   }
 
 }
