@@ -6,7 +6,7 @@ package com.ma5951.utils.commands;
 
 import java.util.function.Supplier;
 
-import com.ma5951.utils.controllers.ProfiledPIDControllerConstants;
+import com.ma5951.utils.controllersConstants.ProfiledPIDControllerConstants;
 import com.ma5951.utils.subsystem.ControlSubsystem;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -28,6 +28,7 @@ public class ControlCommandProfiledPID extends CommandBase {
   private ProfiledPIDControllerConstants profiledPIDConstants;
   private double maxVelocity;
   private double maxAcceleration;
+  private boolean needToStopGivingPowerAtTheEnd;
 
   /**
    * @param goal needs to be position or velocity and position
@@ -35,13 +36,15 @@ public class ControlCommandProfiledPID extends CommandBase {
    */
   public ControlCommandProfiledPID(ControlSubsystem subsystem, Supplier<TrapezoidProfile.State> goal,
    double maxVelocity, double maxAcceleration,
-    ProfiledPIDControllerConstants profiledpidControllerConstants, double delay) {
+    ProfiledPIDControllerConstants profiledpidControllerConstants, double delay,
+    boolean needToStopGivingPowerAtTheEnd) {
     this.delay = delay;
     this.subsystem = subsystem;
     this.goal = goal;
     this.profiledPIDConstants = profiledpidControllerConstants;
     this.maxAcceleration = maxAcceleration;
     this.maxVelocity = maxVelocity;
+    this.needToStopGivingPowerAtTheEnd = needToStopGivingPowerAtTheEnd;
     addRequirements(subsystem);
   }
 
@@ -51,8 +54,10 @@ public class ControlCommandProfiledPID extends CommandBase {
    */
   public ControlCommandProfiledPID (ControlSubsystem subsystem, TrapezoidProfile.State goal,
     double maxVelocity, double maxAcceleration,
-    ProfiledPIDControllerConstants profiledpidControllerConstant, double delay){
-      this(subsystem, () -> goal, maxVelocity, maxAcceleration, profiledpidControllerConstant, delay);
+    ProfiledPIDControllerConstants profiledpidControllerConstant, double delay,
+    boolean needToStopGivingPowerAtTheEnd){
+      this(subsystem, () -> goal, maxVelocity, maxAcceleration,
+        profiledpidControllerConstant, delay, needToStopGivingPowerAtTheEnd);
   }
   
   /**
@@ -61,7 +66,8 @@ public class ControlCommandProfiledPID extends CommandBase {
   public ControlCommandProfiledPID (ControlSubsystem subsystem, TrapezoidProfile.State goal,
    double maxVelocity, double maxAcceleration,
    ProfiledPIDControllerConstants profiledpidControllerConstant) {
-    this(subsystem, () -> goal, maxVelocity, maxAcceleration, profiledpidControllerConstant, 0);
+    this(subsystem, () -> goal, maxVelocity, maxAcceleration,
+    profiledpidControllerConstant, 0, true);
   }
   
   /**
@@ -69,7 +75,8 @@ public class ControlCommandProfiledPID extends CommandBase {
    */
   public ControlCommandProfiledPID (ControlSubsystem subsystem, Supplier<TrapezoidProfile.State> goal, double maxVelocity, 
     double maxAcceleration, ProfiledPIDControllerConstants profiledpidControllerConstant) {
-    this(subsystem, goal, maxVelocity, maxAcceleration, profiledpidControllerConstant, 0);
+    this(subsystem, goal, maxVelocity, maxAcceleration,
+      profiledpidControllerConstant, 0, true);
   }
 
   // Called when the command is initially scheduled.
@@ -98,7 +105,7 @@ public class ControlCommandProfiledPID extends CommandBase {
     );
     lastTime = Timer.getFPGATimestamp();
     lastSpeed = ProfiledPID.getSetpoint().velocity;
-    if (ProfiledPID.atGoal() && AtGoal){
+    if (ProfiledPID.atGoal() && !AtGoal){
       AtGoal = true;
       time = Timer.getFPGATimestamp();
     }
@@ -110,7 +117,9 @@ public class ControlCommandProfiledPID extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    subsystem.setVoltage(0);
+    if (needToStopGivingPowerAtTheEnd) {
+      subsystem.setPower(0);
+    }
   }
 
   // Returns true when the command should end.

@@ -11,10 +11,19 @@ public class BlinkingColorPattern implements  AddressableLEDPattern{
     private boolean on;
     private double lastChange;
 
-    public BlinkingColorPattern(Color onColor, double interval) {
+    public BlinkingColorPattern(Color onColor, Color offColor, double interval) {
         onPattern = new SolidColorPattern(onColor);
-        offPattern = new SolidColorPattern(Color.kBlack);
+        offPattern = new SolidColorPattern(offColor);
+        this.interval = interval;
     }
+
+    public void setParameters(Color color1, Color color2, double interval) {
+        this.interval = interval;
+        this.onPattern.setColor(color1);
+        this.offPattern.setColor(color2);
+    }
+
+
 
     @Override
     public void setLEDs(AddressableLEDBuffer buffer) {

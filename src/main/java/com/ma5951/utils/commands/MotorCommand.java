@@ -11,18 +11,21 @@ import java.util.function.Supplier;
 import com.ma5951.utils.subsystem.MotorSubsystem;
 
 public class MotorCommand extends CommandBase {
-  /** Creates a new MAMotorCommands. */
+
   private MotorSubsystem subsystem;
   private Supplier<Double> power;
+  private double endPower;
 
-  public MotorCommand(MotorSubsystem subsystem, Supplier<Double> power) {
+  public MotorCommand(MotorSubsystem subsystem, Supplier<Double> power,
+  double endPower) {
     this.subsystem = subsystem;
     this.power = power;
+    this.endPower = endPower;
     addRequirements(subsystem);
   }
 
-  public MotorCommand(MotorSubsystem subsystem, double power) {
-    this(subsystem, () -> power);
+  public MotorCommand(MotorSubsystem subsystem, double power, double endPower) {
+    this(subsystem, () -> power, endPower);
   }
 
   // Called when the command is initially scheduled.
@@ -43,6 +46,6 @@ public class MotorCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    subsystem.setPower(0);
+    subsystem.setPower(endPower);
   }
 }

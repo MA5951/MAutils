@@ -16,6 +16,10 @@ public class SolidColorPattern implements AddressableLEDPattern {
         this.color = color;
     }
 
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     @Override
     public void setLEDs(AddressableLEDBuffer buffer) {
         for (int i = 0; i < buffer.getLength(); i++) {

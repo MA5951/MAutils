@@ -8,25 +8,6 @@
 package com.ma5951.utils;
 
 public class RobotConstants {
-
-    public enum ENCODER {
-        No_Encoder, Encoder, Alternate_Encoder
-    }
-
-    public enum MOTOR_CONTROLL {
-        TALON, VICTOR, SPARKMAXBrushless, SPARKMAXBrushled, Falcon
-    }
-
-    public enum LIMIT_SWITCH {
-        forward, reverse
-    }
-
-    public static int ID1 = 1, ID2 = 2, ID3 = 3, ID4 = 4, ID5 = 5, ID6 = 6, ID7 = 7, ID8 = 8, ID9 = 9, ID10 = 10,
-            ID11 = 11, ID12 = 12, ID13 = 13, ID14 = 14, ID15 = 15, ID16 = 16;
-
-    public final static boolean KMOTOR_BRAKE = true;
-    public final static boolean KMOTOR_COAST = false;
-
     public final static int KMAX_RPM_CIM = 5330;
     public final static int KMAX_RPM_RS = 18730;
     public final static int KMAX_RPM_BAG = 13180;
@@ -46,94 +27,76 @@ public class RobotConstants {
     public final static int KCTRE_MAG_ENCODER_TPR = 4096;
     public final static int KCIMCODER_TPR = 80;
 
-    public final static int KTICKS_PER_PULSE = 1;
-    public final static double KDELTA_TIME = 0.020;
-    public final static double KGRAVITY_ACCELERATION = 9.82;
+    public final static double KDELTA_TIME = 0.02;
+    public final static double KGRAVITY_ACCELERATION = 9.8;
 
-    public final static int KLEFT_JOYSTICK_PORT = 0;
-    public final static int KRIGHT_JOYSTICK_PORT = 1;
-    public final static int KOPERATING_JOYSTICK_PORT = 2;
+    public final static int KDRIVING_JOYSTICK_PORT = 0;
+    public final static int KOPERATING_JOYSTICK_PORT = 1;
 
     public final static int KTRIGGER_THRESHOLD_TIME = 0;
 
-    // Pneumatics
-    public final static int P_ID0 = 0;
-    public final static int P_ID1 = 1;
-    public final static int P_ID2 = 2;
-    public final static int P_ID3 = 3;
-    public final static int P_ID4 = 4;
-    public final static int P_ID5 = 5;
-    public final static int P_ID6 = 6;
-    public final static int P_ID7 = 7;
+    public static class xbox {
+        public static class Buttons {
+            public static final int A = 1;
+            public static final int B = 2;
+            public static final int X = 3;
+            public static final int Y = 4;
+            public static final int LB = 5;
+            public static final int RB = 6;
+            public static final int BACK = 7;
+            public static final int START = 8;
+            public static final int STICK_LEFT = 9;
+            public static final int STICK_RIGHT = 10;
+        }
+        public static class Axis {
+            public static final int STICK_RIGHT_Y_AXIS = 5; 
+            public static final int STICK_RIGHT_X_AXIS = 4;
+            public static final int STICK_LEFT_Y_AXIS = 1;
+            public static final int STICK_LEFT_X_AXIS = 2;
+            public static final int L_TRIGER = 2;
+            public static final int R_TRIGER = 3;
+        }
+    }
 
-    // DIO
-    public final static int DIO_ID0 = 0;
-    public final static int DIO_ID1 = 1;
-    public final static int DIO_ID2 = 2;
-    public final static int DIO_ID3 = 3;
-    public final static int DIO_ID4 = 4;
-    public final static int DIO_ID5 = 5;
-    public final static int DIO_ID6 = 6;
-    public final static int DIO_ID7 = 7;
-    public final static int DIO_ID8 = 8;
-    public final static int DIO_ID9 = 9;
+    public static class PS5 {
+        public static class Buttons{
+            public static final int CROSS = 2;
+            public static final int CIRCLE = 3;
+            public static final int SQUARE = 1;
+            public static final int TRIANGLE = 4;
+            public static final int L1 = 5;
+            public static final int R1 = 6;
+            public static final int L2 = 7;
+            public static final int R2 = 8;
+            public static final int SHARE = 9;
+            public static final int OPTIONS = 10;
+            public static final int L3 = 11;
+            public static final int R3 = 12;
+            public static final int PS = 13;
+            public static final int TOUCHPAD = 14;
+        }
+        public static class Axis {
+            public static final int LEFT_STICK_X = 0;
+            public static final int RIGHT_STICK_X = 2;
+            public static final int LEFT_STICK_Y = 1;
+            public static final int RIGHT_STICK_Y = 5;
+            public static final int L2 = 3;
+            public static final int R2 = 4;
+        }
+    }
 
-    // Buttons
-    public static final int A = 1;
-    public static final int B = 2;
-    public static final int X = 3;
-    public static final int Y = 4;
-    public static final int LB = 5;
-    public static final int RB = 6;
-    public static final int BACK = 7;
-    public static final int START = 8;
-    public static final int STICK_LEFT = 9;
-    public static final int STICK_RIGHT = 10;
+    public static class POVButtons {
+        public static final int POV_CENTER = -1;
+        public static final int POV_UP = 0;
+        public static final int POV_UP_RIGHT = 45;
+        public static final int POV_RIGHT = 90;
+        public static final int POV_DOWN_RIGHT = 135;
+        public static final int POV_DOWN = 180;
+        public static final int POV_DOWN_LEFT = 225;
+        public static final int POV_LEFT = 270;
+        public static final int POV_LEFT_UP = 315;
+    }
 
-    //PS5 BUTTONS
-    public static final int cross = 2;
-    public static final int circle = 3;
-    public static final int square = 1;
-    public static final int triangle = 4;
-    public static final int L1 = 5;
-    public static final int R1 = 6;
-    public static final int L2 = 7;
-    public static final int R2 = 8;
-    public static final int share = 9;
-    public static final int options = 10;
-    public static final int L3 = 11;
-    public static final int R3 = 12;
-    public static final int PS = 13;
-    public static final int touchpad = 14;
-
-    // axis
-    public static final int STICK_RIGHT_Y_AXIS = 5; // TODO
-    public static final int STICK_RIGHT_X_AXIS = 4; // TODO
-    public static final int STICK_LEFT_Y_AXIS = 1; // TODO
-    public static final int STICK_LEFT_X_AXIS = 2; // TODO
-    public static final int L_TRIGER = 2; // TODO
-    public static final int R_TRIGER = 3; // TODO
-
-    // PS5 axis
-    public static final int Left_stick_X = 0;
-    public static final int Right_stick_x = 2;
-    public static final int Left_stick_Y = 1;
-    public static final int Right_stick_y = 5;
-    public static final int PS_L2 = 3;
-    public static final int PS_R2 = 4;
-
-    // POV
-    public static final int POV_CENTER = -1;
-    public static final int POV_UP = 0;
-    public static final int POV_UP_RIGHT = 45;
-    public static final int POV_RIGHT = 90;
-    public static final int POV_DOWN_RIGHT = 135;
-    public static final int POV_DOWN = 180;
-    public static final int POV_DOWN_LEFT = 225;
-    public static final int POV_LEFT = 270;
-    public static final int POV_LEFT_UP = 315;
-
-    //Voltage
-    public static final double voltage= 12;
+    public static final double MAX_VOLTAGE = 12;
 
 }

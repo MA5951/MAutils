@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package com.ma5951.utils.controllers;
+package com.ma5951.utils.controllersConstants;
 
 import java.util.function.Supplier;
 
@@ -16,11 +16,9 @@ public class PIDControllerConstants {
     private Supplier<Double> KV;
     private Supplier<Double> KA;
     private Supplier<Double> tolerance;
-    private Supplier<Double> high;
-    private Supplier<Double> low;
 
     public PIDControllerConstants(Supplier<Double> tolerance, Supplier<Double> KP, Supplier<Double> KI, Supplier<Double> KD, 
-    Supplier<Double> low, Supplier<Double> high, Supplier<Double> KS, Supplier<Double> KV, Supplier<Double> KA) {
+    Supplier<Double> KS, Supplier<Double> KV, Supplier<Double> KA) {
         this.KP = KP;
         this.KI = KI;
         this.KD = KD;
@@ -29,12 +27,10 @@ public class PIDControllerConstants {
         this.KV = KV;
         this.KA = KA;
         this.tolerance = tolerance;
-        this.high = high;
-        this.low = low;
     }
 
     public PIDControllerConstants(Supplier<Double> tolerance, Supplier<Double> KP, Supplier<Double> KI, Supplier<Double> KD, 
-    Supplier<Double> low, Supplier<Double> high, Supplier<Double> KS, Supplier<Double> KV) {
+    Supplier<Double> KS, Supplier<Double> KV) {
         this.KP = KP;
         this.KI = KI;
         this.KD = KD;
@@ -43,12 +39,9 @@ public class PIDControllerConstants {
         this.KV = KV;
         this.KA = ()-> 0.0;
         this.tolerance = tolerance;
-        this.high = high;
-        this.low = low;
     }
 
-    public PIDControllerConstants(Supplier<Double> tolerance, Supplier<Double> KP, Supplier<Double> KI, Supplier<Double> KD, Supplier<Double> KF,
-    Supplier<Double> high, Supplier<Double> low){
+    public PIDControllerConstants(Supplier<Double> tolerance, Supplier<Double> KP, Supplier<Double> KI, Supplier<Double> KD, Supplier<Double> KF){
         this.KP = KP;
         this.KI = KI;
         this.KD = KD;
@@ -57,16 +50,10 @@ public class PIDControllerConstants {
         this.KV = ()-> 0.0;
         this.KA = ()-> 0.0;
         this.tolerance = tolerance;
-        this.high = high;
-        this.low = low;
-    }
-
-    public PIDControllerConstants (Supplier<Double> tolerance, Supplier<Double> KP, Supplier<Double> KI, Supplier<Double> KD, Supplier<Double> KF){
-        this(tolerance, KP, KI, KD, KF, ()-> 1.0, ()-> -1.0);
     }
 
     public PIDControllerConstants (Supplier<Double> tolerance, Supplier<Double> KP, Supplier<Double> KI, Supplier<Double> KD){
-        this(tolerance, KP, KI, KD, ()-> 0.0, ()-> 1.0, ()-> -1.0);
+        this(tolerance, KP, KI, KD, ()-> 0.0);
     }
 
     /**
@@ -98,13 +85,13 @@ public class PIDControllerConstants {
      * @param low
      */
     public PIDControllerConstants (double tolerance, double KP, double KI, double KD, 
-        double low, double high, double KS, double KV, double KA){
-        this(()-> tolerance, ()-> KP, ()-> KI, ()-> KD, ()-> low, ()-> high, ()-> KS, ()-> KV, ()-> KA);
+        double KS, double KV, double KA){
+        this(()-> tolerance, ()-> KP, ()-> KI, ()-> KD, ()-> KS, ()-> KV, ()-> KA);
     }
 
-    public PIDControllerConstants (double tolerance, double KP, double KI, double KD, 
-        double low, double high, double KS, double KV){
-        this(()-> tolerance, ()-> KP, ()-> KI, ()-> KD, ()-> low, ()-> high, ()-> KS, ()-> KV);
+    public PIDControllerConstants (double tolerance, double KP, double KI, double KD,
+     double KS, double KV){
+        this(()-> tolerance, ()-> KP, ()-> KI, ()-> KD, ()-> KS, ()-> KV);
     }
 
 
@@ -118,20 +105,8 @@ public class PIDControllerConstants {
      * @param high
      * @param low
      */
-    public PIDControllerConstants (double tolerance, double KP, double KI, double KD, double KF,
-        double high, double low) {
-        this(()-> tolerance, ()-> KP, ()-> KI, ()-> KD, ()-> KF, ()-> high, ()-> low);
-    }
-
-    /**
-     * @param tolerance
-     * @param KP
-     * @param KI
-     * @param KD
-     * @param KF
-     */
-    public PIDControllerConstants (double tolerance, double KP, double KI, double KD, double KF){
-        this(()-> tolerance, ()-> KP, ()-> KI, ()-> KD, ()-> KF, ()-> 1.0, ()-> -1.0);
+    public PIDControllerConstants (double tolerance, double KP, double KI, double KD, double KF) {
+        this(()-> tolerance, ()-> KP, ()-> KI, ()-> KD, ()-> KF);
     }
 
     /**
@@ -141,7 +116,7 @@ public class PIDControllerConstants {
      * @param KD
      */
     public PIDControllerConstants (double tolerance, double KP, double KI, double KD){
-        this(()-> tolerance, ()-> KP, ()-> KI, ()-> KD, ()-> 0.0, ()-> 1.0, ()-> -1.0);
+        this(()-> tolerance, ()-> KP, ()-> KI, ()-> KD, ()-> 0.0);
     }
 
     /**
@@ -150,7 +125,7 @@ public class PIDControllerConstants {
      * @param KI
      */
     public PIDControllerConstants (double tolerance, double KP, double KI){
-        this(()-> tolerance, ()-> KP, ()-> KI, ()-> 0.0, ()-> 0.0, ()-> 1.0, ()-> -1.0);
+        this(()-> tolerance, ()-> KP, ()-> KI, ()-> 0.0, ()-> 0.0);
     }
 
     /**
@@ -158,7 +133,7 @@ public class PIDControllerConstants {
      * @param KP
      */
     public PIDControllerConstants (double tolerance, double KP){
-        this(()-> tolerance, ()-> KP, ()-> 0.0, ()-> 0.0, ()-> 0.0, ()-> 1.0, ()-> -1.0);
+        this(()-> tolerance, ()-> KP, ()-> 0.0, ()-> 0.0, ()-> 0.0);
     }
     
     public double getKD() {
@@ -187,14 +162,6 @@ public class PIDControllerConstants {
 
     public double getKA() {
         return KA.get();
-    }
-
-    public double getHigh() {
-        return high.get();
-    }
-
-    public double getLow() {
-        return low.get();
     }
 
     public double gettolerance() {
