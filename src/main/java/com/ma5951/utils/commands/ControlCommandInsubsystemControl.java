@@ -10,27 +10,25 @@ import com.ma5951.utils.subsystem.ControlSubsystemInSubsystemControl;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ControlCommandInsubsystemControl extends CommandBase {
+public class ControlCommandInSubsystemControl extends CommandBase {
   /** Creates a new ControlCommand. */
   private ControlSubsystemInSubsystemControl subsystem;
   private Supplier<Double> setPoint;
   private boolean needToStopGivingPowerAtTheEnd;
 
-  public ControlCommandInsubsystemControl(
+  public ControlCommandInSubsystemControl(
     ControlSubsystemInSubsystemControl subsystem,
     Supplier<Double> setPoint,
     boolean needToStopGivingPowerAtTheEnd) {
-    // Use addRequirements() here to declare subsystem dependencies.
     this.subsystem = subsystem;
     this.setPoint = setPoint;
     this.needToStopGivingPowerAtTheEnd = needToStopGivingPowerAtTheEnd;
     addRequirements(subsystem);
   }
 
-  public ControlCommandInsubsystemControl(
+  public ControlCommandInSubsystemControl(
     ControlSubsystemInSubsystemControl subsystem,
     double setPoint, boolean needToStopGivingPowerAtTheEnd) {
-  // Use addRequirements() here to declare subsystem dependencies.
   this.subsystem = subsystem;
   this.setPoint = () -> setPoint;
   this.needToStopGivingPowerAtTheEnd = needToStopGivingPowerAtTheEnd;

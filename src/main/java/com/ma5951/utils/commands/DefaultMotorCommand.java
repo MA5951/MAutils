@@ -6,21 +6,27 @@ package com.ma5951.utils.commands;
 
 import java.util.function.Supplier;
 
-import com.ma5951.utils.subsystem.DefultControlSubsystemInSubsystemControl;
+import com.ma5951.utils.subsystem.MotorSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class DefultControlCommandInSubsystemControl extends CommandBase {
-  /** Creates a new DefultControlCommandInSubsystemControl. */
-  private DefultControlSubsystemInSubsystemControl subsystem;
+public class DefaultMotorCommand extends CommandBase {
+  /** Creates a new DefultMotorCommand. */
+  private MotorSubsystem subsystem;
+  private Supplier<Double> power;
   private Supplier<Double> powerWhenCantMove;
 
-  public DefultControlCommandInSubsystemControl(
-    DefultControlSubsystemInSubsystemControl subsystem,
-    Supplier<Double> powerWhenCantMove) {
-      this.subsystem = subsystem;
-      this.powerWhenCantMove = powerWhenCantMove;
+  public DefaultMotorCommand(MotorSubsystem subsystem, Supplier<Double> power,
+  Supplier<Double> powerWhenCantMove) {
+    this.subsystem = subsystem;
+    this.power = power;
+    this.powerWhenCantMove = powerWhenCantMove;
     addRequirements(subsystem);
+  }
+
+  public DefaultMotorCommand(MotorSubsystem subsystem,
+    Supplier<Double> power) {
+    this(subsystem, power, () -> 0d);
   }
 
   // Called when the command is initially scheduled.
@@ -31,7 +37,7 @@ public class DefultControlCommandInSubsystemControl extends CommandBase {
   @Override
   public void execute() {
     if (subsystem.canMove()) {
-      subsystem.calculate(subsystem.getSetPoint());
+      subsystem.setPower(power.get());
     } else {
       subsystem.setPower(powerWhenCantMove.get());
     }

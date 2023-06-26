@@ -1,6 +1,6 @@
 package com.ma5951.utils.subsystem;
 
-public interface DefultControlSubsystemInSubsystemControl extends
+public interface DefaultControlSubsystemInSubsystemControl extends
   ControlSubsystemInSubsystemControl{
   public void setSetPoint(double setPoint);
 
