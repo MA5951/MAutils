@@ -7,7 +7,7 @@ package com.ma5951.utils.commands;
 import java.util.function.Supplier;
 
 import com.ma5951.utils.controllersConstants.ProfiledPIDControllerConstants;
-import com.ma5951.utils.subsystem.ControlSubsystem;
+import com.ma5951.utils.subsystem.ControllableSubsystems;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ControlCommandProfiledPID extends CommandBase {
-  private ControlSubsystem subsystem;
+  private ControllableSubsystems subsystem;
   private Supplier<TrapezoidProfile.State> goal;
   private ProfiledPIDController  ProfiledPID;
   private SimpleMotorFeedforward feedforward;
@@ -34,7 +34,7 @@ public class ControlCommandProfiledPID extends CommandBase {
    * @param goal needs to be position or velocity and position
    * @param delay the amount of time you what the system to be in the goal before stoping
    */
-  public ControlCommandProfiledPID(ControlSubsystem subsystem, Supplier<TrapezoidProfile.State> goal,
+  public ControlCommandProfiledPID(ControllableSubsystems subsystem, Supplier<TrapezoidProfile.State> goal,
    double maxVelocity, double maxAcceleration,
     ProfiledPIDControllerConstants profiledpidControllerConstants, double delay,
     boolean needToStopGivingPowerAtTheEnd) {
@@ -52,7 +52,7 @@ public class ControlCommandProfiledPID extends CommandBase {
    * @param goal needs to be position or velocity and position
    * @param delay the amount of time you what the system to be in the goal before stoping
    */
-  public ControlCommandProfiledPID (ControlSubsystem subsystem, TrapezoidProfile.State goal,
+  public ControlCommandProfiledPID (ControllableSubsystems subsystem, TrapezoidProfile.State goal,
     double maxVelocity, double maxAcceleration,
     ProfiledPIDControllerConstants profiledpidControllerConstant, double delay,
     boolean needToStopGivingPowerAtTheEnd){
@@ -63,7 +63,7 @@ public class ControlCommandProfiledPID extends CommandBase {
   /**
    * @param goal needs to be position or velocity and position
    */
-  public ControlCommandProfiledPID (ControlSubsystem subsystem, TrapezoidProfile.State goal,
+  public ControlCommandProfiledPID (ControllableSubsystems subsystem, TrapezoidProfile.State goal,
    double maxVelocity, double maxAcceleration,
    ProfiledPIDControllerConstants profiledpidControllerConstant) {
     this(subsystem, () -> goal, maxVelocity, maxAcceleration,
@@ -73,7 +73,7 @@ public class ControlCommandProfiledPID extends CommandBase {
   /**
    * @param goal needs to be position or velocity and position
    */
-  public ControlCommandProfiledPID (ControlSubsystem subsystem, Supplier<TrapezoidProfile.State> goal, double maxVelocity, 
+  public ControlCommandProfiledPID (ControllableSubsystems subsystem, Supplier<TrapezoidProfile.State> goal, double maxVelocity, 
     double maxAcceleration, ProfiledPIDControllerConstants profiledpidControllerConstant) {
     this(subsystem, goal, maxVelocity, maxAcceleration,
       profiledpidControllerConstant, 0, true);

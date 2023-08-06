@@ -6,17 +6,17 @@ package com.ma5951.utils.commands;
 
 import java.util.function.Supplier;
 
-import com.ma5951.utils.subsystem.DefaultControlSubsystemInSubsystemControl;
+import com.ma5951.utils.subsystem.DefaultInternallyControlledSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class DefaultControlCommandInSubsystemControl extends CommandBase {
+public class DefaultRunInternallyControlledSubsystem extends CommandBase {
   /** Creates a new DefultControlCommandInSubsystemControl. */
-  private DefaultControlSubsystemInSubsystemControl subsystem;
+  private DefaultInternallyControlledSubsystem subsystem;
   private Supplier<Double> powerWhenCantMove;
 
-  public DefaultControlCommandInSubsystemControl(
-    DefaultControlSubsystemInSubsystemControl subsystem,
+  public DefaultRunInternallyControlledSubsystem(
+    DefaultInternallyControlledSubsystem subsystem,
     Supplier<Double> powerWhenCantMove) {
       this.subsystem = subsystem;
       this.powerWhenCantMove = powerWhenCantMove;

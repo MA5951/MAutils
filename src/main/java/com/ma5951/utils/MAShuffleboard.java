@@ -79,26 +79,26 @@ public class MAShuffleboard {
         private static final String KP_STRING = "KP";
         private static final String KI_STRING = "KI";
         private static final String KD_STRING = "KD";
-        private final MAShuffleboard SHUFFLEBOARD;
+        private MAShuffleboard shuffleboard;
 
         private pidControllerGainSupplier(MAShuffleboard shuffleboard,
          double KP, double KI, double KD) {
-            SHUFFLEBOARD = shuffleboard;
-            SHUFFLEBOARD.addNum(KP_STRING, KP);
-            SHUFFLEBOARD.addNum(KI_STRING, KI);
-            SHUFFLEBOARD.addNum(KD_STRING, KD);
+            this.shuffleboard = shuffleboard;
+            shuffleboard.addNum(KP_STRING, KP);
+            shuffleboard.addNum(KI_STRING, KI);
+            shuffleboard.addNum(KD_STRING, KD);
         }
 
         public double getKP() {
-            return SHUFFLEBOARD.getNum(KP_STRING);
+            return shuffleboard.getNum(KP_STRING);
         }
 
         public double getKI() {
-            return SHUFFLEBOARD.getNum(KI_STRING);
+            return shuffleboard.getNum(KI_STRING);
         }
 
         public double getKD() {
-            return SHUFFLEBOARD.getNum(KD_STRING);
+            return shuffleboard.getNum(KD_STRING);
         }
     }
 }

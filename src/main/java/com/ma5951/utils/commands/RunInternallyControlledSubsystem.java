@@ -6,18 +6,18 @@ package com.ma5951.utils.commands;
 
 import java.util.function.Supplier;
 
-import com.ma5951.utils.subsystem.ControlSubsystemInSubsystemControl;
+import com.ma5951.utils.subsystem.InternallyControlledSubsystem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ControlCommandInSubsystemControl extends CommandBase {
+public class RunInternallyControlledSubsystem extends CommandBase {
   /** Creates a new ControlCommand. */
-  private ControlSubsystemInSubsystemControl subsystem;
+  private InternallyControlledSubsystem subsystem;
   private Supplier<Double> setPoint;
   private boolean needToStopGivingPowerAtTheEnd;
 
-  public ControlCommandInSubsystemControl(
-    ControlSubsystemInSubsystemControl subsystem,
+  public RunInternallyControlledSubsystem(
+    InternallyControlledSubsystem subsystem,
     Supplier<Double> setPoint,
     boolean needToStopGivingPowerAtTheEnd) {
     this.subsystem = subsystem;
@@ -26,8 +26,8 @@ public class ControlCommandInSubsystemControl extends CommandBase {
     addRequirements(subsystem);
   }
 
-  public ControlCommandInSubsystemControl(
-    ControlSubsystemInSubsystemControl subsystem,
+  public RunInternallyControlledSubsystem(
+    InternallyControlledSubsystem subsystem,
     double setPoint, boolean needToStopGivingPowerAtTheEnd) {
   this.subsystem = subsystem;
   this.setPoint = () -> setPoint;
