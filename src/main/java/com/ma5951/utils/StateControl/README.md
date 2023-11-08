@@ -10,9 +10,8 @@ CommandScheduler.getInstance().setDefaultCommand(
 
 
 Step 3:
-Create your subsystem states in the StateRunner command (line 15)
-
+Create your subsystem states in your desierd place
 
 Step 4:
-Call the .runState() function for every state you created in the execute section in the StateRunner command (By priorit)
+
 

@@ -10,7 +10,7 @@ public class State {
     private boolean runInit;
     private boolean runEnd;
 
-    public State(Supplier<Boolean> Condition , Command Command ) {
+    public State(Supplier<Boolean> Condition , Command Command) {
         condition = Condition;
         command = Command;
         runInit = true;

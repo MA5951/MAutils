@@ -6,14 +6,13 @@ package com.ma5951.utils.StateControl;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+
 public class StateRunner extends CommandBase {
-  /** Creates a new StateRunner. */
+  
+  private State states[];
 
-  public StateRunner() {
-    //Create here your subsystem states 
-    //example: state1 = new State( Condition , Command)
-
-
+  public StateRunner(State states[]) {
+    this.states = states;
   }
 
   // Called when the command is initially scheduled.
@@ -23,15 +22,17 @@ public class StateRunner extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Write here .runState() command for every state you created
-    //example: state1.runState()
-
-
+    for(int i = 0; i< states.length;i++){
+      states[i].runState();
+    }
+  
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+
+  }
 
   // Returns true when the command should end.
   @Override
