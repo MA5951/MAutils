@@ -8,27 +8,28 @@ public class State {
     private Supplier<Boolean> condition;
     private Command command;
     
-    private int commandState;
+    private boolean runInit;
+    private boolean runEnd;
 
     public State(Supplier<Boolean> Condition , Command Command ) {
         condition = Condition;
         command = Command;
-        commandState = 0;
-        
+        runInit = true;
+        runEnd = true;
     }
 
     public void runState() {
        
-       if (condition.get() && commandState == 0) {
+       if (condition.get() && runInit) {
             command.initialize();
-            commandState++;       
-        } else if (condition.get() && commandState == 1) {
+            runInit = false;      
+        } else if (condition.get() && runInit == false) {
             command.execute();
-            
-        } else if ( condition.get() && commandState == 2)
+            runEnd = false;
+        }  else if (!condition.get() && runEnd == false){        
             command.end((false));
-            commandState = 0;
-        }
-
+            runInit = true;
+        } 
+    }
 
 }
