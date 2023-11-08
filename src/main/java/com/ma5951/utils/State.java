@@ -1,11 +1,10 @@
 package com.ma5951.utils;
 
-import java.util.concurrent.locks.Condition;
 import java.util.function.Supplier;
-
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class State {
+
     private Supplier<Boolean> condition;
     private Command command;
     
@@ -25,10 +24,11 @@ public class State {
             commandState++;       
         } else if (condition.get() && commandState == 1) {
             command.execute();
-        } else if ()
-        
-        
-    }
+            
+        } else if ( condition.get() && commandState == 2)
+            command.end((false));
+            commandState = 0;
+        }
 
 
 }
