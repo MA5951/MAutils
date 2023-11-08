@@ -1,100 +1,104 @@
-
 package com.ma5951.utils;
 
 import java.util.HashMap;
-import java.util.Map;
-import edu.wpi.first.networktables.BooleanPublisher;
-import edu.wpi.first.networktables.BooleanSubscriber;
-import edu.wpi.first.networktables.DoublePublisher;
-import edu.wpi.first.networktables.DoubleSubscriber;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.Publisher;
-import edu.wpi.first.networktables.StringPublisher;
-import edu.wpi.first.networktables.StringSubscriber;
-import edu.wpi.first.networktables.Subscriber;
+
+import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class MAShuffleboard {
-    private Map<String, Subscriber> networkSubscriberTableNameMap = new HashMap<String, Subscriber>();
-    private Map<String, Publisher> networkPublisherTableNameMap = new HashMap<String, Publisher>();
-
-    private NetworkTableInstance inst;
-    private NetworkTable dataTable;
+    private ShuffleboardTab board;
+    private HashMap<String, GenericEntry> values;
 
     public MAShuffleboard(String tab) {
-        inst = NetworkTableInstance.getDefault();
-        dataTable = inst.getTable("SmartDashboard").getSubTable(tab);
+        board = Shuffleboard.getTab(tab);
+        values = new HashMap<String, GenericEntry>();
     }
 
-    public void addNum(String title, double value) {
-        if (!networkPublisherTableNameMap.containsKey(title)) {
-            Publisher pub = dataTable.getDoubleTopic(title).publish();
-  
-            networkPublisherTableNameMap.put(title, pub);
+    public void addNum(String title, double num) {
+        if (!values.containsKey(title)) {
+            values.put(title, board.add(title, num).getEntry());
+        } else {
+            values.get(title).setDouble(num);
         }
-        DoublePublisher pub = (DoublePublisher) networkPublisherTableNameMap.get(title);
-        pub.set(value);
     }
 
-    public void addString(String title, String value) {
-        if (!networkPublisherTableNameMap.containsKey(title)) {
-            Publisher pub = dataTable.getDoubleTopic(title).publish();
-  
-            networkPublisherTableNameMap.put(title, pub);
+    public void addString(String title, String str) {
+        if(!values.containsKey(title)) {
+            values.put(title, board.add(title, str).getEntry());
+        } else {
+            values.get(title).setString(str);
         }
-        StringPublisher pub = (StringPublisher) networkPublisherTableNameMap.get(title);
-        pub.set(value);
     }
 
-    public void addBoolean(String title, Boolean value) {
-        if (!networkPublisherTableNameMap.containsKey(title)) {
-            Publisher pub = dataTable.getDoubleTopic(title).publish();
-  
-            networkPublisherTableNameMap.put(title, pub);
+    public void addBoolean(String title, boolean bol) {
+        if (!values.containsKey(title)) {
+            values.put(title, board.add(title, bol).getEntry());
+        } else {
+            values.get(title).setBoolean(bol);
         }
-        BooleanPublisher pub = (BooleanPublisher) networkPublisherTableNameMap.get(title);
-        pub.set(value);
     }
-
-    public boolean getBoolean(String title, boolean value) {
-        if (!networkSubscriberTableNameMap.containsKey(title)) {
-            Subscriber sub = dataTable.getBooleanTopic(title).subscribe(value);
-  
-            networkSubscriberTableNameMap.put(title, sub);
+    
+    public double getNum(String title) {
+        if (values.containsKey(title)) {
+            return values.get(title).getDouble(0);
         }
-        BooleanSubscriber sub = (BooleanSubscriber) networkSubscriberTableNameMap.get(title);
-        return sub.get();
-    }
-
-    public String getString(String title, String value) {
-        if (!networkSubscriberTableNameMap.containsKey(title)) {
-            Subscriber sub = dataTable.getStringTopic(title).subscribe(value);
-  
-            networkSubscriberTableNameMap.put(title, sub);
-        }
-        StringSubscriber sub = (StringSubscriber) networkSubscriberTableNameMap.get(title);
-        return sub.get();
-    }
-
-    public double getNum(String title, double value) {
-        if (!networkSubscriberTableNameMap.containsKey(title)) {
-            Subscriber sub = dataTable.getDoubleTopic(title).subscribe(value);
-  
-            networkSubscriberTableNameMap.put(title, sub);
-        }
-        DoubleSubscriber sub = (DoubleSubscriber) networkSubscriberTableNameMap.get(title);
-        return sub.get();
-    }
-
-    public boolean getBoolean(String title) {
-        return getBoolean(title, false);
+        System.err.println("none existing title: " + title);
+        return 0;
     }
 
     public String getString(String title) {
-        return getString(title, "Why?");
+
+        if (values.containsKey(title)) {
+            return values.get(title).getString("null");
+        }
+        System.err.println("none existing title: " + title);
+        return "null";
     }
 
-    public double getNum(String title) {
-        return getNum(title, 0);
+    public Boolean getBoolean(String title) {
+
+        if (values.containsKey(title)) {
+            return values.get(title).getBoolean(false);
+        }
+        System.err.println("none existing title: " + title);
+        return false;
+    }
+
+    public pidControllerGainSupplier getPidControllerGainSupplier(
+        double KP, double KI, double KD) {
+            return new pidControllerGainSupplier(this, KP, KI, KD);
+    }
+
+    public pidControllerGainSupplier getPidControllerGainSupplier() {
+        return this.getPidControllerGainSupplier(0, 0, 0);
+    }
+
+    public class pidControllerGainSupplier {
+        
+        private static final String KP_STRING = "KP";
+        private static final String KI_STRING = "KI";
+        private static final String KD_STRING = "KD";
+        private MAShuffleboard shuffleboard;
+
+        private pidControllerGainSupplier(MAShuffleboard shuffleboard,
+         double KP, double KI, double KD) {
+            this.shuffleboard = shuffleboard;
+            shuffleboard.addNum(KP_STRING, KP);
+            shuffleboard.addNum(KI_STRING, KI);
+            shuffleboard.addNum(KD_STRING, KD);
+        }
+
+        public double getKP() {
+            return shuffleboard.getNum(KP_STRING);
+        }
+
+        public double getKI() {
+            return shuffleboard.getNum(KI_STRING);
+        }
+
+        public double getKD() {
+            return shuffleboard.getNum(KD_STRING);
+        }
     }
 }

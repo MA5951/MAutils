@@ -1,4 +1,4 @@
-package com.ma5951.utils.controllers;
+package com.ma5951.utils.controllersConstants;
 
 import java.util.function.Supplier;
 
