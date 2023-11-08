@@ -6,7 +6,7 @@ Copy the defult command to run the StateRunner command to your robot init:
 
 CommandScheduler.getInstance().setDefaultCommand(
         StateControl.getInstance(), new StateRunner() );
-  }
+
 
 
 Step 3:

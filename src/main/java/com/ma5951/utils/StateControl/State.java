@@ -9,6 +9,7 @@ public class State {
     private Command command;
     private boolean runInit;
     private boolean runEnd;
+    private boolean conditionState;
 
     public State(Supplier<Boolean> Condition , Command Command) {
         condition = Condition;
@@ -18,18 +19,25 @@ public class State {
     }
 
     public void runState() {
-       
+        conditionState = condition.get();
+
        if (condition.get() && runInit) {
             command.initialize();
             runInit = false;      
         } else if (condition.get() && runInit == false) {
             command.execute();
             runEnd = true;
-        }  else if (!condition.get() || !command.isFinished() && runEnd ){        
+        }  else if (!condition.get() || !command.isFinished() && runEnd ){
             command.end((false));
             runInit = true;
             runEnd = false;
+
         } 
     }
+
+    public Boolean getConditionState() {
+        return conditionState;
+    }
+    
 
 }
