@@ -26,9 +26,10 @@ public class State {
         } else if (condition.get() && runInit == false) {
             command.execute();
             runEnd = false;
-        }  else if (!condition.get() && runEnd == false){        
+        }  else if (!condition.get() || command.isFinished() && runEnd == false ){        
             command.end((false));
             runInit = true;
+            runEnd = true;
         } 
     }
 
