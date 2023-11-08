@@ -1,0 +1,41 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package com.ma5951.utils.StateControl;
+
+import edu.wpi.first.wpilibj2.command.CommandBase;
+
+public class StateRunner extends CommandBase {
+  /** Creates a new StateRunner. */
+
+  public StateRunner() {
+    //Create here your subsystem states 
+    //example: state1 = new State( Condition , Command)
+
+
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {}
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    // Write here .runState() command for every state you created
+    //example: state1.runState()
+
+
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {}
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+}
