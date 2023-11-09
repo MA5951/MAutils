@@ -6,43 +6,23 @@ package com.ma5951.utils.StateControl;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-
-public class StateRunner extends CommandBase {
-  
-  private State states[];
-  private State currentState;
-
-  public StateRunner(State states[]) {
-    this.states = states;
-  }
-
-  public void setCurrentState(State currentState) {
-    this.currentState = currentState;
+public class NullCommand extends CommandBase {
+  /** Creates a new NullCommand. */
+  public NullCommand() {
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-     currentState = new State(() -> true, new NullCommand() );
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    currentState.runState();
-    
-    for(int i = 0; i< states.length;i++){
-      if (states[i].getConditionState()) {
-        currentState = states[i];
-      }
-    }
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
