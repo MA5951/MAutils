@@ -36,6 +36,7 @@ public class State {
     }
 
     public Boolean getConditionState() {
+        conditionState = condition.get();
         return conditionState;
     }
     
