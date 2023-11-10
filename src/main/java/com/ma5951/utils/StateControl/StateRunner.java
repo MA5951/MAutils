@@ -11,13 +11,10 @@ public class StateRunner extends CommandBase {
   
   private State states[];
   private State currentState;
+  private boolean isStateActiv;
 
   public StateRunner(State states[]) {
     this.states = states;
-  }
-
-  public void setCurrentState(State currentState) {
-    this.currentState = currentState;
   }
 
   // Called when the command is initially scheduled.
@@ -31,11 +28,18 @@ public class StateRunner extends CommandBase {
   public void execute() {
     currentState.runState();
     
+    isStateActiv = false;
     for(int i = 0; i< states.length;i++){
       if (states[i].getConditionState()) {
         currentState = states[i];
+        isStateActiv = true;
       }
     }
+
+    if (isStateActiv) {
+      currentState = new State(() -> true, new NullCommand() );
+    }
+
   }
 
   // Called once the command ends or is interrupted.
