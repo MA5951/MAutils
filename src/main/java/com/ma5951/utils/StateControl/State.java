@@ -19,15 +19,14 @@ public class State {
     }
 
     public void runState() {
-        conditionState = condition.get();
 
        if (condition.get() && runInit) {
             command.initialize();
             runInit = false;      
-        } else if (condition.get() && runInit == false) {
+        } else if (condition.get() || !command.isFinished() && runInit == false) {
             command.execute();
             runEnd = true;
-        }  else if (!condition.get() || !command.isFinished() && runEnd ){
+        }  else if (!condition.get() || command.isFinished() && runEnd ){
             command.end((false));
             runInit = true;
             runEnd = false;
@@ -36,8 +35,7 @@ public class State {
     }
 
     public Boolean getConditionState() {
-        conditionState = condition.get();
-        return conditionState;
+        return condition.get();
     }
     
 

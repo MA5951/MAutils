@@ -36,7 +36,7 @@ public class StateRunner extends CommandBase {
       }
     }
 
-    if (isStateActiv) {
+    if (!isStateActiv) {
       currentState = new State(() -> true, new NullCommand() );
     }
 
