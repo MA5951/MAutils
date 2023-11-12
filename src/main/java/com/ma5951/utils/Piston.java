@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package com.ma5951.utils.motor;
+package com.ma5951.utils;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -15,20 +15,17 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 public class Piston {
     private Solenoid solenoid;
     private DoubleSolenoid doubleSolenoid;
-    private boolean isDoubleSolenoid;
 
     public Piston(int channel) {
-        isDoubleSolenoid = false;
         solenoid = new Solenoid(PneumaticsModuleType.REVPH, channel);
     }
 
     public Piston(int forwardChannel, int reverseChannel) {
-        isDoubleSolenoid = true;
-        doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, forwardChannel, reverseChannel);
+       doubleSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, forwardChannel, reverseChannel);
     }
 
     public void set(boolean on) {
-        if (isDoubleSolenoid) {
+        if (solenoid == null) {
             doubleSolenoid.set(fromBooleanToValue(on));
         } else {
             solenoid.set(on);
@@ -50,21 +47,21 @@ public class Piston {
     }
 
     public boolean get() {
-        if (isDoubleSolenoid)
+        if (solenoid == null)
             return fromValueToBoolean(doubleSolenoid.get());
         else
             return solenoid.get();
     }
 
     public void toggle() {
-        if (isDoubleSolenoid)
+        if (solenoid == null)
             doubleSolenoid.set(fromBooleanToValue(!get()));
         else
             solenoid.set(!get());
     }
 
     public void off() {
-        if (isDoubleSolenoid)
+        if (solenoid == null)
             doubleSolenoid.set(Value.kOff);
         else
             solenoid.set(false);
