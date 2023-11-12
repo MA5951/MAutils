@@ -24,16 +24,17 @@ public class PhotonVision {
     private double cameraPitchRadians;
     private AprilTagFieldLayout layout;
     private PhotonPoseEstimator photonPoseEstimator;
+    private int pipline = 0;
 
-    public PhotonVision(String cameraName, 
-        Transform3d robotToCam,
-        AprilTagFieldLayout layout) {
+    public PhotonVision(String cameraName,
+            Transform3d robotToCam,
+            AprilTagFieldLayout layout) {
         camera = new PhotonCamera(cameraName);
         this.cameraHeightMeters = robotToCam.getZ();
         this.cameraPitchRadians = robotToCam.getRotation().getY();
         this.layout = layout;
         photonPoseEstimator = new PhotonPoseEstimator(
-            layout, PoseStrategy.AVERAGE_BEST_TARGETS, camera, robotToCam);
+                layout, PoseStrategy.AVERAGE_BEST_TARGETS, camera, robotToCam);
         update();
     }
 
@@ -52,7 +53,8 @@ public class PhotonVision {
     }
 
     /**
-     * @return The area (how much of the camera feed the bounding box takes up) as a percent (0-100).
+     * @return The area (how much of the camera feed the bounding box takes up) as a
+     *         percent (0-100).
      */
     public double getArea() {
         return target.getArea();
@@ -65,20 +67,21 @@ public class PhotonVision {
         return target.getSkew();
     }
 
-
     /**
-     * @return Get the transform that maps camera space (X = forward, Y = left, Z = up) 
-     * to object/fiducial tag space (X forward, Y left, Z up) 
-     * with the lowest reprojection error.
+     * @return Get the transform that maps camera space (X = forward, Y = left, Z =
+     *         up)
+     *         to object/fiducial tag space (X forward, Y left, Z up)
+     *         with the lowest reprojection error.
      */
     public Transform3d getBestCameraToTarget() {
-        return target.getAlternateCameraToTarget();
+        return target.getBestCameraToTarget();
     }
 
     /**
-     * @return Get the transform that maps camera space (X = forward, Y = left, Z = up) 
-     * to object/fiducial tag space (X forward, Y left, Z up) 
-     * with the highest reprojection error.
+     * @return Get the transform that maps camera space (X = forward, Y = left, Z =
+     *         up)
+     *         to object/fiducial tag space (X forward, Y left, Z up)
+     *         with the highest reprojection error.
      */
     public Transform3d getAlternateCameraToTarget() {
         return target.getAlternateCameraToTarget();
@@ -114,13 +117,24 @@ public class PhotonVision {
 
     /**
      * @return distance from the target in meters
-     */
+    */
     public double getDistanceToTargetMeters() {
         return PhotonUtils.calculateDistanceToTargetMeters(
                 cameraHeightMeters,
                 layout.getTagPose(getTargetID()).get().getZ(),
                 cameraPitchRadians,
-                Units.degreesToRadians(getPich()));
+                Units.degreesToRadians(getPich())) - 0.1;
+    }
+
+    /**
+     * @return distance from the target in meters
+     */
+    public double getDistanceToTargetMeters(double targetHaight) {
+        return PhotonUtils.calculateDistanceToTargetMeters(
+                cameraHeightMeters,
+                targetHaight,
+                cameraPitchRadians,
+                Units.degreesToRadians(getPich())) - 0.1;
     }
 
     public Optional<EstimatedRobotPose> getEstimatedRobotPose(Pose2d prevEstimatedRobotPose) {
@@ -130,14 +144,22 @@ public class PhotonVision {
 
     /**
      * change pipelines
+     * 
      * @param pipeLine pipeline index
      */
     public void changePipeline(int PipelineIndex) {
         camera.setPipelineIndex(PipelineIndex);
+        pipline = PipelineIndex;
+    }
+
+    public int getPipeline() {
+        return pipline;
     }
 
     /**
-     * driver mode is an unfiltered / normal view of the camera to be used while driving the robot.
+     * driver mode is an unfiltered / normal view of the camera to be used while
+     * driving the robot.
+     * 
      * @param value is driver mode sould be on
      */
     public void setDriverMode(boolean value) {
@@ -152,25 +174,37 @@ public class PhotonVision {
     }
 
     /**
-     * @param mode enum class is provided to choose values from. 
-     * These values include, kOff, kOn, kBlink, and kDefault. 
-     * kDefault uses the default LED value from the selected pipeline.
+     * @param mode enum class is provided to choose values from.
+     *             These values include, kOff, kOn, kBlink, and kDefault.
+     *             kDefault uses the default LED value from the selected pipeline.
      */
     public void setLED(VisionLEDMode mode) {
         camera.setLED(mode);
     }
-
+ 
+    public boolean hasResult() {
+        return result != null;
+    }
 
     /**
      * @return if a targt was detected
      */
     public boolean hasTarget() {
-        return result.hasTargets();
+        if (!result.hasTargets()) {
+            return false;
+        }else if ( getPipeline() == 0 && getTargetID() <= 8) {
+            return true;
+        } else if ( getPipeline() == 1) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     public void update() {
         result = camera.getLatestResult();
-        if (hasTarget()) {
+        if (result.hasTargets()) {
             target = result.getBestTarget();
         }
     }

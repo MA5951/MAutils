@@ -14,18 +14,30 @@ public class MotorCommand extends CommandBase {
 
   private MotorSubsystem subsystem;
   private Supplier<Double> power;
-  private double endPower;
+  private Supplier<Double> endPower;
 
   public MotorCommand(MotorSubsystem subsystem, Supplier<Double> power,
-  double endPower) {
+  Supplier<Double> endPower) {
     this.subsystem = subsystem;
     this.power = power;
     this.endPower = endPower;
     addRequirements(subsystem);
   }
 
-  public MotorCommand(MotorSubsystem subsystem, double power, double endPower) {
+  public MotorCommand(MotorSubsystem subsystem, Supplier<Double> power,
+  double endPower) {
+    this(subsystem, power, () -> endPower);
+  }
+
+  public MotorCommand(MotorSubsystem subsystem, double power,
+  Supplier<Double> endPower) {
     this(subsystem, () -> power, endPower);
+
+  }
+
+
+  public MotorCommand(MotorSubsystem subsystem, double power, double endPower) {
+    this(subsystem, () -> power, () -> endPower);
   }
 
   // Called when the command is initially scheduled.
@@ -46,6 +58,6 @@ public class MotorCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    subsystem.setPower(endPower);
+    subsystem.setPower(endPower.get());
   }
 }
