@@ -13,5 +13,8 @@ Step 3:
 Create your subsystem states in your desierd place and pass them to the StateRunner command (The last one is in the highst priority)
 
 
+If none of the states are active the controller will run NullCommand
+
+
 
 
