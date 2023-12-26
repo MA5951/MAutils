@@ -1,0 +1,7 @@
+package frc.robot.subsystems.{{fileNamelower}};
+
+
+
+public class {{fileName}}Constants {
+    //Constants
+}

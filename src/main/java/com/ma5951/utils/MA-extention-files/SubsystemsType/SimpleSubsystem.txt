@@ -1,0 +1,36 @@
+package frc.robot.subsystems.{{fileNamelower}};
+
+import com.ma5951.utils.MAShuffleboard;
+import com.ma5951.utils.subsystem.SimpleSubsystem;
+
+
+
+public class {{fileName}} extends SubsystemBase implements SimpleSubsystem {
+    
+    private static {{fileName}} {{fileNamelower}};
+    private MAShuffleboard board;
+
+
+    public {{fileName}}() {
+        board = new MAShuffleboard("{{fileName}}");
+    }
+
+
+
+    @Override
+    public boolean canMove() {
+        return true;
+    }
+
+    public static {{fileName}} getInstance() {
+        if ({{fileNamelower}} == null) {
+            {{fileNamelower}} = new {{fileName}}();  
+        }
+        return {{fileNamelower}};
+    }
+
+    @Override
+    public void periodic() {
+        
+    }
+}
