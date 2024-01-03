@@ -7,10 +7,10 @@
 
 package com.ma5951.utils;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -47,13 +47,24 @@ public class Limelight {
   private final NetworkTableEntry tvert ;//Vertical sidelength of the rough bounding box (0 - 320 pixels)
   private final NetworkTableEntry getpipe;//True active pipeline index of the camera (0 .. 9)
 
-  private String PIAddress;
+  private final NetworkTableEntry botPose;
 
-  public Limelight(String tableName,double KDELTA_Y, double KLIMELIGHT_ANGLE,String PIAddress){
-    table = NetworkTableInstance.getDefault().getTable(tableName);//Check the name of the limelight
-    this.KDELTA_Y = KDELTA_Y;
-    this.KLIMELIGHT_ANGLE = KLIMELIGHT_ANGLE;
-    this.PIAddress = PIAddress;
+  private final Transform3d cameraOffset;
+
+  private Pose2d estPose;
+  private double updateTime;
+
+
+  // private String PIAddress;
+
+  public Limelight(
+    String cammeraName,Transform3d cameraOffset){
+
+    table = NetworkTableInstance.getDefault().getTable("limelight");//Check the name of the limelight
+    this.KDELTA_Y = cameraOffset.getY();
+    this.KLIMELIGHT_ANGLE = cameraOffset.getRotation().getY();
+    // this.PIAddress = PIAddress;
+    this.cameraOffset = cameraOffset;
 
     threeDimension = table.getEntry("camtran");
     tx = table.getEntry("tx");//Horizontal Offset From Crosshair To Target (LL1: -27 degrees to 27 degrees | LL2: -29.8 to 29.8 degrees)
@@ -67,6 +78,8 @@ public class Limelight {
     thor = table.getEntry("thor");//Horizontal sidelength of the rough bounding box (0 - 320 pixels)
     tvert = table.getEntry("tvert");//Vertical sidelength of the rough bounding box (0 - 320 pixels)
     getpipe = table.getEntry("getpipe");//True active pipeline index of the camera (0 .. 9)
+
+    botPose = table.getEntry("botpose_wpiblue");
   }
 
   public double distance() {
@@ -102,7 +115,7 @@ public class Limelight {
     return this.targetArea;
   }
 
-  public Boolean getV(){
+  public Boolean hasTarget(){
     return this.v;
   }
 
@@ -146,39 +159,47 @@ public class Limelight {
     return this.distanceFromTargetLimelightY;
   }
 
-  public boolean isConnected()
-  {
-      boolean isConnected = false;
-      try
-      {
-          InetAddress limeliInetAddress = InetAddress.getByName(PIAddress);
-          //System.out.println("Sending Ping Request to " + limeliInetAddress);
+  // public boolean isConnected()
+  // {
+  //     boolean isConnected = false;
+  //     try
+  //     {
+  //         InetAddress limeliInetAddress = InetAddress.getByName(PIAddress);
+  //         //System.out.println("Sending Ping Request to " + limeliInetAddress);
 
-          if (limeliInetAddress.isReachable(500))
-          {
-              isConnected = true;
-          }
-          System.out.println("isConnected:" + isConnected);
-          return isConnected;
-      }
-      catch (UnknownHostException e)
-      {
-          System.out.println("I can't reach this IPAddres: " + e.getMessage());
-          e.printStackTrace();
-      }
-      catch (IOException e)
-      {
-          System.out.println("IO Exception" + e.getMessage());
-      }
+  //         if (limeliInetAddress.isReachable(500))
+  //         {
+  //             isConnected = true;
+  //         }
+  //         System.out.println("isConnected:" + isConnected);
+  //         return isConnected;
+  //     }
+  //     catch (UnknownHostException e)
+  //     {
+  //         System.out.println("I can't reach this IPAddres: " + e.getMessage());
+  //         e.printStackTrace();
+  //     }
+  //     catch (IOException e)
+  //     {
+  //         System.out.println("IO Exception" + e.getMessage());
+  //     }
 
-      return false;
+  //     return false;
+  // }
+
+  public Pose2d getEstPose() {
+    return estPose;
+  }
+
+  public double getPoseUpdate() {
+    return updateTime / 1000;
   }
 
   public void periodic() {
     x = tx.getDouble(0.0);
     y = ty.getDouble(0.0);
     targetArea = ta.getDouble(0.0);
-    v = tv.getBoolean(false);
+    v = tv.getDouble(0) == 0 ? false : true;
     skew = ts.getDouble(0.0);
     l = tl.getDouble(0.0);
     pipe = getpipe.getDouble(0.0);
@@ -189,7 +210,28 @@ public class Limelight {
     yaw = threeDimension.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0, 0 })[4];
     distanceFromTargetLimelightX = threeDimension.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0 })[0];
     distanceFromTargetLimelightY = threeDimension.getDoubleArray(new double[] { 0, 0, 0, 0, 0, 0 })[2];
-    isConnected();
+
+    // isConnected();
+    NetworkTableEntry botposeEntry;
+    // if (DriverStation.getAlliance() == Alliance.Red) {
+    //   botposeEntry = botPoseRed;
+    // } else {
+    //   botposeEntry = botPoseBlue;
+    // }
+    botposeEntry = botPose;
+
+    double[] data = botposeEntry.getDoubleArray(new double[7]);
+    updateTime = data[6];
+    Pose3d pose = new Pose3d(
+      data[0],
+      data[1],
+      data[2],
+      new Rotation3d(
+              Math.toRadians(data[3]),
+              Math.toRadians(data[4]),
+              Math.toRadians(data[5]))).transformBy(cameraOffset);
+
+    estPose = pose.toPose2d();
   }
 
 }
