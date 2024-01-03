@@ -1,0 +1,36 @@
+package frc.robot.subsystems.{{fileNamelower}};
+
+import com.ma5951.utils.MAShuffleboard;
+import com.ma5951.utils.subsystem.ControllableSubsystem;
+
+
+
+public class {{fileName}} extends SubsystemBase implements ControllableSubsystem {
+    
+    private static {{fileName}} {{fileNamelower}};
+    private MAShuffleboard board;
+
+
+    public {{fileName}}() {
+        board = new MAShuffleboard("{{fileName}}");
+    }
+
+
+
+    @Override
+    public double getMeasurement() {
+        return ;
+    }
+
+    public static {{fileName}} getInstance() {
+        if ({{fileNamelower}} == null) {
+            {{fileNamelower}} = new {{fileName}}();  
+        }
+        return {{fileNamelower}};
+    }
+
+    @Override
+    public void periodic() {
+        
+    }
+}

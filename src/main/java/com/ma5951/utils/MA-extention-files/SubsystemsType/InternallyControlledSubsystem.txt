@@ -1,0 +1,49 @@
+package frc.robot.subsystems.{{fileNamelower}};
+
+import com.ma5951.utils.MAShuffleboard;
+import com.ma5951.utils.subsystem.InternallyControlledSubsystem;
+
+
+
+public class {{fileName}} extends SubsystemBase implements InternallyControlledSubsystem {
+    
+    private static {{fileName}} {{fileNamelower}};
+    private MAShuffleboard board;
+
+
+    public {{fileName}}() {
+        board = new MAShuffleboard("{{fileName}}");
+    }
+
+    @Override
+    public double calculate(double setPoint) {
+        //calculate
+    }
+
+    @Override
+    public double setSetPoint(double setPoint) {
+        //setSetPoint
+    }
+
+    @Override
+    public boolean atPoint() {
+        return ;
+    }
+
+    @Override
+    public void setVoltage(double voltage) {
+        .set(voltage / 12);
+    }
+
+    public static {{fileName}} getInstance() {
+        if ({{fileNamelower}} == null) {
+            {{fileNamelower}} = new {{fileName}}();  
+        }
+        return {{fileNamelower}};
+    }
+
+    @Override
+    public void periodic() {
+        
+    }
+}
